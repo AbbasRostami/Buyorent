@@ -7,6 +7,7 @@ import bed from "../assets/bed 1.svg";
 import Vector from "../assets/Vector.svg";
 import Line from "../assets/Line 4.svg";
 
+
 const LandingCard = () => {
   return (
     <div className=" mt-12  ">
@@ -21,10 +22,10 @@ const LandingCard = () => {
             priority
           />
         </div>
-        <p className="pr-4 text-[20px] text-[#444444] mt-2 flex justify-end  ">
+        <p className="pr-4 text-[20px] text-[#444444] mt-2 flex   ">
           ویلای دوبلکس ساحلی
         </p>
-        <p className="pr-4  text-[18px] text-[#666666] flex justify-end gap-1  ">
+        <p className="pr-4  text-[18px] text-[#666666] flex  gap-1  ">
           مازندران , بابلسر
           <Image
             className=""
