@@ -4,6 +4,7 @@ import HeroSection from "@/components/Landing/HeroSection";
 import { LandinCenter } from "@/components/landinCenter";
 import { Landingfooter } from "@/components/Landing-footer";
 import Image from "next/image";
+import BayourtBiggest from "@/components/Landing/BayourtBiggest";
 
 export default function Home() {
   
@@ -12,8 +13,8 @@ export default function Home() {
       <Header />
       <HeroSection />
       <CustomSwiper />
-      <LandinCenter /> 
-     <Landingfooter/>
+      {/* <LandinCenter />  */}
+     <BayourtBiggest/>
     </div>
 
   );
