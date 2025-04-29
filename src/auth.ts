@@ -64,7 +64,7 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
     },
     async authorized({ auth, request }: any) {
       const isAuthorized = !!auth?.accessToken;
-      const privateRoutes = ["/about", "/users"];
+      const privateRoutes = ["/users"];
 
       const isPrivateRoute = privateRoutes.some((route) =>
         request.nextUrl.pathname.startsWith(route)
