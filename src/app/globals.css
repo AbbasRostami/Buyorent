@@ -1,41 +1,12 @@
 @import "tailwindcss";
 @plugin './hero.ts';
-@source '../../node_modules/@heroui/theme/dist/**/*.{js,ts,jsx,tsx}';
+@source '../../node_modules/@heroui/theme/dist*.{js,ts,jsx,tsx}';
 @custom-variant dark (&:is(.dark *));
 
-/* :root {
-  --background: #ffffff;
-  --foreground: #171717;
-} */
-
-/* @theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-} */
-
-/* @media (prefers-color-scheme: dark) {
-  :root {
-    --background: #ededed;
-    --foreground: #ededed;
-  }
-} */
-:root {
-  --color-scheme: light;
-}
-
-.dark {
-  --color-scheme: dark;
-}
-
-html {
-  color-scheme: var(--color-scheme);
-}
 body {
   background: var(--background);
   color: var(--foreground);
-  font-family: var(--font-vazirmatn);
+  /* font-family: var(--font-vazirmatn); */
 }
 @keyframes pulse-scale {
   0% {
@@ -52,7 +23,9 @@ body {
 .animate-pulse-scale {
   animation: pulse-scale 2s ease-in-out infinite;
 }
-
+@theme {
+  --breakpoint-xs: 30rem;
+}
 nav,
 header {
   max-width: 100% !important;
@@ -60,4 +33,21 @@ header {
   padding-right: 20px !important;
   margin-left: 0 !important;
   margin-right: 0 !important;
+}
+
+.custom-pagination .swiper-pagination-bullet {
+  background-color: #5d5d5d !important;
+  opacity: 0.4;
+  transition: all 0.3s ease;
+  width: 10px;
+  height: 10px;
+  border-radius: 9999px;
+}
+
+.custom-pagination .swiper-pagination-bullet-active {
+  opacity: 1;
+  width: 30px;
+  height: 10px;
+  background-color: #fc8f00 !important;
+  border-radius: 9999px;
 }
