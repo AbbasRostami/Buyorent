@@ -19,10 +19,12 @@ import {
   MdOutlineArrowCircleRight,
 } from "react-icons/md";
 import { FaCircle } from "react-icons/fa";
+import { ArrowDownCircleIcon } from "@heroicons/react/16/solid";
 
 const LandinCenter = () => {
   return (
     <>
+   
       <div className="bg-white text-right mt-2 sm:w-[95%] w-[340px] sm:h-[498px] h-[100px] mx-auto shadow-2xl  rounded-2xl ">
         <div className="flex justify-between gap-4 border[1px] mt-6 px-4 ">
           <div className="flex justify-between items-center">
@@ -105,7 +107,6 @@ const LandinCenter = () => {
       </div>
 
       <div className="border-[3px] border-[#A85F00] sm:h-[10rem] h-[19rem] sm:w-[83%] w-[90%] mx-auto sm:mt-28 mt-1 sm:flex block items-center gap-2 rounded-r-full ">
-       
         <h3 className=" text-[#FFFFFF]  text-[20px] bg-[#E89300] sm:w-[245px] w-[170px] h-[50px] text-center  rounded-2xl sm:mt-4 mt-14 pt-3 mr-14  ">
           میخوام آگهی بذارم!
         </h3>
@@ -126,11 +127,9 @@ const LandinCenter = () => {
           priority
         />
         اجاره ویلا در محبوب‌ترین مقصد‌های این ماه
-      
       </h2>
 
       <div className="flex border-2 border-[#ddd] w-[90%] mx-auto h-[230px] mt-5">
-        
         <p className="text-[#543000] text-right text-[26px] w-[50%] pt-[90px] text-base mr-10">
           {" "}
           اینجا می تونید محبوب ترین مقصد هایی که توی ماه اخیر
@@ -168,25 +167,26 @@ const LandinCenter = () => {
       </div>
 
       <div className="flex justify-center items-center gap-4 mt-2">
-            <MdOutlineArrowCircleRight
-              size={40}
-              className="mt-1 custom-next cursor-pointer"
-            />
-            <MdOutlineArrowCircleLeft
-              size={40}
-              className="mt-1 custom-prev cursor-pointer"
-            />
+        <MdOutlineArrowCircleRight
+          size={40}
+          className="mt-1 custom-next cursor-pointer"
+        />
+        <MdOutlineArrowCircleLeft
+          size={40}
+          className="mt-1 custom-prev cursor-pointer"
+        />
 
-            <button className="border-[1px] rounded-2xl w-[165px] flex justify-center items-center gap-2 text-[20px] text-[#9E9E9E] ">
-              مشاهده همه
-              <MdKeyboardArrowLeft size={32} />
-            </button>
-          </div>
+        <button className="border-[1px] rounded-2xl w-[165px] flex justify-center items-center gap-2 text-[20px] text-[#9E9E9E] ">
+          مشاهده همه
+          <MdKeyboardArrowLeft size={32} />
+        </button>
+      </div>
 
       <div className="flex  mt-20 mr-20 gap-4 ">
-      <p className="text-[#D27700] text-[33px]  ">
-      {/* <FaCircle size={15} /> */}
-         داغ ترین معاملات هفته </p>
+        <p className="text-[#D27700] text-[33px]  ">
+          {/* <FaCircle size={15} /> */}
+          داغ ترین معاملات هفته{" "}
+        </p>
         <p className="text-[#9A815F] text-[26px]  mt-2  ">
           {" "}
           آنچه که از بازار معاملات ملک در این هفته داشتیم{" "}
@@ -230,22 +230,25 @@ const LandinCenter = () => {
           </SwiperSlide>
         </Swiper>
       </div>
-    
-      <div className="flex  items-center gap-4 mt-2">
-            <MdOutlineArrowCircleRight
-              size={40}
-              className="mt-1 custom-next cursor-pointer"
-            />
-            <MdOutlineArrowCircleLeft
-              size={40}
-              className="mt-1 custom-prev cursor-pointer"
-            />
 
-            <button className="border-[1px] rounded-2xl w-[165px] flex justify-center items-center gap-2 text-[20px] text-[#9E9E9E] ">
-              مشاهده همه
-              <MdKeyboardArrowLeft size={32} />
-            </button>
-          </div>
+      <div className="flex  items-center gap-4 mt-2">
+        <MdOutlineArrowCircleRight
+          size={40}
+          className="mt-1 custom-next cursor-pointer"
+        />
+        <MdOutlineArrowCircleLeft
+          size={40}
+          className="mt-1 custom-prev cursor-pointer"
+        />
+
+        <button className="border-[1px] rounded-2xl w-[165px] flex justify-center items-center gap-2 text-[20px] text-[#9E9E9E] ">
+          مشاهده همه
+          <MdKeyboardArrowLeft size={32} />
+        </button>
+
+        
+
+      </div>
     </>
   );
 };

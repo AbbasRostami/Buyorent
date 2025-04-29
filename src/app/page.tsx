@@ -1,4 +1,5 @@
 import { LandinCenter } from "@/components/landinCenter";
+import { Landingfooter } from "@/components/Landing-footer";
 import Image from "next/image";
 
 export default function Home() {
@@ -7,7 +8,7 @@ export default function Home() {
   return (
    <div>
     <LandinCenter /> 
-   
+   <Landingfooter/>
    </div>
   );
 }
