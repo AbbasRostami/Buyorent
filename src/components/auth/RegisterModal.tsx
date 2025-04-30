@@ -59,7 +59,7 @@ export default function RegisterModal({ isOpen, setIsOpen }: any) {
               </label>
               <input
                 type="text"
-                className="border-2 border-[#CCCCCC] bg-white rounded-lg w-[300px] h-[40px] p-2"
+                className="border-2 dark:bg-gray-800 dark:placeholder:text-amber-100  border-[#CCCCCC] bg-white rounded-lg w-[300px] h-[40px] p-2"
                 placeholder="ایمیل خود را وارد کنید"
               />
             </div>
@@ -71,7 +71,7 @@ export default function RegisterModal({ isOpen, setIsOpen }: any) {
             </button>
 
             <p
-              className="text-1xl font-bold cursor-pointer"
+              className="text-1xl font-bold cursor-pointer dark:text-amber-100"
               onClick={() => setStep(3)}
             >
               ورود به حساب کاربری
@@ -119,7 +119,7 @@ export default function RegisterModal({ isOpen, setIsOpen }: any) {
                 </label>
                 <input
                   type={showPassword ? "text" : "password"}
-                  className="border-2 border-[#CCCCCC] bg-white rounded-lg w-full h-[40px] p-2 pr-10"
+                  className="border-2 border-[#CCCCCC] dark:bg-gray-800 dark:placeholder:text-amber-100  bg-white rounded-lg w-full h-[40px] p-2 pr-10"
                   placeholder="رمز عبور را وارد کنید"
                 />
                 <span
@@ -136,7 +136,7 @@ export default function RegisterModal({ isOpen, setIsOpen }: any) {
                 </label>
                 <input
                   type={showConfirm ? "text" : "password"}
-                  className="border-2 border-[#CCCCCC] bg-white rounded-lg w-full h-[40px] p-2 pr-10"
+                  className="border-2 border-[#CCCCCC] dark:bg-gray-800 dark:placeholder:text-amber-100  bg-white rounded-lg w-full h-[40px] p-2 pr-10"
                   placeholder="رمز عبور را دوباره وارد کنید"
                 />
                 <span
@@ -158,7 +158,7 @@ export default function RegisterModal({ isOpen, setIsOpen }: any) {
       case 3:
         return (
           <>
-            <p className="font-bold text-2xl text-[#444444]">
+            <p className="font-bold text-2xl text-[#444444] dark:text-amber-100">
               {" "}
               ورود به حساب کاربری
             </p>
@@ -189,7 +189,7 @@ export default function RegisterModal({ isOpen, setIsOpen }: any) {
                     <Field
                       type="email"
                       name="email"
-                      className={`border-2 bg-white rounded-lg h-[40px] p-2 ${
+                      className={`border-2  bg-white dark:bg-gray-800 dark:placeholder:text-amber-100 rounded-lg h-[40px] p-2 ${
                         errors.email && touched.email
                           ? "border-red-500"
                           : "border-[#CCCCCC]"
@@ -210,7 +210,7 @@ export default function RegisterModal({ isOpen, setIsOpen }: any) {
                     <Field
                       type={showPassword ? "text" : "password"}
                       name="password"
-                      className={`border-2 bg-white rounded-lg w-full h-[40px] p-2 pr-10 ${
+                      className={`border-2 bg-white rounded-lg w-full dark:bg-gray-800 dark:placeholder:text-amber-100  h-[40px] p-2 pr-10 ${
                         errors.password && touched.password
                           ? "border-red-500"
                           : "border-[#CCCCCC]"
@@ -233,7 +233,7 @@ export default function RegisterModal({ isOpen, setIsOpen }: any) {
                   <button
                     type="submit"
                     disabled={isSubmitting}
-                    className="bg-gradient-to-r from-[#E89300] to-[#FFB84D] cursor-pointer w-full h-[40px] text-white rounded-xl shadow-lg hover:shadow-2xl hover:bg-gradient-to-r hover:from-[#FFB84D] hover:to-[#E89300] transition-all duration-500 transform hover:scale-100 disabled:opacity-50 focus:outline-none focus:ring-2 focus:ring-[#E89300] focus:ring-opacity-50 flex items-center justify-center"
+                    className="bg-gradient-to-r from-[#E89300] to-[#FFB84D]  dark:text-amber-100cursor-pointer w-full h-[40px] text-white rounded-xl shadow-lg hover:shadow-2xl hover:bg-gradient-to-r hover:from-[#FFB84D] hover:to-[#E89300] transition-all duration-500 transform hover:scale-100 disabled:opacity-50 focus:outline-none focus:ring-2 focus:ring-[#E89300] focus:ring-opacity-50 flex items-center justify-center"
                   >
                     {isSubmitting ? (
                       <Spinner size="lg" variant="wave" />
@@ -260,10 +260,10 @@ export default function RegisterModal({ isOpen, setIsOpen }: any) {
           className="fixed inset-0 backdrop-blur-xs bg-black/20 flex justify-center items-center z-50"
         >
           <div
-            className="relative  p-8 w-[722px] h-[472px] border-[3px] backdrop-blur-xs   border-[#D27700] rounded-l-[16px] rounded-r-[230px] shadow-lg"
+            className="relative  p-8 w-[722px] h-[472px] border-[3px] backdrop-blur-xs    border-[#D27700] rounded-l-[16px] rounded-r-[230px] shadow-lg"
             onClick={(e) => e.stopPropagation()}
           >
-            <div className="absolute flex justify-center gap-20 items-center right-36 bg-[#FFF3E3] p-3 w-[684px] h-[408px] border-[2px] border-[#D27700] rounded-r-[16px] rounded-l-[204px] shadow-lg">
+            <div className="absolute flex justify-center gap-20 items-center right-36 dark:bg-gray-900 bg-[#FFF3E3] p-3 w-[684px] h-[408px] border-[2px] border-[#D27700] rounded-r-[16px] rounded-l-[204px] shadow-lg">
               <div className="h-full flex flex-col justify-between">
                 <div>
                   {step === 3 ? (
@@ -321,7 +321,7 @@ export default function RegisterModal({ isOpen, setIsOpen }: any) {
                   className="cursor-pointer text-[#444444] text-lg font-medium self-center mb-2 
              relative pb-1 hover:after:scale-x-100 after:transition-transform after:duration-300
              after:absolute after:bottom-0 after:left-0 after:w-full after:h-[2px] 
-             after:bg-red-500 after:scale-x-0 after:origin-left"
+             after:bg-red-500 after:scale-x-0 after:origin-left dark:text-amber-200"
                 >
                   بستن
                 </button>

@@ -1,11 +1,10 @@
+import api from "@/services/apiClient";
 import {
   useQuery,
   useMutation,
   UseQueryOptions,
   UseMutationOptions,
 } from "@tanstack/react-query";
-import api from "./apiClient";
-// lib/server-hooks.ts
 import { unstable_cache } from "next/cache";
 
 type ErrorType = Error;
@@ -66,28 +65,4 @@ export const useDelete = <T, D = any>(
     },
     ...options,
   });
-};
-
-import axios from "axios";
-
-export const useServerData = (
-  url: string,
-  cacheKey: string,
-  revalidateTime: number = 60
-) => {
-  const fetchData = unstable_cache(
-    async () => {
-      try {
-        const { data } = await axios.get(url);
-        return data;
-      } catch (error) {
-        console.error("Error fetching data:", error);
-        throw new Error("Data fetch failed");
-      }
-    },
-    [cacheKey],
-    { revalidate: revalidateTime }
-  );
-
-  return fetchData();
 };

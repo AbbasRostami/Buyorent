@@ -18,7 +18,7 @@ import { usePathname } from "next/navigation";
 import clsx from "clsx";
 import logo from "./../../assets/Landing/logo.png";
 import RegisterModal from "../auth/RegisterModal";
-import { customLogout } from "@/logout";
+import { customLogout } from "@/services/logout";
 import { signOut, useSession } from "next-auth/react";
 import { ThemeSwitcher } from "@/context/ThemeSwitcher";
 

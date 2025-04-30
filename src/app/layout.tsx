@@ -1,10 +1,10 @@
 import type { Metadata } from "next";
 import "./globals.css";
 import localFont from "next/font/local";
-import { auth } from "@/auth";
+import { auth } from "@/services/auth";
 import { SessionProvider } from "next-auth/react";
-import QueryProvider from "@/utils/providers";
-import { Providers } from "./ProvidersHeroUi";
+import QueryProvider from "@/utils/providers/providers";
+import { Providers } from "../utils/providers/ProvidersHeroUi";
 import Footer from "@/components/common/Footer";
 import Header from "@/components/common/Header";
 

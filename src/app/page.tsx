@@ -1,9 +1,7 @@
-import Header from "@/components/common/Header";
 import CustomSwiper from "@/components/Landing/Categories";
 import HeroSection from "@/components/Landing/HeroSection";
 import BayourtBiggest from "@/components/Landing/BayourtBiggest";
 import Customers from "@/components/Landing/Customers";
-import Footer from "@/components/common/Footer";
 
 export default function Home() {
   return (
@@ -13,7 +11,6 @@ export default function Home() {
       {/* <LandinCenter />  */}
       <BayourtBiggest />
       <Customers />
-      
     </div>
   );
 }
