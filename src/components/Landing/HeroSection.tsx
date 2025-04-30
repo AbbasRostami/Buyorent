@@ -14,7 +14,7 @@ const animals = [
 
 export default function HeroSection() {
   return (
-    <div className="lg:mx-24 ">
+    <div className="lg:mx-24 mt-12">
       {/* Hero Section */}
       <div className="grid grid-cols-1 md:grid-cols-2 items-center gap-6 ">
         <motion.div
