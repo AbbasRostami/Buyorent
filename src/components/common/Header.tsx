@@ -107,14 +107,7 @@ export default function Header() {
           </NavbarBrand>
         </NavbarContent>
 
-        <NavbarContent className="sm:hidden" justify="end">
-          <NavbarMenuToggle
-            className="dark:text-white"
-            aria-label={isMenuOpen ? "Close menu" : "Open menu"}
-          />
-        </NavbarContent>
-
-        <NavbarContent className="hidden sm:flex gap-4" justify="center">
+        <NavbarContent className="hidden md:flex gap-4" justify="center">
           {navItems.map((item, index) => (
             <NavbarItem
               key={item.href}
@@ -159,6 +152,13 @@ export default function Header() {
           ))}
         </NavbarContent>
 
+        <NavbarContent className="sm:hidden" justify="end">
+          <NavbarMenuToggle
+            className="dark:text-white"
+            aria-label={isMenuOpen ? "Close menu" : "Open menu"}
+          />
+        </NavbarContent>
+
         <NavbarContent className="hidden md:flex" justify="end">
           <NavbarItem>
             <ThemeSwitcher />
@@ -183,12 +183,14 @@ export default function Header() {
             </NavbarItem>
           )}
         </NavbarContent>
+
         <RegisterModal isOpen={isModalOpen} setIsOpen={setIsModalOpen} />
         <NavbarMenu>
+          {/* اضافه کردن آیتم‌های منو */}
           {menuItems.map((item, index) => (
             <NavbarMenuItem key={`${item}-${index}`}>
               <Link
-                className="w-full "
+                className="w-full"
                 color={
                   index === 2
                     ? "warning"
@@ -203,6 +205,27 @@ export default function Header() {
               </Link>
             </NavbarMenuItem>
           ))}
+
+          {/* دکمه‌های ورود / ثبت نام و خروج در منو */}
+          {session?.accessToken ? (
+            <NavbarMenuItem>
+              <button
+                onClick={handleLogout}
+                className="text-[#543000] flex gap-1.5 text-lg cursor-pointer dark:text-amber-50"
+              >
+                خروج <HiOutlineUser size={25} />
+              </button>
+            </NavbarMenuItem>
+          ) : (
+            <NavbarMenuItem>
+              <button
+                onClick={() => setIsModalOpen(true)}
+                className="text-[#543000] dark:text-white flex gap-1.5 text-lg cursor-pointer"
+              >
+                ثبت نام / ورود <HiOutlineUser size={25} />
+              </button>
+            </NavbarMenuItem>
+          )}
         </NavbarMenu>
       </Navbar>
     </div>
