@@ -1,3 +1,4 @@
+"use client";
 import React, { useEffect, useState } from "react";
 import Image from "next/image";
 import VerticalStepper from "./Stepper";
@@ -13,7 +14,7 @@ import { ErrorMessage, Field, Form, Formik } from "formik";
 import * as Yup from "yup";
 import ReactDOM from "react-dom";
 import { signIn } from "next-auth/react";
-
+import toast from "react-hot-toast";
 export default function RegisterModal({ isOpen, setIsOpen }: any) {
   const [step, setStep] = useState(0);
 
@@ -166,18 +167,27 @@ export default function RegisterModal({ isOpen, setIsOpen }: any) {
               initialValues={{ email: "", password: "" }}
               validationSchema={validationSchema}
               onSubmit={async (values, { setSubmitting }) => {
-                const res = await signIn("credentials", {
-                  email: values.email,
-                  password: values.password,
-                  redirect: false,
-                });
+                try {
+                  const res = await signIn("credentials", {
+                    email: values.email,
+                    password: values.password,
+                    redirect: false,
+                  });
+                  console.log();
 
-                if (res?.ok) {
-                  setIsOpen(false);
-                } else {
-                  console.log("Login error", res?.error);
+                  if (res?.ok) {
+                    toast.success("✅ وارد شدید!");
+                    setIsOpen(false);
+                  } else {
+                    console.log("Login error", res?.error);
+                    toast.error(`❌ خطا در ورود: ${res?.error || "مشخص نشده"}`);
+                  }
+                } catch (error) {
+                  console.error("Login error:", error);
+                  toast.error(`❌ مشکلی پیش آمده است. لطفاً دوباره تلاش کنید.`);
+                } finally {
+                  setSubmitting(false);
                 }
-                setSubmitting(false);
               }}
             >
               {({ errors, touched, isSubmitting }) => (
@@ -202,7 +212,6 @@ export default function RegisterModal({ isOpen, setIsOpen }: any) {
                       className="text-red-500 text-sm mt-1"
                     />
                   </div>
-
                   <div className="relative text-right">
                     <label className="text-[#D27700] font-bold mb-1 block">
                       رمز عبور

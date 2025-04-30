@@ -29,7 +29,11 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
             }
           );
 
-          if (!res.ok) throw new Error("❌ Login failed");
+          if (!res.ok) {
+            const textResponse = await res.text();
+            console.log("Error response text:", textResponse);
+            throw new Error(`❌ Login failed: ${textResponse || "مشخص نشده"}`);
+          }
 
           const data = await res.json();
           console.log("paaaaaaaaaaaaaaaappaa: ", credentials);

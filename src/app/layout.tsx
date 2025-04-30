@@ -7,7 +7,7 @@ import QueryProvider from "@/utils/providers/providers";
 import { Providers } from "../utils/providers/ProvidersHeroUi";
 import Footer from "@/components/common/Footer";
 import Header from "@/components/common/Header";
-
+import { Toaster } from "react-hot-toast";
 const vazirmatn = localFont({
   src: "./../assets/fonts/Vazirmatn.ttf",
   variable: "--font-vazirmatn",
@@ -33,7 +33,7 @@ export default async function RootLayout({
           <QueryProvider>
             <Providers>
               <Header />
-
+              <Toaster position="top-center" />
               {children}
 
               <Footer />

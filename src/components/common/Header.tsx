@@ -39,8 +39,7 @@ export default function Header() {
 
   const menuItems = ["پروفایل", "مقالات", "درباره ما", "خروج"];
 
-  const currentPath = isMounted ? pathname : "";
-
+  const currentPath = pathname;
   const { data: session } = useSession();
   console.log("Log session: ", session);
 
