@@ -26,15 +26,13 @@ body {
 @theme {
   --breakpoint-xs: 30rem;
 }
-nav,
-header {
-  max-width: 100% !important;
-  padding-left: 20px !important;
-  padding-right: 20px !important;
-  margin-left: 0 !important;
-  margin-right: 0 !important;
+.nav-landing {
+  padding-left: 20px;
+  padding-right: 20px;
 }
-
+.navbar-animated {
+  will-change: margin, padding, max-width, box-shadow, border-radius;
+}
 .custom-pagination .swiper-pagination-bullet {
   background-color: #5d5d5d !important;
   opacity: 0.4;
@@ -83,7 +81,7 @@ header {
 }
 
 @property --angle {
-  syntax: '<angle>';
+  syntax: "<angle>";
   initial-value: 0deg;
   inherits: false;
 }
@@ -103,12 +101,21 @@ header {
   .animate-rotate-metallic {
     filter: contrast(1.5) saturate(1.8);
   }
-  
+
   .animate-diamond-shine {
     animation-duration: 5s;
   }
-  
+
   .animate-float-particle {
     filter: drop-shadow(0 2px 4px rgba(251, 191, 36, 0.4));
   }
+}
+
+header {
+  max-width: 100% !important;
+}
+
+nav {
+  padding-left: 30px !important;
+  padding-right: 30px !important;
 }
