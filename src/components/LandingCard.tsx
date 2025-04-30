@@ -7,7 +7,6 @@ import bed from "../assets/bed 1.svg";
 import Vector from "../assets/Vector.svg";
 import Line from "../assets/Line 4.svg";
 
-
 const LandingCard = () => {
   return (
     <div className=" mt-12  ">

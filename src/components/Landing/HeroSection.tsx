@@ -49,9 +49,40 @@ export default function HeroSection() {
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.8, duration: 1 }}
           >
-            <Button className="flex items-center gap-4 px-4 py-2 bg-amber-500 text-amber-50 text-sm md:text-md xl:text-lg rounded-2xl mt-6 transition-all duration-300 ease-in-out transform hover:scale-105 hover:bg-amber-400 hover:shadow-lg hover:shadow-amber-400/50">
-              رهن و اجاره ملک
-              <IoIosArrowBack className="transition-transform duration-300 transform group-hover:translate-x-2" />
+            <Button className="group relative bg-gradient-to-br from-amber-300 via-amber-400 to-amber-500 text-amber-900 px-9 py-7 rounded-[3rem] text-xl md:text-2xl font-bold tracking-wide mt-10 transition-all duration-700 ease-[cubic-bezier(0.4,0,0.2,1)] hover:scale-[1.03] hover:shadow-2xl hover:shadow-amber-500/30 overflow-hidden isolate">
+              {/* Metallic Border - Enhanced for Light Mode */}
+              <div className="absolute inset-0 rounded-[3rem] overflow-hidden">
+                <div className="absolute -inset-[3px] animate-rotate-metallic bg-[conic-gradient(from_var(--angle),#f59e0b_0%,#d97706_30%,transparent_80%,#d97706_100%)] opacity-90" />
+                <div className="absolute inset-0 bg-gradient-to-br from-white/30 to-amber-100/50 backdrop-blur-sm m-[3px] rounded-[3rem]" />
+              </div>
+
+              {/* Diamond Shine - Light Mode Boost */}
+              <div className="absolute inset-0 rounded-[3rem] overflow-hidden">
+                <div className="absolute -top-[150%] -left-[150%] w-[400%] h-[400%] animate-diamond-shine bg-[radial-gradient(circle_at_center,rgba(255,255,255,0.95)_0%,transparent_60%)] opacity-70 mix-blend-overlay" />
+              </div>
+
+              {/* Golden Particles */}
+              <div className="absolute inset-0 rounded-[3rem] overflow-hidden">
+                {[...Array(15)].map((_, i) => (
+                  <div
+                    key={i}
+                    className="absolute w-1.5 h-1.5 bg-[#b45309]/60 rounded-full animate-float-particle"
+                    style={{
+                      left: `${Math.random() * 100}%`,
+                      top: `${Math.random() * 100}%`,
+                      animationDelay: `${i * 0.3}s`,
+                    }}
+                  />
+                ))}
+              </div>
+
+              {/* Content - High Contrast */}
+              <span className="relative z-20 flex items-center gap-4">
+                <span className="bg-gradient-to-r from-[#92400e] to-[#78350f] bg-clip-text text-transparent drop-shadow-[0_2px_4px_rgba(251,191,36,0.3)]">
+                  رهن و اجاره ملک
+                </span>
+                <IoIosArrowBack className="w-8 h-8 text-[#78350f] transition-transform duration-500 group-hover:translate-x-3 group-hover:text-[#92400e]" />
+              </span>
             </Button>
           </motion.div>
         </motion.div>
@@ -98,7 +129,12 @@ export default function HeroSection() {
                   variant="bordered"
                 >
                   {animals.map((animal) => (
-                    <SelectItem className="dark:text-amber-100" key={animal.key}>{animal.label}</SelectItem>
+                    <SelectItem
+                      className="dark:text-amber-100"
+                      key={animal.key}
+                    >
+                      {animal.label}
+                    </SelectItem>
                   ))}
                 </Select>
               </div>
@@ -119,7 +155,9 @@ export default function HeroSection() {
                   variant="bordered"
                 />
                 {animals.map((animal) => (
-                  <SelectItem className="dark:text-amber-100" key={animal.key}>{animal.label}</SelectItem>
+                  <SelectItem className="dark:text-amber-100" key={animal.key}>
+                    {animal.label}
+                  </SelectItem>
                 ))}
               </div>
 
@@ -139,7 +177,12 @@ export default function HeroSection() {
                   variant="bordered"
                 >
                   {animals.map((animal) => (
-                    <SelectItem className="dark:text-amber-100" key={animal.key}>{animal.label}</SelectItem>
+                    <SelectItem
+                      className="dark:text-amber-100"
+                      key={animal.key}
+                    >
+                      {animal.label}
+                    </SelectItem>
                   ))}
                 </Select>
               </div>
@@ -159,7 +202,12 @@ export default function HeroSection() {
                   variant="bordered"
                 >
                   {animals.map((animal) => (
-                    <SelectItem className="dark:text-amber-100" key={animal.key}>{animal.label}</SelectItem>
+                    <SelectItem
+                      className="dark:text-amber-100"
+                      key={animal.key}
+                    >
+                      {animal.label}
+                    </SelectItem>
                   ))}
                 </Select>
               </div>

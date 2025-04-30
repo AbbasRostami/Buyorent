@@ -10,10 +10,10 @@ const BayourtBiggest = () => {
         <div className="w-full lg:w-1/2 text-right lg:text-left mt-10 lg:mt-16">
           <p className="text-[#D27700] font-black xs:mt-32 sm:mt-28  flex items-center flex-wrap justify-center lg:justify-start text-center lg:text-right">
             <GoDotFill className="text-[#D9D9D9]" size={30} />
-            <span className="text-[#444444] text-2xl md:text-3xl mx-2">
-              بای<span className="text-[#D27700]">و</span>رنت
+            <span className="text-[#444444] text-2xl md:text-3xl mx-2 dark:text-amber-200">
+              بای<span className="text-[#D27700] ">و</span>رنت
             </span>
-            <span className="text-2xl md:text-3xl">
+            <span className="text-2xl md:text-3xl dark:text-amber-200">
               بزرگترین مرجع خرید و اجاره ملک در کشور
             </span>
           </p>
@@ -25,9 +25,9 @@ const BayourtBiggest = () => {
             کاربردهای متنوع با هدف بهبود ابزارهای کاربردی می‌باشد...
           </p>
 
-          <div className="flex justify-start mt-8">
-            <button className="bg-[#E89300] px-6 md:px-8 py-2 rounded-lg">
-              <span className="text-base md:text-lg font-bold text-white">
+          <div className="flex justify-end mt-8">
+            <button className="bg-[#E89300] px-6 md:px-8 py-2 rounded-lg dark:bg-gray-700 ">
+              <span className="text-base md:text-lg font-bold text-white dark:text-amber-100">
                 درباره بایورنت
               </span>
             </button>
