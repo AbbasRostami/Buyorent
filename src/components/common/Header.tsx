@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useCallback, useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState, useTransition } from "react";
 import {
   Navbar,
   NavbarBrand,
@@ -21,6 +21,8 @@ import RegisterModal from "../auth/RegisterModal";
 import { customLogout } from "@/services/logout";
 import { signOut, useSession } from "next-auth/react";
 import { ThemeSwitcher } from "@/context/ThemeSwitcher";
+import toast from "react-hot-toast";
+import { FaSpinner } from "react-icons/fa";
 
 export default function Header() {
   const pathname = usePathname();
@@ -43,13 +45,22 @@ export default function Header() {
   const { data: session } = useSession();
   console.log("Log session: ", session);
 
-  const handleLogout = useCallback(async () => {
-    if (session?.refreshToken) {
-      await customLogout(session.refreshToken);
-    } else {
-      await signOut();
-    }
-  }, [session]);
+  const [isPending, startTransition] = useTransition();
+
+  const handleLogout = () => {
+    startTransition(async () => {
+      try {
+        if (session?.refreshToken) {
+          await customLogout(session.refreshToken);
+        } else {
+          await signOut();
+        }
+        toast.success("خروج با موفقیت انجام شد");
+      } catch (err) {
+        toast.error("خطا در هنگام خروج");
+      }
+    });
+  };
 
   const [isScrolled, setIsScrolled] = useState(false);
 
@@ -166,9 +177,18 @@ export default function Header() {
             <NavbarItem className="border-1.5 border-amber-700 px-2 py-1 rounded-xl">
               <button
                 onClick={handleLogout}
-                className="text-[#543000] flex gap-1.5 text-lg cursor-pointer dark:text-amber-50"
+                className="text-[#543000] dark:text-amber-50 flex gap-1.5 text-lg items-center cursor-pointer disabled:opacity-50"
+                disabled={isPending}
               >
-                خروج <HiOutlineUser size={25} />
+                {isPending ? (
+                  <>
+                    در حال خروج <FaSpinner size={25} className="animate-spin" />
+                  </>
+                ) : (
+                  <>
+                    خروج <HiOutlineUser size={25} />
+                  </>
+                )}
               </button>
             </NavbarItem>
           ) : (

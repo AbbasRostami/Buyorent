@@ -176,7 +176,7 @@ export default function RegisterModal({ isOpen, setIsOpen }: any) {
                   console.log();
 
                   if (res?.ok) {
-                    toast.success("✅ وارد شدید!");
+                    toast.success("✅با موفقیت وارد شدید!");
                     setIsOpen(false);
                   } else {
                     console.log("Login error", res?.error);
