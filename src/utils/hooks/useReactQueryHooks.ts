@@ -5,7 +5,6 @@ import {
   UseQueryOptions,
   UseMutationOptions,
 } from "@tanstack/react-query";
-import { unstable_cache } from "next/cache";
 
 type ErrorType = Error;
 

@@ -34,7 +34,7 @@ export default function Footer() {
   return (
     <div className="w-full h-[350px] bg-white flex justify-center dark:bg-[#0a192f]">
       {/* Desktop Version */}
-      <div className="hidden md:flex w-full">
+      <div className="hidden md:flex w-full pr-20">
         <div className="w-[1128px] h-[274px] flex border-2 border-[#A85F00] rounded-l-[20px] rounded-r-[190px]">
           <Image
             className="pr-10"
