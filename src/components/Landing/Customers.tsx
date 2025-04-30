@@ -68,7 +68,7 @@ const Customers = () => {
 
                 <div className="w-full sm:w-8/12 px-2 sm:px-5 grid gap-4">
                   <div className="grid grid-cols-1 sm:grid-cols-2 items-center pt-3 gap-2">
-                    <p className="text-xl sm:text-2xl font-black group-hover:text-[#FFC800] transition-colors">
+                    <p className="text-xl sm:text-2xl  font-black group-hover:text-[#FFC800] transition-colors">
                       مریم طبتی
                     </p>
                     <div className="flex justify-start sm:justify-end space-x-1 text-xl sm:text-2xl transition-colors">
@@ -85,16 +85,16 @@ const Customers = () => {
                   </div>
 
                   <div className="grid grid-cols-1 sm:grid-cols-2 items-center gap-1 ">
-                    <p className="text-[#777777] text-base sm:text-xl font-normal ">
+                    <p className="text-[#777777] dark:text-blue-200 text-base sm:text-xl font-normal ">
                       تاجر
                     </p>
-                    <p className="text-[#777777] text-sm sm:text-lg font-normal text-end">
+                    <p className="text-[#777777] dark:text-blue-200 text-sm sm:text-lg font-normal text-end">
                       1403/12/06
                     </p>
                   </div>
 
                   <div className="pt-2 text-justify">
-                    <p className="text-[#777777] text-sm sm:text-md font-normal leading-relaxed">
+                    <p className="text-[#777777] dark:text-blue-100 text-sm sm:text-md font-normal leading-relaxed">
                       ترانسفر اوکی پذیرش اوکی سوییت چهار تخته سه شب اجاره کردیم
                       سوییت تمیز و قابل قبول بود چایی ساز داشت محوطه هتل هم
                       بسیار خوب و زیبا بود.
