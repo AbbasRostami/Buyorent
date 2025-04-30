@@ -5,6 +5,8 @@ import { auth } from "@/auth";
 import { SessionProvider } from "next-auth/react";
 import QueryProvider from "@/utils/providers";
 import { Providers } from "./ProvidersHeroUi";
+import Footer from "@/components/common/Footer";
+import Header from "@/components/common/Header";
 
 const vazirmatn = localFont({
   src: "./../assets/fonts/Vazirmatn.ttf",
@@ -29,7 +31,13 @@ export default async function RootLayout({
       <body className={vazirmatn.className}>
         <SessionProvider session={session}>
           <QueryProvider>
-            <Providers> {children}</Providers>
+            <Providers>
+              <Header />
+
+              {children}
+
+              <Footer />
+            </Providers>
           </QueryProvider>
         </SessionProvider>
       </body>
