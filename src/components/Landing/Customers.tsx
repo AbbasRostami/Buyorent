@@ -12,8 +12,8 @@ import { GoDotFill } from "react-icons/go";
 import { IoIosArrowRoundBack, IoIosArrowRoundForward } from "react-icons/io";
 const Customers = () => {
   return (
-    <div className="mt-32 mb-32 px-18">
-      <div className="flex flex-col sm:flex-row items-center mb-24">
+    <div className="mt-32 mb-20 px-8">
+      <div className="flex flex-col sm:flex-row items-center mb-10">
         <GoDotFill className="text-[#D9D9D9] hidden sm:block" size={30} />
         <p className="text-[#D27700] text-3xl font-black text-nowrap">
           بایورنت از نگاه مشتریان
@@ -66,7 +66,6 @@ const Customers = () => {
                   />
                 </div>
 
-                {/* متن */}
                 <div className="w-full sm:w-8/12 px-2 sm:px-5 grid gap-4">
                   <div className="grid grid-cols-1 sm:grid-cols-2 items-center pt-3 gap-2">
                     <p className="text-xl sm:text-2xl font-black group-hover:text-[#FFC800] transition-colors">
