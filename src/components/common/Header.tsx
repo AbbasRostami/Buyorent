@@ -125,7 +125,7 @@ export default function Header() {
                     : "text-gray-700 hover:text-amber-600"
                 )}
               >
-                <span className="relative z-10 dark:text-white">
+                <span className="relative z-10 text-xl dark:text-white">
                   {item.label}
                 </span>
                 <span className="absolute -bottom-1 left-0 w-full h-[2px] bg-amber-100 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
@@ -205,7 +205,6 @@ export default function Header() {
             </NavbarMenuItem>
           ))}
 
-          {/* دکمه‌های ورود / ثبت نام و خروج در منو */}
           {session?.accessToken ? (
             <NavbarMenuItem>
               <button
