@@ -26,6 +26,10 @@ body {
   }
 }
 
+html, body {
+  overflow-x: hidden;
+}
+
 @theme inline {
   --color-Winston: #dc0000;
   --color-orange: #d27700;
@@ -272,3 +276,22 @@ nav {
   background-color: #fc8f00 !important;
   border-radius: 9999px;
 }
+
+
+.HotDeals .swiper-pagination-bullet {
+  background-color: #5d5d5d !important;
+  opacity: 0.4;
+  transition: all 0.3s ease;
+  width: 10px;
+  height: 10px;
+  border-radius: 9999px;
+}
+
+.HotDeals .swiper-pagination-bullet-active {
+  opacity: 1;
+  width: 30px;
+  height: 10px;
+  background-color: #fc8f00 !important;
+  border-radius: 9999px;
+}
+
