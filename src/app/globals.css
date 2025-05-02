@@ -118,4 +118,34 @@ header {
 nav {
   padding-left: 30px !important;
   padding-right: 30px !important;
+  padding-top: 10px;
+  padding-bottom: 10px;
+}
+.leaflet-container {
+  height: 100%;
+  width: 100%;
+  border-radius: 15px;
+}
+
+.leaflet-control-attribution {
+  display: none !important;
+}
+.leaflet-popup-content-wrapper {
+  padding: 0px !important;
+  text-align: center !important;
+  border-radius: 16px !important;
+}
+.leaflet-popup-content {
+  margin: 0px !important;
+  line-height: 1.3;
+  font-size: 13px;
+  font-size: 1.08333em;
+  min-height: 1px;
+}
+
+@theme {
+  --color-color1: #e89300;
+  --color-color2: #d27700;
+  --color-color3: #ffefd9;
+  --color-color: #fff3e3;
 }
