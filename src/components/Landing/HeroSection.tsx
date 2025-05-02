@@ -5,34 +5,35 @@ import reserve from "./../../assets/Landing/reserve.png";
 import { IoIosArrowBack } from "react-icons/io";
 import { FaMagnifyingGlass } from "react-icons/fa6";
 import { Button, Input, Select, SelectItem } from "@heroui/react";
-import { motion } from "framer-motion";
+
+import { MotionDiv, MotionP } from "../providers/MotionWrapper";
 const animals = [
   { key: "cat", label: "Cat" },
   { key: "dog", label: "Dog" },
   { key: "elephant", label: "Elephant" },
 ];
 
+
 export default function HeroSection() {
   return (
     <div className="lg:mx-24 mt-12">
-      {/* Hero Section */}
       <div className="grid grid-cols-1 md:grid-cols-2 items-center gap-6 ">
-        <motion.div
+        <MotionDiv
           initial={{ opacity: 0, x: 100, rotate: 10 }}
           animate={{ opacity: 1, x: 0, rotate: 0 }}
           transition={{ duration: 1 }}
           className="mx-2 xl:mx-24 mt-4"
         >
-          <motion.p
+          <MotionP
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.4, duration: 0.6 }}
             className="text-2xl lg:text-3xl xl:text-4xl font-semibold dark:text-amber-100"
           >
             یه انتخاب ساده ، یه جای راحت!
-          </motion.p>
+          </MotionP>
 
-          <motion.p
+          <MotionP
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.6, duration: 0.8 }}
@@ -42,26 +43,23 @@ export default function HeroSection() {
             <span>
               بای<span className="text-amber-500">و</span>رنت
             </span>
-          </motion.p>
+          </MotionP>
 
-          <motion.div
+          <MotionDiv
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.8, duration: 1 }}
           >
             <Button className="group relative bg-gradient-to-br from-amber-300 via-amber-400 to-amber-500 text-amber-900 px-9 py-7 rounded-[3rem] text-xl md:text-2xl font-bold tracking-wide mt-10 transition-all duration-700 ease-[cubic-bezier(0.4,0,0.2,1)] hover:scale-[1.03] hover:shadow-2xl hover:shadow-amber-500/30 overflow-hidden isolate">
-              {/* Metallic Border - Enhanced for Light Mode */}
               <div className="absolute inset-0 rounded-[3rem] overflow-hidden">
                 <div className="absolute -inset-[3px] animate-rotate-metallic bg-[conic-gradient(from_var(--angle),#f59e0b_0%,#d97706_30%,transparent_80%,#d97706_100%)] opacity-90" />
                 <div className="absolute inset-0 bg-gradient-to-br from-white/30 to-amber-100/50 backdrop-blur-sm m-[3px] rounded-[3rem]" />
               </div>
 
-              {/* Diamond Shine - Light Mode Boost */}
               <div className="absolute inset-0 rounded-[3rem] overflow-hidden">
                 <div className="absolute -top-[150%] -left-[150%] w-[400%] h-[400%] animate-diamond-shine bg-[radial-gradient(circle_at_center,rgba(255,255,255,0.95)_0%,transparent_60%)] opacity-70 mix-blend-overlay" />
               </div>
 
-              {/* Golden Particles */}
               <div className="absolute inset-0 rounded-[3rem] overflow-hidden">
                 {[...Array(15)].map((_, i) => (
                   <div
@@ -76,7 +74,6 @@ export default function HeroSection() {
                 ))}
               </div>
 
-              {/* Content - High Contrast */}
               <span className="relative z-20 flex items-center gap-4">
                 <span className="bg-gradient-to-r from-[#92400e] to-[#78350f] bg-clip-text text-transparent drop-shadow-[0_2px_4px_rgba(251,191,36,0.3)]">
                   رهن و اجاره ملک
@@ -84,33 +81,29 @@ export default function HeroSection() {
                 <IoIosArrowBack className="w-8 h-8 text-[#78350f] transition-transform duration-500 group-hover:translate-x-3 group-hover:text-[#92400e]" />
               </span>
             </Button>
-          </motion.div>
-        </motion.div>
+          </MotionDiv>
+        </MotionDiv>
 
-        <motion.div
+        <MotionDiv
           initial={{ opacity: 0, x: -100, rotate: -10 }}
           animate={{ opacity: 1, x: 0, rotate: 0 }}
           transition={{ duration: 1 }}
           className="mx-auto"
         >
           <Image src={home} alt="home" />
-        </motion.div>
+        </MotionDiv>
       </div>
 
-      {/* Dynamic Section */}
       <div className="w-full flex  justify-center items-center px-4 -mt-3 xl:-mt-10 mb-20">
         <div className="relative z-20 w-full max-w-6xl mx-auto">
-          {/* Reserve Image */}
           <div className="absolute -translate-y-7 -translate-x-25 z-30">
             <Image src={reserve} alt="home" />
           </div>
 
-          {/* Search Icon Box */}
           <div className="absolute left-0 -translate-x-1/2 md:-translate-x-1/3 translate-y-1/4 hidden md:flex bg-[#D27700] rounded-l-full justify-end items-center px-6 py-5">
             <FaMagnifyingGlass className="text-amber-50 md:text-2xl lg:text-3xl" />
           </div>
 
-          {/* Search Form */}
           <div className="relative bg-[#FFFBF5] dark:bg-gray-800 dark:text-white translate-x-7 drop-shadow-lg rounded-l-md rounded-r-full w-full z-10 px-8 py-4">
             <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4">
               <div className="flex flex-col gap-2 max-w-xs">
