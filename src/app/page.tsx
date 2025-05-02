@@ -4,16 +4,18 @@ import BayourtBiggest from "@/components/Landing/BayourtBiggest";
 import Customers from "@/components/Landing/Customers";
 import Reduction from "@/components/Landing/Reduction";
 import Notice from "@/components/Landing/Notice";
+import HotDealsOfWeek from "@/components/Landing/HotDealsOfWeek";
 
 export default function Home() {
   return (
-    <div className="px-2 md:px-8 py-4 dark:bg-[#0a192f]">
+    <div className="px-2 md:px-8 py-4  dark:bg-[#0a192f]">
       <HeroSection />
       <CustomSwiper />
       <Reduction />
       {/* <LandinCenter />  */}
       <Notice />
       <BayourtBiggest />
+      <HotDealsOfWeek />
       <Customers />
     </div>
   );
