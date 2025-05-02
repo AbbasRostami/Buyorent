@@ -51,6 +51,8 @@ export const Step1Verification = ({
   useEffect(() => {
     console.log("Email changed:", email);
   }, [email]);
+
+  
   return (
     <div className="flex flex-col items-center gap-6">
       <p className="font-bold text-2xl">تایید ایمیل</p>
@@ -79,7 +81,7 @@ export const Step1Verification = ({
           type="button"
           onClick={handleResendCode}
           disabled={isResending}
-          className="text-[#a0e5e4] text-medium cursor-pointer mt-4 hover:underline disabled:opacity-50"
+          className="text-[#12e4e0] text-medium cursor-pointer mt-4 hover:underline disabled:opacity-50"
         >
           {isResending ? "ارسال مجدد ( 10 دقیقه )" : "ارسال مجدد کد"}
         </button>
