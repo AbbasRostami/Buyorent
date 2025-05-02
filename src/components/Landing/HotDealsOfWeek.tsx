@@ -1,27 +1,19 @@
 "use client";
-
-import { useRef, useEffect, useState } from "react";
 import {
   IoIosArrowBack,
   IoIosArrowRoundBack,
   IoIosArrowRoundForward,
   IoMdBed,
 } from "react-icons/io";
-import { FaCircle } from "react-icons/fa6";
+import { FaCircle, FaShower } from "react-icons/fa6";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Navigation, Pagination, Autoplay } from "swiper/modules";
 import "swiper/css";
 import "swiper/css/navigation";
 import "swiper/css/pagination";
-import Timer from "@/utils/hooks/timer";
+import { Button } from "@heroui/react";
 import { IoLocationOutline } from "react-icons/io5";
-import Image from "next/image";
-import bed from "./../../assets/Landing/bed.png";
-import shower from "./../../assets/Landing/shower.png";
-import toilet from "./../../assets/Landing/toilet.png";
-import { FaShower } from "react-icons/fa";
 import { MdFamilyRestroom } from "react-icons/md";
-
 const cards = [
   {
     title: " ویلای دوبلکس ساحلی  ",
@@ -60,105 +52,44 @@ const cards = [
   },
 ];
 
-export default function Reduction() {
-  const containerRef = useRef<HTMLDivElement>(null);
-  const buttonsRef = useRef<HTMLDivElement>(null);
-  const [textWidth, setTextWidth] = useState<string>();
-
-  useEffect(() => {
-    if (!containerRef.current || !buttonsRef.current) return;
-
-    const calculateWidth = () => {
-      const total = containerRef.current?.offsetWidth || 0;
-      const btns = buttonsRef.current?.offsetWidth || 0;
-      const newWidth = total - btns - 16;
-
-      setTextWidth((prev) =>
-        prev !== `${newWidth}px` ? `${newWidth}px` : prev
-      );
-    };
-
-    calculateWidth();
-
-    const resizeObserver = new ResizeObserver(calculateWidth);
-    resizeObserver.observe(containerRef.current);
-    resizeObserver.observe(buttonsRef.current);
-
-    return () => {
-      resizeObserver.disconnect();
-    };
-  }, []);
-
+export default function HotDealsOfWeek() {
   return (
-    <div
-      ref={containerRef}
-      className=" relative rounded-2xl border-2 border-gray-200 mt-20"
-    >
-      <div
-        className="hidden lg:flex items-center justify-between  rounded-xl px-4"
-        style={{ width: textWidth }}
-      >
-        <div className="flex items-center gap-4 p-4">
-          <div className="text-orange-700 md:text-2xl xl:text-3xl flex items-center gap-4">
-            <FaCircle size={17} className="text-gray-200 text-[10px]" />
-            جشنواره تخفیف بهاره
+    <div className="relative w-full mt-32">
+      <div className="flex items-center justify-between rounded-xl px-4">
+        <div className="flex flex-col md:flex-row items-start md:items-center gap-2 md:gap-6 p-6">
+          <div className="flex items-center gap-3">
+            <FaCircle className="text-orange-500 text-xs" />
+            <h2 className="text-orange-700 text-xl md:text-2xl font-bold dark:text-amber-400">
+              داغ‌ترین معاملات هفته
+            </h2>
           </div>
-          <p className=" bg-Winston text-white px-4 py-1 rounded-full  text-base">
-            بجنب تا تموم نشده !
+          <p className="text-sm md:text-base text-gray-700 dark:text-gray-300">
+            آنچه که از بازار معاملات ملک در این هفته داشتیم
           </p>
         </div>
-        <div className="text-Winston xl:text-3xl whitespace-nowrap font-bold">
-          <Timer />
-        </div>
+
+        <Button
+          variant="light"
+          className="flex items-center shadow justify-center px-4 py-2 text-lg font-semibold text-gray-400 "
+        >
+          مشاهده همه
+          <IoIosArrowBack className="text-lg mr-1" />
+        </Button>
       </div>
 
-      <div
-        ref={buttonsRef}
-        className="hidden lg:block inverted absolute top-0 left-0 p-2 rounded-br-xl bg-white dark:bg-[#0a192f] border-b-2 border-r-2 border-gray-200"
-      >
-        <div className="absolute top-0 left-0 w-full h-3 -mt-2 bg-[#FDFDFD] dark:bg-[#0a192f]  z-30 rounded-br-xl" />
-        <div className="absolute left-0 w-4 h-full -ml-2 bg-[#FDFDFD] dark:bg-[#0a192f] z-30 rounded-br-xl" />
-        <div className="flex items-center gap-4">
-          <button className="custom-prev-off dark:bg-gray-900 w-10 h-10 flex items-center justify-center rounded-full border border-gray-100 shadow-md hover:bg-gray-300 hover:text-white transition">
-            <IoIosArrowRoundForward className="dark:text-white " />
-          </button>
-          <button className="custom-next-off dark:bg-gray-900 z-10 w-10 h-10 flex items-center justify-center rounded-full border border-gray-100 shadow-md hover:bg-gray-300 hover:text-white transition">
-            <IoIosArrowRoundBack className="dark:text-white" />
-          </button>
-          <button className="flex items-center shadow justify-center dark:bg-gray-900 px-4 py-2 text-lg font-semibold text-gray-400 hover:text-white border border-gray-100 rounded-lg bg-white hover:bg-gray-300 transition">
-            مشاهده همه
-            <IoIosArrowBack className="text-lg mr-1" />
-          </button>
-        </div>
-      </div>
-      <div className="flex lg:hidden flex-col sm:flex-row items-center justify-between p-2">
-        <div className="text-orange-700 text-3xl flex items-center gap-4">
-          <FaCircle className="text-gray-200 text-[10px]" />
-          جشنواره تخفیف بهاره
-          <button className="flex items-center text-base justify-center  text- font-semibold text-gray-400 ">
-            مشاهده همه
-            <IoIosArrowBack className="text-sm mr-1" />
-          </button>
-        </div>
-        <div className="flex  items-center gap-2 mt-4 sm:mt-0">
-          <p className=" bg-Winston text-white px-4 py-1 rounded-full  text-base">
-            بجنب تا تموم نشده !
-          </p>
-          <p className="text-Winston xl:text-3xl  whitespace-nowrap font-bold  text-center">
-            ۰۶ : ۰۹ : ۲۶ : ۳۵
-          </p>
-        </div>
-      </div>
+      <div className="flex items-center justify-between gap-4">
+        <button className="custom-prev-Hot  cursor-pointer  flex items-center justify-center rounded-full border border-gray-100 shadow-md  hover:text-white transition">
+          <IoIosArrowRoundForward className="dark:text-amber-100" size={30} />
+        </button>
 
-      <div className="m-6">
         <Swiper
           modules={[Navigation, Pagination, Autoplay]}
           navigation={{
-            nextEl: ".custom-next-off",
-            prevEl: ".custom-prev-off",
+            nextEl: ".custom-next-Hot",
+            prevEl: ".custom-prev-Hot",
           }}
           pagination={{
-            el: ".customer",
+            el: ".HotDeals",
             clickable: true,
           }}
           autoplay={{
@@ -175,7 +106,7 @@ export default function Reduction() {
           }}
         >
           {cards.map((items, index) => (
-            <SwiperSlide key={index} className="flex justify-center p-4 ">
+            <SwiperSlide key={index} className="flex justify-center p-4">
               <div className="bg-[#FFFAF3] dark:bg-slate-900 rounded-xl shadow-xl py-4 mx-auto cursor-pointer transform transition-all duration-300 ease-in-out hover:scale-105 hover:shadow-2xl hover:shadow-amber-500/50">
                 <div className="relative perspective p-2">
                   <img
@@ -195,7 +126,7 @@ export default function Reduction() {
                   </p>
                   <div className="flex justify-start gap-6 text-sm text-gray-700 mt-3">
                     <div className="flex items-center gap-2">
-                      <IoMdBed size={25} className="dark:text-amber-50" />
+                      <IoMdBed size={30} className="dark:text-amber-50" />
                       <span className="text-base dark:text-amber-100">۳</span>
                     </div>
                     <div className="flex items-center gap-2">
@@ -222,11 +153,11 @@ export default function Reduction() {
             </SwiperSlide>
           ))}
         </Swiper>
+        <button className="custom-next-Hot z-10  cursor-pointer    flex items-center justify-center rounded-full border border-gray-100 shadow-md  hover:text-white transition">
+          <IoIosArrowRoundBack className="dark:text-amber-100" size={30} />
+        </button>
       </div>
-
-      <div className="absolute bottom-0 left-1/2 -translate-x-1/2 border-t-2  border-gray-200 rounded-t-md inverted_bottom drop-shadow-2xl">
-        <div className="customer flex justify-center  p-1  " />
-      </div>
+      <div className="HotDeals flex justify-center mt-7  p-1 " />
     </div>
   );
 }

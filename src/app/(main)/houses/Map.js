@@ -6,7 +6,6 @@ import { useState, useEffect } from "react";
 import { IoLocationOutline } from "react-icons/io5";
 import toast from "react-hot-toast";
 
-// رفع مشکل آیکون پیش‌فرض leaflet
 delete L.Icon.Default.prototype._getIconUrl;
 L.Icon.Default.mergeOptions({
   iconRetinaUrl:
@@ -38,13 +37,7 @@ function FlyToLocation({ position }) {
 export default function Map({ properties }) {
   const [userLocation, setUserLocation] = useState(null);
   const isInIran = (lat, lng) => {
-    // محدوده دقیق ایران
-    return (
-      lat > 25.0 && // جنوبی‌ترین نقطه ایران
-      lat < 39.5 && // شمالی‌ترین نقطه ایران
-      lng > 44.0 && // غربی‌ترین نقطه ایران
-      lng < 63.5 // شرقی‌ترین نقطه ایران
-    );
+    return lat > 25.0 && lat < 39.5 && lng > 44.0 && lng < 63.5;
   };
 
   const handleLocateUser = () => {
@@ -58,7 +51,6 @@ export default function Map({ properties }) {
             setUserLocation([latitude, longitude]);
           } else {
             toast.error("موقعیت شما خارج از ایران تشخیص داده شد!");
-            // نمایش تهران به عنوان موقعیت پیش‌فرض
             setUserLocation([36.5633, 53.0601]);
           }
         },
@@ -124,7 +116,6 @@ export default function Map({ properties }) {
           >
             <Popup>
               <div className="w-[295px] h-[106px] bg-gradient-to-r from-[#cf9952] to-[#E89300]  backdrop-blur-sm rounded-[16px] flex items-center p-3 text-white gap-3 shadow-xl border border-white/20">
-                {/* بخش عکس */}
                 <div className="relative">
                   <img
                     src={property.image || "https://via.placeholder.com/80"}
@@ -138,9 +129,7 @@ export default function Map({ properties }) {
                   )}
                 </div>
 
-                {/* بخش اطلاعات */}
                 <div className="flex flex-col justify-between h-full flex-1">
-                  {/* عنوان و موقعیت */}
                   <div>
                     <h3 className="font-bold text-2xl truncate mb-1 text-white/90">
                       {property.title}
