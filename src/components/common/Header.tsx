@@ -35,8 +35,8 @@ export default function Header() {
 
   const navItems = [
     { label: "خانه", href: "/" },
-    { label: "مقالات", href: "/articles" },
-    { label: "درباره ما", href: "/about" },
+    { label: "مقالات", href: "/houses" },
+    { label: "درباره ما", href: "/rentpage" },
   ];
 
   const menuItems = ["پروفایل", "مقالات", "درباره ما", "خروج"];
