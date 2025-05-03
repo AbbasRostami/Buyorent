@@ -31,7 +31,7 @@ const Customers = () => {
             prevEl: ".custom-prevt",
           }}
           pagination={{
-            el: ".custom-pagination",
+            el: ".customer-pagination",
             clickable: true,
           }}
           mousewheel={true}
@@ -112,7 +112,7 @@ const Customers = () => {
         <button className="custom-nextt cursor-pointer hidden sm:block absolute -right-5 bottom-38 z-10 bg-white dark:bg-neutral-800 p-2 rounded-full shadow-md">
           <IoIosArrowRoundForward className="dark:text-amber-100" size={25} />
         </button>
-        <div className="custom-pagination mt-10 flex justify-center gap-2" />
+        <div className="customer-pagination mt-10 flex justify-center gap-2" />
       </div>
     </div>
   );

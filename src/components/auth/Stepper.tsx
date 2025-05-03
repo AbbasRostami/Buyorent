@@ -1,17 +1,18 @@
 "use client";
+import { Step, StepperProps } from "@/types/AuthTypes";
 import { BsArrowDown } from "react-icons/bs";
-type Props = {
-  step: number;
-  setStep: (step: number) => void;
-  currentStep: number;
-};
+
 const steps = [
   { id: 1, title: "ثبت‌نام" },
   { id: 2, title: "تکمیل پروفایل" },
   { id: 3, title: "پایان" },
 ];
 
-export default function VerticalStepper({ currentStep, step, setStep }: Props) {
+export default function VerticalStepper({
+  currentStep,
+  step,
+  setStep,
+}: StepperProps) {
   return (
     <div className="flex flex-col justify-center items-center gap-6 h-full">
       {steps.map((step, index) => (
@@ -22,7 +23,7 @@ export default function VerticalStepper({ currentStep, step, setStep }: Props) {
                 ? "bg-[#009993] text-white"
                 : "bg-gray-200 text-gray-600"
             }`}
-            onClick={() => setStep(index)}
+            onClick={() => setStep(index as Step)}
           >
             <span className="text-lg font-bold">{step.id}</span>
           </div>

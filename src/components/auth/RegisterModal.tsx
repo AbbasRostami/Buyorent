@@ -1,4 +1,3 @@
-"use client";
 import React, { useEffect, useState } from "react";
 import Image from "next/image";
 import VerticalStepper from "./Stepper";
@@ -7,21 +6,24 @@ import LoginGray from "./../../assets/ModalRegister/Login-Gray.png";
 import Bayournt from "./../../assets/ModalRegister/Bayournt1.png";
 import LoginBrown from "./../../assets/ModalRegister/Login-Brown.png";
 import RegisterGray from "./../../assets/ModalRegister/Register-Gray.png";
-import { InputOtp, Spinner } from "@heroui/react";
-import { HiEyeSlash } from "react-icons/hi2";
-import { IoEyeSharp } from "react-icons/io5";
-import { ErrorMessage, Field, Form, Formik } from "formik";
-import * as Yup from "yup";
 import ReactDOM from "react-dom";
-import { signIn } from "next-auth/react";
-import toast from "react-hot-toast";
+import { Step0Email } from "./Step0Email";
+import { Step1Verification } from "./Step1Verification";
+import { Step2Password } from "./Step2Password";
+import { Step3Login } from "./Step3Login";
+import { RegistrationData, Step } from "@/types/AuthTypes";
+
 export default function RegisterModal({ isOpen, setIsOpen }: any) {
-  const [step, setStep] = useState(0);
-
-  const nextStep = () => setStep((prev) => Math.min(prev + 1, 3));
-
-  const [showPassword, setShowPassword] = useState(false);
-  const [showConfirm, setShowConfirm] = useState(false);
+  const [step, setStep] = useState<Step>(0);
+  const [formData, setFormData] = useState<RegistrationData>({
+    email: "",
+    tempUserId: "",
+    userId: "",
+    password: "",
+    confirmPassword: "",
+    phoneNumber: "",
+    verificationCode: "",
+  });
   const [mounted, setMounted] = useState(false);
 
   useEffect(() => {
@@ -39,226 +41,40 @@ export default function RegisterModal({ isOpen, setIsOpen }: any) {
 
   if (!mounted || !isOpen) return null;
 
-  const validationSchema = Yup.object({
-    email: Yup.string()
-      .email("ایمیل معتبر نیست")
-      .required("وارد کردن ایمیل الزامی است"),
-    password: Yup.string()
-      .min(6, "رمز عبور باید حداقل ۶ کاراکتر باشد")
-      .required("رمز عبور الزامی است"),
-  });
+  const renderStep = () => {
+    const steps = [
+      <Step0Email
+        key={0}
+        onSuccess={(tempUserId, email) => {
+          setFormData((prev) => ({ ...prev, tempUserId, email }));
+          setStep(1);
+        }}
+      />,
+      <Step1Verification
+        key={1}
+        email={formData.email}
+        tempUserId={formData.tempUserId}
+        onSuccess={(userId) => {
+          setFormData((prev) => ({ ...prev, userId }));
+          setStep(2);
+        }}
+        goBack={() => setStep(0)}
+      />,
+      <Step2Password
+        key={2}
+        userId={formData.userId}
+        onSuccess={() => setStep(3)}
+        goBack={() => setStep(1)}
+      />,
+      <Step3Login
+        key={3}
+        onSuccess={() => {
+          setIsOpen(false);
+        }}
+      />,
+    ];
 
-  const renderStepContent = () => {
-    switch (step) {
-      case 0:
-        return (
-          <>
-            <p className="font-bold text-2xl">ایجاد حساب کاربری</p>
-            <div className="flex flex-col">
-              <label className="text-[#D27700] w-full font-bold text-right">
-                ایمیل
-              </label>
-              <input
-                type="text"
-                className="border-2 dark:bg-gray-800 dark:placeholder:text-amber-100  border-[#CCCCCC] bg-white rounded-lg w-[300px] h-[40px] p-2"
-                placeholder="ایمیل خود را وارد کنید"
-              />
-            </div>
-            <button
-              onClick={nextStep}
-              className="bg-gradient-to-r from-[#E89300] to-[#FFB84D] cursor-pointer w-fit px-14 h-[40px] text-white rounded-xl shadow-lg hover:shadow-2xl hover:bg-gradient-to-r hover:from-[#FFB84D] hover:to-[#E89300] transition-all duration-500 transform hover:scale-110 focus:outline-none focus:ring-2 focus:ring-[#E89300] focus:ring-opacity-50"
-            >
-              دریافت کد تایید
-            </button>
-
-            <p
-              className="text-1xl font-bold cursor-pointer dark:text-amber-100"
-              onClick={() => setStep(3)}
-            >
-              ورود به حساب کاربری
-            </p>
-          </>
-        );
-      case 1:
-        return (
-          <>
-            <p className="font-bold text-2xl">ایجاد حساب کاربری</p>
-            <p className="text-md font-normal text-right leading-relaxed break-words w-[300px]">
-              کد تایید به ایمیل{" "}
-              <span className="text-[#D27700]">example@gmail.com</span> ارسال
-              شده است، در صورت مغایرت روی{" "}
-              <span className="text-[#009993]">ویرایش</span> کلیک کنید.
-            </p>
-            <div className="flex flex-col ">
-              <label className="text-[#D27700] w-full font-bold text-right">
-                کد تایید
-              </label>
-              <InputOtp
-                color={"default"}
-                variant={"faded"}
-                errorMessage="Invalid OTP code"
-                length={4}
-                size={"lg"}
-              />
-            </div>
-            <button
-              onClick={nextStep}
-              className="bg-gradient-to-r from-[#E89300] to-[#FFB84D] cursor-pointer w-fit px-14 h-[40px] text-white rounded-xl shadow-lg hover:shadow-2xl hover:bg-gradient-to-r hover:from-[#FFB84D] hover:to-[#E89300] transition-all duration-500 transform hover:scale-110 focus:outline-none focus:ring-2 focus:ring-[#E89300] focus:ring-opacity-50"
-            >
-              تایید
-            </button>
-          </>
-        );
-      case 2:
-        return (
-          <>
-            <p className="font-bold text-2xl">تنظیم رمز عبور</p>
-            <div className="flex flex-col gap-4">
-              <div className="relative w-[300px]">
-                <label className="text-[#D27700] font-bold mb-1 block text-right">
-                  رمز عبور
-                </label>
-                <input
-                  type={showPassword ? "text" : "password"}
-                  className="border-2 border-[#CCCCCC] dark:bg-gray-800 dark:placeholder:text-amber-100  bg-white rounded-lg w-full h-[40px] p-2 pr-10"
-                  placeholder="رمز عبور را وارد کنید"
-                />
-                <span
-                  onClick={() => setShowPassword((prev) => !prev)}
-                  className="absolute top-[38px] right-3 text-xl text-gray-500 cursor-pointer"
-                >
-                  {showPassword ? <HiEyeSlash /> : <IoEyeSharp />}
-                </span>
-              </div>
-
-              <div className="relative w-[300px]">
-                <label className="text-[#D27700] font-bold mb-1 block text-right">
-                  تایید رمز عبور
-                </label>
-                <input
-                  type={showConfirm ? "text" : "password"}
-                  className="border-2 border-[#CCCCCC] dark:bg-gray-800 dark:placeholder:text-amber-100  bg-white rounded-lg w-full h-[40px] p-2 pr-10"
-                  placeholder="رمز عبور را دوباره وارد کنید"
-                />
-                <span
-                  onClick={() => setShowConfirm((prev) => !prev)}
-                  className="absolute top-[38px] right-3 text-xl text-gray-500 cursor-pointer"
-                >
-                  {showConfirm ? <HiEyeSlash /> : <IoEyeSharp />}
-                </span>
-              </div>
-            </div>
-            <button
-              onClick={nextStep}
-              className="bg-gradient-to-r from-[#E89300] to-[#FFB84D] cursor-pointer w-fit px-14 h-[40px] text-white rounded-xl shadow-lg hover:shadow-2xl hover:bg-gradient-to-r hover:from-[#FFB84D] hover:to-[#E89300] transition-all duration-500 transform hover:scale-110 focus:outline-none focus:ring-2 focus:ring-[#E89300] focus:ring-opacity-50"
-            >
-              ایجاد حساب
-            </button>
-          </>
-        );
-      case 3:
-        return (
-          <>
-            <p className="font-bold text-2xl text-[#444444] dark:text-amber-100">
-              {" "}
-              ورود به حساب کاربری
-            </p>
-            <Formik
-              initialValues={{ email: "", password: "" }}
-              validationSchema={validationSchema}
-              onSubmit={async (values, { setSubmitting }) => {
-                try {
-                  const res = await signIn("credentials", {
-                    email: values.email,
-                    password: values.password,
-                    redirect: false,
-                  });
-                  console.log();
-
-                  if (res?.ok) {
-                    toast.success("✅با موفقیت وارد شدید!");
-                    setIsOpen(false);
-                  } else {
-                    console.log("Login error", res?.error);
-                    toast.error(`❌ خطا در ورود: ${res?.error || "مشخص نشده"}`);
-                  }
-                } catch (error) {
-                  console.error("Login error:", error);
-                  toast.error(`❌ مشکلی پیش آمده است. لطفاً دوباره تلاش کنید.`);
-                } finally {
-                  setSubmitting(false);
-                }
-              }}
-            >
-              {({ errors, touched, isSubmitting }) => (
-                <Form className="flex flex-col gap-4 w-[300px]">
-                  <div className="flex flex-col text-right">
-                    <label className="text-[#D27700] font-bold mb-1">
-                      نام کاربری ( ایمیل )
-                    </label>
-                    <Field
-                      type="email"
-                      name="email"
-                      className={`border-2  bg-white dark:bg-gray-800 dark:placeholder:text-amber-100 rounded-lg h-[40px] p-2 ${
-                        errors.email && touched.email
-                          ? "border-red-500"
-                          : "border-[#CCCCCC]"
-                      }`}
-                      placeholder="ایمیل را وارد کنید"
-                    />
-                    <ErrorMessage
-                      name="email"
-                      component="div"
-                      className="text-red-500 text-sm mt-1"
-                    />
-                  </div>
-                  <div className="relative text-right">
-                    <label className="text-[#D27700] font-bold mb-1 block">
-                      رمز عبور
-                    </label>
-                    <Field
-                      type={showPassword ? "text" : "password"}
-                      name="password"
-                      className={`border-2 bg-white rounded-lg w-full dark:bg-gray-800 dark:placeholder:text-amber-100  h-[40px] p-2 pr-10 ${
-                        errors.password && touched.password
-                          ? "border-red-500"
-                          : "border-[#CCCCCC]"
-                      }`}
-                      placeholder="رمز عبور را وارد کنید"
-                    />
-                    <span
-                      onClick={() => setShowPassword((prev) => !prev)}
-                      className="absolute top-[38px] right-3 text-xl text-gray-500 cursor-pointer"
-                    >
-                      {showPassword ? <HiEyeSlash /> : <IoEyeSharp />}
-                    </span>
-                    <ErrorMessage
-                      name="password"
-                      component="div"
-                      className="text-red-500 text-sm mt-1"
-                    />
-                  </div>
-
-                  <button
-                    type="submit"
-                    disabled={isSubmitting}
-                    className="bg-gradient-to-r from-[#E89300] to-[#FFB84D]  dark:text-amber-100cursor-pointer w-full h-[40px] text-white rounded-xl shadow-lg hover:shadow-2xl hover:bg-gradient-to-r hover:from-[#FFB84D] hover:to-[#E89300] transition-all duration-500 transform hover:scale-100 disabled:opacity-50 focus:outline-none focus:ring-2 focus:ring-[#E89300] focus:ring-opacity-50 flex items-center justify-center"
-                  >
-                    {isSubmitting ? (
-                      <Spinner size="lg" variant="wave" />
-                    ) : (
-                      "ورود"
-                    )}
-                  </button>
-                </Form>
-              )}
-            </Formik>
-          </>
-        );
-
-      default:
-        return null;
-    }
+    return steps[step];
   };
 
   return ReactDOM.createPortal(
@@ -337,7 +153,7 @@ export default function RegisterModal({ isOpen, setIsOpen }: any) {
               </div>
 
               <div className="h-full flex flex-col items-center justify-center gap-10">
-                {renderStepContent()}
+                {renderStep()}
               </div>
 
               {step === 3 ? (
