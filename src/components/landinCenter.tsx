@@ -8,6 +8,7 @@ import Rectangle6 from "../assets/Rectangle 6.svg";
 import Vector1 from "../assets/Vector (1).svg";
 import Vector from "../assets/Vector.png";
 
+
 import { Swiper, SwiperSlide } from "swiper/react";
 import "swiper/css";
 import "swiper/css/navigation";
