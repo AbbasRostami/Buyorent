@@ -5,6 +5,7 @@ import localFont from "next/font/local";
 import "./globals.css";
 import { auth } from "@/services/auth";
 import ClientLayout from "./ClientLayout";
+
 const vazirmatn = localFont({
   src: "./../assets/fonts/Vazirmatn.ttf",
   variable: "--font-vazirmatn",

@@ -61,12 +61,11 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
   ],
 
   callbacks: {
-    async jwt({ token, user }) {
-      if (user) {
-        token.accessToken = user.accessToken;
-        token.refreshToken = user.refreshToken;
+    async jwt({ token, user, account }) {
+      if (account && user) {
+        token.accessToken = account.access_token || user.accessToken;
+        token.refreshToken = account.refresh_token || user.refreshToken;
       }
-
       return token;
     },
 
