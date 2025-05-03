@@ -188,17 +188,13 @@ export default function Reduction() {
                   <p className=" text-base text-gray-600 font-semibold">
                     {items.title}
                   </p>
-                  <p className="flex text-gray-500 text-sm">
-                    <IoLocationOutline />
+                  <p className="flex items-center text-gray-500 text-sm">
+                  <IoLocationOutline size={26} className="  dark:text-white" />
                     {items.locate}
                   </p>
                   <div className="flex justify-start gap-4 text-sm text-gray-700 mt-3">
                     <div className="flex items-center gap-2">
-                      <Image
-                        src={bed}
-                        alt="bed"
-                        width={20}
-                      />
+                      <Image src={bed} alt="bed" width={20} />
                       <span className="text-base">۳</span>
                     </div>
                     <div className="flex items-center gap-2">
