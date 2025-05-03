@@ -20,6 +20,7 @@ export const Step0Email = ({ onSuccess }: Step0EmailProps) => {
       },
     }
   );
+
   const handleSubmit = (values: { email: string }) => {
     mutate({ email: values.email });
   };

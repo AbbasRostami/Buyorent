@@ -52,7 +52,6 @@ export const Step1Verification = ({
     console.log("Email changed:", email);
   }, [email]);
 
-  
   return (
     <div className="flex flex-col items-center gap-6">
       <p className="font-bold text-2xl">تایید ایمیل</p>
