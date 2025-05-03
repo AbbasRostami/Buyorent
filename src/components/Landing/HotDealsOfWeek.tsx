@@ -120,8 +120,11 @@ export default function HotDealsOfWeek() {
                   <p className="text-lg text-gray-700 font-semibold dark:text-amber-200 transition-all duration-300 ease-in-out hover:text-orange-600">
                     {items.title}
                   </p>
-                  <p className="flex text-gray-600 text-sm dark:text-amber-100">
-                    <IoLocationOutline className="text-orange-600 dark:text-amber-200" />
+                  <p className="flex items-center text-gray-600 text-sm dark:text-amber-100">
+                    <IoLocationOutline
+                      size={26}
+                      className="  dark:text-white"
+                    />
                     {items.locate}
                   </p>
                   <div className="flex justify-start gap-6 text-sm text-gray-700 mt-3">

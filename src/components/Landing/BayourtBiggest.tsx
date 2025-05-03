@@ -2,7 +2,7 @@ import React from "react";
 import Rectangle from "./../../assets/Rectangle 30.png";
 import shape from "./../../assets/Ellipse 18.png";
 import { GoDotFill } from "react-icons/go";
-import Image from "next/image"; // ✅ صحیح
+import Image from "next/image";
 import { MotionButton, MotionDiv, MotionP } from "../providers/MotionWrapper";
 const BayourtBiggest = () => {
   return (
@@ -12,7 +12,7 @@ const BayourtBiggest = () => {
           initial={{ opacity: 0, x: 200 }}
           whileInView={{ opacity: 1, x: 0 }}
           transition={{ duration: 3 }}
-          viewport={{ once: true }} // فقط یک‌بار اجرا شود
+          viewport={{ once: true }}
           className="w-full lg:w-1/2 text-right lg:text-left mt-10 lg:mt-16"
         >
           <MotionP

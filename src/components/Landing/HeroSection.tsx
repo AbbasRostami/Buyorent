@@ -13,7 +13,6 @@ const animals = [
   { key: "elephant", label: "Elephant" },
 ];
 
-
 export default function HeroSection() {
   return (
     <div className="lg:mx-24 mt-12">

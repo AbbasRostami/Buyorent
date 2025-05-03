@@ -9,7 +9,6 @@ import {
   NavbarMenu,
   NavbarContent,
   NavbarItem,
-  Link,
 } from "@heroui/react";
 
 import Image from "next/image";
@@ -21,6 +20,7 @@ import RegisterModal from "../auth/RegisterModal";
 import { customLogout } from "@/services/logout";
 import { signOut, useSession } from "next-auth/react";
 import { ThemeSwitcher } from "@/context/ThemeSwitcher";
+import Link from "next/link";
 
 export default function Header() {
   const pathname = usePathname();
@@ -40,6 +40,7 @@ export default function Header() {
   const menuItems = ["پروفایل", "مقالات", "درباره ما", "خروج"];
 
   const currentPath = pathname;
+
   const { data: session } = useSession();
   console.log("Log session: ", session);
 
@@ -185,7 +186,6 @@ export default function Header() {
 
         <RegisterModal isOpen={isModalOpen} setIsOpen={setIsModalOpen} />
         <NavbarMenu>
-          {/* اضافه کردن آیتم‌های منو */}
           {menuItems.map((item, index) => (
             <NavbarMenuItem key={`${item}-${index}`}>
               <Link
@@ -198,7 +198,6 @@ export default function Header() {
                     : "foreground"
                 }
                 href="#"
-                size="lg"
               >
                 {item}
               </Link>
