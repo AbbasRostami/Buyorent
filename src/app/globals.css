@@ -196,6 +196,7 @@ nav {
   border-bottom: 1px solid var(--border);
   border-left: 2px solid var(--border);
 }
+
 .inverted_bottom::before {
   content: "";
   width: 1em;
@@ -259,6 +260,8 @@ nav {
   background-color: #fc8f00 !important;
   border-radius: 9999px;
 }
+
+
 
 .customer .swiper-pagination-bullet {
   background-color: #5d5d5d !important;
