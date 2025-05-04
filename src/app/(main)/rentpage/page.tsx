@@ -365,65 +365,61 @@ const RentPage = () => {
 
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 px-4 sm:px-6 md:px-8 border-t border-[#ccc] mt-6 pt-6 max-w-screen-xl mx-auto">
         {filteredData().map((property: any) => (
+          <div
+            key={property.id}
+            className="group bg-white dark:bg-slate-900 border border-[#e5e5e5] rounded-3xl shadow-md hover:shadow-2xl transition-all duration-500 p-3 sm:p-4 cursor-pointer overflow-hidden"
+          >
+            <div className="relative overflow-hidden rounded-2xl">
+              <Image
+                className="w-full h-auto object-cover rounded-2xl group-hover:scale-105 transition-transform duration-500"
+                src={property.imageUrl}
+                alt={property.title}
+                width={400}
+                height={300}
+                priority
+              />
+              <div className="absolute inset-0 bg-black/0 group-hover:bg-black/10 transition-colors duration-500 rounded-2xl" />
+            </div>
 
+            <div className="p-2 sm:p-4 space-y-3">
+              <h3 className="text-xl font-bold text-gray-800 dark:text-amber-200 transition-colors duration-300 group-hover:text-amber-600 dark:group-hover:text-yellow-300">
+                {property.title}
+              </h3>
 
-<div
-  key={property.id}
-  className="group bg-white dark:bg-slate-900 border border-[#e5e5e5] rounded-3xl shadow-md hover:shadow-2xl transition-all duration-500 p-3 sm:p-4 cursor-pointer overflow-hidden"
->
-  <div className="relative overflow-hidden rounded-2xl">
-    <Image
-      className="w-full h-auto object-cover rounded-2xl group-hover:scale-105 transition-transform duration-500"
-      src={property.imageUrl}
-      alt={property.title}
-      width={400}
-      height={300}
-      priority
-    />
-    <div className="absolute inset-0 bg-black/0 group-hover:bg-black/10 transition-colors duration-500 rounded-2xl" />
-  </div>
+              <p className="text-sm flex items-center gap-1 text-gray-500 dark:text-gray-300 transition-all duration-300 group-hover:translate-x-1">
+                <IoLocationOutline
+                  size={20}
+                  className="text-gray-400 dark:text-white"
+                />
+                {property.location}
+              </p>
 
-  <div className="p-2 sm:p-4 space-y-3">
-    <h3 className="text-xl font-bold text-gray-800 dark:text-amber-200 transition-colors duration-300 group-hover:text-amber-600 dark:group-hover:text-yellow-300">
-      {property.title}
-    </h3>
+              <div className="flex flex-wrap gap-2 border-t border-gray-200 dark:border-slate-700 pt-3">
+                <div className="flex items-center gap-1 py-1 px-3 rounded-full text-sm font-medium bg-gray-100 dark:bg-slate-800 text-gray-700 dark:text-amber-50 transition-all duration-300 hover:scale-105">
+                  <MdOutlineBedroomParent size={18} /> ۲ خواب
+                </div>
+                <div className="flex items-center gap-1 py-1 px-3 rounded-full text-sm font-medium bg-gray-100 dark:bg-slate-800 text-gray-700 dark:text-amber-50 transition-all duration-300 hover:scale-105">
+                  <MdOutlineBathroom size={18} /> ۲ حمام
+                </div>
+                <div className="flex items-center gap-1 py-1 px-3 rounded-full text-sm font-medium bg-gray-100 dark:bg-slate-800 text-gray-700 dark:text-amber-50 transition-all duration-300 hover:scale-105">
+                  <MdCarRepair size={18} /> پارکینگ
+                </div>
+              </div>
 
-    <p className="text-sm flex items-center gap-1 text-gray-500 dark:text-gray-300 transition-all duration-300 group-hover:translate-x-1">
-      <IoLocationOutline size={20} className="text-gray-400 dark:text-white" />
-      {property.location}
-    </p>
-
-    <div className="flex flex-wrap gap-2 border-t border-gray-200 dark:border-slate-700 pt-3">
-      <div className="flex items-center gap-1 py-1 px-3 rounded-full text-sm font-medium bg-gray-100 dark:bg-slate-800 text-gray-700 dark:text-amber-50 transition-all duration-300 hover:scale-105">
-        <MdOutlineBedroomParent size={18} /> ۲ خواب
-      </div>
-      <div className="flex items-center gap-1 py-1 px-3 rounded-full text-sm font-medium bg-gray-100 dark:bg-slate-800 text-gray-700 dark:text-amber-50 transition-all duration-300 hover:scale-105">
-        <MdOutlineBathroom size={18} /> ۲ حمام
-      </div>
-      <div className="flex items-center gap-1 py-1 px-3 rounded-full text-sm font-medium bg-gray-100 dark:bg-slate-800 text-gray-700 dark:text-amber-50 transition-all duration-300 hover:scale-105">
-        <MdCarRepair size={18} /> پارکینگ
-      </div>
-    </div>
-
-    <div className="flex flex-wrap items-center gap-2 mt-4">
-      <span className="text-sm sm:text-base font-semibold text-gray-400 line-through decoration-red-400">
-        {property.price}
-      </span>
-      <span className="text-xs">تومان / </span>
-      <span className="text-base sm:text-xl font-bold text-gray-900 dark:text-[#e2eaa0] transition-colors duration-300">
-        {property.oldPrice} <span className="text-xs">تومان</span>
-      </span>
-      <div className="bg-gradient-to-r from-red-500 to-red-600 ml-auto text-xs sm:text-sm font-bold px-3 py-1 text-white rounded-full shadow-sm animate-pulse group-hover:animate-none transition-all duration-300">
-        {property.discount}
-      </div>
-    </div>
-  </div>
-</div>
-
-
-
-
-
+              <div className="flex flex-wrap items-center gap-2 mt-4">
+                <span className="text-sm sm:text-base font-semibold text-gray-400 line-through decoration-red-400">
+                  {property.price}
+                </span>
+                <span className="text-xs">تومان / </span>
+                <span className="text-base sm:text-xl font-bold text-gray-900 dark:text-[#e2eaa0] transition-colors duration-300">
+                  {property.oldPrice} <span className="text-xs">تومان</span>
+                </span>
+                <div className="bg-gradient-to-r from-red-500 to-red-600 ml-auto text-xs sm:text-sm font-bold px-3 py-1 text-white rounded-full shadow-sm animate-pulse group-hover:animate-none transition-all duration-300">
+                  {property.discount}
+                </div>
+              </div>
+            </div>
+          </div>
         ))}
       </div>
 
