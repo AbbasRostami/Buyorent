@@ -1,4 +1,4 @@
-import ReductionCarousel from "./Clients/ReductionCarousel.client";
+import ReductionCarousel from "./Swiper/ReductionSwiper";
 import ReductionHeader from "./ReductionHeader";
 
 export default function Reduction() {
