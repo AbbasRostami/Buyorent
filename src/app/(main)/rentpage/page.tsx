@@ -367,7 +367,7 @@ const RentPage = () => {
         {filteredData().map((property: any) => (
           <div
             key={property.id}
-            className="group bg-white dark:bg-slate-900 border border-[#e5e5e5] rounded-3xl shadow-md hover:shadow-2xl transition-all duration-500 p-3 sm:p-4 cursor-pointer overflow-hidden"
+            className="group bg-white dark:bg-slate-900 rounded-3xl shadow-md hover:shadow-xl dark:hover:shadow-amber-200/10 transition-all duration-500 p-3 sm:p-4 cursor-pointer overflow-hidden border border-gray-100 dark:border-slate-700/40"
           >
             <div className="relative overflow-hidden rounded-2xl">
               <Image
@@ -382,7 +382,7 @@ const RentPage = () => {
             </div>
 
             <div className="p-2 sm:p-4 space-y-3">
-              <h3 className="text-xl font-bold text-gray-800 dark:text-amber-200 transition-colors duration-300 group-hover:text-amber-600 dark:group-hover:text-yellow-300">
+              <h3 className="text-xl font-bold text-gray-800 dark:text-amber-100 transition-colors duration-300 group-hover:text-amber-600 dark:group-hover:text-yellow-300">
                 {property.title}
               </h3>
 
@@ -406,15 +406,20 @@ const RentPage = () => {
                 </div>
               </div>
 
+              {/* قیمت */}
               <div className="flex flex-wrap items-center gap-2 mt-4">
                 <span className="text-sm sm:text-base font-semibold text-gray-400 line-through decoration-red-400">
                   {property.price}
                 </span>
-                <span className="text-xs">تومان / </span>
-                <span className="text-base sm:text-xl font-bold text-gray-900 dark:text-[#e2eaa0] transition-colors duration-300">
-                  {property.oldPrice} <span className="text-xs">تومان</span>
+                <span className="text-xs text-gray-500 dark:text-gray-400">
+                  تومان /{" "}
                 </span>
-                <div className="bg-gradient-to-r from-red-500 to-red-600 ml-auto text-xs sm:text-sm font-bold px-3 py-1 text-white rounded-full shadow-sm animate-pulse group-hover:animate-none transition-all duration-300">
+                <span className="text-base sm:text-xl font-bold text-gray-900 dark:text-[#e2eaa0] transition-colors duration-300">
+                  {property.oldPrice}
+                  <span className="text-xs"> تومان</span>
+                </span>
+
+                <div className="ml-auto bg-gradient-to-r from-red-500 to-red-600 text-xs sm:text-sm font-bold px-3 py-1 text-white rounded-full shadow-sm animate-pulse group-hover:animate-none transition-all duration-300">
                   {property.discount}
                 </div>
               </div>
