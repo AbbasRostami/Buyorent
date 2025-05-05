@@ -21,3 +21,33 @@ export type HouseQueryParams = {
   minArea?: number;
   maxArea?: number;
 };
+
+export interface HouseTypeProps {
+  houses: Array<{
+    id: string;
+    title: string;
+    address: string;
+    bathrooms: number;
+    capacity: number;
+    categories: {
+      id: number;
+      name: string;
+    };
+    last_updated: string;
+    location: {
+      lat: number;
+      lng: number;
+    };
+    num_comments: number;
+    parking: number;
+    photos: string[];
+    price: string;
+    rate: number;
+    rooms: number;
+    sellerId: string;
+    sellerName: string;
+    tags: string[];
+    transaction_type: string;
+    yard_type: string;
+  }>;
+}

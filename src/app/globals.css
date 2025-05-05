@@ -298,3 +298,15 @@ nav {
   border-radius: 9999px;
 }
 
+@keyframes pulseColor {
+  0%, 100% {
+    color: #e5e7eb; /* gray-200 */
+  }
+  50% {
+    color: #f97316; /* orange-500 */
+  }
+}
+
+.animate-pulse-color {
+  animation: pulseColor 2s infinite;
+}
