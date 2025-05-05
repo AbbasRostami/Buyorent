@@ -5,6 +5,7 @@ import Customers from "@/components/Landing/Customers";
 import Reduction from "@/components/Landing/Reduction";
 import Notice from "@/components/Landing/Notice";
 import HotDealsOfWeek from "@/components/Landing/HotDealsOfWeek";
+import Rating from "@/components/Landing/Rating";
 
 export default function Home() {
   return (
@@ -12,10 +13,10 @@ export default function Home() {
       <HeroSection />
       <CustomSwiper />
       <Reduction />
-      {/* <LandinCenter />  */}
       <Notice />
       <BayourtBiggest />
       <HotDealsOfWeek />
+      <Rating />
       <Customers />
     </div>
   );

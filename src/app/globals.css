@@ -310,4 +310,29 @@ nav {
 .animate-pulse-color {
   animation: pulseColor 2s infinite;
 }
+@keyframes border-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
 
+
+
+
+
+
+
+@keyframes borderMove {
+  0% {
+    background-position: 0% 50%;
+  }
+  100% {
+    background-position: 100% 50%;
+  }
+}
+
+.dark .group:hover .animated-border-hover {
+  background: linear-gradient(270deg, #facc15, #f472b6, #60a5fa, #a78bfa, #facc15);
+  background-size: 600% 600%;
+  animation: borderMove 4s linear infinite;
+}
