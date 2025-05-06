@@ -32,15 +32,16 @@ const Details = () => {
         </div>
       </div>
 
-      <div className="flex flex-col md:flex-row-reverse md:justify-between gap-10 justify-center md:px-14  items-center ">
-        <div className="flex items-center gap-5">
+      <div className="flex flex-col md:flex-row-reverse md:justify-between gap-10 justify-center md:px-20 w-full items-center ">
+        <div className="flex items-center gap-2">
           <BsPinAngle size={30} />
           <LiaShareAltSolid size={30} />
         </div>
-        <div>
+
+        <div className="text-center px-2  ">
           <p className="text-3xl font-bold">هتل همایون فر کیش ایران</p>
-          <p className="text-lg font-medium flex items-center gap-2">
-            <IoLocationOutline size={20} />
+          <p className="md:text-lg text-medium  font-medium flex items-center gap-2 mt-2">
+            <IoLocationOutline size={23} />
             گیلان ، رشت ، میدان آزادی ، روبه روی پاساژ مال
           </p>
         </div>
