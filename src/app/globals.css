@@ -30,6 +30,9 @@ html, body {
   overflow-x: hidden;
 }
 
+.dark body {
+ background: #0a192f;
+}
 @theme inline {
   --color-Winston: #dc0000;
   --color-orange: #d27700;
