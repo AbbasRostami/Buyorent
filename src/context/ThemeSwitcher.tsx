@@ -23,7 +23,7 @@ export function ThemeSwitcher() {
           else if (theme === "dark") setTheme("system");
           else setTheme("light");
         }}
-        className="p-2 rounded-full border transition-all duration-300 border-gray-300 dark:border-gray-600 bg-white dark:bg-neutral-800 shadow-sm hover:shadow-lg hover:scale-110"
+        className="p-2 rounded-full border transition-all cursor-pointer duration-300 border-gray-300 dark:border-gray-600 bg-white dark:bg-neutral-800 shadow-sm hover:shadow-lg hover:scale-110"
       >
         {theme === "light" ? (
           <IoMoon className="w-6 h-6 text-yellow-500 group-hover:text-yellow-400 transition duration-300" />
@@ -39,7 +39,7 @@ export function ThemeSwitcher() {
           <button
             key={t}
             onClick={() => setTheme(t)}
-            className="p-2 rounded-full transition-all duration-300 hover:bg-gray-200 dark:hover:bg-neutral-700"
+            className="p-2 rounded-full transition-all duration-300 cursor-pointer hover:bg-gray-200 dark:hover:bg-neutral-700"
           >
             {t === "light" && <IoMoon className="w-6 h-6 text-yellow-500" />}
             {t === "dark" && <RiSunLine className="w-6 h-6 text-gray-400" />}
