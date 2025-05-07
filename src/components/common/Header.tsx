@@ -99,7 +99,9 @@ export default function Header() {
         isMenuOpen={isMenuOpen}
         onMenuOpenChange={setIsMenuOpen}
         className={clsx(
-          "transition-all duration-700  ease-in-out w-full",
+          "transition-all duration-700  ease-in-out w-full dark:bg-[#0a192f]",
+          " dark:bg-[#0a192f]/80",
+
           isScrolled
             ? "mt-4 max-w-[calc(100%-3rem)] mx-auto rounded-2xl shadow-md"
             : "mt-0 max-w-full"
