@@ -6,14 +6,16 @@ import { useState, useEffect } from "react";
 import { IoLocationOutline } from "react-icons/io5";
 import toast from "react-hot-toast";
 
-delete L.Icon.Default.prototype._getIconUrl;
-L.Icon.Default.mergeOptions({
-  iconRetinaUrl:
-    "https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/images/marker-icon-2x.png",
-  iconUrl:
-    "https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/images/marker-icon.png",
-  shadowUrl:
-    "https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/images/marker-shadow.png",
+import { renderToStaticMarkup } from "react-dom/server";
+import { GiPositionMarker } from "react-icons/gi";
+
+
+const iconMarkup = renderToStaticMarkup(<GiPositionMarker   size={30} color="red" />);
+const customIcon = new L.DivIcon({
+  html: iconMarkup,
+  className: "",
+  iconSize: [30, 30],
+  iconAnchor: [15, 30],
 });
 
 function FlyToLocation({ position }) {
@@ -108,6 +110,7 @@ export default function Map({ properties }) {
 
         {properties.map((property) => (
           <Marker
+          icon={customIcon}
             key={property.id}
             position={[
               property.location_coords?.lat || 0,
@@ -142,7 +145,6 @@ export default function Map({ properties }) {
                     </div>
                   </div>
 
-                  {/* قیمت و جزئیات */}
                   <div className="space-y-1">
                     <div className="flex items-center justify-between gap-2">
                       <div className="flex items-baseline gap-1">
@@ -164,7 +166,7 @@ export default function Map({ properties }) {
 
         {userLocation && (
           <>
-            <Marker position={userLocation}>
+            <Marker position={userLocation} icon={customIcon}>
               <Popup className="text-center font-semibold text-lg text-blue-600 bg-white shadow-lg rounded-lg border border-gray-200">
                 <span className="text-xl font-medium p-4 ">
                   🎯 موقعیت فعلی شما{" "}
