@@ -152,7 +152,7 @@ export default function RegisterModal({ isOpen, setIsOpen }: any) {
                 </button>
               </div>
 
-              <div className="h-full flex flex-col items-center justify-center gap-10">
+              <div className="h-full flex flex-col items-center justify-center gap-7">
                 {renderStep()}
               </div>
 
