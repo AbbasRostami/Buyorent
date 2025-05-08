@@ -100,7 +100,7 @@ export default function ReductionHeader() {
             <p className="bg-Winston text-white px-4 py-1 rounded-full text-base">
               بجنب تا تموم نشده !
             </p>
-            <p className="text-Winston xl:text-3xl whitespace-nowrap font-bold text-center">
+            <p className="text-Winston  xl:text-3xl whitespace-nowrap font-bold text-center">
               <Timer />
             </p>
           </div>

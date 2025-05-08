@@ -49,7 +49,7 @@ const BayourtBiggest = () => {
               transition={{ duration: 1, delay: 1 }}
               className="bg-[#E89300] px-6 md:px-8 py-2 rounded-lg dark:bg-gray-700 "
             >
-              <span className="text-base md:text-lg font-bold text-white dark:text-amber-100">
+              <span className="text-base md:text-lg cursor-pointer font-bold text-white dark:text-amber-100">
                 درباره بایورنت
               </span>
             </MotionButton>

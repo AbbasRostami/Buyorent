@@ -40,7 +40,7 @@ const Timer = () => {
   };
 
   return (
-    <p className="text-Winston xl:text-3xl whitespace-nowrap font-bold">
+    <p className="text-Winston dark:text-red-400 xl:text-3xl whitespace-nowrap font-bold">
       {addLeadingZero(timeLeft.seconds)} :{addLeadingZero(timeLeft.minutes)} :
       {addLeadingZero(timeLeft.hours)} :{addLeadingZero(timeLeft.days)}
     </p>
