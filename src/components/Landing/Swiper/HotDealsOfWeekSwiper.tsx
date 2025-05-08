@@ -1,11 +1,7 @@
 "use client";
 import React from "react";
 import { FaShower } from "react-icons/fa";
-import {
-  IoIosArrowRoundForward,
-  IoMdBed,
-  IoIosArrowRoundBack,
-} from "react-icons/io";
+import { IoMdBed } from "react-icons/io";
 import { IoLocationOutline } from "react-icons/io5";
 import { MdFamilyRestroom } from "react-icons/md";
 import { Swiper, SwiperSlide } from "swiper/react";
@@ -14,43 +10,7 @@ import "swiper/css";
 import "swiper/css/navigation";
 import "swiper/css/pagination";
 import { HouseTypeProps } from "@/types/LandingType";
-const cards = [
-  {
-    title: " ویلای دوبلکس ساحلی  ",
-    img: "https://4kwallpapers.com/images/walls/thumbs_3t/22104.jpg",
-    locate: "مازندران ، بابلسر",
-    cost: "۱,۷۵۰,۰۰۰",
-    discount: "۲.۲۵۰.۰۰۰",
-  },
-  {
-    title: " ویلای دوبلکس ساحلی  ",
-    img: "https://4kwallpapers.com/images/walls/thumbs_3t/22104.jpg",
-    locate: "مازندران ، بابلسر",
-    cost: "۱,۷۵۰,۰۰۰",
-    discount: "۲.۲۵۰.۰۰۰",
-  },
-  {
-    title: " ویلای دوبلکس ساحلی  ",
-    img: "https://4kwallpapers.com/images/walls/thumbs_3t/22104.jpg",
-    locate: "مازندران ، بابلسر",
-    cost: "۱,۷۵۰,۰۰۰",
-    discount: "۲.۲۵۰.۰۰۰",
-  },
-  {
-    title: " ویلای دوبلکس ساحلی  ",
-    img: "https://4kwallpapers.com/images/walls/thumbs_3t/22104.jpg",
-    locate: "مازندران ، بابلسر",
-    cost: "۱,۷۵۰,۰۰۰",
-    discount: "۲.۲۵۰.۰۰۰",
-  },
-  {
-    title: " ویلای دوبلکس ساحلی  ",
-    img: "https://4kwallpapers.com/images/walls/thumbs_3t/22104.jpg",
-    locate: "مازندران ، بابلسر",
-    cost: "۱,۷۵۰,۰۰۰",
-    discount: "۲.۲۵۰.۰۰۰",
-  },
-];
+import Image from "next/image";
 
 const HotDealsOfWeekSwiper = ({ houses }: HouseTypeProps) => {
   const extendHouses = [
@@ -103,10 +63,13 @@ const HotDealsOfWeekSwiper = ({ houses }: HouseTypeProps) => {
               >
                 {items.photos.map((photo: string, idx: number) => (
                   <SwiperSlide key={idx}>
-                    <img
+                    <Image
                       src={photo}
+                      unoptimized
                       alt={`${items.title}-photo-${idx}`}
-                      className="w-full h-44 object-cover rounded-xl bg-white shadow-xl p-1 border-2 border-gray-100 transition-all duration-300 ease-in-out transform"
+                      width={300}
+                      height={176}
+                      className="object-cover rounded-xl bg-white shadow-xl p-1 border-2 border-gray-100 transition-all duration-300 ease-in-out transform"
                     />
                   </SwiperSlide>
                 ))}
