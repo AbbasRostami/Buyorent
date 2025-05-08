@@ -106,13 +106,13 @@ export const Step3Login = ({ onSuccess }: Step3LoginProps) => {
           )}
         </Formik>
       </div>
-      <div className="flex flex-col sm:flex-row justify-center items-center gap-3 sm:gap-4 w-full">
+      <div className="flex flex-col sm:flex-row justify-center items-center gap-3 sm:gap-4 w-[24rem] mx-auto">
         <button
           onClick={() => signIn("github", { callbackUrl: "/" })}
-          className="w-full cursor-pointer sm:w-auto flex-1 flex justify-center items-center gap-2 bg-white dark:bg-slate-800 text-gray-800 dark:text-white py-2 px-4 rounded-xl shadow-md hover:bg-gray-100 dark:hover:bg-slate-700 transition-all duration-300 transform hover:scale-105"
+          className="w-full cursor-pointer sm:w-auto flex-1 flex justify-center items-center gap-2 bg-white dark:bg-slate-800 text-gray-800 dark:text-white py-2 px-4 rounded-xl shadow-md hover:bg-blue-100 dark:hover:bg-slate-700 transition-all duration-300 transform hover:scale-105"
         >
           <FaGithub size={22} />
-          <span className="text-sm sm:text-base font-medium">ورود گیتهاب</span>
+          <span className="text-sm sm:text-base font-medium">ورود با گیتهاب</span>
         </button>
 
         <button
@@ -120,7 +120,7 @@ export const Step3Login = ({ onSuccess }: Step3LoginProps) => {
           className="w-full cursor-pointer sm:w-auto flex-1 flex justify-center items-center gap-2 bg-white dark:bg-slate-800 text-black dark:text-white py-2 px-4 rounded-xl shadow-md hover:bg-amber-100 dark:hover:bg-amber-300/10 transition-all duration-300 transform hover:scale-105"
         >
           <FcGoogle size={22} />
-          <span className="text-sm sm:text-base font-medium">ورود گوگل</span>
+          <span className="text-sm sm:text-base font-medium">ورود با گوگل</span>
         </button>
       </div>
     </>
