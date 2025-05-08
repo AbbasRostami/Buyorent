@@ -4,34 +4,16 @@ import Image from "next/image";
 import photo from "../../../../assets/image 5 (1).png";
 import { BsPinAngle } from "react-icons/bs";
 import { LiaShareAltSolid } from "react-icons/lia";
-import {
-  IoHeartCircleOutline,
-  IoHeartCircleSharp,
-  IoLocationOutline,
-} from "react-icons/io5";
+import { IoHeartCircleOutline, IoLocationOutline } from "react-icons/io5";
 import { Accordion, AccordionItem, Input } from "@heroui/react";
 import image from "../../../../assets/Avatar2.png";
 import image2 from "../../../../assets/Avatar1.png";
 import { CiHeart } from "react-icons/ci";
-import "leaflet/dist/leaflet.css";
-import { MapContainer, TileLayer, Marker, Popup } from "react-leaflet";
-import L from "leaflet";
-import { renderToStaticMarkup } from "react-dom/server";
-import { GiPositionMarker } from "react-icons/gi";
+
 import { FaHashtag, FaPhoneVolume } from "react-icons/fa6";
+import MapSingleReserve from "@/components/SingleHousesReserve/Map";
 
-const iconMarkup = renderToStaticMarkup(
-  <GiPositionMarker size={40} color="blue" />
-);
-const customIcon = new L.DivIcon({
-  html: iconMarkup,
-  className: "",
-  iconSize: [30, 30],
-  iconAnchor: [15, 30],
-});
-
-const position: [number, number] = [36.560221, 53.060004]; 
-const Details = () => {
+const SingleHouses = () => {
   const comments = [
     {
       id: 1,
@@ -320,7 +302,10 @@ const Details = () => {
 
             <div className="flex justify-start items-center gap-2 ">
               <div className="w-[50px] h-[50px] border border-amber-500 dark:border-amber-300 flex justify-center items-center rounded-full ">
-                <FaPhoneVolume className="text-gray-800 dark:text-amber-100" size={20} />
+                <FaPhoneVolume
+                  className="text-gray-800 dark:text-amber-100"
+                  size={20}
+                />
               </div>
 
               <div className="bg-color1 dark:bg-gray-700 rounded-full px-6 py-3 text-white font-bold text-medium">
@@ -340,6 +325,7 @@ const Details = () => {
             </p>
           </div>
         </div>
+
         {/* ستون چپ */}
         <div className="w-full lg:w-1/2 space-y-6">
           <button className="text-lg font-bold border border-color2 px-4 py-2 rounded-full text-color1">
@@ -372,67 +358,7 @@ const Details = () => {
             پیوسته اهل دنیای موجود طراحی اساسا مورد استفاده قرار گیرد.
           </p>
 
-          <div className="relative rounded-2xl overflow-hidden z-0 w-full h-72">
-            <button className="text-medium font-semibold px-4 py-2 rounded-full text-color1 dark:text-amber-200 border mb-7">موقعیت مکانی</button>
-            <MapContainer
-              center={position}
-              zoom={15}
-              scrollWheelZoom={true}
-              className="h-full w-full"
-            >
-              <TileLayer
-                attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
-                url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-              />
-              <Marker position={position} icon={customIcon}>
-                <Popup>
-                  <div className="w-[295px] h-[106px] bg-gradient-to-r from-[#cf9952] to-[#E89300] backdrop-blur-sm rounded-[16px] flex items-center p-3 text-white gap-3 shadow-xl border border-white/20">
-                    {/* تصویر ملک */}
-                    <div className="relative shrink-0">
-                      <Image
-                        src={image}
-                        alt="هتل"
-                        className="w-16 h-16 rounded-full object-cover border-2 border-white shadow-sm"
-                      />
-                      <div className="absolute -bottom-1 -right-1 bg-red-500 text-sm px-2 py-0.5 rounded-full">
-                        ٪۲۰
-                      </div>
-                    </div>
-
-                    {/* اطلاعات ملک */}
-                    <div className="flex flex-col justify-between h-full flex-1">
-                      <div>
-                        <h3 className="font-bold text-2xl truncate mb-1 text-white/90">
-                          هتل لوکس همایون
-                        </h3>
-                        <div className="flex items-center gap-1 text-xs text-white/80">
-                          <IoLocationOutline size={23} className="shrink-0" />
-                          <span className="truncate font-medium text-lg">
-                            گیلان، رشت، میدان آزادی
-                          </span>
-                        </div>
-                      </div>
-
-                      {/* قیمت‌ها */}
-                      <div className="space-y-1">
-                        <div className="flex items-center justify-between gap-2">
-                          <div className="flex items-baseline gap-1">
-                            <span className="text-medium font-bold line-through opacity-75">
-                              ۲,۵۰۰,۰۰۰
-                            </span>
-                            <span className="text-medium font-bold">
-                              ۱,۸۰۰,۰۰۰
-                            </span>
-                          </div>
-                          <span className="text-medium font-bold">تومان</span>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </Popup>
-              </Marker>
-            </MapContainer>
-          </div>
+          <MapSingleReserve />
 
           <p className="text-gray-700 dark:text-amber-50 leading-7 text-medium font-medium text-justify">
             لورم ایپسوم متن ساختگی با تولید سادگی نامفهوم از صنعت چاپ، و با
@@ -552,4 +478,4 @@ const Details = () => {
   );
 };
 
-export default Details;
+export default SingleHouses;
