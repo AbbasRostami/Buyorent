@@ -9,6 +9,11 @@ import {
   NavbarMenu,
   NavbarContent,
   NavbarItem,
+  Dropdown,
+  DropdownTrigger,
+  User,
+  DropdownMenu,
+  DropdownItem,
 } from "@heroui/react";
 
 import Image from "next/image";
@@ -177,23 +182,46 @@ export default function Header() {
             <ThemeSwitcher />
           </NavbarItem>
           {session?.accessToken ? (
-            <NavbarItem className="border-1.5 border-amber-700 px-2 py-1 rounded-xl">
-              <button
-                onClick={handleLogout}
-                className="text-[#543000] dark:text-amber-50 flex gap-1.5 text-lg items-center cursor-pointer disabled:opacity-50"
-                disabled={isPending}
-              >
-                {isPending ? (
-                  <>
-                    در حال خروج <FaSpinner size={25} className="animate-spin" />
-                  </>
-                ) : (
-                  <>
-                    خروج <HiOutlineUser size={25} />
-                  </>
-                )}
-              </button>
-            </NavbarItem>
+            <div className="flex items-center gap-4" dir="rtl">
+            <Dropdown placement="bottom-start">
+              <DropdownTrigger>
+                <User
+                  as="button"
+                  avatarProps={{
+                    isBordered: true,
+                    src: "https://i.pravatar.cc/150?u=a042581f4e29026024d",
+                  }}
+                  className="transition-transform text-right cursor-pointer hover:-translate-y-0.5"
+                  description=""
+                  name=""
+                />
+              </DropdownTrigger>
+              <DropdownMenu aria-label="User Actions" variant="flat">
+                <DropdownItem key="profile" className="h-14 gap-2 text-right">
+                  <p className="font-bold">وارد شده با</p>
+                  <p className="font-bold">{session?.user?.email}</p>
+                </DropdownItem>
+                <DropdownItem key="settings">تنظیمات من</DropdownItem>
+                <DropdownItem key="team_settings">تنظیمات تیم</DropdownItem>
+                <DropdownItem key="configurations">پیکربندی‌ها</DropdownItem>
+                <DropdownItem key="help_and_feedback">راهنما و بازخورد</DropdownItem>
+                <DropdownItem key="logout" color="danger">
+                  <button
+                    onClick={handleLogout}
+                    className="w-full flex items-center justify-between gap-2 cursor-pointer text-red-600"
+                    disabled={isPending}
+                  >
+                    <span>{isPending ? "در حال خروج..." : "خروج"}</span>
+                    {isPending ? (
+                      <FaSpinner className="animate-spin" size={20} />
+                    ) : (
+                      <HiOutlineUser size={20} />
+                    )}
+                  </button>
+                </DropdownItem>
+              </DropdownMenu>
+            </Dropdown>
+          </div>
           ) : (
             <NavbarItem className="border-1.5 border-amber-700 px-2 py-1 rounded-xl">
               <button
