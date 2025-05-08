@@ -10,6 +10,8 @@ import { IoMdBed } from "react-icons/io";
 import { FaShower } from "react-icons/fa";
 import { MdFamilyRestroom } from "react-icons/md";
 import { HouseTypeProps } from "@/types/LandingType";
+import Image from "next/image";
+
 
 export default function ReductionCarousel({ houses }: HouseTypeProps) {
   const extendHouses = [...houses, ...houses];
@@ -55,10 +57,13 @@ export default function ReductionCarousel({ houses }: HouseTypeProps) {
               >
                 {items.photos.map((photo: string, idx: number) => (
                   <SwiperSlide key={idx}>
-                    <img
+                    <Image
                       src={photo}
+                      unoptimized 
                       alt={`${items.title}-photo-${idx}`}
-                      className="w-full h-44 object-cover rounded-xl bg-white shadow-xl p-1 border-2 border-gray-100 transition-all duration-300 ease-in-out transform"
+                      width={300} 
+                      height={176} 
+                      className="object-cover rounded-xl bg-white shadow-xl p-1 border-2 border-gray-100 transition-all duration-300 ease-in-out transform"
                     />
                   </SwiperSlide>
                 ))}
