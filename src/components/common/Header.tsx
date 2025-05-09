@@ -40,8 +40,11 @@ export default function Header() {
 
   const navItems = [
     { label: "خانه", href: "/" },
-    { label: "مقالات", href: "/houses" },
-    { label: "درباره ما", href: "/rentpage" },
+    { label: "رهن و اجاره", href: "/mortgage-and-house-rent" },
+    { label: "رزرو سریع", href: "/reserve-houses" },
+    { label: "مقالات", href: "/blogs" },
+    { label: "درباره ما", href: "/contact-us" },
+
   ];
 
   const menuItems = ["پروفایل", "مقالات", "درباره ما", "خروج"];
@@ -144,7 +147,7 @@ export default function Header() {
                     : "text-gray-700 hover:text-amber-600"
                 )}
               >
-                <span className="relative z-10 text-xl dark:text-white">
+                <span className="relative z-10 text-lg dark:text-white">
                   {item.label}
                 </span>
                 <span className="absolute -bottom-1 left-0 w-full h-[2px] bg-amber-100 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
