@@ -48,10 +48,10 @@ export default function ReductionCarousel({ houses }: HouseTypeProps) {
             <div className="bg-[#FFFAF3] dark:bg-neutral-900 rounded-xl shadow-xl py-4 px-2 mx-auto cursor-pointer transform transition-all duration-300 ease-in-out hover:scale-105 hover:shadow-2xl hover:shadow-amber-500/50">
               <Swiper
                 modules={[Autoplay, Pagination]}
-                autoplay={{
-                  delay: 3000,
-                  disableOnInteraction: false,
-                }}
+                // autoplay={{
+                //   delay: 3000,
+                //   disableOnInteraction: false,
+                // }}
                 pagination={{ clickable: true }}
                 loop
               >

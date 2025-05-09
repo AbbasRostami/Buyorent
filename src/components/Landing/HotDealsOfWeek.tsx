@@ -5,22 +5,22 @@ import { useServerData } from "@/utils/hooks/useServerData";
 
 export default async function HotDealsOfWeek() {
   const houses = await useServerData(
-    "/houses?limit=4&sort=last_updated&order=DESC&transactionType=rental",
+    "/houses?limit=4&sort=rate&order=DESC&transactionType=",
     "top-last_updated-houses",
     60
   );
 
   console.log("houses:", houses);
   return (
-    <div className="relative w-full mt-32">
-      <div className="flex items-center justify-between rounded-xl px-4">
+    <div className="relative w-full mt-20">
+      <div className="flex  flex-col md:flex-row items-center justify-between rounded-xl px-4">
         <div className="flex flex-col md:flex-row items-start md:items-center gap-2 md:gap-6 p-6">
           <div className="flex items-center gap-3">
             <FaCircle
               size={17}
               className="text-orange-500 text-xs  animate-pulse-color"
             />
-            <h2 className="text-orange-700 text-xl md:text-2xl font-bold dark:text-amber-400">
+            <h2 className="text-orange-700 text-medium md:text-2xl font-bold dark:text-amber-400">
               داغ‌ترین معاملات هفته
             </h2>
           </div>
@@ -31,7 +31,7 @@ export default async function HotDealsOfWeek() {
 
         <button
           className="flex items-center gap-2 cursor-pointer justify-center px-5 py-2 rounded-xl
-             text-lg font-semibold shadow-md transition-all duration-300
+             md:text-sm text-medium font-semibold shadow-md transition-all duration-300
              text-gray-600 bg-white hover:bg-amber-100
              dark:text-gray-200 dark:bg-slate-800 dark:hover:bg-slate-700"
         >
