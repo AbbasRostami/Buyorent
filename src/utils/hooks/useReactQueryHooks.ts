@@ -5,25 +5,31 @@ import {
   UseQueryOptions,
   UseMutationOptions,
 } from "@tanstack/react-query";
+import { AxiosError } from "axios";
 
 type ErrorType = Error;
 
 //// GET Hook
 export const useGet = <T>(
-  url: string,
-  queryKey: any[],
-  options?: UseQueryOptions<T, ErrorType>
+  endpoint: string,
+  params?: Record<string, any>,
+  options?: UseQueryOptions<T, AxiosError>
 ) => {
-  return useQuery<T, ErrorType>({
-    queryKey,
+  return useQuery<T, AxiosError>({
+    queryKey: [endpoint, params], 
     queryFn: async () => {
-      const res = await api.get(url);
-      return res.data;
+      const { data } = await api.get<T>(endpoint, {
+        params,
+        paramsSerializer: {
+          indexes: null,
+        },
+      });
+      return data;
     },
+    staleTime: 5 * 60 * 1000,
     ...options,
   });
 };
-
 // POST Hook
 export const usePost = <T, D = any>(
   url: string,
