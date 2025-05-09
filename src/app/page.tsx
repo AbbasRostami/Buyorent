@@ -6,6 +6,7 @@ import Reduction from "@/components/Landing/Reduction";
 import Notice from "@/components/Landing/Notice";
 import HotDealsOfWeek from "@/components/Landing/HotDealsOfWeek";
 import Rating from "@/components/Landing/Rating";
+import Favourites from "@/components/Landing/Favorites";
 
 export default function Home() {
   return (
@@ -15,6 +16,7 @@ export default function Home() {
       <Reduction />
       <Notice />
       <BayourtBiggest />
+      <Favourites />
       <HotDealsOfWeek />
       <Rating />
       <Customers />
