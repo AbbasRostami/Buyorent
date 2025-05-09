@@ -13,7 +13,8 @@
     "@heroui/modal": "^2.2.14",
     "@heroui/react": "^2.8.0-beta.2",
     "@heroui/theme": "^2.4.13",
-    "@tanstack/react-query": "^5.74.4",
+    "@tanstack/react-query": "^5.75.7",
+    "@tanstack/react-query-devtools": "^5.75.7",
     "axios": "^1.8.4",
     "formik": "^2.4.6",
     "framer-motion": "^12.9.4",
@@ -29,6 +30,7 @@
     "react-leaflet": "^5.0.0",
     "sonner": "^2.0.3",
     "swiper": "^11.2.6",
+    "use-debounce": "^10.0.4",
     "yup": "^1.6.1"
   },
   "devDependencies": {
