@@ -343,3 +343,38 @@ nav {
   background-size: 600% 600%;
   animation: borderMove 4s linear infinite;
 }
+
+.rounded-tab {
+  --r: 25px;
+  line-height: 1.8;
+  padding-inline: 0.5em;
+  border-inline: var(--r) solid white;
+  border-radius: calc(2 * var(--r)) calc(2 * var(--r)) 0 0 / var(--r);
+  mask: radial-gradient(var(--r) at var(--r) 0, #0000 98%, #000 101%)
+      calc(-1 * var(--r)) 100%/100% var(--r) repeat-x,
+    conic-gradient(#000 0 0) padding-box;
+  background: white border-box;
+  width: fit-content;
+}
+
+.dark .rounded-tab {
+  border-inline-color: #1f2937; /* slate-800 یا مشابه */
+  background: #1f2937 border-box;
+}
+
+.rounded-tab-right {
+  --r: 25px;
+  line-height: 1.8;
+  padding-inline: 0.5em;
+  border-right: var(--r) solid #0000;
+  border-radius: var(--r) calc(2 * var(--r)) 0 0 / var(--r);
+  mask: radial-gradient(var(--r) at 100% 0, #0000 98%, #000 101%) 100% 100% /
+      var(--r) var(--r) no-repeat,
+    conic-gradient(#000 0 0) padding-box;
+  background: white border-box;
+  width: fit-content;
+}
+
+.dark .rounded-tab-right {
+  background: #1f2937 border-box;
+}
