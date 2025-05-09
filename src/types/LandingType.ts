@@ -51,3 +51,15 @@ export interface HouseTypeProps {
     yard_type: string;
   }>;
 }
+
+
+export type HouseTypeRentProps = {
+  id: string;
+  title: string;
+  photos: string[];
+  address: string;
+  rooms: number;
+  bathrooms: number;
+  parking: number;
+  price: number;
+}[];
