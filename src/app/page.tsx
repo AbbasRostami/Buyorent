@@ -1,12 +1,12 @@
-import CustomSwiper from "@/components/Landing/Categories";
-import HeroSection from "@/components/Landing/HeroSection";
-import BayourtBiggest from "@/components/Landing/BayourtBiggest";
-import Customers from "@/components/Landing/Customers";
-import Reduction from "@/components/Landing/Reduction";
-import Notice from "@/components/Landing/Notice";
-import HotDealsOfWeek from "@/components/Landing/HotDealsOfWeek";
-import Rating from "@/components/Landing/Rating";
-import Favourites from "@/components/Landing/Favorites";
+import CustomSwiper from "@/components/Landing/Categories/Categories";
+import HeroSection from "@/components/Landing/HeroSection/HeroSection";
+import Customers from "@/components/Landing/Customers/Customers";
+import Notice from "@/components/Landing/Notice/Notice";
+import Rating from "@/components/Landing/Rating/Rating";
+import Favourites from "@/components/Landing/Favorites/Favorites";
+import BayourtBiggest from "@/components/Landing/BayourtBiggest/BayourtBiggest";
+import Reduction from "@/components/Landing/Reduction/Reduction";
+import HotDealsOfWeek from "@/components/Landing/HotDealsOfWeek/HotDealsOfWeek";
 
 export default function Home() {
   return (
