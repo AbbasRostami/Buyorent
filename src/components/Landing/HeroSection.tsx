@@ -7,6 +7,7 @@ import { FaMagnifyingGlass } from "react-icons/fa6";
 import { Button, Input, Select, SelectItem } from "@heroui/react";
 
 import { MotionDiv, MotionP } from "../providers/MotionWrapper";
+import Link from "next/link";
 const animals = [
   { key: "cat", label: "Cat" },
   { key: "dog", label: "Dog" },
@@ -73,12 +74,14 @@ export default function HeroSection() {
                 ))}
               </div>
 
-              <span className="relative z-20 flex items-center gap-4">
-                <span className="bg-gradient-to-r from-[#92400e] to-[#78350f] bg-clip-text text-transparent drop-shadow-[0_2px_4px_rgba(251,191,36,0.3)]">
-                  رهن و اجاره ملک
-                </span>
-                <IoIosArrowBack className="w-8 h-8 text-[#78350f] transition-transform duration-500 group-hover:translate-x-3 group-hover:text-[#92400e]" />
-              </span>
+             <Link href="/mortgage-and-house-rent" className="group">
+  <span className="relative z-20 flex items-center gap-4 cursor-pointer">
+    <span className="bg-gradient-to-r from-[#92400e] to-[#78350f] bg-clip-text text-transparent drop-shadow-[0_2px_4px_rgba(251,191,36,0.3)]">
+      رهن و اجاره ملک
+    </span>
+    <IoIosArrowBack className="w-8 h-8 text-[#78350f] transition-transform duration-500 group-hover:translate-x-3 group-hover:text-[#92400e]" />
+  </span>
+</Link>
             </Button>
           </MotionDiv>
         </MotionDiv>
