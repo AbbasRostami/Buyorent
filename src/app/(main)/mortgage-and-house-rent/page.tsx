@@ -37,6 +37,7 @@ import "swiper/css";
 import "swiper/css/navigation";
 import "swiper/css/pagination";
 import SkeletonCard from "@/components/skeleton/SkeletonCard";
+import Link from "next/link";
 
 const RentPage = () => {
   const { isOpen, onOpen, onOpenChange } = useDisclosure();
@@ -539,6 +540,10 @@ const RentPage = () => {
                   <div className="ml-auto bg-gradient-to-r from-red-500 to-red-600 text-xs sm:text-sm font-bold px-3 py-1 text-white rounded-full shadow-sm animate-pulse group-hover:animate-none transition-all duration-300">
                     ۹٪
                   </div>
+
+                  <Link href={}>
+                    مشاهده جزئیات
+                  </Link>
                 </div>
               </div>
             </div>
