@@ -1,6 +1,5 @@
 import { HeroButton } from "@/components/providers/HeroUIClient";
 import { IoIosArrowRoundBack, IoIosArrowRoundForward } from "react-icons/io";
-
 import { IoIosArrowBack } from "react-icons/io";
 import FavoritesSwiper from "./FavoritesSwiper";
 

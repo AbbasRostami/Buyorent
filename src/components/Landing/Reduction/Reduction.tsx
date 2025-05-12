@@ -9,8 +9,6 @@ export default async function Reduction() {
     60
   );
 
-  console.log("houses:", houses);
-
   return (
     <div className="relative rounded-2xl border-2 border-gray-200 mt-20">
       <ReductionHeader />
