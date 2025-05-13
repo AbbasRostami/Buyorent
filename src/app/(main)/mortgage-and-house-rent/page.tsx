@@ -38,6 +38,7 @@ import "swiper/css/navigation";
 import "swiper/css/pagination";
 import SkeletonCard from "@/components/skeleton/SkeletonCard";
 import Link from "next/link";
+import { FaLongArrowAltDown } from "react-icons/fa";
 
 const RentPage = () => {
   const { isOpen, onOpen, onOpenChange } = useDisclosure();
@@ -471,8 +472,25 @@ const RentPage = () => {
           {data?.map((property) => (
             <div
               key={property.id}
-              className="group bg-white dark:bg-slate-900 rounded-3xl shadow-md hover:shadow-xl dark:hover:shadow-amber-200/10 transition-all duration-500 p-3 sm:p-4 cursor-pointer overflow-hidden border border-gray-100 dark:border-slate-700/40"
+              className="group relative bg-white dark:bg-slate-900 rounded-3xl shadow-md hover:shadow-xl dark:hover:shadow-amber-200/10 transition-all duration-500 p-3 sm:p-4 cursor-pointer overflow-hidden border border-gray-100 dark:border-slate-700/40"
             >
+              <div className="absolute inset-0 z-20 overflow-hidden">
+                <Link
+                  href={`mortgage-and-house-rent/${property.id}`}
+                  className="absolute top-0 left-0 w-full h-0 bg-gradient-to-b from-amber-500/90 to-transparent transition-all duration-500 group-hover:h-full flex items-center justify-center"
+                >
+                  <span className="relative text-white font-bold text-2xl opacity-0 translate-y-[-20px] group-hover:opacity-100 group-hover:translate-y-0 transition-all duration-300 delay-200">
+                    <span className="inline-block [text-shadow:_0_2px_8px_rgba(0,0,0,0.3)]">
+                      مشاهده جزئیات
+                    </span>
+                    <span className="mr-2 inline-block animate-float">
+                      <FaLongArrowAltDown />
+                    </span>
+                    <div className="absolute -bottom-2 left-1/2 w-0 h-[2px]  bg-white/80 group-hover:w-full -translate-x-1/2 transition-all duration-300 delay-300" />
+                  </span>
+                </Link>
+              </div>
+
               <div className="relative overflow-hidden rounded-2xl">
                 <Swiper
                   modules={[SwiperPagination]}
@@ -540,10 +558,6 @@ const RentPage = () => {
                   <div className="ml-auto bg-gradient-to-r from-red-500 to-red-600 text-xs sm:text-sm font-bold px-3 py-1 text-white rounded-full shadow-sm animate-pulse group-hover:animate-none transition-all duration-300">
                     ۹٪
                   </div>
-
-                  <Link href={}>
-                    مشاهده جزئیات
-                  </Link>
                 </div>
               </div>
             </div>

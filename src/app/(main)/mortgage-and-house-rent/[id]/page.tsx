@@ -4,16 +4,26 @@ import DetailsLists from "@/components/SingleHouses/DetailsLists";
 import CommentSingleHouses from "@/components/SingleHouses/Comments";
 import MapSingleReserve from "@/components/SingleHouses/Map";
 import HeaderSectionSingle from "@/components/SingleHouses/HeaderSection";
+import { useGet } from "@/utils/hooks/useReactQueryHooks";
 
-const SingleHouses = () => {
+const SingleHouses = ({ params }: { params: { id: string } }) => {
+  const { data, isLoading, error } = useGet(`/houses/${params.id}`);
+
+  if (isLoading) return <div>در حال بارگذاری...</div>;
+  if (error) return <div>خطا در بارگذاری محصولات!</div>;
+  console.log("id:",data);
+
+  console.log("param", params.id);
+  
+
   return (
     <>
-      <HeaderSectionSingle />
+      <HeaderSectionSingle data={data} />
 
       <div className="flex flex-col justify-center items-start lg:flex-row gap-8 my-16 px-10 md:px-20">
         {/* ستون راست */}
         <div className="w-full lg:w-1/2 space-y-6">
-          <DetailsLists />
+          <DetailsLists data={data} />
         </div>
 
         {/* ستون چپ */}
@@ -48,7 +58,7 @@ const SingleHouses = () => {
             پیوسته اهل دنیای موجود طراحی اساسا مورد استفاده قرار گیرد.
           </p>
 
-          <MapSingleReserve />
+          <MapSingleReserve data={data} />
 
           <p className="text-gray-700 dark:text-amber-50 leading-7 text-medium font-medium text-justify">
             لورم ایپسوم متن ساختگی با تولید سادگی نامفهوم از صنعت چاپ، و با
@@ -74,7 +84,7 @@ const SingleHouses = () => {
           </div>
 
           {/* نظرات کاربران */}
-          <CommentSingleHouses />
+          <CommentSingleHouses houseId={params.id} />
         </div>
       </div>
     </>
