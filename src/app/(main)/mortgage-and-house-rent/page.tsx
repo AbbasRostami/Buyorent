@@ -541,7 +541,7 @@ const RentPage = () => {
                     ۹٪
                   </div>
 
-                  <Link href={}>
+                  <Link href={`/mortgage-and-house-rent/${property.id}`}>
                     مشاهده جزئیات
                   </Link>
                 </div>
