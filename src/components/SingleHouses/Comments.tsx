@@ -7,7 +7,7 @@ import image2 from "../../assets/Avatar1.png";
 import image from "../../assets/Avatar2.png";
 import { useGet } from "@/utils/hooks/useReactQueryHooks";
 moment.loadPersian();
-const CommentSingleHouses = ({ houseId }) => {
+const CommentSingleHouses = ({ houseId }:any) => {
   const { data: allComments = [] } = useGet<any[]>(`/houses/${houseId}/comments`);
 
   // تقسیم‌بندی کامنت‌ها

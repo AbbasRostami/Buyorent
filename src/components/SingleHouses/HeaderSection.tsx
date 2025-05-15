@@ -12,7 +12,7 @@ const HeaderSectionSingle = ({data}:any ) => {
       <div className="flex flex-col md:flex-row items-center  justify-center  gap-6 px-4 py-24 overflow-hidden max-w-screen-xl mx-auto">
         {/* بخش سمت چپ */}
         <div className="relative w-full max-w-[656px] aspect-[656/462] rounded-3xl overflow-hidden shadow">
-          <Image src={photo} alt="تصویر بخش چپ" fill className="object-cover" />
+          <Image src={data.photos[0]} alt="تصویر بخش چپ" fill className="object-cover" />
         </div>
 
         {/* بخش سمت راست */}

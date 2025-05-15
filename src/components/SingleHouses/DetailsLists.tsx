@@ -2,6 +2,7 @@ import Image from "next/image";
 import React from "react";
 import { FaPhoneVolume, FaHashtag } from "react-icons/fa";
 import image from "../../assets/Avatar2.png";
+import moment from "moment-jalaali";
 
 const DetailsLists = ({data}:any) => {
   return (
@@ -92,7 +93,8 @@ const DetailsLists = ({data}:any) => {
             <p className="text-lg font-medium text-gray-800 dark:text-gray-100">
               {data.sellerName} 
             </p>
-            <p  className="text-medium font-normal"> {data.last_updated}  </p>
+            <p   className="text-medium font-normal">   {moment(data.last_updated).format('jYYYY/jMM/jDD')} </p>
+            
           </div>
         </div>
 
