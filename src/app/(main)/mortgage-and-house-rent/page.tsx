@@ -494,10 +494,10 @@ const RentPage = () => {
               <div className="relative overflow-hidden rounded-2xl">
                 <Swiper
                   modules={[SwiperPagination]}
-                  // autoplay={{
-                  //   delay: 3000,
-                  //   disableOnInteraction: false,
-                  // }}
+                  autoplay={{
+                    delay: 3000,
+                    disableOnInteraction: false,
+                  }}
                   pagination={{ clickable: true }}
                   loop
                 >
