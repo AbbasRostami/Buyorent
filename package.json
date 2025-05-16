@@ -19,6 +19,7 @@
     "axios": "^1.8.4",
     "formik": "^2.4.6",
     "framer-motion": "^12.9.4",
+    "jwt-decode": "^4.0.0",
     "leaflet": "^1.9.4",
     "leaflet-wms-header": "^1.0.13",
     "moment-jalaali": "^0.10.4",
