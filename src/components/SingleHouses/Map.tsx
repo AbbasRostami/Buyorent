@@ -19,12 +19,10 @@ const customIcon = new L.DivIcon({
   iconAnchor: [15, 30],
 });
 
-
-const MapSingleReserve = ({data}:any) => {
-const position: [number, number] = data.location;
-console.log(data.location);
-
-
+const MapSingleReserve = ({ data }: any) => {
+  const position: [number, number] = data.location;
+    console.log("data: ", data);
+    
   return (
     <div className="relative rounded-2xl overflow-hidden z-0 w-full h-72">
       <button className="text-medium font-semibold px-4 py-2 rounded-full text-color1 dark:text-amber-200 border mb-7">
