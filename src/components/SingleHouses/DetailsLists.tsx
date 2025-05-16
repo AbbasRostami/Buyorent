@@ -4,7 +4,7 @@ import { FaPhoneVolume, FaHashtag } from "react-icons/fa";
 import image from "../../assets/Avatar2.png";
 import moment from "moment-jalaali";
 
-const DetailsLists = ({data}:any) => {
+const DetailsLists = ({ data }: any) => {
   return (
     <>
       <button className="text-lg font-bold border border-color2 px-4 py-2 rounded-full  text-color1">
@@ -14,7 +14,10 @@ const DetailsLists = ({data}:any) => {
       <div className="grid grid-cols-2 sm:grid-cols-3 gap-x-4 gap-y-3 text-[16px] font-medium">
         <div className="flex flex-col pr-3 border-r-3 border-[#d27700]">
           <span className="text-[#d27700] dark:text-amber-400">تعداد خواب</span>
-          <span className="text-gray-800 dark:text-gray-100"> {data.rooms} خواب </span>
+          <span className="text-gray-800 dark:text-gray-100">
+            {" "}
+            {data.rooms} خواب{" "}
+          </span>
         </div>
         <div className="flex flex-col pr-3 border-r-3 border-[#d27700]">
           <span className="text-[#d27700] dark:text-amber-400">اجاق گاز</span>
@@ -28,19 +31,30 @@ const DetailsLists = ({data}:any) => {
           <span className="text-[#d27700] dark:text-amber-400">
             سرویس ایرانی
           </span>
-          <span className="text-gray-800 dark:text-gray-100"> {data.bathrooms} </span>
+          <span className="text-gray-800 dark:text-gray-100">
+            {" "}
+            {data.bathrooms}{" "}
+          </span>
         </div>
         <div className="flex flex-col pr-3 border-r-3 border-[#d27700]">
           <span className="text-[#d27700] dark:text-amber-400">نوع نما</span>
-          <span className="text-gray-800 dark:text-gray-100"> {data.categories.name} </span>
+          <span className="text-gray-800 dark:text-gray-100">
+            {" "}
+            {data.categories.name}{" "}
+          </span>
         </div>
         <div className="flex flex-col pr-3 border-r-3 border-[#d27700]">
           <span className="text-[#d27700] dark:text-amber-400">نوع حیاط</span>
-          <span className="text-gray-800 dark:text-gray-100"> {data.yard_type} </span>
+          <span className="text-gray-800 dark:text-gray-100">
+            {" "}
+            {data.yard_type}{" "}
+          </span>
         </div>
         <div className="flex flex-col pr-3 border-r-3 border-[#d27700]">
           <span className="text-[#d27700] dark:text-amber-400"> پارکینگ</span>
-          <span className="text-gray-800 dark:text-gray-100">{data.parking} </span>
+          <span className="text-gray-800 dark:text-gray-100">
+            {data.parking}{" "}
+          </span>
         </div>
         <div className="flex flex-col pr-3 border-r-3 border-[#d27700]">
           <span className="text-[#d27700] dark:text-amber-400">آسانسور</span>
@@ -62,7 +76,7 @@ const DetailsLists = ({data}:any) => {
             قیمت اجاره از
           </span>
           <span className="dark:text-gray-100 font-bold text-2xl text-[#1E1E1E]">
-            {data.price} {" "}
+            {data.price}{" "}
             <span className="text-[#595959] font-bold text-sm dark:text-amber-100">
               تومان
             </span>{" "}
@@ -74,7 +88,7 @@ const DetailsLists = ({data}:any) => {
             قیمت رهن از
           </span>
           <span className="dark:text-gray-100 font-bold text-2xl text-[#1E1E1E]">
-            {data.price} {" "}
+            {data.price}{" "}
             <span className="text-[#595959] font-bold text-sm dark:text-amber-100">
               تومان
             </span>{" "}
@@ -91,10 +105,12 @@ const DetailsLists = ({data}:any) => {
           />
           <div>
             <p className="text-lg font-medium text-gray-800 dark:text-gray-100">
-              {data.sellerName} 
+              {data.sellerName}
             </p>
-            <p   className="text-medium font-normal">   {moment(data.last_updated).format('jYYYY/jMM/jDD')} </p>
-            
+            <p className="text-medium font-normal">
+              {" "}
+              {moment(data.last_updated).format("jYYYY/jMM/jDD")}{" "}
+            </p>
           </div>
         </div>
 
@@ -115,10 +131,10 @@ const DetailsLists = ({data}:any) => {
           <FaHashtag />
           برچسب ها:
           <span className="text-medium font-semibold  text-color2">
-            #رهن‌واجاره
+            #{data?.tags[0]}
           </span>
           <span className="text-medium font-semibold  text-color2">
-            #خونه‌آپارتمانی
+            #{data?.tags[1]}
           </span>
         </p>
       </div>
