@@ -1,19 +1,20 @@
-"use client";
 import React from "react";
 import DetailsLists from "@/components/SingleHouses/DetailsLists";
 import CommentSingleHouses from "@/components/SingleHouses/Comments/Comments";
 import MapSingleReserve from "@/components/SingleHouses/Map";
 import HeaderSectionSingle from "@/components/SingleHouses/HeaderSection";
-import { useGet } from "@/utils/hooks/useReactQueryHooks";
+import { useServerData } from "@/utils/hooks/useServerData";
+import { HouseSingleHousesProps } from "@/types/DetailsTypes";
 
-const SingleHouses = ({ params }: { params: { id: string } }) => {
-  const { data, isLoading, error } = useGet(`/houses/${params.id}`);
+const SingleHouses = async ({ params }: { params: { id: string } }) => {
+  const { id } = await params;
+  const data = await useServerData<HouseSingleHousesProps>(
+    `/houses/${id}`,
+    `house-${id}`,
+    60
+  );
 
-  if (isLoading) return <div>در حال بارگذاری...</div>;
-  if (error) return <div>خطا در بارگذاری محصولات!</div>;
-  console.log("id:", data);
-
-  console.log("param", params.id);
+  console.log(data);
 
   return (
     <>
@@ -72,7 +73,7 @@ const SingleHouses = ({ params }: { params: { id: string } }) => {
           </p>
 
           {/* نظرات کاربران */}
-          <CommentSingleHouses houseId={params.id} />
+          <CommentSingleHouses houseId={id} />
         </div>
       </div>
     </>
