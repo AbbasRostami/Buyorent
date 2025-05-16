@@ -1,10 +1,12 @@
+"use client";
 import Image from "next/image";
 import React from "react";
 import { FaPhoneVolume, FaHashtag } from "react-icons/fa";
 import image from "../../assets/Avatar2.png";
 import moment from "moment-jalaali";
+import { HouseDetailsData } from "@/types/DetailsTypes";
 
-const DetailsLists = ({ data }: any) => {
+const DetailsLists = ({ data }: { data: HouseDetailsData }) => {
   return (
     <>
       <button className="text-lg font-bold border border-color2 px-4 py-2 rounded-full  text-color1">
