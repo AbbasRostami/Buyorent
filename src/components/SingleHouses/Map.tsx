@@ -21,8 +21,7 @@ const customIcon = new L.DivIcon({
 
 const MapSingleReserve = ({ data }: any) => {
   const position: [number, number] = data.location;
-    console.log("data: ", data);
-    
+
   return (
     <div className="relative rounded-2xl overflow-hidden z-0 w-full h-72">
       <button className="text-medium font-semibold px-4 py-2 rounded-full text-color1 dark:text-amber-200 border mb-7">
@@ -40,41 +39,44 @@ const MapSingleReserve = ({ data }: any) => {
         />
         <Marker position={position} icon={customIcon}>
           <Popup>
-            <div className="w-[295px] h-[106px] bg-gradient-to-r from-[#cf9952] to-[#E89300] backdrop-blur-sm rounded-[16px] flex items-center p-3 text-white gap-3 shadow-xl border border-white/20">
-              {/* تصویر ملک */}
+            <div className="w-[295px] h-[106px] overflow-hidden bg-gradient-to-r from-[#cf9952] to-[#E89300] backdrop-blur-sm rounded-[16px] flex items-center p-3 text-white gap-3 shadow-xl border border-white/20">
               <div className="relative shrink-0">
                 <Image
-                  src={image}
+                  src={data?.photos?.[0] || image}
                   alt="هتل"
+                  width={64}
+                  height={64}
                   className="w-16 h-16 rounded-full object-cover border-2 border-white shadow-sm"
                 />
                 <div className="absolute -bottom-1 -right-1 bg-red-500 text-sm px-2 py-0.5 rounded-full">
-                  ٪۲۰
+                  % {data?.rooms}
                 </div>
               </div>
 
-              {/* اطلاعات ملک */}
               <div className="flex flex-col justify-between h-full flex-1">
                 <div>
-                  <h3 className="font-bold text-2xl truncate mb-1 text-white/90">
-                    هتل لوکس همایون
+                  <h3 className="font-bold text-2xl mb-1 text-white/90 truncate w-full max-w-[170px]">
+                    {data?.title}
                   </h3>
                   <div className="flex items-center gap-1 text-xs text-white/80">
                     <IoLocationOutline size={23} className="shrink-0" />
-                    <span className="truncate font-medium text-lg">
-                      گیلان، رشت، میدان آزادی
+                    <span className="truncate overflow-hidden text-ellipsis">
+                      {data?.address}
                     </span>
                   </div>
                 </div>
 
-                {/* قیمت‌ها */}
                 <div className="space-y-1">
-                  <div className="flex items-center justify-between gap-2">
+                  <div className="flex items-center justify-center gap-1">
                     <div className="flex items-baseline gap-1">
                       <span className="text-medium font-bold line-through opacity-75">
                         ۲,۵۰۰,۰۰۰
                       </span>
-                      <span className="text-medium font-bold">۱,۸۰۰,۰۰۰</span>
+                      <span className="text-medium font-bold">
+                        {Number(data?.price)
+                          .toLocaleString("en-US")
+                          .replace(/\d/g, (d) => "۰۱۲۳۴۵۶۷۸۹"[+d])}
+                      </span>
                     </div>
                     <span className="text-medium font-bold">تومان</span>
                   </div>
