@@ -1,7 +1,7 @@
 "use client";
 import React from "react";
 import DetailsLists from "@/components/SingleHouses/DetailsLists";
-import CommentSingleHouses from "@/components/SingleHouses/Comments";
+import CommentSingleHouses from "@/components/SingleHouses/Comments/Comments";
 import MapSingleReserve from "@/components/SingleHouses/Map";
 import HeaderSectionSingle from "@/components/SingleHouses/HeaderSection";
 import { useGet } from "@/utils/hooks/useReactQueryHooks";
@@ -11,10 +11,9 @@ const SingleHouses = ({ params }: { params: { id: string } }) => {
 
   if (isLoading) return <div>در حال بارگذاری...</div>;
   if (error) return <div>خطا در بارگذاری محصولات!</div>;
-  console.log("id:",data);
+  console.log("id:", data);
 
   console.log("param", params.id);
-  
 
   return (
     <>
@@ -71,17 +70,6 @@ const SingleHouses = ({ params }: { params: { id: string } }) => {
             کرد، در این صورت می توان امید داشت که تمام و دشواری موجود در ارائه
             راهکارها، و شرایط سخت.
           </p>
-
-          {/* دکمه‌های بالا */}
-          <div className="flex items-center gap-4 mt-8 mb-10">
-            <button className="px-4 py-1.5 border border-color2 cursor-pointer dark:hover:text-black hover:bg-amber-200 text-color1 rounded-full font-semibold text-medium">
-              نظرات کاربران
-            </button>
-            <button className="px-4 py-1.5 text-color2  cursor-pointer dark:hover:text-black hover:bg-amber-200  rounded-full font-medium text-semibold flex items-center gap-1">
-              <span className="text-2xl leading-none">+</span>
-              <span>نظر شما</span>
-            </button>
-          </div>
 
           {/* نظرات کاربران */}
           <CommentSingleHouses houseId={params.id} />
