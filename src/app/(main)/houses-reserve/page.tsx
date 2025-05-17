@@ -295,6 +295,7 @@ export default function Page() {
     { label: "۴.۰+", value: "4.0" },
     { label: "۳.۵+", value: "3.5" },
   ];
+
   return (
     <div className="grid grid-cols-1 md:grid-cols-2 md:h-screen min-h-screen pt-20 dark:bg-[#0a192f]">
       <div className="bg-white p-6 flex flex-col overflow-hidden dark:bg-[#0a192f]">
