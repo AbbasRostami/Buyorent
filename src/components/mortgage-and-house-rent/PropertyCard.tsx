@@ -17,12 +17,12 @@ import SkeletonCard from "../skeleton/SkeletonCard";
 interface Property {
   id: string;
   title: string;
-  address: string;
   photos: string[];
+  address: string;
   rooms: number;
   bathrooms: number;
   parking: number;
-  price: string;
+  price: number;
 }
 
 interface Props {
