@@ -1,4 +1,3 @@
-"use client";
 import Image from "next/image";
 import React from "react";
 import { FaPhoneVolume, FaHashtag } from "react-icons/fa";
@@ -132,12 +131,16 @@ const DetailsLists = ({ data }: { data: HouseDetailsData }) => {
         <p className=" flex items-center gap-1 text-medium font-semibold text-[#979797]">
           <FaHashtag />
           برچسب ها:
-          <span className="text-medium font-semibold  text-color2">
-            #{data?.tags[0]}
-          </span>
-          <span className="text-medium font-semibold  text-color2">
-            #{data?.tags[1]}
-          </span>
+          {data.tags?.[0] && (
+            <span className="text-medium font-semibold text-color2">
+              #{data.tags[0]}
+            </span>
+          )}
+          {data.tags?.[1] && (
+            <span className="text-medium font-semibold text-color2">
+              #{data.tags[1]}
+            </span>
+          )}
         </p>
       </div>
     </>
