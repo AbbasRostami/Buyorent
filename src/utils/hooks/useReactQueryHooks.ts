@@ -7,8 +7,6 @@ import {
 } from "@tanstack/react-query";
 import { AxiosError } from "axios";
 
-type ErrorType = Error;
-
 // GET Hook
 export const useGet = <T>(
   endpoint: string,
