@@ -7,7 +7,7 @@ import { useServerData } from "@/utils/hooks/useServerData";
 import { HouseSingleHousesProps } from "@/types/DetailsTypes";
 
 const SingleHouses = async ({ params }: { params: { id: string } }) => {
-  const { id } = await params;
+  const { id } = params;
   const data = await useServerData<HouseSingleHousesProps>(
     `/houses/${id}`,
     `house-${id}`,
