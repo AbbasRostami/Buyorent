@@ -22,7 +22,6 @@ import { usePathname } from "next/navigation";
 import clsx from "clsx";
 import logo from "./../../assets/Landing/logo.png";
 import RegisterModal from "../auth/RegisterModal";
-import { customLogout } from "@/services/logout";
 import { signOut, useSession } from "next-auth/react";
 import { ThemeSwitcher } from "@/context/ThemeSwitcher";
 import Link from "next/link";
@@ -44,7 +43,6 @@ export default function Header() {
     { label: "رزرو سریع", href: "/reserve-houses" },
     { label: "مقالات", href: "/blogs" },
     { label: "درباره ما", href: "/contact-us" },
-
   ];
 
   const menuItems = ["پروفایل", "مقالات", "درباره ما", "خروج"];
@@ -53,17 +51,22 @@ export default function Header() {
 
   const { data: session } = useSession();
   console.log("Log session: ", session);
-
+  useEffect(() => {
+    if (session) {
+      console.log(
+        "🕒 exp:",
+        session.exp,
+        " | ",
+        new Date((session.exp ?? 0) * 1000)
+      );
+    }
+  }, [session]);
   const [isPending, startTransition] = useTransition();
 
   const handleLogout = () => {
     startTransition(async () => {
       try {
-        if (session?.refreshToken) {
-          await customLogout(session.refreshToken);
-        } else {
-          await signOut();
-        }
+        await signOut({ redirect: false });
         toast.success("خروج با موفقیت انجام شد");
       } catch (err) {
         toast.error("خطا در هنگام خروج");
@@ -186,45 +189,47 @@ export default function Header() {
           </NavbarItem>
           {session?.accessToken ? (
             <div className="flex items-center gap-4" dir="rtl">
-            <Dropdown placement="bottom-start">
-              <DropdownTrigger>
-                <User
-                  as="button"
-                  avatarProps={{
-                    isBordered: true,
-                    src: "https://i.pravatar.cc/150?u=a042581f4e29026024d",
-                  }}
-                  className="transition-transform text-right cursor-pointer hover:-translate-y-0.5"
-                  description=""
-                  name=""
-                />
-              </DropdownTrigger>
-              <DropdownMenu aria-label="User Actions" variant="flat">
-                <DropdownItem key="profile" className="h-14 gap-2 text-right">
-                  <p className="font-bold">وارد شده با</p>
-                  <p className="font-bold">{session?.user?.email}</p>
-                </DropdownItem>
-                <DropdownItem key="settings">تنظیمات من</DropdownItem>
-                <DropdownItem key="team_settings">تنظیمات تیم</DropdownItem>
-                <DropdownItem key="configurations">پیکربندی‌ها</DropdownItem>
-                <DropdownItem key="help_and_feedback">راهنما و بازخورد</DropdownItem>
-                <DropdownItem key="logout" color="danger">
-                  <button
-                    onClick={handleLogout}
-                    className="w-full flex items-center justify-between gap-2 cursor-pointer text-red-600"
-                    disabled={isPending}
-                  >
-                    <span>{isPending ? "در حال خروج..." : "خروج"}</span>
-                    {isPending ? (
-                      <FaSpinner className="animate-spin" size={20} />
-                    ) : (
-                      <HiOutlineUser size={20} />
-                    )}
-                  </button>
-                </DropdownItem>
-              </DropdownMenu>
-            </Dropdown>
-          </div>
+              <Dropdown placement="bottom-start">
+                <DropdownTrigger>
+                  <User
+                    as="button"
+                    avatarProps={{
+                      isBordered: true,
+                      src: "https://i.pravatar.cc/150?u=a042581f4e29026024d",
+                    }}
+                    className="transition-transform text-right cursor-pointer hover:-translate-y-0.5"
+                    description=""
+                    name=""
+                  />
+                </DropdownTrigger>
+                <DropdownMenu aria-label="User Actions" variant="flat">
+                  <DropdownItem key="profile" className="h-14 gap-2 text-right">
+                    <p className="font-bold">وارد شده با</p>
+                    <p className="font-bold">{session?.user?.email}</p>
+                  </DropdownItem>
+                  <DropdownItem key="settings">تنظیمات من</DropdownItem>
+                  <DropdownItem key="team_settings">تنظیمات تیم</DropdownItem>
+                  <DropdownItem key="configurations">پیکربندی‌ها</DropdownItem>
+                  <DropdownItem key="help_and_feedback">
+                    راهنما و بازخورد
+                  </DropdownItem>
+                  <DropdownItem key="logout" color="danger">
+                    <button
+                      onClick={handleLogout}
+                      className="w-full flex items-center justify-between gap-2 cursor-pointer text-red-600"
+                      disabled={isPending}
+                    >
+                      <span>{isPending ? "در حال خروج..." : "خروج"}</span>
+                      {isPending ? (
+                        <FaSpinner className="animate-spin" size={20} />
+                      ) : (
+                        <HiOutlineUser size={20} />
+                      )}
+                    </button>
+                  </DropdownItem>
+                </DropdownMenu>
+              </Dropdown>
+            </div>
           ) : (
             <NavbarItem className="border-1.5 border-amber-700 px-2 py-1 rounded-xl">
               <button

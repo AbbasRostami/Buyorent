@@ -9,14 +9,16 @@ import { AxiosError } from "axios";
 
 type ErrorType = Error;
 
-//// GET Hook
+// GET Hook
 export const useGet = <T>(
   endpoint: string,
   params?: Record<string, any>,
   options?: UseQueryOptions<T, AxiosError>
 ) => {
+  const queryKey = options?.queryKey ?? [endpoint, params];
+
   return useQuery<T, AxiosError>({
-    queryKey: [endpoint, params], 
+    queryKey,
     queryFn: async () => {
       const { data } = await api.get<T>(endpoint, {
         params,
@@ -30,14 +32,15 @@ export const useGet = <T>(
     ...options,
   });
 };
+
 // POST Hook
 export const usePost = <T, D = any>(
   url: string,
-  options?: UseMutationOptions<T, ErrorType, D>
+  options?: UseMutationOptions<T, AxiosError, D>
 ) => {
-  return useMutation<T, ErrorType, D>({
+  return useMutation<T, AxiosError, D>({
     mutationFn: async (data: D) => {
-      const res = await api.post(url, data);
+      const res = await api.post<T>(url, data);
       return res.data;
     },
     ...options,
@@ -47,11 +50,11 @@ export const usePost = <T, D = any>(
 // PUT Hook
 export const usePut = <T, D = any>(
   url: string,
-  options?: UseMutationOptions<T, ErrorType, D>
+  options?: UseMutationOptions<T, AxiosError, D>
 ) => {
-  return useMutation<T, ErrorType, D>({
+  return useMutation<T, AxiosError, D>({
     mutationFn: async (data: D) => {
-      const res = await api.put(url, data);
+      const res = await api.put<T>(url, data);
       return res.data;
     },
     ...options,
@@ -61,11 +64,11 @@ export const usePut = <T, D = any>(
 // DELETE Hook
 export const useDelete = <T, D = any>(
   url: string,
-  options?: UseMutationOptions<T, ErrorType, D>
+  options?: UseMutationOptions<T, AxiosError, D>
 ) => {
-  return useMutation<T, ErrorType, D>({
+  return useMutation<T, AxiosError, D>({
     mutationFn: async (data: D) => {
-      const res = await api.delete(url, { data });
+      const res = await api.delete<T>(url, { data });
       return res.data;
     },
     ...options,

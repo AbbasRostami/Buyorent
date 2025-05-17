@@ -1,19 +1,29 @@
-"use client";
 import React from "react";
 import DetailsLists from "@/components/SingleHouses/DetailsLists";
-import CommentSingleHouses from "@/components/SingleHouses/Comments";
+import CommentSingleHouses from "@/components/SingleHouses/Comments/Comments";
 import MapSingleReserve from "@/components/SingleHouses/Map";
 import HeaderSectionSingle from "@/components/SingleHouses/HeaderSection";
+import { useServerData } from "@/utils/hooks/useServerData";
+import { HouseSingleHousesProps } from "@/types/DetailsTypes";
 
-const SingleHouses = () => {
+const SingleHouses = async ({ params }: { params: { id: string } }) => {
+  const { id } = params;
+  const data = await useServerData<HouseSingleHousesProps>(
+    `/houses/${id}`,
+    `house-${id}`,
+    60
+  );
+
+  console.log(data);
+
   return (
     <>
-      <HeaderSectionSingle />
+      <HeaderSectionSingle data={data} />
 
       <div className="flex flex-col justify-center items-start lg:flex-row gap-8 my-16 px-10 md:px-20">
         {/* ستون راست */}
         <div className="w-full lg:w-1/2 space-y-6">
-          <DetailsLists />
+          <DetailsLists data={data} />
         </div>
 
         {/* ستون چپ */}
@@ -48,7 +58,7 @@ const SingleHouses = () => {
             پیوسته اهل دنیای موجود طراحی اساسا مورد استفاده قرار گیرد.
           </p>
 
-          <MapSingleReserve />
+          <MapSingleReserve data={data} />
 
           <p className="text-gray-700 dark:text-amber-50 leading-7 text-medium font-medium text-justify">
             لورم ایپسوم متن ساختگی با تولید سادگی نامفهوم از صنعت چاپ، و با
@@ -62,19 +72,8 @@ const SingleHouses = () => {
             راهکارها، و شرایط سخت.
           </p>
 
-          {/* دکمه‌های بالا */}
-          <div className="flex items-center gap-4 mt-8 mb-10">
-            <button className="px-4 py-1.5 border border-color2 cursor-pointer dark:hover:text-black hover:bg-amber-200 text-color1 rounded-full font-semibold text-medium">
-              نظرات کاربران
-            </button>
-            <button className="px-4 py-1.5 text-color2  cursor-pointer dark:hover:text-black hover:bg-amber-200  rounded-full font-medium text-semibold flex items-center gap-1">
-              <span className="text-2xl leading-none">+</span>
-              <span>نظر شما</span>
-            </button>
-          </div>
-
           {/* نظرات کاربران */}
-          <CommentSingleHouses />
+          <CommentSingleHouses houseId={id} />
         </div>
       </div>
     </>

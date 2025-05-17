@@ -13,31 +13,19 @@ import {
   SelectItem,
   useDisclosure,
 } from "@heroui/react";
-import Image from "next/image";
 import React, { useEffect, useState } from "react";
 import { RiMenuSearchLine } from "react-icons/ri";
-import {
-  MdOutlineBedroomParent,
-  MdOutlineBathroom,
-  MdCarRepair,
-} from "react-icons/md";
+
 import { FiFilter } from "react-icons/fi";
-import { IoLocationOutline } from "react-icons/io5";
-import { useRouter, useSearchParams } from "next/navigation";
 import { useDebounce } from "use-debounce";
 import { useGet } from "@/utils/hooks/useReactQueryHooks";
-import { HouseTypeProps, HouseTypeRentProps } from "@/types/LandingType";
-import { Swiper, SwiperSlide } from "swiper/react";
-import {
-  Navigation,
-  Pagination as SwiperPagination,
-  Autoplay,
-} from "swiper/modules";
+import { HouseTypeRentProps } from "@/types/LandingType";
+
 import "swiper/css";
 import "swiper/css/navigation";
 import "swiper/css/pagination";
-import SkeletonCard from "@/components/skeleton/SkeletonCard";
-import Link from "next/link";
+import PropertyCard from "@/components/mortgage-and-house-rent/PropertyCard";
+import { useRouter, useSearchParams } from "next/navigation";
 
 const RentPage = () => {
   const { isOpen, onOpen, onOpenChange } = useDisclosure();
@@ -128,7 +116,7 @@ const RentPage = () => {
     }
 
     if (!("transactionType" in result)) {
-      result["transactionType"] = "";
+      result["transactionType"] = DEFAULT_PARAMS.transactionType;
     }
 
     return result;
@@ -160,13 +148,6 @@ const RentPage = () => {
     router.push(`?${params.toString()}`, { scroll: false });
   };
 
-  const handleFilterChange = (name: string, value: string | number) => {
-    updateQueryParams({
-      [name]: String(value),
-      ...(name !== "page" && { page: "1" }),
-    });
-  };
-
   const SORT_OPTIONS = [
     { label: "همه", sort: "", order: "" },
     { label: "محبوب ترین", sort: "rate", order: "desc" },
@@ -180,8 +161,6 @@ const RentPage = () => {
   const handleSortChange = (sort: string, order: string) => {
     updateQueryParams({ sort, order });
   };
-
-  const activeSort = searchParams.get("sort") || "";
 
   useEffect(() => {
     updateQueryParams({ search: debouncedSearch });
@@ -197,7 +176,11 @@ const RentPage = () => {
     maxMortgage: "",
     sort: "",
   });
-
+  const isFilterActive = () => {
+    return Object.values(filters).some(
+      (value) => value !== "" && value !== undefined
+    );
+  };
   return (
     <>
       <div className="mt-32 gap-2 flex flex-col sm:flex-row sm:justify-start justify-center items-center max-w-screen-xl mx-auto px-4 text-center sm:text-right">
@@ -222,12 +205,43 @@ const RentPage = () => {
             />
           </div>
 
-          <Button
-            onPress={onOpen}
-            className="w-full md:w-24 text-sm bg-[#e89300] text-white p-3 rounded-2xl transition"
-          >
-            فیلترها
-          </Button>
+          {isFilterActive() ? (
+            <Button
+              className="w-full md:w-24 text-sm bg-red-500 text-white p-3 rounded-2xl transition"
+              onPress={() => {
+                setFilters({
+                  location: "",
+                  propertyType: "",
+                  transactionType: "",
+                  minRent: "",
+                  maxRent: "",
+                  minMortgage: "",
+                  maxMortgage: "",
+                  sort: "",
+                });
+                updateQueryParams({
+                  location: "",
+                  propertyType: "",
+                  transactionType: "",
+                  minRent: "",
+                  maxRent: "",
+                  minMortgage: "",
+                  maxMortgage: "",
+                  sort: "",
+                  page: "1",
+                });
+              }}
+            >
+              حذف فیلتر
+            </Button>
+          ) : (
+            <Button
+              onPress={onOpen}
+              className="w-full md:w-24 text-sm bg-[#e89300] text-white p-3 rounded-2xl transition"
+            >
+              فیلترها
+            </Button>
+          )}
           <Modal
             isOpen={isOpen}
             size={"5xl"}
@@ -247,7 +261,6 @@ const RentPage = () => {
                   </ModalHeader>
                   <ModalBody className="space-y-6">
                     <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-                      {/* محل مورد نظر */}
                       <div>
                         <label className="block text-sm font-medium mb-1">
                           محل مورد نظر
@@ -270,7 +283,6 @@ const RentPage = () => {
                         </Select>
                       </div>
 
-                      {/* نوع ملک */}
                       <div>
                         <label className="block text-sm font-medium mb-1">
                           نوع ملک
@@ -340,9 +352,7 @@ const RentPage = () => {
                       </div>
                     </div>
 
-                    {/* فیلترهای عددی */}
                     <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-                      {/* حداقل اجاره */}
                       <div>
                         <label className="block text-sm font-medium mb-1">
                           حداقل اجاره
@@ -359,7 +369,6 @@ const RentPage = () => {
                         />
                       </div>
 
-                      {/* حداکثر اجاره */}
                       <div>
                         <label className="block text-sm font-medium mb-1">
                           حداکثر اجاره
@@ -376,7 +385,6 @@ const RentPage = () => {
                         />
                       </div>
 
-                      {/* حداقل رهن */}
                       <div>
                         <label className="block text-sm font-medium mb-1">
                           حداقل رهن
@@ -393,7 +401,6 @@ const RentPage = () => {
                         />
                       </div>
 
-                      {/* حداکثر رهن */}
                       <div>
                         <label className="block text-sm font-medium mb-1">
                           حداکثر رهن
@@ -460,97 +467,8 @@ const RentPage = () => {
           })}
         </ul>
       </div>
-      {isLoading ? (
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 px-4 sm:px-6 md:px-8 border-t border-[#ccc] mt-6 pt-6 max-w-screen-xl mx-auto">
-          {Array.from({ length: 6 }).map((_, i) => (
-            <SkeletonCard key={i} />
-          ))}
-        </div>
-      ) : (
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 px-4 sm:px-6 md:px-8 border-t border-[#ccc] mt-6 pt-6 max-w-screen-xl mx-auto">
-          {data?.map((property) => (
-            <div
-              key={property.id}
-              className="group bg-white dark:bg-slate-900 rounded-3xl shadow-md hover:shadow-xl dark:hover:shadow-amber-200/10 transition-all duration-500 p-3 sm:p-4 cursor-pointer overflow-hidden border border-gray-100 dark:border-slate-700/40"
-            >
-              <div className="relative overflow-hidden rounded-2xl">
-                <Swiper
-                  modules={[SwiperPagination]}
-                  // autoplay={{
-                  //   delay: 3000,
-                  //   disableOnInteraction: false,
-                  // }}
-                  pagination={{ clickable: true }}
-                  loop
-                >
-                  {property.photos.map((photo: string, idx: number) => (
-                    <SwiperSlide key={idx}>
-                      <Image
-                        src={photo}
-                        unoptimized
-                        alt={`${property.title}-photo-${idx}`}
-                        width={300}
-                        height={176}
-                        className="w-full h-auto object-cover rounded-2xl group-hover:scale-105 transition-transform duration-500"
-                      />
-                    </SwiperSlide>
-                  ))}
-                </Swiper>
-                <div className="absolute inset-0 bg-black/0 group-hover:bg-black/10 transition-colors duration-500 rounded-2xl" />
-              </div>
 
-              <div className="p-2 sm:p-4 space-y-3">
-                <h3 className="text-xl font-bold text-gray-800 dark:text-amber-100 transition-colors duration-300 group-hover:text-amber-600 dark:group-hover:text-yellow-300">
-                  {property.title}
-                </h3>
-
-                <p className="text-sm flex items-center gap-1 text-gray-500 dark:text-gray-300 transition-all duration-300 group-hover:translate-x-1">
-                  <IoLocationOutline
-                    size={20}
-                    className="text-gray-400 dark:text-white"
-                  />
-                  {property.address}
-                </p>
-
-                <div className="flex flex-wrap gap-2 border-t border-gray-200 dark:border-slate-700 pt-3">
-                  <div className="flex items-center gap-1 py-1 px-3 rounded-full text-sm font-medium bg-gray-100 dark:bg-slate-800 text-gray-700 dark:text-amber-50 transition-all duration-300 hover:scale-105">
-                    <MdOutlineBedroomParent size={18} /> {property.rooms} خواب
-                  </div>
-                  <div className="flex items-center gap-1 py-1 px-3 rounded-full text-sm font-medium bg-gray-100 dark:bg-slate-800 text-gray-700 dark:text-amber-50 transition-all duration-300 hover:scale-105">
-                    <MdOutlineBathroom size={18} /> {property.bathrooms} حمام
-                  </div>
-                  <div className="flex items-center gap-1 py-1 px-3 rounded-full text-sm font-medium bg-gray-100 dark:bg-slate-800 text-gray-700 dark:text-amber-50 transition-all duration-300 hover:scale-105">
-                    <MdCarRepair size={18} /> پارکینگ {property.parking}
-                  </div>
-                </div>
-
-                {/* قیمت */}
-                <div className="flex flex-wrap items-center gap-2 mt-7">
-                  <span className="text-sm sm:text-base font-semibold text-gray-400 line-through decoration-red-400">
-                    12.000.000
-                  </span>
-                  <span className="text-xs text-gray-500 dark:text-gray-400">
-                    تومان /
-                  </span>
-                  <span className="text-base sm:text-xl font-bold text-gray-900 dark:text-[#e2eaa0] transition-colors duration-300">
-                    {property.price}
-                    <span className="text-xs"> تومان</span>
-                  </span>
-
-                  <div className="ml-auto bg-gradient-to-r from-red-500 to-red-600 text-xs sm:text-sm font-bold px-3 py-1 text-white rounded-full shadow-sm animate-pulse group-hover:animate-none transition-all duration-300">
-                    ۹٪
-                  </div>
-
-                  <Link href={`/mortgage-and-house-rent/${property.id}`}>
-                    مشاهده جزئیات
-                  </Link>
-                </div>
-              </div>
-            </div>
-          ))}
-        </div>
-      )}
-
+      <PropertyCard data={data} isLoading={isLoading} />
       <div dir="ltr" className="w-full flex justify-center items-center mb-10">
         <Pagination
           className="mt-7"

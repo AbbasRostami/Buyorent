@@ -1,3 +1,4 @@
+"use client";
 import React from "react";
 import photo from "../../assets/image 5 (1).png";
 import Image from "next/image";
@@ -5,7 +6,8 @@ import { BsPinAngle } from "react-icons/bs";
 import { CiHeart } from "react-icons/ci";
 import { IoLocationOutline } from "react-icons/io5";
 import { LiaShareAltSolid } from "react-icons/lia";
-const HeaderSectionSingle = () => {
+
+const HeaderSectionSingle = ({ data }: any) => {
   return (
     <>
       <div className="flex flex-col md:flex-row items-center  justify-center  gap-6 px-4 py-24 overflow-hidden max-w-screen-xl mx-auto">
@@ -46,10 +48,10 @@ const HeaderSectionSingle = () => {
         </div>
 
         <div className="text-center px-2  ">
-          <p className="text-3xl font-bold">هتل همایون فر کیش ایران</p>
+          <p className="text-3xl font-bold"> {data.title} </p>
           <p className="md:text-lg text-medium  font-medium flex items-center gap-2 mt-2">
             <IoLocationOutline className="dark:text-amber-600" size={30} />
-            گیلان ، رشت ، میدان آزادی ، روبه روی پاساژ مال
+            {data.address}
           </p>
         </div>
       </div>
