@@ -1,3 +1,4 @@
+"use client";
 import { Pagination, useDisclosure } from "@heroui/react";
 import React, { useEffect, useMemo, useState } from "react";
 import { useGet } from "@/utils/hooks/useReactQueryHooks";
