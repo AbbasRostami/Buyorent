@@ -6,7 +6,7 @@ import Footer from "@/components/common/Footer";
 import { Toaster } from "react-hot-toast";
 import { useEffect, useState } from "react";
 
-const noFooterRoutes = ["/login", "/register", "/reserve-houses"];
+const noFooterRoutes = ["/login", "/register", "/houses-reserve"];
 
 export default function ClientLayout({
   children,
