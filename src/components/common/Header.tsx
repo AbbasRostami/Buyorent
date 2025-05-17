@@ -40,7 +40,7 @@ export default function Header() {
   const navItems = [
     { label: "خانه", href: "/" },
     { label: "رهن و اجاره", href: "/mortgage-and-house-rent" },
-    { label: "رزرو سریع", href: "/reserve-houses" },
+    { label: "رزرو سریع", href: "/houses-reserve" },
     { label: "مقالات", href: "/blogs" },
     { label: "درباره ما", href: "/contact-us" },
   ];
