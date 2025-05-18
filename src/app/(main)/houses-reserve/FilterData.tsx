@@ -5,7 +5,6 @@ import {
   ModalContent,
   ModalHeader,
   ModalBody,
-  ModalFooter,
   Select,
   SelectItem,
   Slider,
@@ -13,8 +12,8 @@ import {
 } from "@heroui/react";
 import React, { useEffect, useState } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
-import { FiFilter } from "react-icons/fi";
 import { RiMenuSearchLine } from "react-icons/ri";
+import { useDebounce } from "@/hooks/useDebounce"; // هوک debounce جداگانه بنویس پایین
 
 const FilterData = () => {
   const router = useRouter();
@@ -22,38 +21,63 @@ const FilterData = () => {
   const { isOpen, onOpen, onOpenChange } = useDisclosure();
 
   const [priceRange, setPriceRange] = useState([1000000, 10000000]);
-  const [sort, setSort] = useState<"rating" | "price" | "">("");
+  const [sort, setSort] = useState<"rate" | "price" | "">("");
   const [order, setOrder] = useState<"asc" | "desc" | "">("");
   const [transactionType, setTransactionType] = useState("");
+  const [search, setSearch] = useState("");
 
-  
-  // تنظیم مقدار پیش‌فرض از URL (در صورتی که در حال استفاده مجدد از query باشی)
+  const debouncedSearch = useDebounce(search, 500);
+  const debouncedPriceRange = useDebounce(priceRange, 500);
+
+  const updateQueryParams = (params: {
+    minPrice?: number;
+    maxPrice?: number;
+    sort?: "rate" | "price";
+    order?: "asc" | "desc";
+    transactionType?: string;
+    search?: string;
+  }) => {
+    const query = new URLSearchParams(searchParams.toString());
+
+    if (params.minPrice !== undefined)
+      query.set("minPrice", String(params.minPrice));
+    if (params.maxPrice !== undefined)
+      query.set("maxPrice", String(params.maxPrice));
+
+    if (params.sort) query.set("sort", params.sort);
+    if (params.order) query.set("order", params.order);
+
+    if (params.transactionType)
+      query.set("transactionType", params.transactionType);
+    if (params.search !== undefined) query.set("search", params.search);
+
+    router.push(`?${query.toString()}`);
+  };
+
+  // sync state from URL
   useEffect(() => {
     const min = Number(searchParams.get("minPrice")) || 1000000;
     const max = Number(searchParams.get("maxPrice")) || 10000000;
     setPriceRange([min, max]);
-    setSort((searchParams.get("sort") as "price" | "rating") || "");
+
+    setSort((searchParams.get("sort") as "price" | "rate") || "");
     setOrder((searchParams.get("order") as "asc" | "desc") || "");
     setTransactionType(searchParams.get("transactionType") || "");
+    setSearch(searchParams.get("search") || "");
   }, [searchParams]);
 
-  const handleApplyFilters = () => {
-    const query = new URLSearchParams();
+  // debounce update for price
+  useEffect(() => {
+    updateQueryParams({
+      minPrice: debouncedPriceRange[0],
+      maxPrice: debouncedPriceRange[1],
+    });
+  }, [debouncedPriceRange]);
 
-    query.set("minPrice", String(priceRange[0]));
-    query.set("maxPrice", String(priceRange[1]));
-
-    if (sort && order) {
-      query.set("sort", sort);
-      query.set("order", order);
-    }
-
-    if (transactionType) {
-      query.set("transactionType", transactionType);
-    }
-
-    router.push(`?${query.toString()}`);
-  };
+  // debounce update for search
+  useEffect(() => {
+    updateQueryParams({ search: debouncedSearch });
+  }, [debouncedSearch]);
 
   const transactionTypes = [
     { label: "رهن", value: "mortgage" },
@@ -62,16 +86,6 @@ const FilterData = () => {
     { label: "خرید مستقیم", value: "direct_purchase" },
   ];
 
-
-const onFilterChange = (key, value) => {
-  const params = new URLSearchParams(searchParams);
-  if (value) {
-    params.set(key, value);
-  } else {
-    params.delete(key);
-  }
-  router.push(`?${params.toString()}`);
-};
   return (
     <>
       <div className="mb-4 flex items-center justify-between gap-2 flex-wrap">
@@ -92,7 +106,7 @@ const onFilterChange = (key, value) => {
           }}
         >
           <ModalContent className="z-[99999]">
-            {(onClose) => (
+            {() => (
               <>
                 <ModalHeader className="text-lg font-semibold">
                   فیلتر پیشرفته هتل‌ها
@@ -107,7 +121,11 @@ const onFilterChange = (key, value) => {
                     <Select
                       placeholder="انتخاب نوع معامله"
                       selectedKeys={[transactionType]}
-                      onChange={(e) => setTransactionType(e.target.value)}
+                      onChange={(e) => {
+                        const val = e.target.value;
+                        setTransactionType(val);
+                        updateQueryParams({ transactionType: val });
+                      }}
                       items={transactionTypes}
                     >
                       {(item) => (
@@ -145,17 +163,19 @@ const onFilterChange = (key, value) => {
                     />
                   </div>
 
-                  {/* مرتب‌سازی بر اساس امتیاز */}
+                  {/* مرتب‌سازی امتیاز */}
                   <div>
                     <label className="block text-sm font-medium mb-1">
                       مرتب‌سازی بر اساس امتیاز
                     </label>
                     <Select
                       placeholder="انتخاب نوع"
-                      selectedKeys={sort === "rating" ? [order] : []}
+                      selectedKeys={sort === "rate" ? [order] : []}
                       onChange={(e) => {
-                        setSort("rating");
-                        setOrder(e.target.value as "asc" | "desc");
+                        const val = e.target.value as "asc" | "desc";
+                        setSort("rate");
+                        setOrder(val);
+                        updateQueryParams({ sort: "rate", order: val });
                       }}
                       items={[
                         { label: "بیشترین امتیاز", value: "desc" },
@@ -168,7 +188,7 @@ const onFilterChange = (key, value) => {
                     </Select>
                   </div>
 
-                  {/* مرتب‌سازی بر اساس قیمت */}
+                  {/* مرتب‌سازی قیمت */}
                   <div>
                     <label className="block text-sm font-medium mb-1">
                       مرتب‌سازی بر اساس قیمت
@@ -177,8 +197,10 @@ const onFilterChange = (key, value) => {
                       placeholder="انتخاب نوع"
                       selectedKeys={sort === "price" ? [order] : []}
                       onChange={(e) => {
+                        const val = e.target.value as "asc" | "desc";
                         setSort("price");
-                        setOrder(e.target.value as "asc" | "desc");
+                        setOrder(val);
+                        updateQueryParams({ sort: "price", order: val });
                       }}
                       items={[
                         { label: "ارزان‌ترین", value: "asc" },
@@ -191,39 +213,20 @@ const onFilterChange = (key, value) => {
                     </Select>
                   </div>
                 </ModalBody>
-
-                <ModalFooter className="mt-4">
-                  <Button
-                    color="danger"
-                    variant="light"
-                    onPress={onClose}
-                    className="ml-2"
-                  >
-                    انصراف
-                  </Button>
-                  <Button
-                    className="bg-color1"
-                    onPress={() => {
-                      handleApplyFilters();
-                      onClose();
-                    }}
-                    startContent={<FiFilter className="text-lg" />}
-                  >
-                    اعمال فیلترها
-                  </Button>
-                </ModalFooter>
               </>
             )}
           </ModalContent>
         </Modal>
 
-        {/* نوار جستجو (در صورت نیاز، به searchParams وصل کن) */}
+        {/* نوار جستجو */}
         <div className="relative flex-1 min-w-[180px]">
           <span className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400">
             <RiMenuSearchLine size={25} />
           </span>
           <input
             type="text"
+            value={search}
+            onChange={(e) => setSearch(e.target.value)}
             placeholder="جستجو کنید..."
             className="w-full p-3 pr-10 text-sm border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
           />
