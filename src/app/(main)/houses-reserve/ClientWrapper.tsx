@@ -2,7 +2,6 @@
 import { useSearchParams } from "next/navigation";
 import dynamic from "next/dynamic";
 import { useGet } from "@/utils/hooks/useReactQueryHooks";
-import { useMemo } from "react";
 
 const FilterData = dynamic(() => import("./FilterData"));
 const ItemsList = dynamic(() => import("./ItemsList"));
@@ -10,15 +9,16 @@ const MapHousesReserve = dynamic(() => import("./MapHousesReserve"));
 
 export default function ClientWrapper({ initialData }: { initialData: any }) {
   const searchParams = useSearchParams();
-  const params = useMemo(
-    () => Object.fromEntries(searchParams.entries()),
-    [searchParams]
-  );
+  const params = Object.fromEntries(searchParams.entries());
 
   const { data } = useGet("/houses", params, {
     initialData,
     queryKey: ["houses", params],
+    staleTime: 60000,
+    initialDataUpdatedAt: Date.now(),
   });
+
+  console.log("data query:", data);
 
   return (
     <div className="grid grid-cols-1 md:grid-cols-2 md:h-screen min-h-screen pt-20 dark:bg-[#0a192f]">
