@@ -5,79 +5,73 @@ import {
   ModalContent,
   ModalHeader,
   ModalBody,
+  ModalFooter,
   Select,
   SelectItem,
   Slider,
-  ModalFooter,
   useDisclosure,
 } from "@heroui/react";
-import React, { useState, useEffect } from "react";
+import React, { useEffect, useState } from "react";
+import { useRouter, useSearchParams } from "next/navigation";
 import { FiFilter } from "react-icons/fi";
 import { RiMenuSearchLine } from "react-icons/ri";
-import { useSearchParams, useRouter } from "next/navigation";
 
 const FilterData = () => {
   const router = useRouter();
   const searchParams = useSearchParams();
   const { isOpen, onOpen, onOpenChange } = useDisclosure();
 
-  // State initialization from URL params
-  const initialMinPrice = parseInt(searchParams.get("minPrice") || "1500000");
-  const initialMaxPrice = parseInt(searchParams.get("maxPrice") || "5500000");
-  
-  const [priceRange, setPriceRange] = useState([initialMinPrice, initialMaxPrice]);
-  const [transactionType, setTransactionType] = useState(
-    searchParams.get("transactionType") || ""
-  );
-  const [sort, setSort] = useState(searchParams.get("sort") || "");
-  const [order, setOrder] = useState(searchParams.get("order") || "");
-  const [searchTerm, setSearchTerm] = useState(
-    searchParams.get("search") || ""
-  );
+  const [priceRange, setPriceRange] = useState([1000000, 10000000]);
+  const [sort, setSort] = useState<"rating" | "price" | "">("");
+  const [order, setOrder] = useState<"asc" | "desc" | "">("");
+  const [transactionType, setTransactionType] = useState("");
 
-  // Transaction type options
+  
+  // تنظیم مقدار پیش‌فرض از URL (در صورتی که در حال استفاده مجدد از query باشی)
+  useEffect(() => {
+    const min = Number(searchParams.get("minPrice")) || 1000000;
+    const max = Number(searchParams.get("maxPrice")) || 10000000;
+    setPriceRange([min, max]);
+    setSort((searchParams.get("sort") as "price" | "rating") || "");
+    setOrder((searchParams.get("order") as "asc" | "desc") || "");
+    setTransactionType(searchParams.get("transactionType") || "");
+  }, [searchParams]);
+
+  const handleApplyFilters = () => {
+    const query = new URLSearchParams();
+
+    query.set("minPrice", String(priceRange[0]));
+    query.set("maxPrice", String(priceRange[1]));
+
+    if (sort && order) {
+      query.set("sort", sort);
+      query.set("order", order);
+    }
+
+    if (transactionType) {
+      query.set("transactionType", transactionType);
+    }
+
+    router.push(`?${query.toString()}`);
+  };
+
   const transactionTypes = [
-    { label: "اجاره", value: "rental" },
     { label: "رهن", value: "mortgage" },
+    { label: "اجاره", value: "rental" },
     { label: "رزرو", value: "reservation" },
     { label: "خرید مستقیم", value: "direct_purchase" },
   ];
 
-  // Sort options
-  const sortOptions = [
-    { label: "بیشترین امتیاز", value: "rate", order: "desc" },
-    { label: "کمترین امتیاز", value: "rate", order: "asc" },
-    { label: "گران‌ترین", value: "price", order: "desc" },
-    { label: "ارزان‌ترین", value: "price", order: "asc" },
-  ];
 
-  // Update URL params
-  const updateFilters = () => {
-    const params = new URLSearchParams(searchParams.toString());
-    
-    params.set("minPrice", priceRange[0].toString());
-    params.set("maxPrice", priceRange[1].toString());
-    params.set("transactionType", transactionType);
-    
-    if (sort) {
-      params.set("sort", sort);
-      params.set("order", order);
-    } else {
-      params.delete("sort");
-      params.delete("order");
-    }
-    
-    searchTerm ? params.set("search", searchTerm) : params.delete("search");
-    
-    router.push(`?${params.toString()}`, { scroll: false });
-  };
-
-  // Handle search with debounce
-  useEffect(() => {
-    const timeoutId = setTimeout(updateFilters, 500);
-    return () => clearTimeout(timeoutId);
-  }, [searchTerm]);
-
+const onFilterChange = (key, value) => {
+  const params = new URLSearchParams(searchParams);
+  if (value) {
+    params.set(key, value);
+  } else {
+    params.delete(key);
+  }
+  router.push(`?${params.toString()}`);
+};
   return (
     <>
       <div className="mb-4 flex items-center justify-between gap-2 flex-wrap">
@@ -101,20 +95,19 @@ const FilterData = () => {
             {(onClose) => (
               <>
                 <ModalHeader className="text-lg font-semibold">
-                  فیلتر پیشرفته
+                  فیلتر پیشرفته هتل‌ها
                 </ModalHeader>
+
                 <ModalBody className="space-y-4">
-                  {/* Transaction Type */}
+                  {/* نوع معامله */}
                   <div>
                     <label className="block text-sm font-medium mb-1">
                       نوع معامله
                     </label>
                     <Select
-                      selectedKeys={[transactionType]}
-                      onSelectionChange={(keys) =>
-                        setTransactionType(Array.from(keys)[0] as string)
-                      }
                       placeholder="انتخاب نوع معامله"
+                      selectedKeys={[transactionType]}
+                      onChange={(e) => setTransactionType(e.target.value)}
                       items={transactionTypes}
                     >
                       {(item) => (
@@ -123,7 +116,7 @@ const FilterData = () => {
                     </Select>
                   </div>
 
-                  {/* Price Range */}
+                  {/* قیمت */}
                   <div>
                     <div className="flex flex-col gap-1 text-sm font-medium mb-2">
                       <p>
@@ -148,36 +141,52 @@ const FilterData = () => {
                       minValue={1000000}
                       maxValue={10000000}
                       step={500000}
-                      formatOptions={{
-                        style: "currency",
-                        currency: "IRR",
-                        minimumFractionDigits: 0,
-                        maximumFractionDigits: 0,
-                      }}
                       getValue={(val) => `${val.toLocaleString()} تومان`}
                     />
                   </div>
 
-                  {/* Sorting */}
+                  {/* مرتب‌سازی بر اساس امتیاز */}
                   <div>
                     <label className="block text-sm font-medium mb-1">
-                      مرتب‌سازی بر اساس
+                      مرتب‌سازی بر اساس امتیاز
                     </label>
                     <Select
-                      selectedKeys={[`${sort}-${order}`]}
-                      onSelectionChange={(keys) => {
-                        const value = Array.from(keys)[0] as string;
-                        const [sort, order] = value.split("-");
-                        setSort(sort);
-                        setOrder(order);
+                      placeholder="انتخاب نوع"
+                      selectedKeys={sort === "rating" ? [order] : []}
+                      onChange={(e) => {
+                        setSort("rating");
+                        setOrder(e.target.value as "asc" | "desc");
                       }}
-                      placeholder="انتخاب نوع مرتب‌سازی"
-                      items={sortOptions}
+                      items={[
+                        { label: "بیشترین امتیاز", value: "desc" },
+                        { label: "کمترین امتیاز", value: "asc" },
+                      ]}
                     >
                       {(item) => (
-                        <SelectItem key={`${item.value}-${item.order}`}>
-                          {item.label}
-                        </SelectItem>
+                        <SelectItem key={item.value}>{item.label}</SelectItem>
+                      )}
+                    </Select>
+                  </div>
+
+                  {/* مرتب‌سازی بر اساس قیمت */}
+                  <div>
+                    <label className="block text-sm font-medium mb-1">
+                      مرتب‌سازی بر اساس قیمت
+                    </label>
+                    <Select
+                      placeholder="انتخاب نوع"
+                      selectedKeys={sort === "price" ? [order] : []}
+                      onChange={(e) => {
+                        setSort("price");
+                        setOrder(e.target.value as "asc" | "desc");
+                      }}
+                      items={[
+                        { label: "ارزان‌ترین", value: "asc" },
+                        { label: "گران‌ترین", value: "desc" },
+                      ]}
+                    >
+                      {(item) => (
+                        <SelectItem key={item.value}>{item.label}</SelectItem>
                       )}
                     </Select>
                   </div>
@@ -195,7 +204,7 @@ const FilterData = () => {
                   <Button
                     className="bg-color1"
                     onPress={() => {
-                      updateFilters();
+                      handleApplyFilters();
                       onClose();
                     }}
                     startContent={<FiFilter className="text-lg" />}
@@ -208,6 +217,7 @@ const FilterData = () => {
           </ModalContent>
         </Modal>
 
+        {/* نوار جستجو (در صورت نیاز، به searchParams وصل کن) */}
         <div className="relative flex-1 min-w-[180px]">
           <span className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400">
             <RiMenuSearchLine size={25} />
@@ -216,8 +226,6 @@ const FilterData = () => {
             type="text"
             placeholder="جستجو کنید..."
             className="w-full p-3 pr-10 text-sm border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-            value={searchTerm}
-            onChange={(e) => setSearchTerm(e.target.value)}
           />
         </div>
       </div>
