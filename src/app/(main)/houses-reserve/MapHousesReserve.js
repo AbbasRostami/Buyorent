@@ -9,8 +9,9 @@ import toast from "react-hot-toast";
 import { renderToStaticMarkup } from "react-dom/server";
 import { GiPositionMarker } from "react-icons/gi";
 
-
-const iconMarkup = renderToStaticMarkup(<GiPositionMarker   size={30} color="red" />);
+const iconMarkup = renderToStaticMarkup(
+  <GiPositionMarker size={30} color="red" />
+);
 const customIcon = new L.DivIcon({
   html: iconMarkup,
   className: "",
@@ -18,7 +19,7 @@ const customIcon = new L.DivIcon({
   iconAnchor: [15, 30],
 });
 
-function FlyToLocation({ position }) {
+function FlyToLocation() {
   const map = useMap();
   useEffect(() => {
     if (
@@ -36,7 +37,7 @@ function FlyToLocation({ position }) {
   return null;
 }
 
-export default function Map({ properties }) {
+export default function MapHousesReserve({ properties }) {
   const [userLocation, setUserLocation] = useState(null);
   const isInIran = (lat, lng) => {
     return lat > 25.0 && lat < 39.5 && lng > 44.0 && lng < 63.5;
@@ -108,65 +109,63 @@ export default function Map({ properties }) {
           url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
         />
 
-        {properties.map((property) => (
-          <Marker
+        <Marker
           icon={customIcon}
-            key={property.id}
-            position={[
-              property.location_coords?.lat || 0,
-              property.location_coords?.lng || 0,
-            ]}
-          >
-            <Popup>
-              <div className="w-[295px] h-[106px] bg-gradient-to-r from-[#cf9952] to-[#E89300]  backdrop-blur-sm rounded-[16px] flex items-center p-3 text-white gap-3 shadow-xl border border-white/20">
-                <div className="relative">
-                  <img
-                    src={property.image || "https://via.placeholder.com/80"}
-                    alt={property.title}
-                    className="w-16 h-16 rounded-full object-cover border-2 border-white shadow-sm"
-                  />
-                  {property.discountPercent && (
-                    <div className="absolute -bottom-1 -right-1 bg-red-500 text-xs px-2 py-0.5 rounded-full">
-                      ٪{property.discountPercent}
-                    </div>
-                  )}
+          // key={property.id}
+          position={[36.5633, 53.0601]}
+        >
+          {/* <Popup>
+            <div className="w-[295px] h-[106px] bg-gradient-to-r from-[#cf9952] to-[#E89300]  backdrop-blur-sm rounded-[16px] flex items-center p-3 text-white gap-3 shadow-xl border border-white/20">
+              <div className="relative">
+                <img
+                  src={property.image || "https://via.placeholder.com/80"}
+                  alt={property.title}
+                  className="w-16 h-16 rounded-full object-cover border-2 border-white shadow-sm"
+                />
+                {property.discountPercent && (
+                  <div className="absolute -bottom-1 -right-1 bg-red-500 text-xs px-2 py-0.5 rounded-full">
+                    ٪{property.discountPercent}
+                  </div>
+                )}
+              </div>
+
+              <div className="flex flex-col justify-between h-full flex-1">
+                <div>
+                  <h3 className="font-bold text-2xl truncate mb-1 text-white/90">
+                    {property.title}
+                  </h3>
+                  <div className="flex items-center gap-1 text-xs text-white/80">
+                    <IoLocationOutline size={23} className="shrink-0" />
+                    <span className="truncate font-medium text-lg">
+                      {property.location}
+                    </span>
+                  </div>
                 </div>
 
-                <div className="flex flex-col justify-between h-full flex-1">
-                  <div>
-                    <h3 className="font-bold text-2xl truncate mb-1 text-white/90">
-                      {property.title}
-                    </h3>
-                    <div className="flex items-center gap-1 text-xs text-white/80">
-                      <IoLocationOutline size={23} className="shrink-0" />
-                      <span className="truncate font-medium text-lg">
-                        {property.location}
+                <div className="space-y-1">
+                  <div className="flex items-center justify-between gap-2">
+                    <div className="flex items-baseline gap-1">
+                      <span className="text-medium font-bold line-through opacity-75">
+                        {property.oldPrice?.toLocaleString()}
+                      </span>
+                      <span className="text-medium font-bold">
+                        {property.price?.toLocaleString()}
                       </span>
                     </div>
-                  </div>
-
-                  <div className="space-y-1">
-                    <div className="flex items-center justify-between gap-2">
-                      <div className="flex items-baseline gap-1">
-                        <span className="text-medium font-bold line-through opacity-75">
-                          {property.oldPrice?.toLocaleString()}
-                        </span>
-                        <span className="text-medium font-bold">
-                          {property.price?.toLocaleString()}
-                        </span>
-                      </div>
-                      <span className="text-medium font-bold">تومان</span>
-                    </div>
+                    <span className="text-medium font-bold">تومان</span>
                   </div>
                 </div>
               </div>
-            </Popup>
-          </Marker>
-        ))}
+            </div>
+          </Popup> */}
+        </Marker>
 
         {userLocation && (
           <>
-            <Marker position={userLocation} icon={customIcon}>
+            <Marker
+              //  position={userLocation}
+              icon={customIcon}
+            >
               <Popup className="text-center font-semibold text-lg text-blue-600 bg-white shadow-lg rounded-lg border border-gray-200">
                 <span className="text-xl font-medium p-4 ">
                   🎯 موقعیت فعلی شما{" "}
