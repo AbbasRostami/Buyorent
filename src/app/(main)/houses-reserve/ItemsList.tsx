@@ -5,6 +5,9 @@ import { IoLocationOutline } from "react-icons/io5";
 import { MdOutlineNightsStay } from "react-icons/md";
 
 const ItemsList = ({ data }: { data: any }) => {
+  if (!data) return <div>Loading...</div>;
+  console.log("data items: ", data);
+  
   return (
     <>
       <ScrollShadow
