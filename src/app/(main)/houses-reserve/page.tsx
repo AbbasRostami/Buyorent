@@ -24,6 +24,5 @@ export default async function Page(props: {
   );
 
   console.log("initialData: ", initialData);
-  
   return <ClientWrapper initialData={initialData} />;
 }

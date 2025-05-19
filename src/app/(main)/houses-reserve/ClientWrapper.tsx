@@ -24,8 +24,6 @@ export default function ClientWrapper({
     initialDataUpdatedAt: Date.now(),
   });
 
-  console.log("data query:", data);
-
   return (
     <div className="grid grid-cols-1 md:grid-cols-2 md:h-screen min-h-screen pt-20 dark:bg-[#0a192f]">
       <div className="bg-white p-6 flex flex-col overflow-hidden dark:bg-[#0a192f]">

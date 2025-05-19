@@ -1,6 +1,7 @@
 "use client";
 import { HouseReserveProps } from "@/types/HousesReserve";
 import { ScrollShadow } from "@heroui/react";
+import Link from "next/link";
 import React from "react";
 import { IoLocationOutline } from "react-icons/io5";
 import { MdOutlineNightsStay } from "react-icons/md";
@@ -26,7 +27,8 @@ const ItemsList = ({ data }: { data: HouseReserveProps[] }) => {
         className="h-full overflow-y-auto grid grid-cols-1 sm:grid-cols-2 gap-4"
       >
         {data?.map((item) => (
-          <div
+          <Link
+          href={`/mortgage-and-house-rent/${item.id}`}
             key={item.id}
             className="border border-[#EAEAEA] rounded-2xl shadow-sm hover:shadow-md transition p-4 flex flex-col min-h-[300px] overflow-hidden"
           >
@@ -71,7 +73,7 @@ const ItemsList = ({ data }: { data: HouseReserveProps[] }) => {
                 ٪{Number(item.rate).toLocaleString("fa-IR")} تخفیف
               </button>
             </div>
-          </div>
+          </Link>
         ))}
       </ScrollShadow>
     </>
