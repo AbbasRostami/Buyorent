@@ -28,7 +28,7 @@ const ItemsList = ({ data }: { data: HouseReserveProps[] }) => {
       >
         {data?.map((item) => (
           <Link
-          href={`/mortgage-and-house-rent/${item.id}`}
+            href={`/mortgage-and-house-rent/${item.id}`}
             key={item.id}
             className="border border-[#EAEAEA] rounded-2xl shadow-sm hover:shadow-md transition p-4 flex flex-col min-h-[300px] overflow-hidden"
           >
