@@ -1,10 +1,11 @@
 "use client";
+import { HouseReserveProps } from "@/types/HousesReserve";
 import { ScrollShadow } from "@heroui/react";
 import React from "react";
 import { IoLocationOutline } from "react-icons/io5";
 import { MdOutlineNightsStay } from "react-icons/md";
 import { TfiFaceSad } from "react-icons/tfi";
-const ItemsList = ({ data }: { data: any }) => {
+const ItemsList = ({ data }: { data: HouseReserveProps[] }) => {
   if (!data || data.length === 0) {
     return (
       <div className="text-center flex flex-col gap-5 items-center text-gray-500 dark:text-amber-50 py-10">
