@@ -8,6 +8,7 @@ import toast from "react-hot-toast";
 
 import { renderToStaticMarkup } from "react-dom/server";
 import { GiPositionMarker } from "react-icons/gi";
+import { useTheme } from "next-themes";
 
 const iconMarkup = renderToStaticMarkup(
   <GiPositionMarker size={30} color="red" />
@@ -37,7 +38,7 @@ function FlyToLocation() {
   return null;
 }
 
-export default function MapHousesReserve({ properties }) {
+export default function MapHousesReserve({ data }) {
   const [userLocation, setUserLocation] = useState(null);
   const isInIran = (lat, lng) => {
     return lat > 25.0 && lat < 39.5 && lng > 44.0 && lng < 63.5;
@@ -69,11 +70,21 @@ export default function MapHousesReserve({ properties }) {
       );
     }
   };
+
+  const defaultCenter =
+    data?.length > 0
+      ? [data[0].location.lat, data[0].location.lng]
+      : [36.5633, 53.0601];
+  const { theme } = useTheme();
+  const tileLayerUrl =
+    theme === "dark"
+      ? "https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png"
+      : "https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png";
   return (
     <div className="relative w-full h-full">
       <button
         onClick={handleLocateUser}
-        className="absolute z-[1000] flex gap-2 top-4 right-4 text-black font- bg-white p-2 rounded-full shadow-lg hover:shadow-xl transition-all"
+        className="absolute z-[1000] flex gap-2 top-4 right-4 text-black font-medium dark:bg-gray-800 dark:text-amber-50 bg-white p-2 rounded-full shadow-lg hover:shadow-xl transition-all"
       >
         <svg
           xmlns="http://www.w3.org/2000/svg"
@@ -99,73 +110,75 @@ export default function MapHousesReserve({ properties }) {
       </button>
 
       <MapContainer
-        center={[36.5633, 53.0601]}
-        zoom={5}
+        center={defaultCenter}
+        zoom={6}
         className="h-full w-full"
         key={userLocation?.join(",") || "default-map"}
       >
         <TileLayer
           attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-          url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+          url={tileLayerUrl}
         />
-
-        <Marker
-          icon={customIcon}
-          // key={property.id}
-          position={[36.5633, 53.0601]}
-        >
-          {/* <Popup>
-            <div className="w-[295px] h-[106px] bg-gradient-to-r from-[#cf9952] to-[#E89300]  backdrop-blur-sm rounded-[16px] flex items-center p-3 text-white gap-3 shadow-xl border border-white/20">
-              <div className="relative">
-                <img
-                  src={property.image || "https://via.placeholder.com/80"}
-                  alt={property.title}
-                  className="w-16 h-16 rounded-full object-cover border-2 border-white shadow-sm"
-                />
-                {property.discountPercent && (
-                  <div className="absolute -bottom-1 -right-1 bg-red-500 text-xs px-2 py-0.5 rounded-full">
-                    ٪{property.discountPercent}
+        {data?.map((property) => (
+          <Marker
+            key={property.id}
+            icon={customIcon}
+            position={[property.location.lat, property.location.lng]}
+          >
+            <Popup className="custom-popup">
+              <div className="popup-inner">
+                <div className="w-[270px] bg-gradient-to-r from-[#cf9952] to-[#E89300] backdrop-blur-sm rounded-xl p-3 flex items-center gap-3 shadow-lg border border-white/20">
+                  <div className="relative shrink-0">
+                    <img
+                      src={
+                        property?.photos?.[0] ||
+                        "https://via.placeholder.com/64x64?text=%3A)"
+                      }
+                      alt={property.title}
+                      className="w-14 h-14 rounded-full object-cover border-2 border-white shadow-md"
+                    />
+                    {property.discountPercent && (
+                      <div className="absolute -bottom-1 -right-1 bg-red-600 text-white text-xs px-1.5 py-0.5 rounded-full shadow-sm">
+                        ٪{property.discountPercent}
+                      </div>
+                    )}
                   </div>
-                )}
-              </div>
 
-              <div className="flex flex-col justify-between h-full flex-1">
-                <div>
-                  <h3 className="font-bold text-2xl truncate mb-1 text-white/90">
-                    {property.title}
-                  </h3>
-                  <div className="flex items-center gap-1 text-xs text-white/80">
-                    <IoLocationOutline size={23} className="shrink-0" />
-                    <span className="truncate font-medium text-lg">
-                      {property.location}
-                    </span>
-                  </div>
-                </div>
+                  <div className="flex flex-col justify-between w-full text-white overflow-hidden">
+                    <h3 className="font-bold text-lg truncate">
+                      {property.title}
+                    </h3>
 
-                <div className="space-y-1">
-                  <div className="flex items-center justify-between gap-2">
-                    <div className="flex items-baseline gap-1">
-                      <span className="text-medium font-bold line-through opacity-75">
-                        {property.oldPrice?.toLocaleString()}
-                      </span>
-                      <span className="text-medium font-bold">
-                        {property.price?.toLocaleString()}
+                    <div className="flex items-center gap-1 text-sm text-white/90 mb-1">
+                      <IoLocationOutline size={18} />
+                      <span className="truncate whitespace-nowrap">
+                        {property.address}
                       </span>
                     </div>
-                    <span className="text-medium font-bold">تومان</span>
+
+                    <div className="flex justify-center gap-3 items-baseline text-sm font-semibold">
+                      <div className="flex items-baseline gap-1">
+                        {property.oldPrice && (
+                          <span className="line-through opacity-70 text-xs">
+                            {property.oldPrice.toLocaleString()}
+                          </span>
+                        )}
+                        <span className="text-white">
+                          {property.price?.toLocaleString()}
+                        </span>
+                      </div>
+                      <span className="text-white text-xs">تومان</span>
+                    </div>
                   </div>
                 </div>
               </div>
-            </div>
-          </Popup> */}
-        </Marker>
+            </Popup>
+          </Marker>
+        ))}
 
         {userLocation && (
           <>
-            <Marker
-              //  position={userLocation}
-              icon={customIcon}
-            >
+            <Marker position={userLocation} icon={customIcon}>
               <Popup className="text-center font-semibold text-lg text-blue-600 bg-white shadow-lg rounded-lg border border-gray-200">
                 <span className="text-xl font-medium p-4 ">
                   🎯 موقعیت فعلی شما{" "}
