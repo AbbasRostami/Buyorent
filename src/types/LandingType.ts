@@ -63,3 +63,9 @@ export type HouseTypeRentProps = {
   parking: number;
   price: number;
 }[];
+
+
+export interface CategoryProps {
+  id: string;
+  name: string;
+}
