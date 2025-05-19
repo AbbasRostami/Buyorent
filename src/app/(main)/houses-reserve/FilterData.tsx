@@ -243,12 +243,15 @@ const FilterData = () => {
                   </div>
 
                   <div>
-                    <label htmlFor="sort-rate" className="block text-sm font-medium mb-1">
+                    <label
+                      htmlFor="sort-rate"
+                      className="block text-sm font-medium mb-1"
+                    >
                       مرتب‌سازی بر اساس امتیاز
                     </label>
                     <Select
-                    id="sort-rate"
-                    aria-labelledby="sort-rate"
+                      id="sort-rate"
+                      aria-labelledby="sort-rate"
                       placeholder="انتخاب نوع"
                       selectedKeys={sort === "rate" ? [order] : []}
                       onChange={(e) => {
@@ -276,12 +279,15 @@ const FilterData = () => {
                   </div>
 
                   <div>
-                    <label htmlFor="sort-price" className="block text-sm font-medium mb-1">
+                    <label
+                      htmlFor="sort-price"
+                      className="block text-sm font-medium mb-1"
+                    >
                       مرتب‌سازی بر اساس قیمت
                     </label>
                     <Select
-                    id="sort-price"
-                    aria-labelledby="sort-price"
+                      id="sort-price"
+                      aria-labelledby="sort-price"
                       placeholder="انتخاب نوع"
                       selectedKeys={sort === "price" ? [order] : []}
                       onChange={(e) => {
