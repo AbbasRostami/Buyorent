@@ -9,6 +9,7 @@ import toast from "react-hot-toast";
 import { renderToStaticMarkup } from "react-dom/server";
 import { GiPositionMarker } from "react-icons/gi";
 import { useTheme } from "next-themes";
+import { HouseReserveProps } from "@/types/HousesReserve";
 
 const iconMarkup = renderToStaticMarkup(
   <GiPositionMarker size={30} color="red" />
@@ -20,7 +21,7 @@ const customIcon = new L.DivIcon({
   iconAnchor: [15, 30],
 });
 
-function FlyToLocation() {
+function FlyToLocation({ position }: { position: [number, number] }) {
   const map = useMap();
   useEffect(() => {
     if (
@@ -38,9 +39,13 @@ function FlyToLocation() {
   return null;
 }
 
-export default function MapHousesReserve({ data }) {
-  const [userLocation, setUserLocation] = useState(null);
-  const isInIran = (lat, lng) => {
+export default function MapHousesReserve({
+  data,
+}: {
+  data: HouseReserveProps[];
+}) {
+  const [userLocation, setUserLocation] = useState<[number, number]>();
+  const isInIran = (lat: number, lng: number) => {
     return lat > 25.0 && lat < 39.5 && lng > 44.0 && lng < 63.5;
   };
 
@@ -71,7 +76,7 @@ export default function MapHousesReserve({ data }) {
     }
   };
 
-  const defaultCenter =
+  const defaultCenter: [number, number] =
     data?.length > 0
       ? [data[0].location.lat, data[0].location.lng]
       : [36.5633, 53.0601];
@@ -137,11 +142,9 @@ export default function MapHousesReserve({ data }) {
                       alt={property.title}
                       className="w-14 h-14 rounded-full object-cover border-2 border-white shadow-md"
                     />
-                    {property.discountPercent && (
-                      <div className="absolute -bottom-1 -right-1 bg-red-600 text-white text-xs px-1.5 py-0.5 rounded-full shadow-sm">
-                        ٪{property.discountPercent}
-                      </div>
-                    )}
+                    <div className="absolute -bottom-1 -right-1 bg-red-600 text-white text-xs px-1.5 py-0.5 rounded-full shadow-sm">
+                      ٪5
+                    </div>
                   </div>
 
                   <div className="flex flex-col justify-between w-full text-white overflow-hidden">
@@ -158,11 +161,9 @@ export default function MapHousesReserve({ data }) {
 
                     <div className="flex justify-center gap-3 items-baseline text-sm font-semibold">
                       <div className="flex items-baseline gap-1">
-                        {property.oldPrice && (
-                          <span className="line-through opacity-70 text-xs">
-                            {property.oldPrice.toLocaleString()}
-                          </span>
-                        )}
+                        <span className="line-through opacity-70 text-xs">
+                          50000
+                        </span>
                         <span className="text-white">
                           {property.price?.toLocaleString()}
                         </span>
