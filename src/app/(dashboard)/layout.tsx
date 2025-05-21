@@ -1,5 +1,5 @@
 import React from "react";
-import { SidebarProvider } from "./SidebarContext";
+import { SidebarProvider } from "./context/SidebarContext";
 import DashboardClient from "./DashboardClient";
 
 export default function AdminLayout({

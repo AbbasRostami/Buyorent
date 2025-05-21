@@ -1,10 +1,10 @@
 "use client";
 
 import React from "react";
-import { useSidebar } from "./SidebarContext";
-import AppSidebar from "./AppSidebar";
-import Backdrop from "./Backdrop";
-import AppHeader from "./AppHeader";
+import { useSidebar } from "./context/SidebarContext";
+import AppSidebar from "./layout/AppSidebar";
+import Backdrop from "./layout/Backdrop";
+import AppHeader from "./layout/AppHeader";
 
 export default function DashboardClient({
   children,
