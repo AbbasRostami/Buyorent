@@ -1,23 +1,11 @@
 "use client";
-import { useEffect, useRef, useState } from "react";
+import { useRef } from "react";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { CiImageOff } from "react-icons/ci";
 import "swiper/css";
-// import "./styles.css";
 import { Autoplay } from "swiper/modules";
 import tumbImageAddress from "./../../../../assets/Avatar1.png";
-interface CourseType {
-  teacherName: string;
-  statusName: string;
-  cost: string;
-  tumbImageAddress: string;
-  courseId: string;
-  title: string;
-  likeCount: number;
-  typeName: string;
-  classRoomName: string;
-  currentPictureAddress: string;
-}
+import Image from "next/image";
 
 export default function NewCoursesSlider() {
   const imgRef = useRef<HTMLImageElement | null>(null);
@@ -34,23 +22,22 @@ export default function NewCoursesSlider() {
         </p>
       </div>
 
-      {/* اسلایدر */}
       <Swiper
         className="mySwiper"
         spaceBetween={20}
         slidesPerView={1}
         autoplay={{
-          delay: 3000, // هر ۳ ثانیه اسلاید بعدی
-          disableOnInteraction: false, // بعد از تعامل کاربر، ادامه بده
+          delay: 3000,
+          disableOnInteraction: false,
         }}
-        modules={[Autoplay]} // فعال‌سازی ماژول
+        modules={[Autoplay]}
       >
         <SwiperSlide>
           <div className="flex flex-row-reverse items-center gap-6 rtl bg-blue-100/50 dark:bg-gray-800 rounded-2xl overflow-hidden shadow hover:shadow-xl transition-all duration-300 p-4 hover:scale-[1.01]">
             {/* تصویر کورس */}
             {/* {item?.tumbImageAddress && item.tumbImageAddress !== "Not-set" ? (
                 <> */}
-            <img
+            <Image
               ref={imgRef}
               src={tumbImageAddress}
               alt="Profile Picture"
