@@ -46,7 +46,7 @@ export default function MonthlyTarget() {
     },
     fill: {
       type: "solid",
-      colors: ["#465FFF"],
+      colors: ["#d27700"],
     },
     stroke: {
       lineCap: "round",
