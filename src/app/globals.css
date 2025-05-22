@@ -605,7 +605,7 @@ nav {
 }
 
 @utility menu-item-icon-active {
-  @apply text-brand-500 dark:text-brand-400;
+  @apply text-amber-500 dark:text-amber-500;
 }
 
 @utility menu-item-icon-inactive {
