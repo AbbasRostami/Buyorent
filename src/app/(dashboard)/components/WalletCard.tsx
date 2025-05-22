@@ -22,21 +22,36 @@ import {
   flexRender,
   getCoreRowModel,
 } from "@tanstack/react-table";
+import { useState } from "react";
 type Transaction = {
   date: string;
   trackingId: string;
   amount: number;
 };
 
+type SortingState = {
+  id: string;
+  desc: boolean;
+};
 const WalletCard = () => {
   const { isOpen, onOpen, onOpenChange } = useDisclosure();
-
+  const [sorting, setSorting] = useState<SortingState[]>([]);
   const columnHelper = createColumnHelper<Transaction>();
 
+  // فقط داخل <tbody> و تعریف ستون‌ها نیاز به تغییر هست
+
+  // در بخش columns:
   const columns = [
+    columnHelper.display({
+      id: "rowIndex",
+      header: "#",
+      cell: ({ row }) => row.index + 1,
+    }),
+    
     columnHelper.accessor("date", {
       header: "تاریخ",
       cell: (info) => info.getValue(),
+      sortingFn: "alphanumeric",
     }),
     columnHelper.accessor("trackingId", {
       header: "شماره پیگیری",
@@ -44,7 +59,8 @@ const WalletCard = () => {
     }),
     columnHelper.accessor("amount", {
       header: "مبلغ",
-      cell: (info) => `${info.getValue()} تومان`,
+      cell: (info) => `${info.getValue().toLocaleString()} تومان`,
+      sortingFn: "basic",
     }),
     columnHelper.display({
       id: "actions",
@@ -55,16 +71,26 @@ const WalletCard = () => {
     }),
   ];
 
-  // دیتا تستی
   const data: Transaction[] = [
-    { date: "1403/02/01", trackingId: "123456", amount: 150000 },
-    { date: "1403/02/05", trackingId: "987654", amount: 450000 },
+    { date: "1403/02/01/ 10:00", trackingId: "123456", amount: 150000 },
+    { date: "1403/02/05/ 10:00", trackingId: "987654", amount: 450000 },
+    { date: "1403/02/01/ 10:00", trackingId: "123456", amount: 150000 },
+    { date: "1403/02/05/ 10:00", trackingId: "987654", amount: 450000 },
+    { date: "1403/02/01/ 10:00", trackingId: "123456", amount: 150000 },
+    { date: "1403/02/05/ 10:00", trackingId: "987654", amount: 450000 },
   ];
 
+  // در table config
   const table = useReactTable<Transaction>({
     data,
     columns,
     getCoreRowModel: getCoreRowModel(),
+    getSortedRowModel: getCoreRowModel(), // حتما اضافه شود
+    state: {
+      sorting,
+    },
+    autoResetPageIndex: false,
+    onSortingChange: setSorting, // کنترل تغییرات
   });
   return (
     <>
@@ -121,51 +147,67 @@ const WalletCard = () => {
           </DropdownItem>
         </DropdownMenu>
       </Dropdown>
-      <Modal isOpen={isOpen} onOpenChange={onOpenChange}>
+      <Modal isOpen={isOpen} onOpenChange={onOpenChange} size="2xl">
         <ModalContent>
-          <>
-            <ModalHeader className="flex flex-col gap-1">
+          <ModalHeader className="flex flex-col gap-1">
+            <div className="flex items-center gap-2 text-xl font-bold">
+              <FaMoneyBillTransfer size={26} className="text-color1" />
               لیست تراکنش ها
-            </ModalHeader>
-            <ModalBody className="overflow-x-auto">
-              <table className="w-full border border-gray-200 dark:border-gray-700 text-sm">
-                <thead className="bg-gray-100 dark:bg-gray-700 text-gray-800 dark:text-gray-200">
-                  {table.getHeaderGroups().map((headerGroup) => (
-                    <tr key={headerGroup.id}>
-                      {headerGroup.headers.map((header) => (
-                        <th
-                          key={header.id}
-                          className="p-2 text-right whitespace-nowrap"
-                        >
+            </div>
+          </ModalHeader>
+          <ModalBody className="overflow-x-auto">
+            <table className="w-full dark:border-gray-700 text-sm">
+              <thead className="bg-color3 dark:bg-color3 text-gray-800 dark:text-gray-800">
+                {table.getHeaderGroups().map((headerGroup) => (
+                  <tr key={headerGroup.id}>
+                    {headerGroup.headers.map((header) => (
+                      <th
+                        key={header.id}
+                        className="p-2 text-center whitespace-nowrap cursor-pointer select-none"
+                        onClick={header.column.getToggleSortingHandler()}
+                      >
+                        <div className="flex items-center justify-center gap-1">
                           {flexRender(
                             header.column.columnDef.header,
                             header.getContext()
                           )}
-                        </th>
-                      ))}
-                    </tr>
-                  ))}
-                </thead>
-                <tbody className="text-gray-900 dark:text-gray-100">
-                  {table.getRowModel().rows.map((row) => (
-                    <tr
-                      key={row.id}
-                      className="border-t border-gray-200 dark:border-gray-700"
-                    >
-                      {row.getVisibleCells().map((cell) => (
-                        <td key={cell.id} className="p-2 whitespace-nowrap">
-                          {flexRender(
-                            cell.column.columnDef.cell,
-                            cell.getContext()
-                          )}
-                        </td>
-                      ))}
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
-            </ModalBody>
-          </>
+                          {{
+                            asc: "▲",
+                            desc: "▼",
+                          }[header.column.getIsSorted() as string] ?? null}
+                        </div>
+                      </th>
+                    ))}
+                  </tr>
+                ))}
+              </thead>
+
+              <tbody className="text-gray-900 dark:text-gray-100">
+                {table.getRowModel().rows.map((row, idx) => (
+                  <tr
+                    key={row.id}
+                    className={`border-t border-gray-200 dark:border-gray-700 ${
+                      idx % 2 === 0
+                        ? "bg-gray-50 dark:bg-gray-800"
+                        : "bg-white dark:bg-gray-900"
+                    }`}
+                  >
+                    {row.getVisibleCells().map((cell) => (
+                      <td
+                        key={cell.id}
+                        className="p-2 text-center whitespace-nowrap text-sm"
+                      >
+                        {flexRender(
+                          cell.column.columnDef.cell,
+                          cell.getContext()
+                        )}
+                      </td>
+                    ))}
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </ModalBody>
         </ModalContent>
       </Modal>
     </>
