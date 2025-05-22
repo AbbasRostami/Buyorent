@@ -5,11 +5,13 @@ import { useSidebar } from "../context/SidebarContext";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import Image from "next/image";
-import logo from "./../../../assets/logosite.svg";
+import logo from "./../../../assets/بایورنت لوگو  1.png";
 import { FaHeart, FaPlusCircle } from "react-icons/fa";
 import { IoPersonSharp } from "react-icons/io5";
 import { BiChevronDown } from "react-icons/bi";
 import { BsPcHorizontal } from "react-icons/bs";
+import { GiWallet } from "react-icons/gi";
+import WalletCard from "../components/WalletCard";
 
 type NavItem = {
   name: string;
@@ -248,7 +250,7 @@ const AppSidebar: React.FC = () => {
 
   return (
     <aside
-      className={`fixed mt-16 flex flex-col lg:mt-0 top-0 px-2 right-0 bg-white dark:bg-gray-900 dark:border-gray-800 text-gray-900 h-screen transition-all duration-300 ease-in-out z-50 border-l border-gray-200 
+      className={`fixed flex flex-col lg:mt-0 top-0 px-2 right-0 bg-white dark:bg-gray-900 dark:border-gray-800 text-gray-900 h-screen transition-all duration-300 ease-in-out z-50 border-l border-gray-200 
         ${
           isExpanded || isMobileOpen
             ? "w-[320px]"
@@ -263,8 +265,8 @@ const AppSidebar: React.FC = () => {
       onMouseLeave={() => setIsHovered(false)}
     >
       <div
-        className={`py-8 flex ${
-          !isExpanded && !isHovered ? "lg:justify-center" : "justify-start"
+        className={`py-8 flex  ${
+          !isExpanded && !isHovered ? "lg:justify-center" : "justify-center "
         }`}
       >
         <Link href="/" className="flex items-center gap-1">
@@ -285,10 +287,14 @@ const AppSidebar: React.FC = () => {
                 height={40}
               />
               <h1 className="text-4xl font-extrabold mt-1 text-neutral-900 tracking-tight leading-none">
-                <span className="dark:text-blue-light-300 bg-gradient-to-r from-neutral-900 via-neutral-700 to-neutral-900 bg-clip-text text-transparent drop-shadow-sm">
-                  H
+                <span className="dark:text-emerald-400 bg-gradient-to-r from-neutral-900 via-neutral-700 to-neutral-900 bg-clip-text text-black drop-shadow-sm">
+                  B
                 </span>
-                <span className="text-indigo-600 drop-shadow-sm">-One</span>
+                <span className="text-[#fca804] dark:text-amber-400 drop-shadow-sm">
+                  UYO
+                  <span className="text-black dark:text-emerald-400">R</span>
+                  ENT
+                </span>
               </h1>
             </>
           ) : (
@@ -327,6 +333,7 @@ const AppSidebar: React.FC = () => {
           </div>
         </nav>
       </div>
+      <WalletCard />
     </aside>
   );
 };
