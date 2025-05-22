@@ -11,7 +11,7 @@ export default function EcommerceMetrics() {
       />
       <div className="flex flex-col justify-between p-4 leading-normal">
         <p className="mb-3 text-2xl font-extrabold tracking-wide text-gray-900 dark:text-white">
-          {`سلام  "دوست" عزیز 👋`}
+          سلام  "دوست" عزیز 👋    
         </p>
         <p className="mb-4 text-md font-medium text-gray-700 leading-relaxed dark:text-gray-400 ">
           از دیدن شما در پنل کاربری‌مون خوشحالیم! 🎉{" "}

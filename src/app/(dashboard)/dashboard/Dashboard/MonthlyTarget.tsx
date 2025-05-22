@@ -1,10 +1,11 @@
 "use client";
 import Chart from "react-apexcharts";
 import { ApexOptions } from "apexcharts";
+import { BsBookmarkStarFill } from "react-icons/bs";
+import { TbEdit } from "react-icons/tb";
+import { useRouter } from "next/navigation";
 
 export default function MonthlyTarget() {
-
-
   const series = [70];
 
   const options: ApexOptions = {
@@ -54,15 +55,19 @@ export default function MonthlyTarget() {
     labels: ["Progress"],
   };
 
+  const router = useRouter();
   return (
     <div className=" shadow-xl transition-all duration-300 rounded-2xl border hover:bg-gray-100 dark:hover:bg-gray-700/80 border-gray-200 bg-white/90 dark:border-gray-800 dark:bg-white/[0.03]">
       <div className="px-5 pt-5 bg-white hover:bg-gray-100 shadow-default dark:hover:bg-gray-700/80 rounded-2xl pb-11 dark:bg-gray-900 sm:px-6 sm:pt-6">
-        <div className="flex flex-col items-end justify-between mb-5">
-          <h3 className="text-lg rtl font-semibold text-gray-800 dark:text-white/90">
-            درصد تکمیل پروفایل
+        <div className="flex flex-col items-start justify-between mb-5">
+          <h3 className="text-lg w-full flex items-center gap-2 font-semibold text-gray-800 dark:text-white/90">
+            <BsBookmarkStarFill className="text-color1" size={24} />
+            وضعیت پروفایل شما
+            <TbEdit className="hover:text-color1 cursor-pointer" size={20} onClick={() => router.push("/profile")}/>
           </h3>
           <p className="mt-1 text-gray-500 text-theme-sm dark:text-gray-400">
-            برای دسترسی به همه امکانات، پروفایل خود را کامل کنید
+            برای اینکه بازدید خوبی داشته باشید، پروفایل شما باید حداقل ۷۰٪ تکمیل
+            شده باشد.
           </p>
         </div>
 

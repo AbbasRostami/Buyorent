@@ -6,6 +6,7 @@ import "swiper/css";
 import { Autoplay } from "swiper/modules";
 import tumbImageAddress from "./../../../../assets/Avatar1.png";
 import Image from "next/image";
+import { BsBookmarkStarFill } from "react-icons/bs";
 
 export default function NewCoursesSlider() {
   const imgRef = useRef<HTMLImageElement | null>(null);
@@ -14,11 +15,12 @@ export default function NewCoursesSlider() {
     <div className="shadow-xl transition-all duration-300 h-full rounded-2xl bg-white/90 border hover:bg-gray-100 border-gray-200 dark:border-gray-800  dark:hover:bg-gray-700/80 dark:bg-gray-900 p-4 space-y-4">
       {/* عنوان بخش */}
       <div className="mb-4">
-        <h2 className="text-lg rtl font-bold text-gray-800 dark:text-white  pb-1 border-gray-200 dark:border-gray-700">
-          جدیدترین دوره‌ها
+        <h2 className="text-lg flex items-center gap-2 font-bold text-gray-800 dark:text-white  pb-1 border-gray-200 dark:border-gray-700">
+          <BsBookmarkStarFill className="text-color1" size={24} />
+          رزرو های اخیر
         </h2>
         <p className="text-theme-sm rtl text-gray-500 dark:text-gray-400">
-          دوره‌هایی که اخیراً به آکادمی اضافه شده‌اند را مشاهده کنید
+          رزرو های اخیر شما را مشاهده کنید
         </p>
       </div>
 
@@ -61,14 +63,9 @@ export default function NewCoursesSlider() {
                 اره
               </h3>
 
-              <div className="flex items-center gap-2 text-sm text-gray-600 dark:text-gray-300">
-                <span className="text-indigo-500 dark:text-indigo-300">👨‍🏫</span>
-                مدرس: عباس
-              </div>
-
               <div className="flex items-center gap-2 text-sm text-emerald-600 dark:text-emerald-400">
-                <span>📅</span>
-                وضعیت: فعال
+                <span>👍 </span>
+                وضعیت: تایید شده
               </div>
 
               <div className="flex items-center gap-2 text-sm text-indigo-700 dark:text-indigo-400 font-bold">
@@ -78,8 +75,8 @@ export default function NewCoursesSlider() {
 
               {/* تعداد لایک‌ها */}
               <div className="flex items-center gap-2 text-sm text-gray-600 dark:text-gray-300">
-                <span>❤️</span>
-                لایک‌ها: 21
+                <span>🕒</span>
+                تاریخ رزرو: ۱۴۰۲/۰۱/۰۱
               </div>
 
               {/* نوع دوره */}

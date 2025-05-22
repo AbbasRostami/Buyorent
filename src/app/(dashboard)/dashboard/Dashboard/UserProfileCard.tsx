@@ -1,17 +1,9 @@
 import Image from "next/image";
 import introImg from "./../../../../assets/Avatar2.png";
-import { BiIdCard, BiPhone, BiPhoneCall } from "react-icons/bi";
+import { BiIdCard, BiPhoneCall } from "react-icons/bi";
 import { MdEmail } from "react-icons/md";
 
-interface UserData {
-  fName?: string;
-  lName?: string;
-  email?: string;
-  phoneNumber?: string;
-  nationalCode?: string;
-}
-
-export default function UserProfileCard({ data }: { data?: UserData }) {
+export default function UserProfileCard() {
   return (
     <div className="grid grid-cols-1 md:grid-cols-[auto_1fr] items-center  h-full gap-6 w-full  mx-auto dark:hover:bg-gray-700/80 bg-white/90 backdrop-blur-md border border-gray-200 rounded-2xl hover:bg-gray-100 shadow-xl p-6 rtl dark:border-gray-800 dark:bg-gray-900 transition-all duration-300">
       <div className="flex flex-col items-center space-y-4">
@@ -29,9 +21,9 @@ export default function UserProfileCard({ data }: { data?: UserData }) {
         <div className="text-center">
           <h2
             className="w-28 truncate text-2xl font-bold text-gray-900 dark:text-white"
-            title={`${data?.fName ?? "کاربر"} ${data?.lName ?? ""}`}
+            title={`کاربر`}
           >
-            {`${data?.fName ?? "کاربر"} ${data?.lName ?? ""}`}
+           خریدار
           </h2>
 
           <div className="w-16 h-1 bg-gradient-to-r from-indigo-400 via-purple-400 to-pink-400 rounded-full mt-2 mx-auto" />
