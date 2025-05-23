@@ -1,6 +1,4 @@
 import {
-  Badge,
-  Button,
   Dropdown,
   DropdownItem,
   DropdownMenu,
@@ -8,18 +6,17 @@ import {
   Modal,
   ModalBody,
   ModalContent,
-  ModalFooter,
   ModalHeader,
   Switch,
   useDisclosure,
   User,
 } from "@heroui/react";
 import { FaBell, FaPlusCircle, FaUser, FaSignOutAlt } from "react-icons/fa";
-import { HiOutlineBellAlert } from "react-icons/hi2";
 import Swal from "sweetalert2";
 import { signOut } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import { GiRingingBell } from "react-icons/gi";
+import { IoMdClose } from "react-icons/io";
 export default function UserDropdown() {
   const router = useRouter();
   const { isOpen, onOpen, onOpenChange } = useDisclosure();
@@ -122,12 +119,25 @@ export default function UserDropdown() {
           </DropdownItem>
         </DropdownMenu>
       </Dropdown>
-      <Modal isOpen={isOpen} onOpenChange={onOpenChange} size="2xl">
+      <Modal
+        isOpen={isOpen}
+        onOpenChange={onOpenChange}
+        size="2xl"
+        hideCloseButton
+      >
         <ModalContent>
           <>
-            <ModalHeader className="flex  gap-2  text-2xl  font-normal">
-              <GiRingingBell />
-              تنظیمات نوتیفیکیشن
+            <ModalHeader className="flex justify-between items-center gap-2  text-2xl  font-normal">
+              <div className="flex items-center gap-2">
+                <GiRingingBell />
+                تنظیمات نوتیفیکیشن
+              </div>
+              <button
+                className="flex items-center gap-2 border border-red-400 text-red-500 rounded-full px-6 py-2 text-lg font-bold hover:bg-red-50 transition"
+                onClick={onOpenChange}
+              >
+                بستن <IoMdClose size={24} />
+              </button>
             </ModalHeader>
             <ModalBody className="flex flex-col gap-10 text-right border-dotted border-t-2 py-4 border-color1">
               <div className="flex items-center justify-between flex-row">
