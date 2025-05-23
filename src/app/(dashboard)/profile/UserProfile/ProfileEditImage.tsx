@@ -33,7 +33,7 @@ const ProfileEditImage = ({
         {data?.userImage && data.userImage.length > 0 ? (
           <div className="relative w-full max-w-md mx-auto">
             <div className="absolute top-1/2 -left-8 transform -translate-y-1/2 z-10">
-              <button className="swiper-button-prev dark:bg-gray-800 p-2 rounded-full shadow-lg dark:hover:bg-indigo-700 transition-all w-12 h-12 flex items-center justify-center">
+              <button className="swiper-button-prev dark:bg-gray-800 p-2 rounded-full shadow-lg dark:hover:bg-[#ffd81e] transition-all w-12 h-12 flex items-center justify-center">
                 <svg
                   fill="#312f2f"
                   height="40"
@@ -60,7 +60,7 @@ const ProfileEditImage = ({
             </div>
 
             <div className="absolute top-1/2 -right-8 transform -translate-y-1/2 z-10">
-              <button className="swiper-button-next dark:bg-gray-800 p-2 rounded-full shadow-lg dark:hover:bg-indigo-700 transition-all w-12 h-12 flex items-center justify-center">
+              <button className="swiper-button-next dark:bg-gray-800 p-2 rounded-full shadow-lg dark:hover:bg-[#ffd81e] transition-all w-12 h-12 flex items-center justify-center">
                 <svg
                   fill="#312f2f"
                   height="40"
@@ -157,12 +157,12 @@ const ProfileEditImage = ({
         )}
 
         <div className="flex flex-col items-center justify-center gap-6">
-          <label className="w-full max-w-md flex flex-col items-center justify-center border-2 border-dashed border-indigo-400 dark:border-indigo-600 rounded-2xl px-8 py-12 bg-indigo-50/50 dark:bg-gray-900 transition-all hover:shadow-lg cursor-pointer">
-            <span className="text-lg font-medium text-indigo-700 dark:text-indigo-300 mb-4">
+          <label className="w-full max-w-md flex flex-col items-center justify-center border-2 border-dashed border-[#964d0a] dark:border-[#ffd81e] rounded-2xl px-8 py-12 bg-indigo-50/50 dark:bg-gray-900 transition-all hover:shadow-lg cursor-pointer">
+            <span className="text-lg font-medium text-gray-700 dark:text-amber-100 mb-4">
               انتخاب تصویر جدید
             </span>
             <input type="file" className="hidden" />
-            <div className="flex items-center justify-center gap-3 text-indigo-600 dark:text-indigo-400 font-medium">
+            <div className="flex items-center justify-center gap-3 text-[#964d0a] dark:text-[#ffd81e] font-medium">
               <svg
                 className="w-7 h-7"
                 fill="none"
@@ -188,7 +188,7 @@ const ProfileEditImage = ({
             )}
           </label>
 
-          <button className="mt-2 px-6 py-3 rounded-xl bg-indigo-600 text-white text-base font-semibold hover:bg-indigo-700 transition-all duration-300 shadow-md hover:shadow-xl">
+          <button className="mt-2 px-6 py-3 rounded-xl bg-color1 text-white text-base font-semibold hover:bg-color2 transition-all duration-300 shadow-md hover:shadow-xl">
             ثبت تصویر
           </button>
         </div>
