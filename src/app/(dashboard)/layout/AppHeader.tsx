@@ -108,13 +108,11 @@ const AppHeader: React.FC = () => {
         >
           <div className="flex items-center gap-2 2xsm:gap-3 border-l-2 border-gray-300 dark:border-gray-800 pl-4">
             <ThemeSwitcher />
-            {/* <!-- Dark Mode Toggler --> */}
           </div>
-            <HiOutlineBellAlert
-              size={30}
-              className="cursor-pointer hover:text-blue-500 bord"
-            />
-          {/* <!-- User Area --> */}
+          <HiOutlineBellAlert
+            size={30}
+            className="cursor-pointer hover:text-blue-500 bord"
+          />
           <UserDropdown />
         </div>
       </div>
