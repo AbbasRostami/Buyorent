@@ -23,6 +23,8 @@ import {
   getCoreRowModel,
 } from "@tanstack/react-table";
 import { useState } from "react";
+import { useSidebar } from "../context/SidebarContext";
+
 type Transaction = {
   date: string;
   trackingId: string;
@@ -37,6 +39,7 @@ const WalletCard = () => {
   const { isOpen, onOpen, onOpenChange } = useDisclosure();
   const [sorting, setSorting] = useState<SortingState[]>([]);
   const columnHelper = createColumnHelper<Transaction>();
+  const { isExpanded, isHovered, isMobileOpen } = useSidebar();
 
   const columns = [
     columnHelper.display({
@@ -88,6 +91,15 @@ const WalletCard = () => {
     autoResetPageIndex: false,
     onSortingChange: setSorting,
   });
+
+  if (!isExpanded && !isHovered && !isMobileOpen) {
+    return (
+      <div className="w-full flex-shrink-0 px-2 pb-6 mt-auto flex justify-center">
+        <GiWallet className="text-gray-700 dark:text-gray-200" size={32} />
+      </div>
+    );
+  }
+
   return (
     <>
       <Dropdown placement="top-end" backdrop="opaque">
@@ -96,7 +108,7 @@ const WalletCard = () => {
             className="w-full flex-shrink-0 px-2 pb-6 mt-auto cursor-pointer transition-all duration-300"
             style={{ direction: "rtl" }}
           >
-            <div className="flex items-center justify-between border border-dashed border-gray-300 dark:border-gray-700 rounded-xl bg-white dark:bg-gray-800 px-4 py-3 shadow-sm transition-all duration-300 w-full min-h-[70px]">
+            <div className="flex items-center justify-between  border border-dashed border-gray-300 dark:border-gray-700 rounded-xl bg-white dark:bg-gray-800 px-4 py-3 shadow-sm transition-all duration-300 w-full min-h-[70px]">
               <div className="flex flex-col items-start gap-1">
                 <span className="font-bold text-lg text-gray-900 dark:text-white">
                   کیف پول
