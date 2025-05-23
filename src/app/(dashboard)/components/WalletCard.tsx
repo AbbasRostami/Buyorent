@@ -38,16 +38,13 @@ const WalletCard = () => {
   const [sorting, setSorting] = useState<SortingState[]>([]);
   const columnHelper = createColumnHelper<Transaction>();
 
-  // فقط داخل <tbody> و تعریف ستون‌ها نیاز به تغییر هست
-
-  // در بخش columns:
   const columns = [
     columnHelper.display({
       id: "rowIndex",
       header: "#",
       cell: ({ row }) => row.index + 1,
     }),
-    
+
     columnHelper.accessor("date", {
       header: "تاریخ",
       cell: (info) => info.getValue(),
@@ -80,17 +77,16 @@ const WalletCard = () => {
     { date: "1403/02/05/ 10:00", trackingId: "987654", amount: 450000 },
   ];
 
-  // در table config
   const table = useReactTable<Transaction>({
     data,
     columns,
     getCoreRowModel: getCoreRowModel(),
-    getSortedRowModel: getCoreRowModel(), // حتما اضافه شود
+    getSortedRowModel: getCoreRowModel(),
     state: {
       sorting,
     },
     autoResetPageIndex: false,
-    onSortingChange: setSorting, // کنترل تغییرات
+    onSortingChange: setSorting,
   });
   return (
     <>
