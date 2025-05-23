@@ -21,9 +21,6 @@ export default function BookingTable() {
         accessorKey: "id",
         header: "ردیف",
         cell: (info) => info.getValue(),
-
-
-        
       },
       {
         accessorKey: "title",
@@ -46,22 +43,32 @@ export default function BookingTable() {
       {
         accessorKey: "status",
         header: "وضعیت رزرو",
-        cell: (info) =>
-          info.getValue() === "تایید شده"
-            ? "تایید شده"
-            : info.getValue() === "رزرو"
-            ? "رزرو"
-            : "رزرو",
+        cell: (info) => {
+          const value = info.getValue();
+          const colorClass =
+            value === "تایید شده"
+              ? "text-green-600 font-bold"
+              : value === "رزرو"
+              ? "text-blue-600 font-bold"
+              : "text-gray-600";
+
+          return <span className={colorClass}>{value}</span>;
+        },
       },
       {
         accessorKey: "payment_status",
         header: "وضعیت پرداخت",
-        cell: (info) =>
-          info.getValue() === "پرداخت شده"
-            ? "پرداخت شده"
-            : info.getValue() === "پرداخت نشده"
-            ? "پرداخت نشده"
-            : "پرداخت نشده",
+        cell: (info) => {
+          const value = info.getValue();
+          const colorClass =
+            value === "پرداخت شده"
+              ? "text-green-600 font-bold"
+              : value === "پرداخت نشده"
+              ? "text-red-600 font-bold"
+              : "text-gray-600";
+
+          return <span className={colorClass}>{value}</span>;
+        },
       },
     ],
     []
