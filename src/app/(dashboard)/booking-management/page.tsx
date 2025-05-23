@@ -32,7 +32,6 @@ import image from "./../../../assets/Avatar1.png";
 import image2 from "./../../../assets/Avatar2.png";
 import image3 from "./../../../assets/Avatar3.png";
 import Image from "next/image";
-import { useRouter } from "next/navigation";
 import ModalDetails from "./ModalDetails";
 
 export interface BookingData {
@@ -48,7 +47,6 @@ export interface BookingData {
 
 export default function BookingTable() {
   const [sorting, setSorting] = useState([]);
-  const router = useRouter();
   const [selectedRow, setSelectedRow] = useState<BookingData | null>(null);
   const { isOpen, onOpen, onOpenChange } = useDisclosure();
   const [globalFilter, setGlobalFilter] = useState("");
