@@ -23,8 +23,6 @@ export const useSidebar = () => {
   }
   return context;
 };
-//
-//
 export const SidebarProvider: React.FC<{ children: React.ReactNode }> = ({
   children,
 }) => {
