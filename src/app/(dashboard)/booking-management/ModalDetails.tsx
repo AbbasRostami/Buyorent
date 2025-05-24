@@ -31,6 +31,8 @@ export default function ModalDetails({
   const price = "۵,۰۰۰,۰۰۰";
   const star = 5;
 
+
+
   return (
     <Modal
       isOpen={isOpen}
