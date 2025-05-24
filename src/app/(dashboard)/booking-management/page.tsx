@@ -46,9 +46,9 @@ export interface BookingData {
 }
 
 export default function BookingTable() {
+  const { isOpen, onOpen, onOpenChange } = useDisclosure();
   const [sorting, setSorting] = useState([]);
   const [selectedRow, setSelectedRow] = useState<BookingData | null>(null);
-  const { isOpen, onOpen, onOpenChange } = useDisclosure();
   const [globalFilter, setGlobalFilter] = useState("");
   const [pagination, setPagination] = useState({
     pageIndex: 0,
