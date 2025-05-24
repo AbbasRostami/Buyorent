@@ -28,9 +28,9 @@ const Statistics = () => {
     },
     colors: ["#F97316", "#FACC15", "#4ADE80", "#60A5FA"],
     legend: {
-      position: "bottom",
+      position: "right",
       fontSize: "16px",
-      fontWeight: 700,
+      fontWeight: 400,
       labels: {
         colors: theme === "dark" ? "#F97316" : "#000",
         useSeriesColors: false,
@@ -72,7 +72,7 @@ const Statistics = () => {
         options={chartOptions}
         series={state.series}
         type="donut"
-        height={350}
+        height={200}
       />
     </div>
   );
