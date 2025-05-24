@@ -1,8 +1,8 @@
 import EcommerceMetrics from "./Dashboard/EcommerceMetrics";
 import MonthlyTarget from "./Dashboard/MonthlyTarget";
-import NewCoursesSlider from "./Dashboard/NewCoursesSlider";
 import Statistics from "./Dashboard/Statistics";
 import UserProfileCard from "./Dashboard/UserProfileCard";
+import LastetReseves from "./Dashboard/LastetReseves";
 
 export default function Home() {
   return (
@@ -20,10 +20,10 @@ export default function Home() {
           <MonthlyTarget />
         </div>
         <div className="col-span-12 xl:col-span-6">
-          <NewCoursesSlider />
-        </div>
-        <div className="col-span-12 xl:col-span-6">
           <Statistics />
+        </div>
+        <div className="col-span-12 xl:col-span-12">
+          <LastetReseves />
         </div>
       </div>
     </>
