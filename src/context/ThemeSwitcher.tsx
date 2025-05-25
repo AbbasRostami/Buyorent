@@ -34,7 +34,7 @@ export function ThemeSwitcher() {
         )}
       </button>
 
-      <div className="absolute z-[1000] left-1/2 transform -translate-x-1/2 mt-2 opacity-0 group-hover:opacity-100 group-hover:pointer-events-auto transition-all duration-300 flex space-x-2 bg-white dark:bg-neutral-800 p-2 rounded-lg shadow-lg border border-gray-300 dark:border-gray-600">
+      <div className="absolute z-[999999] left-1/2 transform -translate-x-1/2 mt-2 opacity-0 group-hover:opacity-100 group-hover:pointer-events-auto transition-all duration-300 flex space-x-2 bg-white dark:bg-neutral-800 p-2 rounded-lg shadow-lg border border-gray-300 dark:border-gray-600">
         {["light", "dark", "system"].map((t) => (
           <button
             key={t}
