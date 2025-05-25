@@ -314,7 +314,7 @@ const AppSidebar: React.FC = () => {
                 }`}
               >
                 {isExpanded || isHovered || isMobileOpen ? (
-                  "منو"
+                  "Menu"
                 ) : (
                   <BsPcHorizontal className="size-6" />
                 )}
