@@ -151,7 +151,7 @@ export default function LastetReseves() {
       title: "کوه سراوان",
       date: "1403/02/01/ 10:00",
       price: 170000000,
-      status: "در انتظار",
+      status: "لغو شده",
       image: image2.src,
     },
     {
@@ -159,7 +159,7 @@ export default function LastetReseves() {
       title: "ساحل سراوان",
       date: "1403/02/01/ 10:00",
       price: 100000,
-      status: "در انتظار",
+      status: "لغو شده",
       image: image.src,
     },
     {
@@ -167,7 +167,7 @@ export default function LastetReseves() {
       title: "ماهی پارک",
       date: "1403/02/01/ 10:00",
       price: 160000000,
-      status: "در انتظار",
+      status: "لغو شده",
       image: image2.src,
     },
     {
@@ -191,7 +191,7 @@ export default function LastetReseves() {
       title: "ماهی پارک",
       date: "1403/02/01/ 10:00",
       price: 170000000,
-      status: "در انتظار",
+      status: "لغو شده",
       image: image.src,
     },
     {
@@ -207,7 +207,7 @@ export default function LastetReseves() {
       title: "ماهی بهشهر",
       date: "1403/02/01/ 10:00",
       price: 186600000,
-      status: "تایید شده",
+      status: "لغو شده",
       image: image2.src,
     },
   ];
