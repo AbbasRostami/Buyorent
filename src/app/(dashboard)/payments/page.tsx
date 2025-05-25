@@ -1,7 +1,6 @@
 "use client";
 
 import {
-  Badge,
   Button,
   Dropdown,
   DropdownItem,
@@ -26,20 +25,20 @@ import { TiDeleteOutline } from "react-icons/ti";
 import { PiWarningCircleBold } from "react-icons/pi";
 import { GiWallet } from "react-icons/gi";
 import { HiDotsHorizontal } from "react-icons/hi";
-import { FaPlusCircle } from "react-icons/fa";
 import image from "./../../../assets/Avatar1.png";
 import image2 from "./../../../assets/Avatar2.png";
 import image3 from "./../../../assets/Avatar3.png";
 import Image from "next/image";
+import { MdOutlinePayments } from "react-icons/md";
+import { IoEyeSharp } from "react-icons/io5";
 interface BookingData {
   id: number;
   title: string;
   date: string;
   trackingNumber: string;
   price: number;
-  guests: string;
-  status: "تایید شده" | "در انتظار" | "لغو شده";
-  payment_status: "تایید شده" | "لغو شده";
+  guests: "شارژ کیف پول" | "رزرو";
+  status: "تایید شده" | "تایید نشده";
   image: string;
 }
 
@@ -72,7 +71,7 @@ export default function PaymentsPage() {
           />
         ),
       },
-      
+
       {
         accessorKey: "date",
         header: "تاریخ پرداخت",
@@ -92,9 +91,9 @@ export default function PaymentsPage() {
           (rowA.getValue(columnId) as number) -
           (rowB.getValue(columnId) as number),
       },
-    
+
       {
-        accessorKey: "payment_status",
+        accessorKey: "status",
         header: "وضعیت پرداخت",
         cell: (info) => {
           const value = info.getValue();
@@ -102,7 +101,7 @@ export default function PaymentsPage() {
           return (
             <p
               className={`p-1 px-2 text-medium font-normal rounded-2xl ${
-                value === "تایید شده" ? "badge-success" : "badge-danger"
+                value === "تایید نشده" ? "badge-danger" : "badge-success"
               }`}
             >
               {value as string}
@@ -111,53 +110,23 @@ export default function PaymentsPage() {
         },
         enableSorting: true,
       },
-       {
+      {
         accessorKey: "guests",
         header: "نوع تراکنش",
         enableSorting: true,
-        sortingFn: (rowA, rowB, columnId) =>
-          (rowA.getValue(columnId) as number) -
-          (rowB.getValue(columnId) as number),
+        cell: (info) => info.getValue(),
       },
       {
         accessorKey: "actions",
-        header: "عملیات",
+        header: "مشاهده رسید",
+        enableSorting: false,
         cell: (info) => {
           return (
-            <Dropdown>
-              <DropdownTrigger>
-                <Button variant="light">
-                  <HiDotsHorizontal size={20} />
-                </Button>
-              </DropdownTrigger>
-              <DropdownMenu aria-label="Static Actions">
-                <DropdownItem color="success" key="payment">
-                  <div className="flex items-center gap-2">
-                    <GiWallet size={20} />
-                    پرداخت
-                  </div>
-                </DropdownItem>
-                <DropdownItem color="warning" key="details">
-                  <div className="flex items-center gap-2">
-                    <PiWarningCircleBold size={20} />
-                    جزئیات
-                  </div>
-                </DropdownItem>
-                <DropdownItem
-                  key="delete"
-                  className="text-danger"
-                  color="danger"
-                >
-                  <div className="flex items-center gap-2">
-                    <TiDeleteOutline size={20} />
-                    حذف
-                  </div>
-                </DropdownItem>
-              </DropdownMenu>
-            </Dropdown>
+            <Button variant="light" color="warning">
+              <IoEyeSharp  size={20} />
+            </Button>
           );
         },
-        enableSorting: false,
       },
     ],
     []
@@ -168,143 +137,130 @@ export default function PaymentsPage() {
       id: 1,
       title: "هتل سراوان",
       date: "1403/02/01/ 10:00",
-      trackingNumber:"123456789123456",
+      trackingNumber: "123456789123456",
       price: 150000000,
-      guests: "شارژ کیف پول  ",
+      guests: "رزرو",
       status: "تایید شده",
-      payment_status: "لغو شده",
       image: image.src,
     },
     {
       id: 2,
       title: "شیراز پارک",
       date: "1403/02/01/ 10:00",
-      trackingNumber:"123456789123456",
+      trackingNumber: "123456789123456",
       price: 150000000,
-      guests: "شارژ کیف پول  ",
-      status: "در انتظار",
-      payment_status: "تایید شده",
+      guests: "شارژ کیف پول",
+      status: "تایید نشده",
       image: image2.src,
     },
     {
       id: 3,
       title: "تراول پارک",
       date: "1403/02/01/ 10:00",
-      trackingNumber:"123456789123456",
+      trackingNumber: "123456789123456",
       price: 160000000,
-      guests: "شارژ کیف پول  ",
-      status: "در انتظار",
-      payment_status: "لغو شده",
+      guests: "شارژ کیف پول",
+      status: "تایید نشده",
       image: image3.src,
     },
     {
       id: 4,
       title: "میدان جمهریه",
       date: "1403/02/01/ 10:00",
-      trackingNumber:"123456789123456",
+      trackingNumber: "123456789123456",
       price: 180000000,
-      guests: "شارژ کیف پول  ",
+      guests: "رزرو",
       status: "تایید شده",
-      payment_status: "لغو شده",
       image: image2.src,
     },
     {
       id: 5,
       title: "ماهی پارک",
       date: "1403/02/01/ 10:00",
-      trackingNumber:"123456789123456",
+      trackingNumber: "123456789123456",
       price: 170000000,
-      guests: "شارژ کیف پول  ",
-      status: "در انتظار",
-      payment_status: "تایید شده",
+      guests: "شارژ کیف پول",
+      status: "تایید نشده",
       image: image3.src,
     },
     {
       id: 6,
       title: "کوه سراوان",
       date: "1403/02/01/ 10:00",
-      trackingNumber:"123456789123456",
+      trackingNumber: "123456789123456",
       price: 170000000,
-      guests: "شارژ کیف پول  ",
-      status: "در انتظار",
-      payment_status: "لغو شده",
+      guests: "شارژ کیف پول",
+      status: "تایید شده",
       image: image2.src,
     },
     {
       id: 7,
       title: "ساحل سراوان",
       date: "1403/02/01/ 10:00",
-      trackingNumber:"123456789123456",
+      trackingNumber: "123456789123456",
       price: 100000,
-      guests: "شارژ کیف پول  ",
-      status: "در انتظار",
-      payment_status: "تایید شده",
+      guests: "شارژ کیف پول",
+      status: "تایید نشده",
       image: image.src,
     },
     {
       id: 8,
       title: "ماهی پارک",
       date: "1403/02/01/ 10:00",
-      trackingNumber:"123456789123456",
+      trackingNumber: "123456789123456",
       price: 160000000,
-      guests: "شارژ کیف پول  ",
-      status: "در انتظار",
-      payment_status: "تایید شده",
+      guests: "رزرو",
+      status: "تایید نشده",
       image: image2.src,
     },
     {
       id: 9,
       title: "ماهی پارک",
       date: "1403/02/01/ 10:00",
-      trackingNumber:"123456789123456",
+      trackingNumber: "123456789123456",
       price: 190000000,
-      guests: "شارژ کیف پول  ",
+      guests: "شارژ کیف پول",
       status: "تایید شده",
-      payment_status: "لغو شده",
       image: image3.src,
     },
     {
       id: 10,
       title: "نسرین پارک",
       date: "1403/02/01/ 10:00",
-      trackingNumber:"123456789123456",
+      trackingNumber: "123456789123456",
       price: 170000000,
-      guests: "شارژ کیف پول  ",
-      status: "در انتظار",
-      payment_status: "تایید شده",
+      guests: "رزرو",
+      status: "تایید نشده",
       image: image2.src,
     },
     {
       id: 11,
       title: "ماهی پارک",
       date: "1403/02/01/ 10:00",
-      trackingNumber:"123456789123456",
+      trackingNumber: "123456789123456",
       price: 170000000,
-      guests: "شارژ کیف پول  ",
-      status: "در انتظار",
-      payment_status: "لغو شده",
+      guests: "رزرو",
+      status: "تایید نشده",
       image: image.src,
     },
     {
       id: 12,
       title: "ساحل سراوان",
       date: "1403/02/01/ 10:00",
-      trackingNumber:"123456789123456",
+      trackingNumber: "123456789123456",
       price: 170000000,
-      guests: "شارژ کیف پول  ",
-      status: "در انتظار",
-      payment_status: "تایید شده",
+      guests: "شارژ کیف پول",
+      status: "تایید نشده",
       image: image3.src,
     },
     {
       id: 13,
       title: "ماهی بهشهر",
       date: "1403/02/01/ 10:00",
-      trackingNumber:"123456789123456",
+      trackingNumber: "123456789123456",
       price: 186600000,
-      guests: "شارژ کیف پول  ",
+      guests: "رزرو",
       status: "تایید شده",
-      payment_status: "لغو شده",
       image: image2.src,
     },
   ];
@@ -328,12 +284,12 @@ export default function PaymentsPage() {
     <div className="space-y-4">
       <div className="flex items-center justify-between gap-2 pb-6 border-b-2 border-dashed border-amber-500">
         <div className="flex items-center gap-2">
-          <FaPlusCircle
+          <MdOutlinePayments
             className="text-amber-900 dark:text-amber-200"
             size={30}
           />
           <span className="text-amber-500 text-xl font-bold  dark:text-amber-200 pb-3 border-b-4 border-amber-500 relative group transition-all duration-300 ease-in-out">
-          لیست تراکنش های شما
+            لیست تراکنش های شما
           </span>
         </div>
         <input
@@ -347,7 +303,7 @@ export default function PaymentsPage() {
 
       <div className="overflow-x-auto  rounded-xl">
         <table className="min-w-full  table-auto text-sm">
-          <thead className="bg-amber-200/70 dark:bg-gray-500 text-center">
+          <thead className="bg-gradient-to-l from-[#915201] to-[#D27700] text-amber-50 dark:bg-gray-500 text-center">
             {table.getHeaderGroups().map((headerGroup) => (
               <tr key={headerGroup.id}>
                 {headerGroup.headers.map((header) => (
@@ -378,8 +334,8 @@ export default function PaymentsPage() {
                 className={`
             ${
               index % 2 === 0
-                ? "bg-blue-50 dark:bg-gray-800/80"
-                : "bg-white dark:bg-gray-700/80"
+                ? "bg-[#ebebe9] dark:bg-gray-800/80"
+                : "bg-[#F8F8F8] dark:bg-gray-700/80"
             }
             hover:bg-amber-100/70 dark:hover:bg-gray-600
             transition-colors duration-200
