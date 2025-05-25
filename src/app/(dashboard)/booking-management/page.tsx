@@ -365,7 +365,7 @@ export default function BookingTable() {
 
       <div className="overflow-x-auto  rounded-xl">
         <table className="min-w-full  table-auto text-sm">
-          <thead className="bg-amber-200/70 dark:bg-gray-500 text-center">
+          <thead className="bg-gradient-to-l from-[#915201] to-[#D27700] text-amber-50 dark:bg-gray-500 text-center">
             {table.getHeaderGroups().map((headerGroup) => (
               <tr key={headerGroup.id}>
                 {headerGroup.headers.map((header) => (
@@ -396,8 +396,8 @@ export default function BookingTable() {
                 className={`
             ${
               index % 2 === 0
-                ? "bg-blue-50 dark:bg-gray-800/80"
-                : "bg-white dark:bg-gray-700/80"
+                ? "bg-[#ebebe9] dark:bg-gray-800/80"
+                : "bg-[#F8F8F8] dark:bg-gray-700/80"
             }
             hover:bg-amber-100/70 dark:hover:bg-gray-600
             transition-colors duration-200
