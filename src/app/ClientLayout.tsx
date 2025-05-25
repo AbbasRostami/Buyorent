@@ -24,6 +24,7 @@ export default function ClientLayout({
     <>
       <Header />
       <Toaster position="top-center" />
+
       {children}
       {showFooter && <Footer />}
     </>

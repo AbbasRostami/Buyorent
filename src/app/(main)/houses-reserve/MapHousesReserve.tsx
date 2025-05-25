@@ -117,12 +117,13 @@ export default function MapHousesReserve({
       <MapContainer
         center={defaultCenter}
         zoom={6}
-        className="h-full w-full"
+        className="h-full w-full dark:bg-gray-800 dark:invert dark:hue-rotate-180"
         key={userLocation?.join(",") || "default-map"}
       >
         <TileLayer
           attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-          url={tileLayerUrl}
+          url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+          maxZoom={20}
         />
         {data?.map((property) => (
           <Marker

@@ -28,9 +28,7 @@ export default async function RootLayout({
       <body className={vazirmatn.className}>
         <SessionProvider session={session}>
           <QueryProvider>
-            <Providers>
-              <ClientLayout>{children}</ClientLayout>
-            </Providers>
+            <Providers>{children}</Providers>
           </QueryProvider>
         </SessionProvider>
       </body>
