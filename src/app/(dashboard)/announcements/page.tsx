@@ -18,6 +18,7 @@ import { CgCheck } from "react-icons/cg";
 import { FaPlusCircle } from "react-icons/fa";
 import { BsArrowUp } from "react-icons/bs";
 import { BsArrowDown } from "react-icons/bs";
+import { MdNotificationsActive } from "react-icons/md";
 
 interface Announcement {
   id: number;
@@ -241,7 +242,7 @@ export default function AnnouncementsPage() {
     <div className="space-y-4">
       <div className="flex items-center justify-between gap-2 pb-6 border-b-2 border-dashed border-amber-500">
         <div className="flex items-center gap-2">
-          <FaPlusCircle
+          <MdNotificationsActive
             className="text-amber-900 dark:text-amber-200 "
             size={30}
           />
