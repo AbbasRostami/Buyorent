@@ -23,7 +23,7 @@ export default function UserProfileCard() {
             className="w-28 truncate text-2xl font-bold text-gray-900 dark:text-white"
             title={`کاربر`}
           >
-           خریدار
+          فروشنده
           </h2>
 
           <div className="w-16 h-1 bg-gradient-to-r from-indigo-400 via-purple-400 to-pink-400 rounded-full mt-2 mx-auto" />
