@@ -240,7 +240,9 @@ export default function AnnouncementsPage() {
 
   return (
     <div className="space-y-4">
-      <div className="flex items-center justify-between gap-2 pb-6 border-b-2 border-dashed border-amber-500">
+     
+     
+      <div className="flex flex-col md:flex-row items-center justify-between gap-2 pb-6 border-b-2 border-dashed border-amber-500">
         <div className="flex items-center gap-2">
           <MdNotificationsActive
             className="text-amber-900 dark:text-amber-200 "
@@ -250,7 +252,7 @@ export default function AnnouncementsPage() {
             لیست اعلان های شما
           </span>
         </div>
-        <div className="flex gap-2 items-center w-1/2 justify-end">
+        <div className="flex flex-col md:flex-row mt-4 gap-2 items-center w-1/2 justify-end">
           <Button
             className=" text-black rounded-md"
             color="warning"
@@ -274,6 +276,8 @@ export default function AnnouncementsPage() {
           </Select>
         </div>
       </div>
+
+
       <div className="overflow-x-auto rounded-xl">
         <table className="min-w-full table-auto text-sm">
           <thead className="bg-gradient-to-l from-[#915201] to-[#D27700] text-amber-50 dark:bg-gray-500 text-center">
