@@ -1,7 +1,6 @@
 "use client";
 
 import {
-  Badge,
   Button,
   Dropdown,
   DropdownItem,
@@ -22,25 +21,24 @@ import {
 } from "@tanstack/react-table";
 import { useMemo, useState } from "react";
 import { BsArrowDown, BsArrowUp } from "react-icons/bs";
-import { CgAdd } from "react-icons/cg";
-import { TiDeleteOutline } from "react-icons/ti";
-import { PiWarningCircleBold } from "react-icons/pi";
-import { GiWallet } from "react-icons/gi";
-import { HiDotsHorizontal } from "react-icons/hi";
-import { FaHeart, FaPlusCircle } from "react-icons/fa";
-import image from "./../../../assets/Avatar1.png";
-import image2 from "./../../../assets/Avatar2.png";
-import image3 from "./../../../assets/Avatar3.png";
+import image from "./../../../../assets/Avatar1.png";
+import image2 from "./../../../../assets/Avatar2.png";
+import image3 from "./../../../../assets/Avatar3.png";
 import Image from "next/image";
+import { MdOutlinePayments } from "react-icons/md";
+import { IoEyeSharp } from "react-icons/io5";
 interface BookingData {
   id: number;
   title: string;
-  addres: string;
+  date: string;
+  trackingNumber: string;
   price: number;
+  guests: "شارژ کیف پول" | "رزرو";
+  status: "تایید شده" | "تایید نشده";
   image: string;
 }
 
-export default function FavoritesPage() {
+export default function PaymentsPage() {
   const [sorting, setSorting] = useState([]);
   const [globalFilter, setGlobalFilter] = useState("");
   const [pagination, setPagination] = useState({
@@ -69,62 +67,62 @@ export default function FavoritesPage() {
           />
         ),
       },
+
       {
-        accessorKey: "title",
-        header: "نام اقامتگاه",
-        cell: (info) => info.getValue(),
-        enableSorting: true,
+        accessorKey: "date",
+        header: "تاریخ پرداخت",
+        enableSorting: false,
       },
-     
+      {
+        accessorKey: "trackingNumber",
+        header: "شماره پیگیری",
+        enableSorting: false,
+      },
       {
         accessorKey: "price",
-        header: "قیمت کل",
+        header: " مبلغ",
         cell: (info) => `${(+info.getValue()).toLocaleString()} تومان`,
         enableSorting: true,
         sortingFn: (rowA, rowB, columnId) =>
           (rowA.getValue(columnId) as number) -
           (rowB.getValue(columnId) as number),
       },
+
       {
-        accessorKey: "addres",
-        header: " آدرس",
+        accessorKey: "status",
+        header: "وضعیت پرداخت",
+        cell: (info) => {
+          const value = info.getValue();
+
+          return (
+            <p
+              className={`p-1 px-2 text-medium font-normal rounded-2xl ${
+                value === "تایید نشده" ? "badge-danger" : "badge-success"
+              }`}
+            >
+              {value as string}
+            </p>
+          );
+        },
+        enableSorting: true,
+      },
+      {
+        accessorKey: "guests",
+        header: "نوع تراکنش",
+        enableSorting: true,
         cell: (info) => info.getValue(),
-        enableSorting: false,
       },
       {
         accessorKey: "actions",
-        header: "عملیات",
+        header: "مشاهده رسید",
+        enableSorting: false,
         cell: (info) => {
           return (
-            <Dropdown>
-              <DropdownTrigger>
-                <Button variant="light">
-                  <HiDotsHorizontal size={20} />
-                </Button>
-              </DropdownTrigger>
-              <DropdownMenu aria-label="Static Actions">
-            
-                <DropdownItem color="success" key="details">
-                  <div className="flex items-center gap-2">
-                    <CgAdd  size={20} />
-                    رزرو
-                  </div>
-                </DropdownItem>
-                <DropdownItem
-                  key="delete"
-                  className="text-danger"
-                  color="danger"
-                >
-                  <div className="flex items-center gap-2">
-                    <TiDeleteOutline size={20} />
-                    حذف
-                  </div>
-                </DropdownItem>
-              </DropdownMenu>
-            </Dropdown>
+            <Button variant="light" color="warning">
+              <IoEyeSharp  size={20} />
+            </Button>
           );
         },
-        enableSorting: false,
       },
     ],
     []
@@ -134,92 +132,131 @@ export default function FavoritesPage() {
     {
       id: 1,
       title: "هتل سراوان",
-      addres: " گیلان ، رشت ، میدان آزادی ، جنب چهار راه عظ....گیلان ، رشت...",
+      date: "1403/02/01/ 10:00",
+      trackingNumber: "123456789123456",
       price: 150000000,
+      guests: "رزرو",
+      status: "تایید شده",
       image: image.src,
     },
     {
       id: 2,
       title: "شیراز پارک",
-      addres: " گیلان ، رشت ، میدان آزادی ، جنب چهار راه عظ....گیلان ، رشت...",
+      date: "1403/02/01/ 10:00",
+      trackingNumber: "123456789123456",
       price: 150000000,
+      guests: "شارژ کیف پول",
+      status: "تایید نشده",
       image: image2.src,
     },
     {
       id: 3,
       title: "تراول پارک",
-      addres: " گیلان ، رشت ، میدان آزادی ، جنب چهار راه عظ....گیلان ، رشت...",
+      date: "1403/02/01/ 10:00",
+      trackingNumber: "123456789123456",
       price: 160000000,
+      guests: "شارژ کیف پول",
+      status: "تایید نشده",
       image: image3.src,
     },
     {
       id: 4,
       title: "میدان جمهریه",
-      addres: " گیلان ، رشت ، میدان آزادی ، جنب چهار راه عظ....گیلان ، رشت...",
+      date: "1403/02/01/ 10:00",
+      trackingNumber: "123456789123456",
       price: 180000000,
+      guests: "رزرو",
+      status: "تایید شده",
       image: image2.src,
     },
     {
       id: 5,
       title: "ماهی پارک",
-      addres: " گیلان ، رشت ، میدان آزادی ، جنب چهار راه عظ....گیلان ، رشت...",
+      date: "1403/02/01/ 10:00",
+      trackingNumber: "123456789123456",
       price: 170000000,
+      guests: "شارژ کیف پول",
+      status: "تایید نشده",
       image: image3.src,
     },
     {
       id: 6,
       title: "کوه سراوان",
-      addres: " گیلان ، رشت ، میدان آزادی ، جنب چهار راه عظ....گیلان ، رشت...",
+      date: "1403/02/01/ 10:00",
+      trackingNumber: "123456789123456",
       price: 170000000,
+      guests: "شارژ کیف پول",
+      status: "تایید شده",
       image: image2.src,
     },
     {
       id: 7,
       title: "ساحل سراوان",
-      addres: " گیلان ، رشت ، میدان آزادی ، جنب چهار راه عظ....گیلان ، رشت...",
+      date: "1403/02/01/ 10:00",
+      trackingNumber: "123456789123456",
       price: 100000,
+      guests: "شارژ کیف پول",
+      status: "تایید نشده",
       image: image.src,
     },
     {
       id: 8,
       title: "ماهی پارک",
-      addres: " گیلان ، رشت ، میدان آزادی ، جنب چهار راه عظ....گیلان ، رشت...",
+      date: "1403/02/01/ 10:00",
+      trackingNumber: "123456789123456",
       price: 160000000,
+      guests: "رزرو",
+      status: "تایید نشده",
       image: image2.src,
     },
     {
       id: 9,
       title: "ماهی پارک",
-      addres: " گیلان ، رشت ، میدان آزادی ، جنب چهار راه عظ....گیلان ، رشت...",
+      date: "1403/02/01/ 10:00",
+      trackingNumber: "123456789123456",
       price: 190000000,
+      guests: "شارژ کیف پول",
+      status: "تایید شده",
       image: image3.src,
     },
     {
       id: 10,
       title: "نسرین پارک",
-      addres: " گیلان ، رشت ، میدان آزادی ، جنب چهار راه عظ....گیلان ، رشت...",
+      date: "1403/02/01/ 10:00",
+      trackingNumber: "123456789123456",
       price: 170000000,
+      guests: "رزرو",
+      status: "تایید نشده",
       image: image2.src,
     },
     {
       id: 11,
       title: "ماهی پارک",
-      addres: " گیلان ، رشت ، میدان آزادی ، جنب چهار راه عظ....گیلان ، رشت...",
+      date: "1403/02/01/ 10:00",
+      trackingNumber: "123456789123456",
       price: 170000000,
+      guests: "رزرو",
+      status: "تایید نشده",
       image: image.src,
     },
     {
       id: 12,
       title: "ساحل سراوان",
-      addres: " گیلان ، رشت ، میدان آزادی ، جنب چهار راه عظ....گیلان ، رشت...",
+      date: "1403/02/01/ 10:00",
+      trackingNumber: "123456789123456",
       price: 170000000,
+      guests: "شارژ کیف پول",
+      status: "تایید نشده",
       image: image3.src,
     },
     {
       id: 13,
       title: "ماهی بهشهر",
-      addres: " گیلان ، رشت ، میدان آزادی ، جنب چهار راه عظ....گیلان ، رشت...",
+      date: "1403/02/01/ 10:00",
+      trackingNumber: "123456789123456",
       price: 186600000,
+      guests: "رزرو",
+      status: "تایید شده",
       image: image2.src,
     },
   ];
@@ -243,17 +280,17 @@ export default function FavoritesPage() {
     <div className="space-y-4">
       <div className="flex items-center justify-between gap-2 pb-6 border-b-2 border-dashed border-amber-500">
         <div className="flex items-center gap-2">
-          <FaHeart
+          <MdOutlinePayments
             className="text-amber-900 dark:text-amber-200"
             size={30}
           />
           <span className="text-amber-500 text-xl font-bold  dark:text-amber-200 pb-3 border-b-4 border-amber-500 relative group transition-all duration-300 ease-in-out">
-            لیست رزرو های ذخیره شده
+            لیست تراکنش های شما
           </span>
         </div>
         <input
           type="text"
-          placeholder="نام هتل مورد نظر را جستجو کنید..."
+          placeholder="نام اقامتگاه مورد نظر را جستجو کنید..."
           value={globalFilter}
           onChange={(e) => setGlobalFilter(e.target.value)}
           className="w-1/3 p-2 rounded-md border-2 border-amber-500"

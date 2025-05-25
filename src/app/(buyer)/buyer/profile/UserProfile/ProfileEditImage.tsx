@@ -1,6 +1,6 @@
-import image from "./../../../../assets/Avatar1.png";
-import image2 from "./../../../../assets/Avatar2.png";
-import image3 from "./../../../../assets/Avatar3.png";
+import image from "./../../../../../assets/Avatar1.png";
+import image2 from "./../../../../../assets/Avatar2.png";
+import image3 from "./../../../../../assets/Avatar3.png";
 import Image from "next/image";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Navigation } from "swiper/modules";

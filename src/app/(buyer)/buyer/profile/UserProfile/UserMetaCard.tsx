@@ -8,7 +8,7 @@ import {
 import { FaLinkedin } from "react-icons/fa";
 import { useRef } from "react";
 import Image from "next/image";
-import profile from "./../../../../assets/Avatar2.png";
+import profile from "./../../../../../assets/Avatar2.png";
 export default function UserMetaCard() {
   const imgRef = useRef<HTMLImageElement | null>(null);
   const fallbackRef = useRef<HTMLDivElement | null>(null);
