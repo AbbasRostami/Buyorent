@@ -27,7 +27,7 @@ import { TiDeleteOutline } from "react-icons/ti";
 import { PiWarningCircleBold } from "react-icons/pi";
 import { GiWallet } from "react-icons/gi";
 import { HiDotsHorizontal } from "react-icons/hi";
-import { FaPlusCircle } from "react-icons/fa";
+import { FaHeart, FaPlusCircle } from "react-icons/fa";
 import image from "./../../../assets/Avatar1.png";
 import image2 from "./../../../assets/Avatar2.png";
 import image3 from "./../../../assets/Avatar3.png";
@@ -104,7 +104,7 @@ export default function FavoritesPage() {
               </DropdownTrigger>
               <DropdownMenu aria-label="Static Actions">
             
-                <DropdownItem color="warning" key="details">
+                <DropdownItem color="success" key="details">
                   <div className="flex items-center gap-2">
                     <CgAdd  size={20} />
                     رزرو
@@ -243,7 +243,7 @@ export default function FavoritesPage() {
     <div className="space-y-4">
       <div className="flex items-center justify-between gap-2 pb-6 border-b-2 border-dashed border-amber-500">
         <div className="flex items-center gap-2">
-          <FaPlusCircle
+          <FaHeart
             className="text-amber-900 dark:text-amber-200"
             size={30}
           />
@@ -262,7 +262,7 @@ export default function FavoritesPage() {
 
       <div className="overflow-x-auto  rounded-xl">
         <table className="min-w-full  table-auto text-sm">
-          <thead className="bg-amber-200/70 dark:bg-gray-500 text-center">
+          <thead className="bg-gradient-to-l from-[#915201] to-[#D27700] text-amber-50 dark:bg-gray-500 text-center">
             {table.getHeaderGroups().map((headerGroup) => (
               <tr key={headerGroup.id}>
                 {headerGroup.headers.map((header) => (
@@ -293,8 +293,8 @@ export default function FavoritesPage() {
                 className={`
             ${
               index % 2 === 0
-                ? "bg-blue-50 dark:bg-gray-800/80"
-                : "bg-white dark:bg-gray-700/80"
+                ? "bg-[#ebebe9] dark:bg-gray-800/80"
+                : "bg-[#F8F8F8] dark:bg-gray-700/80"
             }
             hover:bg-amber-100/70 dark:hover:bg-gray-600
             transition-colors duration-200
