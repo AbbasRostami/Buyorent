@@ -22,6 +22,7 @@ import {
 } from "@tanstack/react-table";
 import { useMemo, useState } from "react";
 import { BsArrowDown, BsArrowUp } from "react-icons/bs";
+import { CgAdd } from "react-icons/cg";
 import { TiDeleteOutline } from "react-icons/ti";
 import { PiWarningCircleBold } from "react-icons/pi";
 import { GiWallet } from "react-icons/gi";
@@ -34,11 +35,8 @@ import Image from "next/image";
 interface BookingData {
   id: number;
   title: string;
-  date: string;
+  addres: string;
   price: number;
-  guests: number;
-  status: "تایید شده" | "در انتظار" | "لغو شده";
-  payment_status: "تایید شده" | "لغو شده";
   image: string;
 }
 
@@ -77,11 +75,7 @@ export default function FavoritesPage() {
         cell: (info) => info.getValue(),
         enableSorting: true,
       },
-      {
-        accessorKey: "date",
-        header: "تاریخ رزرو",
-        enableSorting: false,
-      },
+     
       {
         accessorKey: "price",
         header: "قیمت کل",
@@ -92,51 +86,10 @@ export default function FavoritesPage() {
           (rowB.getValue(columnId) as number),
       },
       {
-        accessorKey: "guests",
-        header: "تعداد مسافر",
-        enableSorting: true,
-        sortingFn: (rowA, rowB, columnId) =>
-          (rowA.getValue(columnId) as number) -
-          (rowB.getValue(columnId) as number),
-      },
-      {
-        accessorKey: "status",
-        header: "وضعیت رزرو",
-        cell: (info) => {
-          const value = info.getValue();
-          return (
-            <p
-              className={`p-1 text-medium font-normal rounded-2xl ${
-                value === "تایید شده"
-                  ? "badge-success"
-                  : value === "در انتظار"
-                  ? "badge-warning"
-                  : "badge-danger"
-              }`}
-            >
-              {value as string}
-            </p>
-          );
-        },
-        enableSorting: true,
-      },
-      {
-        accessorKey: "payment_status",
-        header: "وضعیت پرداخت",
-        cell: (info) => {
-          const value = info.getValue();
-
-          return (
-            <p
-              className={`p-1 px-2 text-medium font-normal rounded-2xl ${
-                value === "تایید شده" ? "badge-success" : "badge-danger"
-              }`}
-            >
-              {value as string}
-            </p>
-          );
-        },
-        enableSorting: true,
+        accessorKey: "addres",
+        header: " آدرس",
+        cell: (info) => info.getValue(),
+        enableSorting: false,
       },
       {
         accessorKey: "actions",
@@ -150,16 +103,11 @@ export default function FavoritesPage() {
                 </Button>
               </DropdownTrigger>
               <DropdownMenu aria-label="Static Actions">
-                <DropdownItem color="success" key="payment">
-                  <div className="flex items-center gap-2">
-                    <GiWallet size={20} />
-                    پرداخت
-                  </div>
-                </DropdownItem>
+            
                 <DropdownItem color="warning" key="details">
                   <div className="flex items-center gap-2">
-                    <PiWarningCircleBold size={20} />
-                    جزئیات
+                    <CgAdd  size={20} />
+                    رزرو
                   </div>
                 </DropdownItem>
                 <DropdownItem
@@ -186,131 +134,92 @@ export default function FavoritesPage() {
     {
       id: 1,
       title: "هتل سراوان",
-      date: "1403/02/01/ 10:00",
+      addres: " گیلان ، رشت ، میدان آزادی ، جنب چهار راه عظ....گیلان ، رشت...",
       price: 150000000,
-      guests: 88,
-      status: "تایید شده",
-      payment_status: "لغو شده",
       image: image.src,
     },
     {
       id: 2,
       title: "شیراز پارک",
-      date: "1403/02/01/ 10:00",
+      addres: " گیلان ، رشت ، میدان آزادی ، جنب چهار راه عظ....گیلان ، رشت...",
       price: 150000000,
-      guests: 70,
-      status: "در انتظار",
-      payment_status: "تایید شده",
       image: image2.src,
     },
     {
       id: 3,
       title: "تراول پارک",
-      date: "1403/02/01/ 10:00",
+      addres: " گیلان ، رشت ، میدان آزادی ، جنب چهار راه عظ....گیلان ، رشت...",
       price: 160000000,
-      guests: 53,
-      status: "در انتظار",
-      payment_status: "لغو شده",
       image: image3.src,
     },
     {
       id: 4,
       title: "میدان جمهریه",
-      date: "1403/02/01/ 10:00",
+      addres: " گیلان ، رشت ، میدان آزادی ، جنب چهار راه عظ....گیلان ، رشت...",
       price: 180000000,
-      guests: 10,
-      status: "تایید شده",
-      payment_status: "لغو شده",
       image: image2.src,
     },
     {
       id: 5,
       title: "ماهی پارک",
-      date: "1403/02/01/ 10:00",
+      addres: " گیلان ، رشت ، میدان آزادی ، جنب چهار راه عظ....گیلان ، رشت...",
       price: 170000000,
-      guests: 7,
-      status: "در انتظار",
-      payment_status: "تایید شده",
       image: image3.src,
     },
     {
       id: 6,
       title: "کوه سراوان",
-      date: "1403/02/01/ 10:00",
+      addres: " گیلان ، رشت ، میدان آزادی ، جنب چهار راه عظ....گیلان ، رشت...",
       price: 170000000,
-      guests: 38,
-      status: "در انتظار",
-      payment_status: "لغو شده",
       image: image2.src,
     },
     {
       id: 7,
       title: "ساحل سراوان",
-      date: "1403/02/01/ 10:00",
+      addres: " گیلان ، رشت ، میدان آزادی ، جنب چهار راه عظ....گیلان ، رشت...",
       price: 100000,
-      guests: 85,
-      status: "در انتظار",
-      payment_status: "تایید شده",
       image: image.src,
     },
     {
       id: 8,
       title: "ماهی پارک",
-      date: "1403/02/01/ 10:00",
+      addres: " گیلان ، رشت ، میدان آزادی ، جنب چهار راه عظ....گیلان ، رشت...",
       price: 160000000,
-      guests: 741,
-      status: "در انتظار",
-      payment_status: "تایید شده",
       image: image2.src,
     },
     {
       id: 9,
       title: "ماهی پارک",
-      date: "1403/02/01/ 10:00",
+      addres: " گیلان ، رشت ، میدان آزادی ، جنب چهار راه عظ....گیلان ، رشت...",
       price: 190000000,
-      guests: 52,
-      status: "تایید شده",
-      payment_status: "لغو شده",
       image: image3.src,
     },
     {
       id: 10,
       title: "نسرین پارک",
-      date: "1403/02/01/ 10:00",
+      addres: " گیلان ، رشت ، میدان آزادی ، جنب چهار راه عظ....گیلان ، رشت...",
       price: 170000000,
-      guests: 976,
-      status: "در انتظار",
-      payment_status: "تایید شده",
       image: image2.src,
     },
     {
       id: 11,
       title: "ماهی پارک",
-      date: "1403/02/01/ 10:00",
+      addres: " گیلان ، رشت ، میدان آزادی ، جنب چهار راه عظ....گیلان ، رشت...",
       price: 170000000,
-      guests: 52,
-      status: "در انتظار",
-      payment_status: "لغو شده",
       image: image.src,
     },
     {
       id: 12,
       title: "ساحل سراوان",
-      date: "1403/02/01/ 10:00",
+      addres: " گیلان ، رشت ، میدان آزادی ، جنب چهار راه عظ....گیلان ، رشت...",
       price: 170000000,
-      guests: 5,
-      status: "در انتظار",
-      payment_status: "تایید شده",
       image: image3.src,
     },
     {
       id: 13,
       title: "ماهی بهشهر",
-      date: "1403/02/01/ 10:00",
+      addres: " گیلان ، رشت ، میدان آزادی ، جنب چهار راه عظ....گیلان ، رشت...",
       price: 186600000,
-      guests: 48,
-      status: "تایید شده",
-      payment_status: "لغو شده",
       image: image2.src,
     },
   ];
@@ -344,7 +253,7 @@ export default function FavoritesPage() {
         </div>
         <input
           type="text"
-          placeholder="نام اقامتگاه مورد نظر را جستجو کنید..."
+          placeholder="نام هتل مورد نظر را جستجو کنید..."
           value={globalFilter}
           onChange={(e) => setGlobalFilter(e.target.value)}
           className="w-1/3 p-2 rounded-md border-2 border-amber-500"
