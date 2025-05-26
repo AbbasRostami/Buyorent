@@ -3,6 +3,7 @@
 import {
   Badge,
   Button,
+  Chip,
   Dropdown,
   DropdownItem,
   DropdownMenu,
@@ -110,17 +111,19 @@ export default function BookingTable() {
         cell: (info) => {
           const value = info.getValue();
           return (
-            <p
-              className={`p-1 text-medium font-normal rounded-2xl ${
+            <Chip
+              color={
                 value === "تایید شده"
-                  ? "badge-success"
+                  ? "success"
                   : value === "در انتظار"
-                  ? "badge-warning"
-                  : "badge-danger"
-              }`}
+                  ? "warning"
+                  : "danger"
+              }
+              variant="flat"
+              className="text-sm px-2 py-1 rounded-xl font-normal"
             >
               {value as string}
-            </p>
+            </Chip>
           );
         },
         enableSorting: true,
@@ -132,13 +135,15 @@ export default function BookingTable() {
           const value = info.getValue();
 
           return (
-            <p
-              className={`p-1 px-2 text-medium font-normal rounded-2xl ${
-                value === "تایید شده" ? "badge-success" : "badge-danger"
-              }`}
+            <Chip
+              color={
+                value === "تایید شده" ? "success" : "danger"
+              }
+              variant="flat"
+              className="text-sm px-2 py-1 rounded-xl font-normal"
             >
               {value as string}
-            </p>
+            </Chip>
           );
         },
         enableSorting: true,

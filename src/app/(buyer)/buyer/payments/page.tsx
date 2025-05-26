@@ -2,6 +2,7 @@
 
 import {
   Button,
+  Chip,
   Dropdown,
   DropdownItem,
   DropdownMenu,
@@ -95,13 +96,15 @@ export default function PaymentsPage() {
           const value = info.getValue();
 
           return (
-            <p
-              className={`p-1 px-2 text-medium font-normal rounded-2xl ${
-                value === "تایید نشده" ? "badge-danger" : "badge-success"
-              }`}
+            <Chip
+              color={
+                value === "تایید نشده" ? "danger" : "success"
+              }
+              variant="flat"
+              className="text-sm px-2 py-1 rounded-xl font-normal"
             >
               {value as string}
-            </p>
+            </Chip>
           );
         },
         enableSorting: true,
