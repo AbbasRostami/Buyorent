@@ -1,6 +1,14 @@
 "use client";
 
-import { Button, Pagination } from "@heroui/react";
+import {
+  Button,
+  Chip,
+  Dropdown,
+  DropdownItem,
+  DropdownMenu,
+  DropdownTrigger,
+  Pagination,
+} from "@heroui/react";
 import {
   ColumnDef,
   useReactTable,
@@ -18,21 +26,49 @@ import image from "./../../../../assets/Avatar1.png";
 import image2 from "./../../../../assets/Avatar2.png";
 import image3 from "./../../../../assets/Avatar3.png";
 import Image from "next/image";
-import { MdOutlinePayments } from "react-icons/md";
-import { IoEyeSharp } from "react-icons/io5";
-import { FaUsersGear } from "react-icons/fa6";
+import { FaRegCircleCheck, FaUsersGear } from "react-icons/fa6";
+import { HiDotsHorizontal } from "react-icons/hi";
+import { LuCirclePlus } from "react-icons/lu";
+import { RiEdit2Fill } from "react-icons/ri";
+import { TiDeleteOutline } from "react-icons/ti";
+import {
+  FaInfoCircle,
+  FaMapMarkerAlt,
+  FaList,
+  FaImage,
+  FaCheckCircle,
+} from "react-icons/fa";
+import Step2Address from "./steps/Step2Address";
+import Step3Facilities from "./steps/Step3Facilities";
+import Step4Images from "./steps/Step4Images";
+import Step5Confirm from "./steps/Step5Confirm";
+import Step1BasicInfo from "./steps/Step1BasicInfo";
+import AddEstateStepper from "./steps/AddEstateStepper";
+import { MdOutlineBuildCircle } from "react-icons/md";
+import { PiArrowBendDoubleUpRightBold } from "react-icons/pi";
+
 interface BookingData {
   id: number;
   title: string;
   date: string;
   trackingNumber: string;
   price: number;
-  guests: "شارژ کیف پول" | "رزرو";
-  status: "تایید شده" | "تایید نشده";
+  status: "فعال" | "غیرفعال" | "در انتظار";
   image: string;
+  score: number;
+  views: number;
+  reserve: number;
 }
 
-export default function PaymentsPage() {
+export const stepsConfig = [
+  { title: "مشخصات اولیه", icon: <FaInfoCircle />, component: Step1BasicInfo },
+  { title: "آدرس", icon: <FaMapMarkerAlt />, component: Step2Address },
+  { title: "امکانات", icon: <FaList />, component: Step3Facilities },
+  { title: "تصاویر ملک", icon: <FaImage />, component: Step4Images },
+  { title: "تایید نهایی", icon: <FaCheckCircle />, component: Step5Confirm },
+];
+
+export default function RealStatesManagementPage() {
   const [sorting, setSorting] = useState([]);
   const [globalFilter, setGlobalFilter] = useState("");
   const [pagination, setPagination] = useState({
@@ -61,16 +97,10 @@ export default function PaymentsPage() {
           />
         ),
       },
-
       {
-        accessorKey: "date",
-        header: "تاریخ پرداخت",
-        enableSorting: false,
-      },
-      {
-        accessorKey: "trackingNumber",
-        header: "شماره پیگیری",
-        enableSorting: false,
+        accessorKey: "title",
+        header: "نام اقامتگاه",
+        cell: (info) => info.getValue(),
       },
       {
         accessorKey: "price",
@@ -83,38 +113,87 @@ export default function PaymentsPage() {
       },
 
       {
-        accessorKey: "status",
-        header: "وضعیت پرداخت",
-        cell: (info) => {
-          const value = info.getValue();
-
-          return (
-            <p
-              className={`p-1 px-2 text-medium font-normal rounded-2xl ${
-                value === "تایید نشده" ? "badge-danger" : "badge-success"
-              }`}
-            >
-              {value as string}
-            </p>
-          );
-        },
-        enableSorting: true,
-      },
-      {
-        accessorKey: "guests",
-        header: "نوع تراکنش",
+        accessorKey: "score",
+        header: "امتیاز",
         enableSorting: true,
         cell: (info) => info.getValue(),
       },
       {
+        accessorKey: "views",
+        header: "بازدیدها",
+        enableSorting: true,
+        cell: (info) => info.getValue(),
+      },
+      {
+        accessorKey: "reserve",
+        header: "رزروها",
+        enableSorting: true,
+        cell: (info) => info.getValue(),
+      },
+      {
+        accessorKey: "status",
+        header: "وضعیت",
+        cell: (info) => {
+          const value = info.getValue() as string;
+
+          return (
+            <Chip
+              color={
+                value === "غیرفعال"
+                  ? "danger"
+                  : value === "در انتظار"
+                  ? "warning"
+                  : "success"
+              }
+              variant="shadow"
+              className="text-sm px-2 py-1 rounded-xl font-normal"
+            >
+              {value}
+            </Chip>
+          );
+        },
+        enableSorting: true,
+      },
+
+      {
         accessorKey: "actions",
-        header: "مشاهده رسید",
+        header: "عملیات",
         enableSorting: false,
         cell: (info) => {
           return (
-            <Button variant="light" color="warning">
-              <IoEyeSharp size={20} />
-            </Button>
+            <Dropdown>
+              <DropdownTrigger>
+                <Button variant="light">
+                  <HiDotsHorizontal size={20} />
+                </Button>
+              </DropdownTrigger>
+
+              <DropdownMenu aria-label="Static Actions">
+                <DropdownItem color="success" key="payment">
+                  <div className="flex items-center gap-2">
+                    <FaRegCircleCheck size={20} />
+                    فعال کردن
+                  </div>
+                </DropdownItem>
+
+                <DropdownItem color="primary" key="details">
+                  <div className="flex items-center gap-2">
+                    <RiEdit2Fill size={20} />
+                    ویرایش
+                  </div>
+                </DropdownItem>
+                <DropdownItem
+                  key="delete"
+                  className="text-danger"
+                  color="danger"
+                >
+                  <div className="flex items-center gap-2">
+                    <TiDeleteOutline size={20} />
+                    حذف
+                  </div>
+                </DropdownItem>
+              </DropdownMenu>
+            </Dropdown>
           );
         },
       },
@@ -129,18 +208,22 @@ export default function PaymentsPage() {
       date: "1403/02/01/ 10:00",
       trackingNumber: "123456789123456",
       price: 150000000,
-      guests: "رزرو",
-      status: "تایید شده",
+      score: 4.5,
+      views: 100,
+      reserve: 40,
+      status: "فعال",
       image: image.src,
     },
     {
       id: 2,
       title: "شیراز پارک",
-      date: "1403/02/01/ 10:00",
+      date: "140 3/02/01/ 10:00",
       trackingNumber: "123456789123456",
       price: 150000000,
-      guests: "شارژ کیف پول",
-      status: "تایید نشده",
+      score: 4.5,
+      views: 74,
+      reserve: 40,
+      status: "غیرفعال",
       image: image2.src,
     },
     {
@@ -149,8 +232,10 @@ export default function PaymentsPage() {
       date: "1403/02/01/ 10:00",
       trackingNumber: "123456789123456",
       price: 160000000,
-      guests: "شارژ کیف پول",
-      status: "تایید نشده",
+      score: 4.5,
+      views: 29,
+      reserve: 40,
+      status: "غیرفعال",
       image: image3.src,
     },
     {
@@ -159,8 +244,10 @@ export default function PaymentsPage() {
       date: "1403/02/01/ 10:00",
       trackingNumber: "123456789123456",
       price: 180000000,
-      guests: "رزرو",
-      status: "تایید شده",
+      score: 2,
+      views: 100,
+      reserve: 40,
+      status: "فعال",
       image: image2.src,
     },
     {
@@ -169,8 +256,10 @@ export default function PaymentsPage() {
       date: "1403/02/01/ 10:00",
       trackingNumber: "123456789123456",
       price: 170000000,
-      guests: "شارژ کیف پول",
-      status: "تایید نشده",
+      score: 4.5,
+      views: 33,
+      reserve: 13,
+      status: "در انتظار",
       image: image3.src,
     },
     {
@@ -179,8 +268,10 @@ export default function PaymentsPage() {
       date: "1403/02/01/ 10:00",
       trackingNumber: "123456789123456",
       price: 170000000,
-      guests: "شارژ کیف پول",
-      status: "تایید شده",
+      score: 1.5,
+      views: 99,
+      reserve: 39,
+      status: "فعال",
       image: image2.src,
     },
     {
@@ -189,8 +280,10 @@ export default function PaymentsPage() {
       date: "1403/02/01/ 10:00",
       trackingNumber: "123456789123456",
       price: 100000,
-      guests: "شارژ کیف پول",
-      status: "تایید نشده",
+      score: 3.5,
+      views: 44,
+      reserve: 10,
+      status: "غیرفعال",
       image: image.src,
     },
     {
@@ -199,8 +292,10 @@ export default function PaymentsPage() {
       date: "1403/02/01/ 10:00",
       trackingNumber: "123456789123456",
       price: 160000000,
-      guests: "رزرو",
-      status: "تایید نشده",
+      score: 4.3,
+      views: 52,
+      reserve: 78,
+      status: "در انتظار",
       image: image2.src,
     },
     {
@@ -209,8 +304,10 @@ export default function PaymentsPage() {
       date: "1403/02/01/ 10:00",
       trackingNumber: "123456789123456",
       price: 190000000,
-      guests: "شارژ کیف پول",
-      status: "تایید شده",
+      score: 2.5,
+      views: 20,
+      reserve: 18,
+      status: "فعال",
       image: image3.src,
     },
     {
@@ -219,8 +316,10 @@ export default function PaymentsPage() {
       date: "1403/02/01/ 10:00",
       trackingNumber: "123456789123456",
       price: 170000000,
-      guests: "رزرو",
-      status: "تایید نشده",
+      score: 2.5,
+      views: 52,
+      reserve: 38,
+      status: "در انتظار",
       image: image2.src,
     },
     {
@@ -229,8 +328,10 @@ export default function PaymentsPage() {
       date: "1403/02/01/ 10:00",
       trackingNumber: "123456789123456",
       price: 170000000,
-      guests: "رزرو",
-      status: "تایید نشده",
+      score: 2.5,
+      views: 52,
+      reserve: 38,
+      status: "در انتظار",
       image: image.src,
     },
     {
@@ -239,8 +340,10 @@ export default function PaymentsPage() {
       date: "1403/02/01/ 10:00",
       trackingNumber: "123456789123456",
       price: 170000000,
-      guests: "شارژ کیف پول",
-      status: "تایید نشده",
+      score: 2.5,
+      views: 52,
+      reserve: 38,
+      status: "غیرفعال",
       image: image3.src,
     },
     {
@@ -249,8 +352,10 @@ export default function PaymentsPage() {
       date: "1403/02/01/ 10:00",
       trackingNumber: "123456789123456",
       price: 186600000,
-      guests: "رزرو",
-      status: "تایید شده",
+      score: 2.5,
+      views: 52,
+      reserve: 38,
+      status: "در انتظار",
       image: image2.src,
     },
   ];
@@ -270,92 +375,141 @@ export default function PaymentsPage() {
     autoResetPageIndex: false,
   });
 
-  return (
-    <div className="space-y-4">
-      <div className="flex items-center justify-between gap-2 pb-6 border-b-2 border-dashed border-amber-500">
-        <div className="flex items-center gap-2">
-          <FaUsersGear 
-            className="text-amber-900 dark:text-amber-200"
-            size={30}
-          />
-          <span className="text-amber-500 text-xl font-bold  dark:text-amber-200 pb-3 border-b-4 border-amber-500 relative group transition-all duration-300 ease-in-out">
-            لیست املاک من
-          </span>
-        </div>
-        <input
-          type="text"
-          placeholder="نام اقامتگاه مورد نظر را جستجو کنید..."
-          value={globalFilter}
-          onChange={(e) => setGlobalFilter(e.target.value)}
-          className="w-1/3 p-2 rounded-md border-2 border-amber-500"
-        />
-      </div>
+  const [showStepper, setShowStepper] = useState(false);
 
-      <div className="overflow-x-auto  rounded-xl">
-        <table className="min-w-full  table-auto text-sm">
-          <thead className="bg-gradient-to-l from-[#915201] to-[#D27700] text-amber-50 dark:bg-gray-500 text-center">
-            {table.getHeaderGroups().map((headerGroup) => (
-              <tr key={headerGroup.id}>
-                {headerGroup.headers.map((header) => (
-                  <th
-                    key={header.id}
-                    onClick={header.column.getToggleSortingHandler()}
-                    className="p-4  font-bold cursor-pointer text-center select-none"
-                  >
-                    {flexRender(
-                      header.column.columnDef.header,
-                      header.getContext()
-                    )}
-                    {header.column.getIsSorted() === "asc" && (
-                      <BsArrowUp className="inline w-4 h-4 ml-1" />
-                    )}
-                    {header.column.getIsSorted() === "desc" && (
-                      <BsArrowDown className="inline w-4 h-4 ml-1" />
-                    )}
-                  </th>
+  return (
+    <div className="space-y-4 bg-white/90 shadow-2xl dark:bg-gray-800 p-4 rounded-2xl">
+      {showStepper ? (
+        <div className="w-full gap-2 p-4 ">
+          <div className="flex items-center mb-4 pb-2 justify-between border-b-2 border-dashed border-amber-500">
+            <div className="flex items-center gap-2">
+              <MdOutlineBuildCircle
+                className="text-amber-900 dark:text-amber-400"
+                size={34}
+              />
+              <span className="text-amber-700 text-xl font-bold  dark:text-amber-200  relative group transition-all duration-300 ease-in-out">
+                ساخت آگهی ملک جدید
+              </span>
+            </div>
+            <Button
+              variant="light"
+              color="primary"
+              className="font-normal text-medium"
+              onPress={() => setShowStepper(false)}
+            >
+              <PiArrowBendDoubleUpRightBold size={20} />
+              لیست املاک من
+            </Button>
+          </div>
+
+          <AddEstateStepper
+            steps={stepsConfig}
+            onClose={() => setShowStepper(false)}
+          />
+        </div>
+      ) : (
+        <>
+          <div className="flex items-center justify-between gap-2 pb-6 border-b-2 border-dashed border-amber-500">
+            <div className="flex items-center gap-2">
+              <FaUsersGear
+                className="text-amber-900 dark:text-amber-200"
+                size={30}
+              />
+              <span className="text-amber-500 text-xl font-bold  dark:text-amber-200 pb-3 border-b-4 border-amber-500 relative group transition-all duration-300 ease-in-out">
+                لیست املاک من
+              </span>
+            </div>
+            <input
+              type="text"
+              placeholder="نام اقامتگاه مورد نظر را جستجو کنید..."
+              value={globalFilter}
+              onChange={(e) => setGlobalFilter(e.target.value)}
+              className="w-1/3 p-2 rounded-md border-2 border-amber-500"
+            />
+          </div>
+
+          <div className="overflow-x-auto  rounded-xl">
+            <table className="min-w-full  table-auto text-sm">
+              <thead className="bg-gradient-to-l from-[#915201] to-[#D27700] text-amber-50 dark:bg-gray-500 text-center">
+                {table.getHeaderGroups().map((headerGroup) => (
+                  <tr key={headerGroup.id}>
+                    {headerGroup.headers.map((header) => (
+                      <th
+                        key={header.id}
+                        onClick={header.column.getToggleSortingHandler()}
+                        className="p-4  font-bold cursor-pointer text-center select-none"
+                      >
+                        {flexRender(
+                          header.column.columnDef.header,
+                          header.getContext()
+                        )}
+                        {header.column.getIsSorted() === "asc" && (
+                          <BsArrowUp className="inline w-4 h-4 ml-1" />
+                        )}
+                        {header.column.getIsSorted() === "desc" && (
+                          <BsArrowDown className="inline w-4 h-4 ml-1" />
+                        )}
+                      </th>
+                    ))}
+                  </tr>
                 ))}
-              </tr>
-            ))}
-          </thead>
-          <tbody className="divide-y divide-gray-200 dark:divide-gray-700">
-            {table.getRowModel().rows.map((row, index) => (
-              <tr
-                key={row.id}
-                className={`
-            ${
-              index % 2 === 0
-                ? "bg-[#ebebe9] dark:bg-gray-800/80"
-                : "bg-[#F8F8F8] dark:bg-gray-700/80"
-            }
-            hover:bg-amber-100/70 dark:hover:bg-gray-600
-            transition-colors duration-200
-            text-center
-          `}
+              </thead>
+              <tbody className="divide-y divide-gray-200 dark:divide-gray-700">
+                {table.getRowModel().rows.map((row, index) => (
+                  <tr
+                    key={row.id}
+                    className={`
+                ${
+                  index % 2 === 0
+                    ? "bg-[#ebebe9] dark:bg-gray-800/80"
+                    : "bg-[#F8F8F8] dark:bg-gray-700/80"
+                }
+                hover:bg-amber-100/70 dark:hover:bg-gray-600
+                transition-colors duration-200
+                text-center
+              `}
+                  >
+                    {row.getVisibleCells().map((cell) => (
+                      <td
+                        key={cell.id}
+                        className="p-3 text-gray-700 dark:text-gray-300 whitespace-nowrap"
+                      >
+                        {flexRender(
+                          cell.column.columnDef.cell,
+                          cell.getContext()
+                        )}
+                      </td>
+                    ))}
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+          <div className="flex justify-between items-center ">
+            <div className="flex items-center gap-2 ">
+              <Button
+                color="warning"
+                variant="shadow"
+                className="p-5 transition-all duration-300 delay-100 ease-in-out hover:scale-105 hover:shadow-lg hover:shadow-amber-500 "
+                onPress={() => setShowStepper(true)}
               >
-                {row.getVisibleCells().map((cell) => (
-                  <td
-                    key={cell.id}
-                    className="p-3 text-gray-700 dark:text-gray-300 whitespace-nowrap"
-                  >
-                    {flexRender(cell.column.columnDef.cell, cell.getContext())}
-                  </td>
-                ))}
-              </tr>
-            ))}
-          </tbody>
-        </table>
-      </div>
-      <div className="flex justify-end">
-        <Pagination
-          dir="ltr"
-          color="warning"
-          isCompact
-          showControls
-          total={table.getPageCount()}
-          page={table.getState().pagination.pageIndex + 1}
-          onChange={(page) => table.setPageIndex(page - 1)}
-        />
-      </div>
+                <LuCirclePlus size={20} />
+                افزودن ملک
+              </Button>
+            </div>
+
+            <Pagination
+              dir="ltr"
+              color="warning"
+              isCompact
+              showControls
+              total={table.getPageCount()}
+              page={table.getState().pagination.pageIndex + 1}
+              onChange={(page) => table.setPageIndex(page - 1)}
+            />
+          </div>
+        </>
+      )}
     </div>
   );
 }
