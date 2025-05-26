@@ -11,10 +11,9 @@ import {
 } from "react-icons/md";
 import { HiHashtag } from "react-icons/hi";
 import { FaLocationDot } from "react-icons/fa6";
-import ModalReserve from "./ModalReserve";
+import ModalReserve from "./ModalPassengers";
 import ModalPayments from "./ModalPayments";
 import { useDisclosure } from "@heroui/react";
-import ModalPassengerList from "./PassengerList";
 
 interface ModalDetailsProps {
   isOpen: boolean;
@@ -36,12 +35,6 @@ export default function ModalDetails({
     isOpen: isPaymentsOpen,
     onOpen: onPaymentsOpen,
     onOpenChange: onPaymentsOpenChange,
-  } = useDisclosure();
-
-  const {
-    isOpen: isPassengerListOpen,
-    onOpen: onPassengerListOpen,
-    onOpenChange: onPassengerListOpenChange,
   } = useDisclosure();
 
   const description =
@@ -166,7 +159,7 @@ export default function ModalDetails({
                     size="lg"
                     onPress={onReserveOpen}
                   >
-                    رزرو ها
+                    مسافر ها
                   </Button>
                   <Button
                     className=" bg-gradient-to-r from-amber-400 to-amber-500 text-black font-bold px-8 py-3 rounded-xl  transition ease-in-out delay-300  hover:scale-105  duration-300 "
@@ -189,11 +182,6 @@ export default function ModalDetails({
       <ModalPayments
         isOpen={isPaymentsOpen}
         onOpenChange={onPaymentsOpenChange}
-        selectedRow={selectedRow}
-      />
-      <ModalPassengerList
-        isOpen={isPassengerListOpen}
-        onOpenChange={onPassengerListOpenChange}
         selectedRow={selectedRow}
       />
     </>

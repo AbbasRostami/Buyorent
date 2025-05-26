@@ -5,6 +5,7 @@ import AppSidebar from "./layout/AppSidebar";
 import Backdrop from "./layout/Backdrop";
 import AppHeader from "./layout/AppHeader";
 import { useSidebar } from "../context/SidebarContext";
+import { Toaster } from "react-hot-toast";
 
 export default function DashboardClient({
   children,
@@ -25,6 +26,7 @@ export default function DashboardClient({
         className={`flex-1 transition-all duration-300 ease-in-out ${mainContentMargin}`}
       >
         <AppHeader />
+        <Toaster position="top-center" />
         <div className="p-4 mx-auto max-w-(--breakpoint-2xl) md:p-6">
           {children}
         </div>
