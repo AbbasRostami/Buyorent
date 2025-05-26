@@ -1137,21 +1137,3 @@ span.flatpickr-weekday,
 .form-input {
   @apply w-full px-4 py-2 mt-2 !block  rounded-md border border-gray-300 dark:border-gray-600 bg-gray-50 dark:bg-gray-700 text-gray-900 dark:text-gray-200 focus:outline-none focus:ring-2 focus:ring-amber-400 focus:border-amber-400;
 }
-
-/* Badge */
-
-.badge-success {
-  @apply inline-flex items-center gap-x-1.5 py-1.5 px-3 rounded-full text-xs font-medium bg-teal-100 text-teal-800 dark:bg-teal-800/30 dark:text-teal-500;
-}
-
-.badge-danger {
-  @apply inline-flex items-center gap-x-1.5 py-1.5 px-3 rounded-full text-xs font-medium bg-red-100 text-red-800 dark:bg-red-800/30 dark:text-red-500;
-}
-
-.badge-blue {
-  @apply inline-flex items-center gap-x-1.5 py-1.5 px-3 rounded-full text-xs font-medium bg-blue-100 text-blue-800 dark:bg-blue-800/30 dark:text-blue-500;
-}
-
-.badge-warning {
-  @apply inline-flex items-center gap-x-1.5 py-1.5 px-3 rounded-full text-xs font-medium bg-yellow-100 text-yellow-800 dark:bg-yellow-800/30 dark:text-yellow-500;
-}

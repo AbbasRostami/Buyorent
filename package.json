@@ -23,6 +23,7 @@
     "framer-motion": "^12.9.4",
     "jwt-decode": "^4.0.0",
     "leaflet": "^1.9.4",
+    "leaflet-control-geocoder": "^3.2.0",
     "leaflet-wms-header": "^1.0.13",
     "moment-jalaali": "^0.10.4",
     "next": "15.3.1",
@@ -37,7 +38,7 @@
     "react-leaflet": "^5.0.0",
     "sonner": "^2.0.3",
     "sweetalert2": "^11.21.2",
-    "swiper": "^11.2.6",
+    "swiper": "^11.2.8",
     "use-debounce": "^10.0.4",
     "yup": "^1.6.1"
   },
