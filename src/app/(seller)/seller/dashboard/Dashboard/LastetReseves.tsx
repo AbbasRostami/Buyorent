@@ -19,7 +19,7 @@ import image2 from "./../../../../../assets/Avatar2.png";
 import image3 from "./../../../../../assets/Avatar3.png";
 import Image from "next/image";
 import { CgArrowTopLeftO } from "react-icons/cg";
-import { Pagination } from "@heroui/react";
+import { Chip, Pagination } from "@heroui/react";
 
 export interface BookingData {
   id: number;
@@ -86,17 +86,19 @@ export default function LastetReseves() {
         cell: (info) => {
           const value = info.getValue();
           return (
-            <p
-              className={`p-1 text-medium font-normal rounded-2xl ${
+            <Chip
+              color={
                 value === "تایید شده"
-                  ? "badge-success"
+                  ? "success"
                   : value === "در انتظار"
-                  ? "badge-warning"
-                  : "badge-danger"
-              }`}
+                  ? "warning"
+                  : "danger"
+              }
+              variant="flat"
+              className="text-sm px-2 py-1 rounded-xl font-normal"
             >
               {value as string}
-            </p>
+            </Chip>
           );
         },
         enableSorting: true,

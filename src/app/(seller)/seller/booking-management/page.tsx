@@ -1,8 +1,8 @@
 "use client";
 
 import {
-  Badge,
   Button,
+  Chip,
   Dropdown,
   DropdownItem,
   DropdownMenu,
@@ -25,21 +25,21 @@ import { useMemo, useState } from "react";
 import { BsArrowDown, BsArrowUp } from "react-icons/bs";
 import { TiDeleteOutline } from "react-icons/ti";
 import { PiWarningCircleBold } from "react-icons/pi";
-import { GiWallet } from "react-icons/gi";
 import { HiDotsHorizontal } from "react-icons/hi";
-import { FaPlusCircle, FaUsers } from "react-icons/fa";
+import { FaUsers } from "react-icons/fa";
 import image from "./../../../../assets/Avatar1.png";
 import image2 from "./../../../../assets/Avatar2.png";
 import image3 from "./../../../../assets/Avatar3.png";
-import Image from "next/image";
 import ModalDetails from "./ModalDetails";
+import { FaRegCircleCheck } from "react-icons/fa6";
+import { RiProhibitedLine } from "react-icons/ri";
 
 export interface BookingData {
   id: number;
   title: string;
   date: string;
   price: number;
-  guests: number;
+  passengers: string;
   status: "تایید شده" | "در انتظار" | "لغو شده";
   payment_status: "تایید شده" | "لغو شده";
   image: string;
@@ -63,24 +63,20 @@ export default function BookingTable() {
         cell: (info) => info.row.original.id,
         sortingFn: (rowA, rowB) => rowA.original.id - rowB.original.id,
       },
-      {
-        accessorKey: "image",
-        header: "تصویر",
-        cell: (info) => (
-          <Image
-            src={info.getValue() as string}
-            alt="image"
-            width={42}
-            height={42}
-            className="rounded-full"
-          />
-        ),
-      },
+
       {
         accessorKey: "title",
-        header: "نام اقامتگاه",
+        header: "نام ملک",
         cell: (info) => info.getValue(),
         enableSorting: true,
+      },
+      {
+        accessorKey: "passengers",
+        header: "اطلاعات مسافر",
+        enableSorting: true,
+        sortingFn: (rowA, rowB, columnId) =>
+          (rowA.getValue(columnId) as number) -
+          (rowB.getValue(columnId) as number),
       },
       {
         accessorKey: "date",
@@ -96,31 +92,26 @@ export default function BookingTable() {
           (rowA.getValue(columnId) as number) -
           (rowB.getValue(columnId) as number),
       },
-      {
-        accessorKey: "guests",
-        header: "تعداد مسافر",
-        enableSorting: true,
-        sortingFn: (rowA, rowB, columnId) =>
-          (rowA.getValue(columnId) as number) -
-          (rowB.getValue(columnId) as number),
-      },
+
       {
         accessorKey: "status",
         header: "وضعیت رزرو",
         cell: (info) => {
           const value = info.getValue();
           return (
-            <p
-              className={`p-1 text-medium font-normal rounded-2xl ${
+            <Chip
+              color={
                 value === "تایید شده"
-                  ? "badge-success"
+                  ? "success"
                   : value === "در انتظار"
-                  ? "badge-warning"
-                  : "badge-danger"
-              }`}
+                  ? "warning"
+                  : "danger"
+              }
+              variant="shadow"
+              className="text-sm px-2 py-1 rounded-xl font-normal"
             >
               {value as string}
-            </p>
+            </Chip>
           );
         },
         enableSorting: true,
@@ -132,13 +123,15 @@ export default function BookingTable() {
           const value = info.getValue();
 
           return (
-            <p
-              className={`p-1 px-2 text-medium font-normal rounded-2xl ${
-                value === "تایید شده" ? "badge-success" : "badge-danger"
-              }`}
+            <Chip
+              color={
+                value === "تایید شده" ? "success" : "danger"
+              }
+              variant="shadow"
+              className="text-sm px-2 py-1 rounded-xl font-normal"
             >
               {value as string}
-            </p>
+            </Chip>
           );
         },
         enableSorting: true,
@@ -154,11 +147,18 @@ export default function BookingTable() {
                   <HiDotsHorizontal size={20} />
                 </Button>
               </DropdownTrigger>
+
               <DropdownMenu aria-label="Static Actions">
                 <DropdownItem color="success" key="payment">
                   <div className="flex items-center gap-2">
-                    <GiWallet size={20} />
-                    پرداخت
+                    <FaRegCircleCheck size={20} />
+                    تایید رزرو
+                  </div>
+                </DropdownItem>
+                <DropdownItem color="danger" key="payment">
+                  <div className="flex items-center gap-2">
+                    <RiProhibitedLine size={20} />
+                    لغو رزرو
                   </div>
                 </DropdownItem>
                 <DropdownItem
@@ -200,7 +200,7 @@ export default function BookingTable() {
       title: "هتل سراوان",
       date: "1403/02/01/ 10:00",
       price: 150000000,
-      guests: 88,
+      passengers: "سبحان عرب خزائلی ،4/1/8...",
       status: "تایید شده",
       payment_status: "لغو شده",
       image: image.src,
@@ -210,7 +210,7 @@ export default function BookingTable() {
       title: "شیراز پارک",
       date: "1403/02/01/ 10:00",
       price: 150000000,
-      guests: 70,
+      passengers: "سبحان عرب خزائلی ،4/1/8...",
       status: "در انتظار",
       payment_status: "تایید شده",
       image: image2.src,
@@ -220,7 +220,7 @@ export default function BookingTable() {
       title: "تراول پارک",
       date: "1403/02/01/ 10:00",
       price: 160000000,
-      guests: 53,
+      passengers: "سبحان عرب خزائلی ،4/1/8...",
       status: "در انتظار",
       payment_status: "لغو شده",
       image: image3.src,
@@ -230,7 +230,7 @@ export default function BookingTable() {
       title: "میدان جمهریه",
       date: "1403/02/01/ 10:00",
       price: 180000000,
-      guests: 10,
+      passengers: "سبحان عرب خزائلی ،4/1/8...",
       status: "تایید شده",
       payment_status: "لغو شده",
       image: image2.src,
@@ -240,7 +240,7 @@ export default function BookingTable() {
       title: "ماهی پارک",
       date: "1403/02/01/ 10:00",
       price: 170000000,
-      guests: 7,
+      passengers: "سبحان عرب خزائلی ،4/1/8...",
       status: "در انتظار",
       payment_status: "تایید شده",
       image: image3.src,
@@ -250,7 +250,7 @@ export default function BookingTable() {
       title: "کوه سراوان",
       date: "1403/02/01/ 10:00",
       price: 170000000,
-      guests: 38,
+      passengers: "سبحان عرب خزائلی ،4/1/8...",
       status: "در انتظار",
       payment_status: "لغو شده",
       image: image2.src,
@@ -260,7 +260,7 @@ export default function BookingTable() {
       title: "ساحل سراوان",
       date: "1403/02/01/ 10:00",
       price: 100000,
-      guests: 85,
+      passengers: "سبحان عرب خزائلی ،4/1/8...",
       status: "در انتظار",
       payment_status: "تایید شده",
       image: image.src,
@@ -270,7 +270,7 @@ export default function BookingTable() {
       title: "ماهی پارک",
       date: "1403/02/01/ 10:00",
       price: 160000000,
-      guests: 741,
+      passengers: "سبحان عرب خزائلی ،4/1/8...",
       status: "در انتظار",
       payment_status: "تایید شده",
       image: image2.src,
@@ -280,7 +280,7 @@ export default function BookingTable() {
       title: "ماهی پارک",
       date: "1403/02/01/ 10:00",
       price: 190000000,
-      guests: 52,
+      passengers: "سبحان عرب خزائلی ،4/1/8...",
       status: "تایید شده",
       payment_status: "لغو شده",
       image: image3.src,
@@ -290,7 +290,7 @@ export default function BookingTable() {
       title: "نسرین پارک",
       date: "1403/02/01/ 10:00",
       price: 170000000,
-      guests: 976,
+      passengers: "سبحان عرب خزائلی ،4/1/8...",
       status: "در انتظار",
       payment_status: "تایید شده",
       image: image2.src,
@@ -300,7 +300,7 @@ export default function BookingTable() {
       title: "ماهی پارک",
       date: "1403/02/01/ 10:00",
       price: 170000000,
-      guests: 52,
+      passengers: "سبحان عرب خزائلی ،4/1/8...",
       status: "در انتظار",
       payment_status: "لغو شده",
       image: image.src,
@@ -310,7 +310,7 @@ export default function BookingTable() {
       title: "ساحل سراوان",
       date: "1403/02/01/ 10:00",
       price: 170000000,
-      guests: 5,
+      passengers: "سبحان عرب خزائلی ،4/1/8...",
       status: "در انتظار",
       payment_status: "تایید شده",
       image: image3.src,
@@ -320,7 +320,7 @@ export default function BookingTable() {
       title: "ماهی بهشهر",
       date: "1403/02/01/ 10:00",
       price: 186600000,
-      guests: 48,
+      passengers: "سبحان عرب خزائلی ،4/1/8...",
       status: "تایید شده",
       payment_status: "لغو شده",
       image: image2.src,
@@ -346,10 +346,7 @@ export default function BookingTable() {
     <div className="space-y-4">
       <div className="flex items-center justify-between gap-2 pb-6 border-b-2 border-dashed border-amber-500">
         <div className="flex items-center gap-2">
-          <FaUsers
-            className="text-amber-900 dark:text-amber-200"
-            size={30}
-          />
+          <FaUsers className="text-amber-900 dark:text-amber-200" size={30} />
           <span className="text-amber-500 text-xl font-bold  dark:text-amber-200 pb-3 border-b-4 border-amber-500 relative group transition-all duration-300 ease-in-out">
             لیست رزرو های مشتریان
           </span>

@@ -9,7 +9,7 @@ import { IoNotificationsSharp, IoPersonSharp } from "react-icons/io5";
 import { BiChevronDown } from "react-icons/bi";
 import { BsPcHorizontal } from "react-icons/bs";
 import { useSidebar } from "../../context/SidebarContext";
-import WalletCard from "../../components1/WalletCard";
+import WalletCard from "../../components1/CommentsCard";
 import { FaMoneyBillTransfer, FaUsersGear } from "react-icons/fa6";
 
 type NavItem = {
