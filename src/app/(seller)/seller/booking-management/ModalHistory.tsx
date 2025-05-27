@@ -10,10 +10,10 @@ import {
   SortingState,
 } from "@tanstack/react-table";
 import { useState } from "react";
-import { BsArrowDown, BsArrowUp, BsCursorFill } from "react-icons/bs";
+import { BsArrowDown, BsArrowUp } from "react-icons/bs";
 import { FaListCheck } from "react-icons/fa6";
 import { useDisclosure } from "@heroui/react";
-import ModalPassengerList from "./PassengerList";
+import ModalPassengers from "./ModalPassengers";
 
 interface ModalReserveProps {
   isOpen: boolean;
@@ -37,7 +37,7 @@ export default function ModalHistory({
   const [sorting, setSorting] = useState<SortingState>([]);
   const {
     isOpen: isPassengerListOpen,
-    onOpen: onPassengerListOpen,
+    onOpen: onPassengerListOpen,  
     onOpenChange: onPassengerListOpenChange,
   } = useDisclosure();
 
@@ -185,7 +185,7 @@ export default function ModalHistory({
           )}
         </ModalContent>
       </Modal>
-      <ModalPassengerList
+      <ModalPassengers
         isOpen={isPassengerListOpen}
         onOpenChange={onPassengerListOpenChange}
         selectedRow={selectedRow}

@@ -14,8 +14,8 @@ import { FaLocationDot } from "react-icons/fa6";
 import ModalReserve from "./ModalPassengers";
 import ModalPayments from "./ModalPayments";
 import { useDisclosure } from "@heroui/react";
-import ModalPassengerList from "./PassengerList";
 import ModalHistory from "./ModalHistory";
+import ModalPassengers from "./ModalPassengers";
 
 interface ModalDetailsProps {
   isOpen: boolean;
@@ -211,7 +211,7 @@ export default function ModalDetails({
       />
       
 
-      <ModalPassengerList
+      <ModalPassengers
         isOpen={isPassengerListOpen}
         onOpenChange={onPassengerListOpenChange}
         selectedRow={selectedRow}
