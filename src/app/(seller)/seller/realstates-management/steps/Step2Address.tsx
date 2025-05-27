@@ -31,7 +31,7 @@ function LocationMarker({
   useMapEvents({
     click(e) {
       setFieldValue("location", [e.latlng.lat, e.latlng.lng]);
-      setFieldValue("address", ""); // Clear address input on manual pick
+      setFieldValue("address", "");
       onMapPick(e.latlng.lat, e.latlng.lng);
     },
   });
@@ -62,7 +62,6 @@ export default function Step2Address() {
   const [selectedAddressTitle, setSelectedAddressTitle] = useState<string>("");
 
   useEffect(() => {
-    // Toast logic
     if (
       Array.isArray(values.location) &&
       values.location.length === 2 &&
@@ -114,7 +113,6 @@ export default function Step2Address() {
     setSelectedAddressTitle(suggestion.display_name);
   };
 
-  // For map pick, clear address input and address title
   const handleMapPick = () => {
     setInputValue("");
     setSelectedAddressTitle("");
@@ -171,7 +169,7 @@ export default function Step2Address() {
       </div>
       <div className="mb-4">
         <MapContainer
-        zoom={6}
+          zoom={6}
           center={mapCenter}
           className="h-full w-full dark:bg-gray-800 z-0 dark:invert dark:hue-rotate-180"
           style={{ height: "300px", width: "100%", borderRadius: "1rem" }}
