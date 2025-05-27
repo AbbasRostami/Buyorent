@@ -10,8 +10,13 @@ import {
   MdCarRepair,
 } from "react-icons/md";
 import { Swiper, SwiperSlide } from "swiper/react";
-import { Autoplay, Pagination as SwiperPagination } from "swiper/modules";
+import {
+  Autoplay,
+  Pagination as SwiperPagination,
+  EffectFade,
+} from "swiper/modules";
 import "swiper/css";
+import "swiper/css/effect-fade";
 import SkeletonCard from "../skeleton/SkeletonCard";
 
 interface Property {
@@ -67,10 +72,13 @@ export default function PropertyCard({ data, isLoading }: Props) {
 
           <div className="relative overflow-hidden rounded-2xl">
             <Swiper
-              modules={[Autoplay, SwiperPagination]}
+              modules={[Autoplay, SwiperPagination, EffectFade]}
+              effect="fade"
+              loop={true}
+              fadeEffect={{ crossFade: true }}
+              speed={3000}
               autoplay={{ delay: 3000, disableOnInteraction: false }}
               pagination={{ clickable: false }}
-              loop
             >
               {property.photos.map((photo, idx) => (
                 <SwiperSlide key={idx}>
