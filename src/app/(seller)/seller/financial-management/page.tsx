@@ -321,7 +321,7 @@ export default function FinancialManagementPage() {
           </p>
         </div>
         <div className="flex flex-col items-center justify-center gap-6 rounded-xl bg-gray-100 dark:bg-gray-800 px-9 py-6 shadow-2xl">
-          <p className="font-bold text-lg flex items-center gap-3">
+          <p className="font-bold text-sm md:text-medium flex items-center gap-3">
             <FaMoneyBillTransfer size={28} className="inline text-amber-600" />
             موجودی قابل برداشت
           </p>

@@ -32,7 +32,7 @@ import image2 from "./../../../../assets/Avatar2.png";
 import image3 from "./../../../../assets/Avatar3.png";
 import ModalDetails from "./ModalDetails";
 import { SlBan } from "react-icons/sl";
-import { AiFillCheckCircle } from "react-icons/ai";
+import { GiConfirmed } from "react-icons/gi";
 
 export interface BookingData {
   id: number;
@@ -77,14 +77,7 @@ export default function BookingTable() {
         cell: (info) => info.getValue(),
         enableSorting: true,
       },
-      {
-        accessorKey: "passengers",
-        header: "اطلاعات مسافر",
-        enableSorting: true,
-        sortingFn: (rowA, rowB, columnId) =>
-          (rowA.getValue(columnId) as number) -
-          (rowB.getValue(columnId) as number),
-      },
+
       {
         accessorKey: "date",
         header: "تاریخ رزرو",
@@ -99,8 +92,7 @@ export default function BookingTable() {
           (rowA.getValue(columnId) as number) -
           (rowB.getValue(columnId) as number),
       },
-      
-    
+
       {
         accessorKey: "status",
         header: "وضعیت رزرو",
@@ -132,9 +124,7 @@ export default function BookingTable() {
 
           return (
             <Chip
-              color={
-                value === "تایید شده" ? "success" : "danger"
-              }
+              color={value === "تایید شده" ? "success" : "danger"}
               variant="shadow"
               className="text-sm px-2 py-1 rounded-xl font-normal"
             >
@@ -159,14 +149,14 @@ export default function BookingTable() {
               <DropdownMenu aria-label="Static Actions">
                 <DropdownItem color="success" key="payment">
                   <div className="flex items-center gap-2">
-                    <AiFillCheckCircle size={20} />
-                    تایید رزر
+                    <GiConfirmed size={20} />
+                    تایید رزرو
                   </div>
                 </DropdownItem>
-                <DropdownItem color="success" key="payment">
+                <DropdownItem color="danger" key="payment">
                   <div className="flex items-center gap-2">
                     <SlBan size={20} />
-                    لقو رزرو
+                    لغو رزرو
                   </div>
                 </DropdownItem>
                 <DropdownItem

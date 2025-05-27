@@ -29,7 +29,6 @@ interface PaymentData {
 export default function ModalPayments({
   isOpen,
   onOpenChange,
-  selectedRow,
 }: ModalPaymentsProps) {
   const [sorting, setSorting] = useState<SortingState>([]);
 
