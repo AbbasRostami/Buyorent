@@ -1,8 +1,8 @@
 import React from "react";
-import DetailsLists from "@/components/SingleHouses/DetailsLists";
-import CommentSingleHouses from "@/components/SingleHouses/Comments/Comments";
-import MapSingleReserve from "@/components/SingleHouses/Map";
-import HeaderSectionSingle from "@/components/SingleHouses/HeaderSection";
+import DetailsLists from "@/components/houses-reserve/DetailsLists";
+import CommentSingleHouses from "@/components/houses-reserve/Comments/Comments";
+import MapSingleReserve from "@/components/houses-reserve/Map";
+import HeaderSectionSingle from "@/components/houses-reserve/HeaderSection";
 import { useServerData } from "@/utils/hooks/useServerData";
 import { HouseSingleHousesProps } from "@/types/DetailsTypes";
 
