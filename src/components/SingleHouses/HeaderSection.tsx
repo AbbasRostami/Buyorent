@@ -31,7 +31,6 @@ const HeaderSectionSingle = ({ data }: any) => {
   return (
     <>
       <div className="flex flex-col md:flex-row items-center justify-center gap-6 h- px-4 py-24 overflow-hidden max-w-screen-xl mx-auto">
-        {/* بخش راست */}
         <div className="relative w-2/3 rounded-3xl overflow-hidden shadow">
           <div
             className="relative w-full aspect-[656/462]"
@@ -54,9 +53,7 @@ const HeaderSectionSingle = ({ data }: any) => {
           </div>
         </div>
 
-        {/* بخش سمت چپ */}
         <div className="w-full md:w-1/3 flex flex-col gap-4">
-          {/* Grid of 4 images */}
           <div className="grid grid-cols-2  gap-4">
             {data?.photos.map((item: string, index: number) => (
               <div
@@ -75,51 +72,55 @@ const HeaderSectionSingle = ({ data }: any) => {
             ))}
           </div>
 
-          {/* Slider for all images */}
-          <div className="w-full  ">
-            <Swiper
-              modules={[Navigation, Pagination]}
-              navigation={{
-                nextEl: ".custom-nextt",
-                prevEl: ".custom-prevt",
-              }}
-              pagination={{
-                el: ".customer-pagination",
-                clickable: true,
-              }}
-              spaceBetween={16}
-              slidesPerView={2}
-              className="h-full"
-            >
-              {data?.photos.map((item: string, index: number) => (
-                <SwiperSlide key={index}>
-                  <div
-                    className="relative w-full aspect-[320/230] rounded-3xl overflow-hidden shadow cursor-pointer"
-                    onClick={() => setMainImage(item)}
-                  >
-                    <Image
-                      src={item}
-                      alt="building"
-                      fill
-                      className="object-cover"
-                      unoptimized
-                    />
-                  </div>
-                </SwiperSlide>
-              ))}
-            </Swiper>
-            <button className="custom-prevt cursor-pointer hidden sm:block absolute -left-10 bottom-38 z-10 bg-white dark:bg-neutral-800 p-2 rounded-full shadow-md">
-              <IoIosArrowRoundBack className="dark:text-amber-100" size={25} />
-            </button>
+          {data?.photos.length > 4 && (
+            <div className="w-full">
+              <Swiper
+                modules={[Navigation, Pagination]}
+                navigation={{
+                  nextEl: ".custom-nextt",
+                  prevEl: ".custom-prevt",
+                }}
+                pagination={{
+                  el: ".customer-pagination",
+                  clickable: true,
+                }}
+                spaceBetween={16}
+                slidesPerView={2}
+                className="h-full"
+              >
+                {data?.photos.map((item: string, index: number) => (
+                  <SwiperSlide key={index}>
+                    <div
+                      className="relative w-full aspect-[320/230] rounded-3xl overflow-hidden shadow cursor-pointer"
+                      onClick={() => setMainImage(item)}
+                    >
+                      <Image
+                        src={item}
+                        alt="building"
+                        fill
+                        className="object-cover"
+                        unoptimized
+                      />
+                    </div>
+                  </SwiperSlide>
+                ))}
+              </Swiper>
+              <button className="custom-prevt cursor-pointer hidden sm:block absolute -left-10 bottom-38 z-10 bg-white dark:bg-neutral-800 p-2 rounded-full shadow-md">
+                <IoIosArrowRoundBack
+                  className="dark:text-amber-100"
+                  size={25}
+                />
+              </button>
 
-            <button className="custom-nextt cursor-pointer hidden sm:block absolute -right-5 bottom-38 z-10 bg-white dark:bg-neutral-800 p-2 rounded-full shadow-md">
-              <IoIosArrowRoundForward
-                className="dark:text-amber-100"
-                size={25}
-              />
-            </button>
-            <div className="customer-pagination mt-6 flex justify-center gap-2" />
-          </div>
+              <button className="custom-nextt cursor-pointer hidden sm:block absolute -right-5 bottom-38 z-10 bg-white dark:bg-neutral-800 p-2 rounded-full shadow-md">
+                <IoIosArrowRoundForward
+                  className="dark:text-amber-100"
+                  size={25}
+                />
+              </button>
+              <div className="customer-pagination mt-6 flex justify-center gap-2" />
+            </div>
+          )}
         </div>
       </div>
 
