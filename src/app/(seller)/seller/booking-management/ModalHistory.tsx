@@ -12,7 +12,8 @@ import {
 import { useState } from "react";
 import { BsArrowDown, BsArrowUp, BsCursorFill } from "react-icons/bs";
 import { FaListCheck } from "react-icons/fa6";
-import { BiLogoTelegram } from "react-icons/bi";
+import { useDisclosure } from "@heroui/react";
+import ModalPassengerList from "./PassengerList";
 
 interface ModalReserveProps {
   isOpen: boolean;
@@ -24,28 +25,46 @@ interface ReservationData {
   id: number;
   checkIn: string;
   checkOut: string;
-  number: string;
+  
+
 }
 
-export default function ModalPassengers({
+export default function ModalHistory({
   isOpen,
   onOpenChange,
   selectedRow,
 }: ModalReserveProps) {
   const [sorting, setSorting] = useState<SortingState>([]);
+  const {
+    isOpen: isPassengerListOpen,
+    onOpen: onPassengerListOpen,
+    onOpenChange: onPassengerListOpenChange,
+  } = useDisclosure();
 
   const reservations: ReservationData[] = [
     {
       id: 1,
-      checkIn: "امیرمحمد ملایی",
-      checkOut: "مرد",
-      number:"09331334326"
+      checkIn: " 1403/01/02",
+      checkOut: "تاریخ رزرو",
+    
     },
     {
       id: 2,
-      checkIn: "امیرمحمد ملایی",
-      checkOut: "زن",
-      number:"09371834774"
+      checkIn: "1403/03/06 ",
+      checkOut: "اسامی مسافران",
+    
+    },
+    {
+      id: 3,
+      checkIn: " 1403/01/02",
+      checkOut: "تاریخ رزرو",
+    
+    },
+    {
+      id: 4,
+      checkIn: "1403/03/06 ",
+      checkOut: "اسامی مسافران",
+    
     },
   ];
 
@@ -58,34 +77,15 @@ export default function ModalPassengers({
 
     {
       accessorKey: "checkIn",
-      header: "نام ",
+      header: "تاریخ و زمان ",
       cell: (info) => info.getValue(),
     },
     {
       accessorKey: "checkOut",
-      header: " جنسیت",
+      header: " نوع تغییر",
       cell: (info) => info.getValue(),
     },
-    {
-      accessorKey: "number",
-      header: " شماره تماس",
-      cell: (info) => info.getValue(),
-    },
-    {
-      accessorKey: "action",
-      header: "ارسال پیام",
-      cell: (info) => (
-        <div className="flex items-center justify-center gap-2">
-          <BsCursorFill size={20} color="warning" />
-          {/* <button
-            className="bg-amber-500 text-black px-4 py-2 rounded-md"
-            onClick={onPassengerListOpen}
-          >
-            اطلاعات مسافران
-          </button> */}
-        </div>
-      ),
-    },
+
   ];
   const table = useReactTable({
     data: reservations,
@@ -112,7 +112,7 @@ export default function ModalPassengers({
               <div className="flex items-center justify-between border-b pb-4 mb-4">
                 <h2 className="text-3xl font-black text-right flex items-center gap-2">
                   <FaListCheck className="dark:text-amber-200" size={30} />
-                  جزئیات مسافرها 
+                  تاریخچه تغییرات  
                 </h2>
                 <button
                   className="flex items-center gap-2 border border-red-400 text-red-500 rounded-full px-6 py-2 text-lg font-bold hover:bg-red-50 dark:hover:bg-red-500 dark:text-white transition"
@@ -185,6 +185,11 @@ export default function ModalPassengers({
           )}
         </ModalContent>
       </Modal>
+      <ModalPassengerList
+        isOpen={isPassengerListOpen}
+        onOpenChange={onPassengerListOpenChange}
+        selectedRow={selectedRow}
+      />
     </>
   );
 }

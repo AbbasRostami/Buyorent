@@ -38,13 +38,13 @@ export default function ModalPayments({
       id: 1,
       date: "1403/02/01",
       amount: "2,500,000",
-      transactionId: "TRX123456",
+      transactionId: "123456789123456",
     },
     {
       id: 2,
       date: "1403/02/15",
       amount: "1,500,000",
-      transactionId: "TRX789012",
+      transactionId: "123456789123456",
     },
   ];
 
@@ -59,16 +59,17 @@ export default function ModalPayments({
       header: "تاریخ پرداخت",
       cell: (info) => info.getValue(),
     },
+     {
+      accessorKey: "transactionId",
+      header: "شماره پیگیری",
+      cell: (info) => info.getValue(),
+    },
     {
       accessorKey: "amount",
       header: "مبلغ",
       cell: (info) => `${info.getValue()} تومان`,
     },
-    {
-      accessorKey: "transactionId",
-      header: "شماره تراکنش",
-      cell: (info) => info.getValue(),
-    },
+   
 
     {
       accessorKey: "action",
@@ -107,7 +108,7 @@ export default function ModalPayments({
             <div className="flex items-center justify-between border-b pb-4 mb-4">
               <h2 className="text-3xl font-black text-right flex items-center gap-2">
                 <MdPayment size={30} />
-                لیست پرداخت‌های {selectedRow?.title}
+                لیست پرداخت‌های 
               </h2>
               <button
                 className="flex items-center gap-2 border border-red-400 text-red-500 rounded-full px-6 py-2 text-lg font-bold hover:bg-red-50 dark:hover:bg-red-500 dark:text-white transition"

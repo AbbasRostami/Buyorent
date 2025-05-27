@@ -14,6 +14,8 @@ import { FaLocationDot } from "react-icons/fa6";
 import ModalReserve from "./ModalPassengers";
 import ModalPayments from "./ModalPayments";
 import { useDisclosure } from "@heroui/react";
+import ModalPassengerList from "./PassengerList";
+import ModalHistory from "./ModalHistory";
 
 interface ModalDetailsProps {
   isOpen: boolean;
@@ -36,9 +38,20 @@ export default function ModalDetails({
     onOpen: onPaymentsOpen,
     onOpenChange: onPaymentsOpenChange,
   } = useDisclosure();
+  const {
+    isOpen: isModalHistoryOpen,
+    onOpen: onHistoryOpen,
+    onOpenChange: onHistoryOpenChange,
+  } = useDisclosure();
+
+  const {
+    isOpen: isPassengerListOpen,
+    onOpen: onPassengerListOpen,
+    onOpenChange: onPassengerListOpenChange,
+  } = useDisclosure();
 
   const description =
-    "آپارتمانی دنج و آرام در قلب شهر، جایی که زندگی روزمره راحت و سبک‌تر است. فضایی مدرن با طراحی منحصربه‌فر،. محلی برای لحظه‌های خوش، آرامش و شروعی نو در زندگی روزمره‌تان.";
+    "آپارتمانی دنج و آرام در قلب شهر، جایی که زندگی روزمره راحت و سبک‌تر است. فضایی مدرن با طراحی منحصربه‌فرد، یادآور خانه‌های دنج و دل‌نشین. محلی برای لحظه‌های خوش، آرامش و شروعی نو در زندگی روزمره‌تان.  آپارتمانی دنج و آرام در قلب شهر، جایی که زندگی روزمره راحت و سبک‌تر است. فضایی مدرن با طراحی منحصربه‌فرد، یادآور خانه‌های دنج و دل‌نشین. محلی برای لحظه‌های خوش، آرامش و شروعی نو در زندگی روزمره‌تان. آپارتمانی دنج و آرام در قلب شهر، جایی که زندگی روزمره راحت و سبک‌تر است. فضایی مدرن با طراحی منحصربه‌فرد، یادآور خانه‌های دنج و دل‌نشین. محلی برای لحظه‌های خوش، آرامش و شروعی نو در زندگی روزمره‌تان.";
   const tags = ["آپارتمان", "مسکونی", "بالکن", "آپارتمان"];
   const address = "گیلان، رشت، میدان آزادی، جنب چهار راه گیلان، رشت...";
 
@@ -168,6 +181,13 @@ export default function ModalDetails({
                   >
                     پرداختی ها
                   </Button>
+                   <Button
+                    className=" bg-gradient-to-r from-amber-400 to-amber-500 text-black font-bold px-8 py-3 rounded-xl  transition ease-in-out delay-300  hover:scale-105  duration-300 "
+                    size="lg"
+                    onPress={onHistoryOpen}
+                  >
+                    تاریخچه تغییرات 
+                  </Button>
                 </div>
               </div>
             </div>
@@ -182,6 +202,18 @@ export default function ModalDetails({
       <ModalPayments
         isOpen={isPaymentsOpen}
         onOpenChange={onPaymentsOpenChange}
+        selectedRow={selectedRow}
+      />
+       <ModalHistory
+        isOpen={isModalHistoryOpen}
+        onOpenChange={onHistoryOpenChange}
+        selectedRow={selectedRow}
+      />
+      
+
+      <ModalPassengerList
+        isOpen={isPassengerListOpen}
+        onOpenChange={onPassengerListOpenChange}
         selectedRow={selectedRow}
       />
     </>
