@@ -42,7 +42,7 @@ export default function ReductionHeader() {
     <>
       <div ref={containerRef}>
         <div
-          className="hidden lg:flex items-center justify-between rounded-xl px-4"
+          className="hidden lg:flex items-center justify-between rounded-xl px-4 "
           style={{ width: textWidth }}
         >
           <div className="flex items-center gap-4 p-4">
