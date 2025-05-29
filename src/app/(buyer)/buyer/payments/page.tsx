@@ -8,6 +8,8 @@ import {
   DropdownMenu,
   DropdownTrigger,
   Pagination,
+  SelectItem,
+  Select,
 } from "@heroui/react";
 import {
   ColumnDef,
@@ -28,6 +30,7 @@ import image3 from "./../../../../assets/Avatar3.png";
 import Image from "next/image";
 import { MdOutlinePayments } from "react-icons/md";
 import { IoEyeSharp } from "react-icons/io5";
+import { PiSealWarningBold } from "react-icons/pi";
 interface BookingData {
   id: number;
   title: string;
@@ -97,9 +100,7 @@ export default function PaymentsPage() {
 
           return (
             <Chip
-              color={
-                value === "تایید نشده" ? "danger" : "success"
-              }
+              color={value === "تایید نشده" ? "danger" : "success"}
               variant="flat"
               className="text-sm px-2 py-1 rounded-xl font-normal"
             >
@@ -122,7 +123,7 @@ export default function PaymentsPage() {
         cell: (info) => {
           return (
             <Button variant="light" color="warning">
-              <IoEyeSharp  size={20} />
+              <IoEyeSharp size={20} />
             </Button>
           );
         },
@@ -327,10 +328,31 @@ export default function PaymentsPage() {
             ))}
           </thead>
           <tbody className="divide-y divide-gray-200 dark:divide-gray-700">
-            {table.getRowModel().rows.map((row, index) => (
-              <tr
-                key={row.id}
-                className={`
+            {table.getRowModel().rows.length === 0 ? (
+              <tr className="bg-white dark:bg-gray-800">
+                <td
+                  colSpan={columns.length}
+                  className="text-center py-12 text-gray-500 dark:text-gray-400"
+                >
+                  <div className="flex flex-col items-center justify-center">
+                    <PiSealWarningBold
+                      size={80}
+                      className=" text-amber-500 mb-4"
+                    />
+                    <p className="text-xl font-bold text-gray-700 dark:text-gray-300">
+                      موردی یافت نشد
+                    </p>
+                    <p className="mt-2 text-gray-500 dark:text-gray-400">
+                      هیچ رزروی با مشخصات جستجو شده یافت نشد
+                    </p>
+                  </div>
+                </td>
+              </tr>
+            ) : (
+              table.getRowModel().rows.map((row, index) => (
+                <tr
+                  key={row.id}
+                  className={`
             ${
               index % 2 === 0
                 ? "bg-[#ebebe9] dark:bg-gray-800/80"
@@ -340,21 +362,46 @@ export default function PaymentsPage() {
             transition-colors duration-200
             text-center
           `}
-              >
-                {row.getVisibleCells().map((cell) => (
-                  <td
-                    key={cell.id}
-                    className="p-3 text-gray-700 dark:text-gray-300 whitespace-nowrap"
-                  >
-                    {flexRender(cell.column.columnDef.cell, cell.getContext())}
-                  </td>
-                ))}
-              </tr>
-            ))}
+                >
+                  {row.getVisibleCells().map((cell) => (
+                    <td
+                      key={cell.id}
+                      className="p-3 text-gray-700 dark:text-gray-300 whitespace-nowrap"
+                    >
+                      {flexRender(
+                        cell.column.columnDef.cell,
+                        cell.getContext()
+                      )}
+                    </td>
+                  ))}
+                </tr>
+              ))
+            )}
           </tbody>
         </table>
       </div>
-      <div className="flex justify-end">
+      <div className="flex flex-col-reverse md:flex-row justify-end items-center gap-6 md:gap-2">
+        <Select
+          variant="faded"
+          color="warning"
+          className="w-28"
+          aria-label="تعداد آیتم‌ها"
+          selectedKeys={[pagination.pageSize.toString()]}
+          renderValue={(items) => {
+            return `نمایش: ${items[0].key}`;
+          }}
+          onChange={(e) => {
+            const newSize = Number(e.target.value);
+            setPagination({
+              pageIndex: 0,
+              pageSize: newSize,
+            });
+          }}
+        >
+          {[5, 10, 15].map((size) => (
+            <SelectItem key={size}>{size}</SelectItem>
+          ))}
+        </Select>
         <Pagination
           dir="ltr"
           color="warning"

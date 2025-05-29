@@ -8,6 +8,8 @@ import {
   DropdownMenu,
   DropdownTrigger,
   Pagination,
+  Select,
+  SelectItem,
 } from "@heroui/react";
 import {
   ColumnDef,
@@ -30,6 +32,7 @@ import image from "./../../../../assets/Avatar1.png";
 import image2 from "./../../../../assets/Avatar2.png";
 import image3 from "./../../../../assets/Avatar3.png";
 import Image from "next/image";
+import { PiSealWarningBold } from "react-icons/pi";
 interface BookingData {
   id: number;
   title: string;
@@ -73,7 +76,7 @@ export default function FavoritesPage() {
         cell: (info) => info.getValue(),
         enableSorting: true,
       },
-     
+
       {
         accessorKey: "price",
         header: "قیمت کل",
@@ -101,10 +104,9 @@ export default function FavoritesPage() {
                 </Button>
               </DropdownTrigger>
               <DropdownMenu aria-label="Static Actions">
-            
                 <DropdownItem color="success" key="details" textValue="رزرو">
                   <div className="flex items-center gap-2">
-                    <CgAdd  size={20} />
+                    <CgAdd size={20} />
                     رزرو
                   </div>
                 </DropdownItem>
@@ -242,10 +244,7 @@ export default function FavoritesPage() {
     <div className="space-y-4">
       <div className="flex items-center justify-between gap-2 pb-6 border-b-2 border-dashed border-amber-500">
         <div className="flex items-center gap-2">
-          <FaHeart
-            className="text-amber-900 dark:text-amber-200"
-            size={30}
-          />
+          <FaHeart className="text-amber-900 dark:text-amber-200" size={30} />
           <span className="text-amber-500 text-xl font-bold  dark:text-amber-200 pb-3 border-b-4 border-amber-500 relative group transition-all duration-300 ease-in-out">
             لیست رزرو های ذخیره شده
           </span>
@@ -286,10 +285,31 @@ export default function FavoritesPage() {
             ))}
           </thead>
           <tbody className="divide-y divide-gray-200 dark:divide-gray-700">
-            {table.getRowModel().rows.map((row, index) => (
-              <tr
-                key={row.id}
-                className={`
+            {table.getRowModel().rows.length === 0 ? (
+              <tr className="bg-white dark:bg-gray-800">
+                <td
+                  colSpan={columns.length}
+                  className="text-center py-12 text-gray-500 dark:text-gray-400"
+                >
+                  <div className="flex flex-col items-center justify-center">
+                    <PiSealWarningBold
+                      size={80}
+                      className=" text-amber-500 mb-4"
+                    />
+                    <p className="text-xl font-bold text-gray-700 dark:text-gray-300">
+                      موردی یافت نشد
+                    </p>
+                    <p className="mt-2 text-gray-500 dark:text-gray-400">
+                      هیچ رزروی با مشخصات جستجو شده یافت نشد
+                    </p>
+                  </div>
+                </td>
+              </tr>
+            ) : (
+              table.getRowModel().rows.map((row, index) => (
+                <tr
+                  key={row.id}
+                  className={`
             ${
               index % 2 === 0
                 ? "bg-[#ebebe9] dark:bg-gray-800/80"
@@ -299,21 +319,46 @@ export default function FavoritesPage() {
             transition-colors duration-200
             text-center
           `}
-              >
-                {row.getVisibleCells().map((cell) => (
-                  <td
-                    key={cell.id}
-                    className="p-3 text-gray-700 dark:text-gray-300 whitespace-nowrap"
-                  >
-                    {flexRender(cell.column.columnDef.cell, cell.getContext())}
-                  </td>
-                ))}
-              </tr>
-            ))}
+                >
+                  {row.getVisibleCells().map((cell) => (
+                    <td
+                      key={cell.id}
+                      className="p-3 text-gray-700 dark:text-gray-300 whitespace-nowrap"
+                    >
+                      {flexRender(
+                        cell.column.columnDef.cell,
+                        cell.getContext()
+                      )}
+                    </td>
+                  ))}
+                </tr>
+              ))
+            )}
           </tbody>
         </table>
       </div>
-      <div className="flex justify-end">
+      <div className="flex flex-col-reverse md:flex-row justify-end items-center gap-6 md:gap-2">
+        <Select
+          variant="faded"
+          color="warning"
+          className="w-28"
+          aria-label="تعداد آیتم‌ها"
+          selectedKeys={[pagination.pageSize.toString()]}
+          renderValue={(items) => {
+            return `نمایش: ${items[0].key}`;
+          }}
+          onChange={(e) => {
+            const newSize = Number(e.target.value);
+            setPagination({
+              pageIndex: 0,
+              pageSize: newSize,
+            });
+          }}
+        >
+          {[5, 10, 15].map((size) => (
+            <SelectItem key={size}>{size}</SelectItem>
+          ))}
+        </Select>
         <Pagination
           dir="ltr"
           color="warning"
