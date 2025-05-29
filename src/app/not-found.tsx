@@ -189,14 +189,17 @@ export default function NotFound() {
       </svg>
 
       <div className="flex flex-col items-center justify-center">
-        <p className="text-2xl md:text-4xl lg:text-5xl text-gray-800 mt-12">
+        <p className="text-2xl md:text-4xl lg:text-5xl text-gray-800 dark:text-gray-200 mt-12">
           مجوز دسترسی به این صفحه را ندارید یا اینکه این صفحه موجود نیست
         </p>
-        <p className="md:text-lg lg:text-xl text-gray-600 mt-4">
+        <p className="md:text-lg lg:text-xl text-gray-600 dark:text-gray-400 mt-4">
           شما مجوز دسترسی به این صفحه را ندارید یا اینکه این صفحه موجود نیست
         </p>
 
-        <Link href="/" className="bg-blue-600 hover:bg-blue-700 mb-8 text-gray-100 px-4 py-2 mt-4 rounded transition duration-150">
+          <Link
+          href="/"
+          className="bg-blue-600 hover:bg-blue-700 mb-8 text-gray-100 dark:text-gray-900 px-4 py-2 mt-4 rounded transition duration-150"
+        >
           بازگشت به صفحه اصلی
         </Link>
       </div>
