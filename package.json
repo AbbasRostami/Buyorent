@@ -38,6 +38,7 @@
     "react-joyride": "^2.9.3",
     "react-leaflet": "^5.0.0",
     "react-medium-image-zoom": "^5.2.14",
+    "react-toastify": "^11.0.5",
     "sonner": "^2.0.3",
     "sweetalert2": "^11.21.2",
     "swiper": "^11.2.8",
