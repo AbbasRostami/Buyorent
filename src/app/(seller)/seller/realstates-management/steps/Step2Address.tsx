@@ -119,7 +119,7 @@ export default function Step2Address() {
   };
 
   return (
-    <div className="rounded-xl p-6 mt-4">
+    <div className="rounded-xl p-1 mt-4">
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4 items-center">
         <div className="relative">
           <label className="block mb-1 text-sm font-medium">نشانی ملک:</label>

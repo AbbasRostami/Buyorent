@@ -21,7 +21,7 @@ export default function Step3Facilities() {
   const { values, setFieldValue } = useFormikContext<any>();
 
   return (
-    <div className="rounded-xl p-6 mt-4 ">
+    <div className="rounded-xl p-1 mt-4 ">
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
         <div>
           <label className="block mb-1 text-sm font-medium">تعداد اتاق:</label>
@@ -87,12 +87,13 @@ export default function Step3Facilities() {
               setFieldValue("tags", Array.from(keys))
             }
             renderValue={(items) => (
-              <div className="flex gap-1 flex-wrap">
-                {items.map((item) => (
+              <div className="flex gap-1 flex-wrap min-h-[32px] p-1">
+                {items.slice(0, 2).map((item) => (
                   <Chip
                     key={item.key}
                     variant="shadow"
                     color="warning"
+                    className="text-xs md:text-sm my-0.5"
                     endContent={
                       <button
                         onClick={(e) => {
@@ -101,19 +102,31 @@ export default function Step3Facilities() {
                           newTags.delete(item.key);
                           setFieldValue("tags", newTags);
                         }}
+                        className="p-0.5"
                       >
-                        <IoClose className="text-xs" />
+                        <IoClose className="text-xs md:text-sm" />
                       </button>
                     }
                   >
                     {(item.data as { label: string })?.label ?? item.key}
                   </Chip>
                 ))}
+                {items.length > 2 && (
+                  <Chip
+                    variant="shadow"
+                    color="warning"
+                    className="text-xs md:text-sm my-0.5"
+                  >
+                    +{items.length - 2} مورد دیگر
+                  </Chip>
+                )}
               </div>
             )}
           >
             {animals.map((animal) => (
-              <SelectItem key={animal.key}>{animal.label}</SelectItem>
+              <SelectItem key={animal.key} className="text-xs md:text-sm">
+                {animal.label}
+              </SelectItem>
             ))}
           </Select>
         </div>

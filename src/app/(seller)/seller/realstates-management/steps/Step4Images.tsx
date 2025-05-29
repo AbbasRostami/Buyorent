@@ -37,23 +37,26 @@ export default function Step4Images() {
     );
   };
 
-  // حالت اولیه: هیچ عکسی انتخاب نشده
   if (!values.images || values.images.length === 0) {
     return (
-      <div className=" rounded-xl p-6 mt-4 ">
+      <div className=" rounded-xl p-2 mt-2 ">
+
+
         <div className="text-right mb-4">
-          <span className="text-gray-700 dark:text-amber-50 text-2xl text-center flex items-center gap-2">
+          <span className="text-gray-700 mb-4 dark:text-amber-50 text-2xl text-center flex items-center gap-2">
             <GrGallery className="text-amber-400" size={24} />
             تصویر ملک
           </span>
           <p className="text-amber-600 dark:text-amber-400 font-bold text-lg mt-1 text-center">
             یک تصویر بهتر از هزار کلمه.
           </p>
-          <p className="text-gray-600  dark:text-amber-50 text-sm mt-1 text-center">
+          <p className="text-gray-600  dark:text-amber-50 text-xs md:text-sm mt-1 text-center">
             با قرار دادن عکس شانس دیده شدن ملک‌تان را ۵ برابر کنید.
           </p>
         </div>
-        <div className="flex gap-4 justify-center mt-10">
+
+
+        <div className="flex flex-wrap gap-4 justify-center mt-10">
           {[...Array(MAX_IMAGES)].map((_, idx) => (
             <div
               key={idx}
@@ -79,12 +82,14 @@ export default function Step4Images() {
             />
           </div>
         </div>
+
+
       </div>
     );
   }
 
   return (
-    <div className=" rounded-xl p-6 mt-4">
+    <div className=" rounded-xl p-2 mt-4">
       <div className="text-right mb-4">
         <span className="text-gray-700 text-2xl dark:text-amber-50 flex items-center gap-2">
           <GrGallery className="text-amber-400" size={24} />
@@ -97,7 +102,7 @@ export default function Step4Images() {
           با قرار دادن عکس شانس دیده شدن ملک‌تان را ۵ برابر کنید.
         </p>
       </div>
-      <div className="flex gap-4 justify-center mt-6">
+      <div className="flex flex-wrap gap-4 justify-center mt-6">
         {values.images.map((img: string, idx: number) => (
           <div
             key={idx}

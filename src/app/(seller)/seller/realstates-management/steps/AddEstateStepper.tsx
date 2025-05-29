@@ -24,7 +24,8 @@ const initialValues = {
   dealType: "فروش",
   estateType: "آپارتمان",
   subType: "سوئیت",
-  description: "آپارتمانی دنج و آرام در قلب شهر، جایی که زندگی روزمره راحت و سبک‌تر است. فضایی مدرن با طراحی منحصربه‌فرد، یادآور خانه‌های دنج و دل‌نشین. محلی برای لحظه‌های خوش، آرامش و شروعی نو در زندگی روزمره‌تان.  آپارتمانی دنج و آرام در قلب شهر، جایی که زندگی روزمره راحت و سبک‌تر است. فضایی مدرن با طراحی منحصربه‌فرد، یادآور خانه‌های دنج و دل‌نشین. محلی برای لحظه‌های خوش، آرامش و شروعی نو در زندگی روزمره‌تان. آپارتمانی دنج و آرام در قلب شهر، جایی که زندگی روزمره راحت و سبک‌تر است. فضایی مدرن با طراحی منحصربه‌فرد، یادآور خانه‌های دنج و دل‌نشین. محلی برای لحظه‌های خوش، آرامش و شروعی نو در زندگی روزمره‌تان. محلی برای لحظه‌های خوش، آرامش و شروعی نو در زندگی روزمره‌تان. محلی برای لحظه‌های خوش، آرامش و شروعی نو در زندگی روزمره‌تان.",
+  description:
+    "آپارتمانی دنج و آرام در قلب شهر، جایی که زندگی روزمره راحت و سبک‌تر است. فضایی مدرن با طراحی منحصربه‌فرد، یادآور خانه‌های دنج و دل‌نشین. محلی برای لحظه‌های خوش، آرامش و شروعی نو در زندگی روزمره‌تان.  آپارتمانی دنج و آرام در قلب شهر، جایی که زندگی روزمره راحت و سبک‌تر است. فضایی مدرن با طراحی منحصربه‌فرد، یادآور خانه‌های دنج و دل‌نشین. محلی برای لحظه‌های خوش، آرامش و شروعی نو در زندگی روزمره‌تان. آپارتمانی دنج و آرام در قلب شهر، جایی که زندگی روزمره راحت و سبک‌تر است. فضایی مدرن با طراحی منحصربه‌فرد، یادآور خانه‌های دنج و دل‌نشین. محلی برای لحظه‌های خوش، آرامش و شروعی نو در زندگی روزمره‌تان. محلی برای لحظه‌های خوش، آرامش و شروعی نو در زندگی روزمره‌تان. محلی برای لحظه‌های خوش، آرامش و شروعی نو در زندگی روزمره‌تان.",
   address: "خیابان ولیعصر، تهران، منطقه مرکزی",
   location: [],
   roomCount: "1",
@@ -54,10 +55,15 @@ export default function AddEstateStepper({
   const handlePrev = () => setCurrentStep((s) => Math.max(s - 1, 0));
 
   return (
-    <div className="  flex items-center justify-center ">
+    <div className="flex flex-col items-center justify-center ">
       <div className=" w-full mx-auto  relative">
+
+
+
+
+
         {/* Stepper */}
-        <div className="flex items-center justify-evenly bg-[#D9D9D9] dark:bg-gray-500 rounded-xl px-6 py-3 mb-8">
+        <div className="flex  flex-wrap items-start gap-3 bg-[#D9D9D9] dark:bg-gray-500 rounded-xl px-6 py-3 mb-8">
           {steps.map((step, idx) => (
             <div key={step.title} className="flex items-center gap-2">
               <div
@@ -92,14 +98,16 @@ export default function AddEstateStepper({
             </div>
           ))}
         </div>
-        {/* Formik */}
+
+
+
+
         <Formik
           initialValues={initialValues}
           onSubmit={(values) => {
             if (!isLastStep) {
               handleNext();
             } else {
-              // ارسال به سرور یا نمایش پیام موفقیت
               console.log(values);
               onClose();
             }
@@ -110,7 +118,7 @@ export default function AddEstateStepper({
             return (
               <Form>
                 <StepComponent formik={formik} />
-                <div className="flex justify-end mt-8 gap-4 items-center">
+                <div className="flex justify-center md:justify-end mt-8 gap-4 items-center">
                   {!isFirstStep && (
                     <button
                       type="button"
