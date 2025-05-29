@@ -8,6 +8,8 @@ import {
   DropdownMenu,
   DropdownTrigger,
   Pagination,
+  Select,
+  SelectItem,
   useDisclosure,
 } from "@heroui/react";
 import {
@@ -24,7 +26,7 @@ import {
 import { useMemo, useState } from "react";
 import { BsArrowDown, BsArrowUp } from "react-icons/bs";
 import { TiDeleteOutline } from "react-icons/ti";
-import { PiWarningCircleBold } from "react-icons/pi";
+import { PiSealWarningBold, PiWarningCircleBold } from "react-icons/pi";
 import { HiDotsHorizontal } from "react-icons/hi";
 import { FaUsers } from "react-icons/fa";
 import image from "./../../../../assets/Avatar1.png";
@@ -398,7 +400,28 @@ export default function BookingTable() {
             ))}
           </thead>
           <tbody className="divide-y divide-gray-200 dark:divide-gray-700">
-            {table.getRowModel().rows.map((row, index) => (
+            {table.getRowModel().rows.length === 0 ? (
+            <tr className="bg-white dark:bg-gray-800">
+            <td
+              colSpan={columns.length}
+              className="text-center py-12 text-gray-500 dark:text-gray-400"
+            >
+              <div className="flex flex-col items-center justify-center">
+                <PiSealWarningBold
+                  size={80}
+                  className=" text-amber-500 mb-4"
+                />
+                <p className="text-xl font-bold text-gray-700 dark:text-gray-300">
+                  موردی یافت نشد
+                </p>
+                <p className="mt-2 text-gray-500 dark:text-gray-400">
+                  هیچ رزروی با مشخصات جستجو شده یافت نشد
+                </p>
+                </div>
+              </td>
+            </tr>
+            ) : (
+            table.getRowModel().rows.map((row, index) => (
               <tr
                 key={row.id}
                 className={`
@@ -420,12 +443,34 @@ export default function BookingTable() {
                     {flexRender(cell.column.columnDef.cell, cell.getContext())}
                   </td>
                 ))}
-              </tr>
-            ))}
+                </tr>
+              ))
+            )}
           </tbody>
         </table>
       </div>
-      <div className="flex justify-end">
+      <div className="flex flex-col-reverse md:flex-row justify-end items-center gap-6 md:gap-2">
+        <Select
+          variant="faded"
+          color="warning"
+          className="w-28"
+          aria-label="تعداد آیتم‌ها"
+          selectedKeys={[pagination.pageSize.toString()]}
+          renderValue={(items) => {
+            return `نمایش: ${items[0].key}`;
+          }}
+          onChange={(e) => {
+            const newSize = Number(e.target.value);
+            setPagination({
+              pageIndex: 0,
+              pageSize: newSize,
+            });
+          }}
+        >
+          {[5, 10, 15].map((size) => (
+            <SelectItem key={size}>{size}</SelectItem>
+          ))}
+        </Select>
         <Pagination
           dir="ltr"
           color="warning"

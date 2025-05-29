@@ -181,12 +181,12 @@ export default function ModalDetails({
                   >
                     پرداختی ها
                   </Button>
-                   <Button
+                  <Button
                     className=" bg-gradient-to-r from-amber-400 to-amber-500 text-black font-bold px-8 py-3 rounded-xl  transition ease-in-out delay-300  hover:scale-105  duration-300 "
                     size="lg"
                     onPress={onHistoryOpen}
                   >
-                    تاریخچه تغییرات 
+                    تاریخچه تغییرات
                   </Button>
                 </div>
               </div>
@@ -204,12 +204,11 @@ export default function ModalDetails({
         onOpenChange={onPaymentsOpenChange}
         selectedRow={selectedRow}
       />
-       <ModalHistory
+      <ModalHistory
         isOpen={isModalHistoryOpen}
         onOpenChange={onHistoryOpenChange}
         selectedRow={selectedRow}
       />
-      
 
       <ModalPassengers
         isOpen={isPassengerListOpen}
