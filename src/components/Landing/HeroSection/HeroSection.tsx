@@ -9,7 +9,7 @@ import HeroSectionFilter from "./HeroSectionFilter";
 
 export default function HeroSection() {
   return (
-    <div className="lg:mx-24 mt-12">
+    <div className="lg:mx-24 mt-12 ">
       <div className="grid grid-cols-1 md:grid-cols-2 items-center gap-6 ">
         <MotionDiv
           initial={{ opacity: 0, x: 100, rotate: 10 }}

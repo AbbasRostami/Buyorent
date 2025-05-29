@@ -15,7 +15,7 @@ import Image from "next/image";
 export default function ReductionCarousel({ houses }: HouseTypeProps) {
   const extendHouses = [...houses, ...houses];
   return (
-    <div className="m-6">
+    <div className="m-6 step-3">
       <Swiper
         modules={[Navigation, Pagination, Autoplay]}
         navigation={{

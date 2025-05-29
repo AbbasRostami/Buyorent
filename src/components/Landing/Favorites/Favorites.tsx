@@ -5,7 +5,7 @@ import FavoritesSwiper from "./FavoritesSwiper";
 
 export default function Favourites() {
   return (
-    <div className=" relative  rounded-2xl  border-gray-200 bg-gray-100 overflow-hidden mt-38">
+    <div className=" relative  rounded-2xl  border-gray-200 bg-gray-100 overflow-hidden mt-38 step-5">
       {/* گوشه معکوس */}
       <div className="absolute bottom-0 right-12 rounded-tab">
         <HeroButton

@@ -3,123 +3,100 @@ import React from "react";
 import reserve from "./../../../assets/Landing/reserve.png";
 import { FaMagnifyingGlass } from "react-icons/fa6";
 import Image from "next/image";
-import {
-  HeroInput,
-  HeroSelect,
-  HeroSelectItem,
-} from "../../providers/HeroUIClient";
-const animals = [
-  { value: "cat", label: "گربه" },
-  { value: "dog", label: "سگ" },
-  { value: "elephant", label: "فیل" },
+import { Input, Select, SelectItem, DatePicker } from "@heroui/react";
+
+const destinations = [
+  { value: "tehran", label: "تهران" },
+  { value: "shiraz", label: "شیراز" },
+  { value: "mashhad", label: "مشهد" },
 ];
+
 const HeroSectionFilter = () => {
   return (
     <>
-      <div className="w-full flex  justify-center items-center px-4 -mt-3 xl:-mt-10 mb-20">
+      <div className="w-full flex justify-center items-center px-2 sm:px-4 -mt-3 xl:-mt-10 mb-10 sm:mb-20 step-2">
         <div className="relative z-20 w-full max-w-6xl mx-auto">
-          <div className="absolute -translate-y-7 -translate-x-25 z-30">
-            <Image src={reserve} alt="home" />
+          <div className="absolute -translate-y-7 -translate-x-25 z-30 hidden sm:block">
+            <Image src={reserve} alt="home" className="w-20" />
           </div>
 
-          <div className="absolute left-0 -translate-x-1/2 md:-translate-x-1/3 translate-y-1/4 hidden md:flex bg-[#D27700] rounded-l-full justify-end items-center px-6 py-5">
-            <FaMagnifyingGlass className="text-amber-50 md:text-2xl lg:text-3xl" />
+          <div className="absolute left-0 -translate-x-1/2 md:-translate-x-1/3 translate-y-1/4 hidden md:flex bg-[#D27700] rounded-l-full justify-end items-center px-4 sm:px-6 py-3 sm:py-5">
+            <FaMagnifyingGlass className="text-amber-50 text-xl sm:text-2xl lg:text-3xl" />
           </div>
 
-          <div className="relative bg-[#FFFBF5] dark:bg-gray-800 dark:text-white translate-x-7 drop-shadow-lg rounded-l-md rounded-r-full w-full z-10 px-8 py-4">
-            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4">
-              <div className="flex flex-col gap-2 max-w-xs">
+          <div className="relative bg-[#FFFBF5] dark:bg-gray-800 dark:text-white translate-x-2 sm:translate-x-7 drop-shadow-lg rounded-l-md rounded-r-full w-full z-10 px-4 sm:px-8 py-4">
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+              <div className="flex flex-col gap-2">
                 <label
                   htmlFor="destination"
-                  className="text-base sm:text-md md:text-lg lg:text-xl font-medium"
+                  className="text-sm sm:text-base md:text-lg font-medium"
                 >
                   انتخاب مقصد :
                 </label>
-                <HeroSelect
+                <Select
                   id="destination"
                   aria-label="انتخاب مقصد"
-                  className="text-sm sm:text-base md:text-lg"
+                  className="text-sm sm:text-base"
                   labelPlacement="outside"
                   placeholder="___   انتخاب کنید   ___"
                   variant="bordered"
                 >
-                  {animals.map((animal) => (
-                    <HeroSelectItem
+                  {destinations.map((dest) => (
+                    <SelectItem
                       className="dark:text-amber-100"
-                      key={animal.value}
+                      key={dest.value}
                     >
-                      {animal.label}
-                    </HeroSelectItem>
+                      {dest.label}
+                    </SelectItem>
                   ))}
-                </HeroSelect>
+                </Select>
               </div>
 
-              <div className="flex flex-col gap-2 max-w-xs">
+              <div className="flex flex-col gap-2">
                 <label
-                  htmlFor="destination"
-                  className="text-base sm:text-md md:text-lg lg:text-xl font-medium"
+                  htmlFor="guests"
+                  className="text-sm sm:text-base md:text-lg font-medium"
                 >
                   تعداد نفرات :
                 </label>
-                <HeroInput
+                <Input
                   placeholder="0"
                   type="number"
-                  id="destination"
+                  id="guests"
                   aria-label="تعداد نفرات"
-                  className="text-sm sm:text-base md:text-lg"
+                  className="text-sm sm:text-base"
                   variant="bordered"
                 />
               </div>
 
-              <div className="flex flex-col gap-2 max-w-xs">
+              <div className="flex flex-col gap-2">
                 <label
-                  htmlFor="destination"
-                  className="text-base sm:text-md md:text-lg lg:text-xl font-medium"
+                  htmlFor="check-in"
+                  className="text-sm sm:text-base md:text-lg font-medium"
                 >
                   تاریخ ورود :
                 </label>
-                <HeroSelect
-                  id="arrival-date"
+                <DatePicker
+                  id="check-in"
                   aria-label="تاریخ ورود"
-                  className="text-sm sm:text-base md:text-lg"
-                  labelPlacement="outside"
-                  placeholder="وارد کنید"
+                  className="text-sm sm:text-base"
                   variant="bordered"
-                >
-                  {animals.map((animal) => (
-                    <HeroSelectItem
-                      className="dark:text-amber-100"
-                      key={animal.value}
-                    >
-                      {animal.label}
-                    </HeroSelectItem>
-                  ))}
-                </HeroSelect>
+                />
               </div>
-              <div className="flex flex-col gap-2 max-w-xs">
+
+              <div className="flex flex-col gap-2">
                 <label
-                  htmlFor="destination"
-                  className="text-base sm:text-md md:text-lg lg:text-xl font-medium"
+                  htmlFor="check-out"
+                  className="text-sm sm:text-base md:text-lg font-medium"
                 >
                   تاریخ خروج :
                 </label>
-                <HeroSelect
-                  id="destination"
+                <DatePicker
+                  id="check-out"
                   aria-label="تاریخ خروج"
-                  className="text-sm sm:text-base md:text-lg"
-                  labelPlacement="outside"
-                  placeholder="وارد کنید"
+                  className="text-sm sm:text-base"
                   variant="bordered"
-                >
-                  {animals.map((animal) => (
-                    <HeroSelectItem
-                      className="dark:text-amber-100"
-                      key={animal.value}
-                    >
-                      {animal.label}
-                    </HeroSelectItem>
-                  ))}
-                </HeroSelect>
+                />
               </div>
             </div>
           </div>

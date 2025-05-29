@@ -18,7 +18,7 @@ const HotDealsOfWeekSwiper = ({ houses }: HouseTypeProps) => {
     ...houses,
   ];
   return (
-    <div className=" relative gap-4 px-7">
+    <div className=" relative gap-4 px-7 step-6">
       <Swiper
         modules={[Navigation, Pagination, Autoplay]}
         navigation={{

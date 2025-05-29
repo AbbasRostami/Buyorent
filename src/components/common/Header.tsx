@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useCallback, useEffect, useState, useTransition } from "react";
+import React, { useEffect, useState, useTransition } from "react";
 import {
   Navbar,
   NavbarBrand,
@@ -18,7 +18,7 @@ import {
 
 import Image from "next/image";
 import { HiOutlineUser } from "react-icons/hi2";
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import clsx from "clsx";
 import logo from "./../../assets/Landing/logo.png";
 import RegisterModal from "../auth/RegisterModal";
@@ -30,12 +30,12 @@ import { FaSpinner } from "react-icons/fa";
 
 export default function Header() {
   const pathname = usePathname();
-  const [isMounted, setIsMounted] = useState(false);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
-  useEffect(() => {
-    setIsMounted(true);
-  }, []);
+  const [isScrolled, setIsScrolled] = useState(false);
+  const [isPending, startTransition] = useTransition();
+  const router = useRouter();
+  const { data: session } = useSession();
 
   const navItems = [
     { label: "خانه", href: "/" },
@@ -44,24 +44,6 @@ export default function Header() {
     { label: "مقالات", href: "/blogs" },
     { label: "درباره ما", href: "/contact-us" },
   ];
-
-  const menuItems = ["پروفایل", "مقالات", "درباره ما", "خروج"];
-
-  const currentPath = pathname;
-
-  const { data: session } = useSession();
-  console.log("Log session: ", session);
-  useEffect(() => {
-    if (session) {
-      console.log(
-        "🕒 exp:",
-        session.exp,
-        " | ",
-        new Date((session.exp ?? 0) * 1000)
-      );
-    }
-  }, [session]);
-  const [isPending, startTransition] = useTransition();
 
   const handleLogout = () => {
     startTransition(async () => {
@@ -74,26 +56,9 @@ export default function Header() {
     });
   };
 
-  const [isScrolled, setIsScrolled] = useState(false);
-
-  const [scrollDirection, setScrollDirection] = useState<"up" | "down" | null>(
-    null
-  );
-
   useEffect(() => {
-    let lastScrollY = window.scrollY;
-
     const handleScroll = () => {
-      const currentScrollY = window.scrollY;
-      setIsScrolled(currentScrollY > 10);
-
-      if (currentScrollY > lastScrollY) {
-        setScrollDirection("down");
-      } else {
-        setScrollDirection("up");
-      }
-
-      lastScrollY = currentScrollY;
+      setIsScrolled(window.scrollY > 10);
     };
 
     window.addEventListener("scroll", handleScroll);
@@ -101,20 +66,14 @@ export default function Header() {
   }, []);
 
   return (
-    <div
-      className={clsx(
-        "fixed top-0 z-50 w-full transition-transform duration-500 ease-in-out"
-      )}
-    >
+    <div className="fixed step-1 top-0 z-50 w-full transition-transform duration-500 ease-in-out">
       <Navbar
         isMenuOpen={isMenuOpen}
         onMenuOpenChange={setIsMenuOpen}
         className={clsx(
-          "transition-all duration-700  ease-in-out w-full dark:bg-[#0a192f]",
-          " dark:bg-[#0a192f]/80",
-
+          "transition-all duration-700 ease-in-out w-full dark:bg-[#0a192f]/80",
           isScrolled
-            ? "mt-4 max-w-[calc(100%-3rem)] mx-auto rounded-2xl shadow-md"
+            ? "mt-4 max-w-[calc(100%-3rem)] mx-auto rounded-2xl shadow-md md:block hidden"
             : "mt-0 max-w-full"
         )}
       >
@@ -126,7 +85,7 @@ export default function Header() {
               alt="logo"
               width={146}
               height={48}
-              className="w-24  md:w-28 lg:w-32 h-auto cursor-pointer"
+              className="w-24 md:w-28 lg:w-32 h-auto cursor-pointer"
             />
           </NavbarBrand>
         </NavbarContent>
@@ -145,7 +104,7 @@ export default function Header() {
                   "before:absolute before:bottom-0 before:left-0 before:w-0",
                   "before:h-[2px] before:bg-amber-500 before:transition-all before:duration-300",
                   "hover:before:w-full",
-                  currentPath === item.href
+                  pathname === item.href
                     ? "text-amber-600 font-semibold bg-gradient-to-r from-amber-600 to-amber-400 bg-clip-text"
                     : "text-gray-700 hover:text-amber-600"
                 )}
@@ -153,24 +112,10 @@ export default function Header() {
                 <span className="relative z-10 text-lg dark:text-white">
                   {item.label}
                 </span>
-                <span className="absolute -bottom-1 left-0 w-full h-[2px] bg-amber-100 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
               </Link>
 
-              <span
-                className={clsx(
-                  "absolute -right-3 top-1/2 -translate-y-1/2",
-                  "w-2 h-2 rounded-full transition-all duration-300",
-                  "shadow-[0_0_8px_rgba(251,191,36,0.3)]",
-                  currentPath === item.href
-                    ? "bg-amber-500 animate-pulse-scale "
-                    : "bg-transparent"
-                )}
-              />
-
               {index < navItems.length - 1 && (
-                <div className="w-px h-6 bg-gradient-to-b from-transparent via-gray-300 to-transparent mx-3 relative">
-                  <div className="absolute inset-0 bg-gray-100/50 backdrop-blur-[1px]" />
-                </div>
+                <div className="w-px h-6 bg-gradient-to-b from-transparent via-gray-300 to-transparent mx-3" />
               )}
             </NavbarItem>
           ))}
@@ -207,11 +152,11 @@ export default function Header() {
                     <p className="font-bold">وارد شده با</p>
                     <p className="font-bold">{session?.user?.email}</p>
                   </DropdownItem>
-                  <DropdownItem key="settings">تنظیمات من</DropdownItem>
-                  <DropdownItem key="team_settings">تنظیمات تیم</DropdownItem>
-                  <DropdownItem key="configurations">پیکربندی‌ها</DropdownItem>
-                  <DropdownItem key="help_and_feedback">
-                    راهنما و بازخورد
+                  <DropdownItem
+                    key="settings"
+                    onPress={() => router.push("/buyer/dashboard")}
+                  >
+                    تنظیمات من
                   </DropdownItem>
                   <DropdownItem key="logout" color="danger">
                     <button
@@ -243,44 +188,82 @@ export default function Header() {
         </NavbarContent>
 
         <RegisterModal isOpen={isModalOpen} setIsOpen={setIsModalOpen} />
-        <NavbarMenu>
-          {menuItems.map((item, index) => (
-            <NavbarMenuItem key={`${item}-${index}`}>
-              <Link
-                className="w-full"
-                color={
-                  index === 2
-                    ? "warning"
-                    : index === menuItems.length - 1
-                    ? "danger"
-                    : "foreground"
-                }
-                href="#"
-              >
-                {item}
-              </Link>
-            </NavbarMenuItem>
-          ))}
 
-          {session?.accessToken ? (
-            <NavbarMenuItem>
-              <button
-                onClick={handleLogout}
-                className="text-[#543000] flex gap-1.5 text-lg cursor-pointer dark:text-amber-50"
-              >
-                خروج <HiOutlineUser size={25} />
-              </button>
-            </NavbarMenuItem>
-          ) : (
-            <NavbarMenuItem>
-              <button
-                onClick={() => setIsModalOpen(true)}
-                className="text-[#543000] dark:text-white flex gap-1.5 text-lg cursor-pointer"
-              >
-                ثبت نام / ورود <HiOutlineUser size={25} />
-              </button>
-            </NavbarMenuItem>
+        <NavbarMenu
+          className={clsx(
+            "bg-white dark:bg-[#0a192f]",
+            "w-[80%] max-w-[400px]",
+            "right-0 left-auto",
+            "border-r-0 border-l border-gray-200 dark:border-gray-700",
+            "shadow-[-4px_0_15px_rgba(0,0,0,0.1)]"
           )}
+        >
+          <div className="flex flex-col h-full">
+            <div className="flex-1 pt-16">
+              {navItems.map((item) => (
+                <NavbarMenuItem key={item.href}>
+                  <Link
+                    href={item.href}
+                    className={clsx(
+                      "w-full text-lg py-3 px-4 block",
+                      pathname === item.href
+                        ? "text-amber-600 font-semibold"
+                        : "text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-800/50"
+                    )}
+                    onClick={() => setIsMenuOpen(false)}
+                  >
+                    {item.label}
+                  </Link>
+                </NavbarMenuItem>
+              ))}
+            </div>
+
+            <div className="border-t border-gray-200 dark:border-gray-700 p-4">
+              <div className="flex flex-col gap-4">
+                <NavbarMenuItem>
+                  <div className="w-full flex justify-between items-center px-4">
+                    <span className="text-gray-700 dark:text-gray-300">
+                      تغییر تم
+                    </span>
+                    <ThemeSwitcher />
+                  </div>
+                </NavbarMenuItem>
+
+                {session?.accessToken ? (
+                  <NavbarMenuItem>
+                    <button
+                      onClick={() => {
+                        handleLogout();
+                        setIsMenuOpen(false);
+                      }}
+                      className="w-full text-left text-red-600 flex items-center justify-between gap-2 py-3 px-4 hover:bg-gray-50 dark:hover:bg-gray-800/50"
+                      disabled={isPending}
+                    >
+                      <span>{isPending ? "در حال خروج..." : "خروج"}</span>
+                      {isPending ? (
+                        <FaSpinner className="animate-spin" size={20} />
+                      ) : (
+                        <HiOutlineUser size={20} />
+                      )}
+                    </button>
+                  </NavbarMenuItem>
+                ) : (
+                  <NavbarMenuItem>
+                    <button
+                      onClick={() => {
+                        setIsModalOpen(true);
+                        setIsMenuOpen(false);
+                      }}
+                      className="w-full text-left text-[#543000] dark:text-white flex items-center justify-between gap-2 py-3 px-4 hover:bg-gray-50 dark:hover:bg-gray-800/50"
+                    >
+                      <span>ثبت نام / ورود</span>
+                      <HiOutlineUser size={20} />
+                    </button>
+                  </NavbarMenuItem>
+                )}
+              </div>
+            </div>
+          </div>
         </NavbarMenu>
       </Navbar>
     </div>
