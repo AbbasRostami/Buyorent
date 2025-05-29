@@ -12,6 +12,7 @@ import {
 import { useState } from "react";
 import { BsArrowDown, BsArrowUp } from "react-icons/bs";
 import { MdFamilyRestroom } from "react-icons/md";
+import { PiSealWarningBold } from "react-icons/pi";
 interface ModalReserveProps {
   isOpen: boolean;
   onOpenChange: () => void;
@@ -139,9 +140,30 @@ export default function ModalPassengerList({
                     ))}
                   </thead>
                   <tbody className="divide-y divide-gray-200 dark:divide-gray-700">
-                    {table.getRowModel().rows.map((row, index) => (
-                      <tr
-                        key={row.id}
+                    {table.getRowModel().rows.length === 0 ? (
+                      <tr className="bg-white dark:bg-gray-800">
+                      <td
+                        colSpan={columns.length}
+                        className="text-center py-12 text-gray-500 dark:text-gray-400"
+                      >
+                        <div className="flex flex-col items-center justify-center">
+                          <PiSealWarningBold
+                            size={80}
+                            className=" text-amber-500 mb-4"
+                          />
+                          <p className="text-xl font-bold text-gray-700 dark:text-gray-300">
+                            موردی یافت نشد
+                          </p>
+                          <p className="mt-2 text-gray-500 dark:text-gray-400">
+                            هیچ رزروی با مشخصات جستجو شده یافت نشد
+                          </p>
+                        </div>
+                      </td>
+                    </tr>
+                    ) : (
+                      table.getRowModel().rows.map((row, index) => (
+                        <tr
+                          key={row.id}
                         className={`
                           ${
                             index % 2 === 0
@@ -164,8 +186,9 @@ export default function ModalPassengerList({
                             )}
                           </td>
                         ))}
-                      </tr>
-                    ))}
+                        </tr>
+                      ))
+                    )}
                   </tbody>
                 </table>
               </div>

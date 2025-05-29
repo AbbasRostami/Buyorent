@@ -16,8 +16,8 @@ export default function DashboardClient({
   const mainContentMargin = isMobileOpen
     ? "mr-0"
     : isExpanded || isHovered
-    ? "lg:mr-[290px]"
-    : "lg:mr-[90px]";
+    ? "lg:mr-[310px]"
+    : "lg:mr-[110px]";
 
   return (
     <div className="min-h-screen xl:flex">
