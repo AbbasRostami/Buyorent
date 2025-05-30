@@ -266,13 +266,14 @@ const CompareTable = ({
                 </tr>
               ))}
             </thead>
-            <tbody>
+            <tbody >
               {table.getRowModel().rows.map((row) => (
                 <tr key={row.id}>
                   {row.getVisibleCells().map((cell, index) => (
                     <td
+                    
                       key={cell.id}
-                      className={`py-4 px-2 border-b-1 border-gray-100/40 border-dashed text-center text-gray-800 dark:text-gray-200 text-lg ${
+                      className={`py-4 px-2 border-b-1 border-gray-100/40 dark:border-gray-700/40 border-dashed text-center text-gray-800 dark:text-gray-200 text-lg ${
                         index % 2 === 0
                           ? "bg-[#ebebe9] dark:bg-gray-800/80"
                           : "bg-[#F8F8F8] dark:bg-gray-700/80"

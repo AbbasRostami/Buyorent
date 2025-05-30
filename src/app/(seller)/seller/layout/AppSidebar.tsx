@@ -3,7 +3,7 @@ import { TbHomeFilled } from "react-icons/tb";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import Image from "next/image";
-import logo from "./../../../../assets/بایورنت لوگو  1.png";
+import logo from "./../../../../assets/BUTORENT.png";
 import { FaComments, FaPlusCircle } from "react-icons/fa";
 import { IoNotificationsSharp, IoPersonSharp } from "react-icons/io5";
 import { BiChevronDown } from "react-icons/bi";
