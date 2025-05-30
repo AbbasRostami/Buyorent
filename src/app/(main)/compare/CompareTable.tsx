@@ -188,25 +188,17 @@ const CompareTable = ({
       accessorKey: `col${idx}`,
       header: () => (
         <div className="relative flex items-center justify-center">
-          {idx === 0 ? (
-            <span>{item.title}</span>
-          ) : (
-            <>
-              <button
-                onClick={() => {
-                  const newIds = ids.filter(
-                    (idVal) => idVal !== String(item.id)
-                  );
-                  router.replace(`?id=${newIds.join(",")}`, { scroll: false });
-                }}
-                className="absolute right-0 top-0 text-gray-400 hover:text-red-500 text-lg font-bold z-10"
-                title="حذف از مقایسه"
-              >
-                <MdCancel size={24} className="text-red-500" />
-              </button>
-              <span>{item.title}</span>
-            </>
-          )}
+          <button
+            onClick={() => {
+              const newIds = ids.filter((idVal) => idVal !== String(item.id));
+              router.replace(`?id=${newIds.join(",")}`, { scroll: false });
+            }}
+            className="absolute right-0 top-0 text-gray-400 hover:text-red-500 text-lg font-bold z-10"
+            title="حذف از مقایسه"
+          >
+            <MdCancel size={24} className="text-red-500" />
+          </button>
+          <span>{item.title}</span>
         </div>
       ),
       cell: (info: any) => info.getValue(),
@@ -236,7 +228,18 @@ const CompareTable = ({
             مقایسه کنید.
           </p>
         </div>
-        <div className="flex justify-end mb-4">
+        <div className="flex justify-end mb-4 gap-2">
+          <Button
+            onPress={() => {
+              router.push("/compare");
+            }}
+            color="danger"
+            variant="shadow"
+            className="rounded-xl"
+          >
+            <MdCancel size={24} />
+            حذف همه
+          </Button>
           <Button
             onPress={onOpenModal}
             color="success"
@@ -266,14 +269,13 @@ const CompareTable = ({
                 </tr>
               ))}
             </thead>
-            <tbody >
+            <tbody>
               {table.getRowModel().rows.map((row) => (
                 <tr key={row.id}>
                   {row.getVisibleCells().map((cell, index) => (
                     <td
-                    
                       key={cell.id}
-                      className={`py-4 px-2 border-b-1 border-gray-100/40 dark:border-gray-700/40 border-dashed text-center text-gray-800 dark:text-gray-200 text-lg ${
+                      className={`py-4 px-2 border-b-1 border-red-200 dark:border-gray-400/40 border-dashed text-center text-gray-800 dark:text-gray-200 text-lg ${
                         index % 2 === 0
                           ? "bg-[#ebebe9] dark:bg-gray-800/80"
                           : "bg-[#F8F8F8] dark:bg-gray-700/80"
