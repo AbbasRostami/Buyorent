@@ -3,7 +3,7 @@ import React, { useState } from "react";
 import Image from "next/image";
 import { BsPinAngle } from "react-icons/bs";
 import { CiHeart } from "react-icons/ci";
-import { IoLocationOutline } from "react-icons/io5";
+import { IoGitCompareSharp, IoLocationOutline } from "react-icons/io5";
 import { LiaShareAltSolid } from "react-icons/lia";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Navigation, Pagination } from "swiper/modules";
@@ -12,11 +12,13 @@ import "swiper/css/navigation";
 import "swiper/css/pagination";
 import { IoIosArrowRoundForward } from "react-icons/io";
 import { IoIosArrowRoundBack } from "react-icons/io";
+import { useRouter } from "next/navigation";
 
 const HeaderSectionSingle = ({ data }: any) => {
   const [mainImage, setMainImage] = useState(data?.photos[0]);
   const [zoomPosition, setZoomPosition] = useState({ x: 0, y: 0 });
   const [isZoomed, setIsZoomed] = useState(false);
+  const router = useRouter();
 
   const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
     if (!isZoomed) return;
@@ -126,6 +128,12 @@ const HeaderSectionSingle = ({ data }: any) => {
 
       <div className="flex flex-col md:flex-row-reverse md:justify-between gap-10 justify-center md:px-20 w-full items-center">
         <div className="flex items-center gap-3">
+          <div
+            className="w-10 h-10 rounded-full bg-green-700 flex items-center justify-center cursor-pointer"
+            onClick={() => router.push(`/compare?id=${data?.id}`)}
+          >
+            <IoGitCompareSharp size={26} className="text-amber-50" />
+          </div>
           <div className="w-10 h-10 rounded-full border hover:border-color1 flex items-center justify-center cursor-pointer">
             <BsPinAngle size={26} />
           </div>
