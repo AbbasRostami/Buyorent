@@ -2,7 +2,15 @@
 import React from "react";
 import { useRouter } from "next/navigation";
 import { Button } from "@heroui/react";
-import { MdCancel, MdCompare, MdLocationOn } from "react-icons/md";
+import {
+  MdCancel,
+  MdCompare,
+  MdLocationOn,
+  MdTitle,
+  MdAttachMoney,
+  MdStar,
+  MdYard,
+} from "react-icons/md";
 import { IoGitCompareOutline } from "react-icons/io5";
 import Image from "next/image";
 import { Swiper, SwiperSlide } from "swiper/react";
@@ -17,13 +25,18 @@ import {
   getCoreRowModel,
 } from "@tanstack/react-table";
 import Link from "next/link";
+import { FaBed, FaBath, FaParking, FaImage } from "react-icons/fa";
 
 const features = [
   {
     key: "photos",
-    label: "عکس",
+    label: (
+      <span className="flex items-center gap-1 ">
+        <FaImage className="text-blue-500" /> عکس
+      </span>
+    ),
     render: (item: any) => (
-      <div className="flex justify-center items-center">
+      <div className="flex justify-center items-center w-full">
         <Swiper
           modules={[Pagination, EffectFade, Autoplay]}
           autoplay={{
@@ -44,6 +57,7 @@ const features = [
           {(item.photos || []).map((photo: string, idx: number) => (
             <SwiperSlide key={idx}>
               <Image
+                loading="lazy"
                 src={photo}
                 alt={item.title}
                 unoptimized
@@ -57,31 +71,82 @@ const features = [
       </div>
     ),
   },
+
   {
-    icon: <MdLocationOn size={24} />,
     key: "address",
-    label: "آدرس",
+    label: (
+      <span className="flex items-center gap-1  ">
+        <MdLocationOn className="text-red-500" /> آدرس
+      </span>
+    ),
   },
   {
     key: "price",
-    label: "قیمت (تومان)",
+    label: (
+      <span className="flex items-center gap-1   ">
+        <MdAttachMoney className="text-green-600" /> قیمت (تومان)
+      </span>
+    ),
     render: (item: any) => (
-      <span className="inline-block bg-gradient-to-l from-yellow-400 to-orange-400 text-white px-4 py-1 rounded-lg font-bold text-lg shadow-sm">
+      <span className="     inline-block bg-gradient-to-l from-red-400 to-orange-400 text-white px-4 py-1 rounded-lg font-bold text-lg shadow-sm">
         {Number(item.price).toLocaleString()}
       </span>
     ),
   },
-  { key: "yard_type", label: "نوع حیاط" },
-  { key: "rooms", label: "تعداد اتاق" },
-  { key: "parking", label: "پارکینگ" },
-  { key: "bathrooms", label: "تعداد حمام" },
-  { key: "rate", label: "امتیاز" },
+  {
+    key: "yard_type",
+    label: (
+      <span className="flex items-center gap-1 ">
+        <MdYard className="text-green-700" /> نوع حیاط
+      </span>
+    ),
+  },
+  {
+    key: "rooms",
+    label: (
+      <span className="flex items-center gap-1 ">
+        <FaBed className="text-blue-700" /> تعداد اتاق
+      </span>
+    ),
+  },
+  {
+    key: "parking",
+    label: (
+      <span className="flex items-center gap-1 ">
+        <FaParking className="text-purple-700" /> پارکینگ
+      </span>
+    ),
+  },
+  {
+    key: "bathrooms",
+    label: (
+      <span className="flex items-center gap-1 ">
+        <FaBath className="text-cyan-700" /> تعداد حمام
+      </span>
+    ),
+  },
+  {
+    key: "rate",
+    label: (
+      <span className="flex items-center gap-1 ">
+        <MdStar className="text-yellow-500" /> امتیاز
+      </span>
+    ),
+  },
   {
     key: "status",
-    label: "جزئیات",
+    label: (
+      <span className="flex items-center gap-1 ">
+        <MdTitle className="text-gray-700" /> جزئیات
+      </span>
+    ),
     render: (item: any) => (
       <Link href={`/mortgage-and-house-rent/${item.id}`} className="">
-        <Button variant="flat" color="warning" className="rounded-xl">
+        <Button
+          variant="shadow"
+          color="warning"
+          className="rounded-xl text-gray-800 dark:text-gray-800"
+        >
           مشاهده جزئیات
         </Button>
       </Link>
@@ -174,7 +239,7 @@ const CompareTable = ({
         <div className="flex justify-end mb-4">
           <Button
             onPress={onOpenModal}
-            color="warning"
+            color="success"
             variant="shadow"
             className="rounded-xl"
           >
@@ -190,7 +255,7 @@ const CompareTable = ({
                   {headerGroup.headers.map((header) => (
                     <th
                       key={header.id}
-                      className="py-4 px-4 border-b dark:border-gray-700 bg-gradient-to-l from-orange-400 to-yellow-300 text-white text-xl font-bold text-center shadow-md relative"
+                      className="py-4 px-4 border-b dark:border-gray-700 bg-gradient-to-r from-[#e0a353] to-[#f9a333] text-gray-800 dark:text-gray-700 text-xl font-bold text-center shadow-md relative"
                     >
                       {flexRender(
                         header.column.columnDef.header,
@@ -204,10 +269,14 @@ const CompareTable = ({
             <tbody>
               {table.getRowModel().rows.map((row) => (
                 <tr key={row.id}>
-                  {row.getVisibleCells().map((cell) => (
+                  {row.getVisibleCells().map((cell, index) => (
                     <td
                       key={cell.id}
-                      className="py-4 px-2 border-b border-gray-100 text-center text-gray-800 dark:text-gray-200 text-lg"
+                      className={`py-4 px-2 border-b-1 border-gray-100/40 border-dashed text-center text-gray-800 dark:text-gray-200 text-lg ${
+                        index % 2 === 0
+                          ? "bg-[#ebebe9] dark:bg-gray-800/80"
+                          : "bg-[#F8F8F8] dark:bg-gray-700/80"
+                      }`}
                     >
                       {flexRender(
                         cell.column.columnDef.cell,
