@@ -5,8 +5,7 @@ import localFont from "next/font/local";
 import { Metadata } from "next";
 import "./globals.css";
 import { auth } from "@/services/auth";
-import ClientLayout from "./ClientLayout";
-
+import image from "./../assets/BUTORENT.png";
 const vazirmatn = localFont({
   src: "./../assets/fonts/Vazirmatn.ttf",
   variable: "--font-vazirmatn",
@@ -51,12 +50,28 @@ export const metadata: Metadata = {
     siteName: "BUYORENT",
     locale: "fa_IR",
     type: "website",
+    images: [
+      {
+        url: image.src,
+        width: 1200,
+        height: 630,
+        alt: "BUYORENT",
+      },
+    ],
   },
   twitter: {
     card: "summary_large_image",
     title: "BUYORENT | خرید و اجاره املاک",
     description:
-      "سامانه خرید و اجاره املاک با بهترین قیمت‌ها و امکانات. خرید خانه، آپارتمان، ویلا و زمین در سراسر ایران",
+      "سامانه خرید و اجاره املاک با بهترین قیمت‌ها و امکانات. خرید خانه، آپارتمان، ویلا و زمین در سراسر ایر  ان",
+    images: [
+      {
+        url: image.src,
+        width: 1200,
+        height: 630,
+        alt: "BUYORENT",
+      },
+    ],
   },
   robots: {
     index: true,
