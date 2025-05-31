@@ -5,14 +5,32 @@ import MapSingleReserve from "@/components/houses-reserve/Map";
 import HeaderSectionSingle from "@/components/houses-reserve/HeaderSection";
 import { useServerData } from "@/utils/hooks/useServerData";
 import { HouseSingleHousesProps } from "@/types/DetailsTypes";
+import { Metadata } from "next";
+import { generateMortgageAndRentDetailMetadata } from "@/utils/metadata/mortgage-and-rent";
 
-const SingleHouses = async ({ params }: { params: { id: string } }) => {
-  const { id } = params;
-  const data = await useServerData<HouseSingleHousesProps>(
+export const revalidate = 60;
+
+type Props = {
+  params: { id: string };
+};
+
+async function getHouseData(id: string) {
+  return useServerData<HouseSingleHousesProps>(
     `/houses/${id}`,
     `house-${id}`,
     60
   );
+}
+
+export async function generateMetadata({ params }: Props): Promise<Metadata> {
+  
+  const data = await getHouseData(params.id);
+  return generateMortgageAndRentDetailMetadata(data);
+}
+
+const SingleHouses = async ({ params }: Props) => {
+  const { id } = params;
+  const data = await getHouseData(id);
 
   console.log(data);
 

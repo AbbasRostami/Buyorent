@@ -6,10 +6,14 @@ import { useServerData } from "@/utils/hooks/useServerData";
 import { HouseTypeRentProps } from "@/types/LandingType";
 import SmartSearchContainer from "@/components/mortgage-and-house-rent/SmartSearchContainer";
 import { convertToHouseItems } from "@/types/property";
+import { mortgageAndRentMetadata } from "@/utils/metadata/mortgage-and-rent";
+import { Metadata } from "next";
 
 export const revalidate = 60;
 
 export const dynamic = "force-dynamic";
+
+export const metadata: Metadata = mortgageAndRentMetadata;
 
 export default async function RentPage({
   searchParams,
