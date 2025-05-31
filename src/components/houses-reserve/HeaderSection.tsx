@@ -13,6 +13,7 @@ import "swiper/css/pagination";
 import { IoIosArrowRoundForward } from "react-icons/io";
 import { IoIosArrowRoundBack } from "react-icons/io";
 import { useRouter } from "next/navigation";
+import { Tooltip } from "@heroui/react";
 
 const HeaderSectionSingle = ({ data }: any) => {
   const [mainImage, setMainImage] = useState(data?.photos[0]);
@@ -128,21 +129,37 @@ const HeaderSectionSingle = ({ data }: any) => {
 
       <div className="flex flex-col md:flex-row-reverse md:justify-between gap-10 justify-center md:px-20 w-full items-center">
         <div className="flex items-center gap-3">
-          <div
-            className="w-10 h-10 rounded-full bg-green-700 flex items-center justify-center cursor-pointer"
-            onClick={() => router.push(`/compare?id=${data?.id}`)}
+          <Tooltip content=" مقایسه ملک " placement="top-start" color="warning">
+            <div
+              className="w-10 h-10 rounded-full bg-green-700 flex items-center justify-center cursor-pointer"
+              onClick={() => router.push(`/compare?id=${data?.id}`)}
+            >
+              <IoGitCompareSharp size={26} className="text-amber-50" />
+            </div>
+          </Tooltip>
+          <Tooltip content=" ثبت ملک " placement="top-start" color="warning">
+            <div className="w-10 h-10 rounded-full border hover:border-color1 flex items-center justify-center cursor-pointer">
+              <BsPinAngle size={26} />
+            </div>
+          </Tooltip>
+          <Tooltip
+            content="افزدون موردعلاقه"
+            placement="top-start"
+            color="warning"
           >
-            <IoGitCompareSharp size={26} className="text-amber-50" />
-          </div>
-          <div className="w-10 h-10 rounded-full border hover:border-color1 flex items-center justify-center cursor-pointer">
-            <BsPinAngle size={26} />
-          </div>
-          <div className="w-10 h-10 rounded-full border hover:border-color1 flex items-center justify-center cursor-pointer">
-            <CiHeart size={26} />
-          </div>
-          <div className="w-10 h-10 rounded-full bg-color1 flex items-center justify-center cursor-pointer">
-            <LiaShareAltSolid className="text-amber-50" size={26} />
-          </div>
+            <div className="w-10 h-10 rounded-full border hover:border-color1 flex items-center justify-center cursor-pointer">
+              <CiHeart size={26} />
+            </div>
+          </Tooltip>
+          <Tooltip
+            content=" به اشتراک گذاری "
+            placement="top-start"
+            color="warning"
+          >
+            <div className="w-10 h-10 rounded-full bg-color1 flex items-center justify-center cursor-pointer">
+              <LiaShareAltSolid className="text-amber-50" size={26} />
+            </div>
+          </Tooltip>
         </div>
 
         <div className="text-center px-2">
