@@ -1,14 +1,7 @@
 import { Metadata } from "next";
 import { defaultMetadata } from "./index";
-
-interface SearchParams {
-  minPrice?: string;
-  maxPrice?: string;
-  sort?: "rate" | "price";
-  order?: "asc" | "desc";
-  transactionType?: "mortgage" | "rental" | "reservation" | "direct_purchase";
-  search?: string;
-}
+import { SearchParams } from "@/types/search";
+import qs from "qs";
 
 const transactionTypes: Record<string, string> = {
   mortgage: "رهن",
@@ -63,13 +56,11 @@ export const generateMortgageAndRentMetadata = (
 
   const description = `${descriptionParts.join(" ")} با بهترین قیمت و امکانات`;
 
-  const searchParamsString = new URLSearchParams(
-    Object.entries(searchParams).filter(([_, value]) => value)
-  ).toString();
+  const queryString = qs.stringify(searchParams, {
+    encode: false,
+  });
 
-  const url = `/mortgage-and-house-rent${
-    searchParamsString ? `?${searchParamsString}` : ""
-  }`;
+  const url = `/mortgage-and-house-rent${queryString ? `?${queryString}` : ""}`;
 
   return {
     ...defaultMetadata,

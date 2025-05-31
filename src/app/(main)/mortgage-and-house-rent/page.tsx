@@ -8,18 +8,12 @@ import SmartSearchContainer from "@/components/mortgage-and-house-rent/SmartSear
 import { convertToHouseItems } from "@/types/property";
 import { generateMortgageAndRentMetadata } from "@/utils/metadata/mortgage-and-rent";
 import { Metadata } from "next";
+import { SearchParams, SearchParamsType } from "@/types/search";
 
 export const revalidate = 60;
 
 type Props = {
-  searchParams: {
-    minPrice?: string;
-    maxPrice?: string;
-    sort?: "rate" | "price";
-    order?: "asc" | "desc";
-    transactionType?: "mortgage" | "rental" | "reservation" | "direct_purchase";
-    search?: string;
-  };
+  searchParams: SearchParams;
 };
 
 export async function generateMetadata({
@@ -31,10 +25,9 @@ export async function generateMetadata({
 export default async function RentPage({
   searchParams,
 }: {
-  searchParams: { [key: string]: string | string[] | undefined };
+  searchParams: SearchParamsType;
 }) {
   const queryString = qs.stringify(searchParams, {
-    arrayFormat: "brackets",
     encode: false,
   });
 
