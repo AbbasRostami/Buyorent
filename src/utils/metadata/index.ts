@@ -38,6 +38,14 @@ export const defaultMetadata: Metadata = {
     siteName: "BUYORENT",
     locale: "fa_IR",
     type: "website",
+    images: [
+      {
+        url: "./../../assets/BUTORENT.png",
+        width: 800,
+        height: 600,
+        alt: "BUYORENT",
+      },
+    ],
   },
   twitter: {
     card: "summary_large_image",

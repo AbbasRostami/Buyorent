@@ -12,6 +12,12 @@ export const metadata: Metadata = {
     description:
       "مدیریت حساب کاربری خریدار در سامانه BUYORENT. مشاهده و مدیریت املاک مورد علاقه، پیام‌ها و درخواست‌های رزرو",
   },
+  twitter: {
+    title: "پنل کاربری خریدار | BUYORENT",
+    description:
+      "مدیریت حساب کاربری خریدار در سامانه BUYORENT. مشاهده و مدیریت املاک مورد علاقه، پیام‌ها و درخواست‌های رزرو",
+  },
+  authors: [{ name: "BUYORENT" }],
 };
 
 export default function BuyerLayout({
