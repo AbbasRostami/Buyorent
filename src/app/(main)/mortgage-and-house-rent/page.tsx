@@ -6,14 +6,27 @@ import { useServerData } from "@/utils/hooks/useServerData";
 import { HouseTypeRentProps } from "@/types/LandingType";
 import SmartSearchContainer from "@/components/mortgage-and-house-rent/SmartSearchContainer";
 import { convertToHouseItems } from "@/types/property";
-import { mortgageAndRentMetadata } from "@/utils/metadata/mortgage-and-rent";
+import { generateMortgageAndRentMetadata } from "@/utils/metadata/mortgage-and-rent";
 import { Metadata } from "next";
 
 export const revalidate = 60;
 
-export const dynamic = "force-dynamic";
+type Props = {
+  searchParams: {
+    minPrice?: string;
+    maxPrice?: string;
+    sort?: "rate" | "price";
+    order?: "asc" | "desc";
+    transactionType?: "mortgage" | "rental" | "reservation" | "direct_purchase";
+    search?: string;
+  };
+};
 
-export const metadata: Metadata = mortgageAndRentMetadata;
+export async function generateMetadata({
+  searchParams,
+}: Props): Promise<Metadata> {
+  return generateMortgageAndRentMetadata(searchParams);
+}
 
 export default async function RentPage({
   searchParams,

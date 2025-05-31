@@ -17,10 +17,10 @@ const transactionTypes: Record<string, string> = {
   direct_purchase: "خرید مستقیم",
 };
 
-export const generateMortgageAndRentMetadata = (
+export const generateHousesReserveMetadata = (
   searchParams: SearchParams
 ): Metadata => {
-  const titleParts: string[] = ["رهن و اجاره"];
+  const titleParts: string[] = ["رزرو سریع"];
 
   if (searchParams.transactionType) {
     titleParts.push(
@@ -35,7 +35,7 @@ export const generateMortgageAndRentMetadata = (
 
   const title = `${titleParts.join(" ")} | BUYORENT`;
 
-  const descriptionParts: string[] = ["رهن و اجاره آپارتمان"];
+  const descriptionParts: string[] = ["رزرو سریع و آسان"];
 
   if (searchParams.transactionType) {
     descriptionParts.push(
@@ -67,7 +67,7 @@ export const generateMortgageAndRentMetadata = (
     Object.entries(searchParams).filter(([_, value]) => value)
   ).toString();
 
-  const url = `/mortgage-and-house-rent${
+  const url = `/houses-reserve${
     searchParamsString ? `?${searchParamsString}` : ""
   }`;
 
@@ -76,17 +76,17 @@ export const generateMortgageAndRentMetadata = (
     title,
     description,
     keywords: [
-      "رهن و اجاره",
-      "رهن و اجاره آپارتمان",
-      "اجاره آپارتمان",
-      "رهن آپارتمان",
-      "آپارتمان اجاره",
-      "آپارتمان رهن",
-      "املاک رهن و اجاره",
+      "رزرو آپارتمان",
+      "رزرو سریع",
+      "رزرو آنلاین",
+      "آپارتمان رزرو",
+      "رزرو خانه",
+      "رزرو ویلا",
+      "املاک رزرو",
       searchParams.transactionType
         ? transactionTypes[searchParams.transactionType]
         : "",
-      searchParams.search ? `رهن و اجاره ${searchParams.search}` : "",
+      searchParams.search ? `رزرو ${searchParams.search}` : "",
     ].filter(Boolean),
     openGraph: {
       ...defaultMetadata.openGraph,
@@ -110,22 +110,3 @@ export const generateMortgageAndRentMetadata = (
     },
   };
 };
-
-export const generateMortgageAndRentDetailMetadata = (data: any): Metadata => ({
-  ...defaultMetadata,
-  title: `${data?.title} | BUYORENT`,
-  description: `${data?.title} در ${data?.address}. ${
-    data?.caption || "آپارتمان برای رهن و اجاره با بهترین قیمت و امکانات"
-  }`,
-  openGraph: {
-    ...defaultMetadata.openGraph,
-    title: `${data?.title} | BUYORENT`,
-    description: `${data?.title} در ${data?.address}. ${
-      data?.caption || "آپارتمان برای رهن و اجاره با بهترین قیمت و امکانات"
-    }`,
-    images: data?.photos ? [data?.photos[0]] : [],
-  },
-  alternates: {
-    canonical: `/mortgage-and-house-rent/${data?.id}`,
-  },
-});

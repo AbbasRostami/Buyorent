@@ -2,8 +2,27 @@ import { useServerData } from "@/utils/hooks/useServerData";
 import ClientWrapper from "./ClientWrapper";
 import qs from "qs";
 import { HouseReserveProps } from "@/types/HousesReserve";
+import { generateHousesReserveMetadata } from "@/utils/metadata/houses-reserve";
+import { Metadata } from "next";
 
 export const revalidate = 60;
+
+type Props = {
+  searchParams: {
+    minPrice?: string;
+    maxPrice?: string;
+    sort?: "rate" | "price";
+    order?: "asc" | "desc";
+    transactionType?: "mortgage" | "rental" | "reservation" | "direct_purchase";
+    search?: string;
+  };
+};
+
+export async function generateMetadata({
+  searchParams,
+}: Props): Promise<Metadata> {
+  return generateHousesReserveMetadata(searchParams);
+}
 
 export default async function Page(props: {
   searchParams: Promise<Record<string, string | string[] | undefined>>;
@@ -23,6 +42,5 @@ export default async function Page(props: {
     60
   );
 
-  console.log("initialData: ", initialData);
   return <ClientWrapper initialData={initialData} />;
 }
