@@ -5,11 +5,9 @@ import {
   DropdownMenu,
   DropdownItem,
   useDisclosure,
-  Button,
   Modal,
   ModalBody,
   ModalContent,
-  ModalFooter,
   ModalHeader,
 } from "@heroui/react";
 import { FaPlusCircle } from "react-icons/fa";
@@ -23,7 +21,7 @@ import {
   getCoreRowModel,
 } from "@tanstack/react-table";
 import { useState } from "react";
-import { useSidebar } from "../context/SidebarContext";
+import { useSidebar } from "../../context/SidebarContext";
 
 type Transaction = {
   date: string;

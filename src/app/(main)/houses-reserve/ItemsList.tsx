@@ -1,11 +1,13 @@
 "use client";
 import { HouseReserveProps } from "@/types/HousesReserve";
 import { ScrollShadow } from "@heroui/react";
+import Image from "next/image";
 import Link from "next/link";
 import React from "react";
 import { IoLocationOutline } from "react-icons/io5";
 import { MdOutlineNightsStay } from "react-icons/md";
 import { TfiFaceSad } from "react-icons/tfi";
+
 const ItemsList = ({ data }: { data: HouseReserveProps[] }) => {
   if (!data || data.length === 0) {
     return (
@@ -32,7 +34,10 @@ const ItemsList = ({ data }: { data: HouseReserveProps[] }) => {
             key={item.id}
             className="border border-[#EAEAEA] rounded-2xl shadow-sm hover:shadow-md transition p-4 flex flex-col min-h-[300px] overflow-hidden"
           >
-            <img
+            <Image
+              unoptimized
+              width={300}
+              height={300}
               src={item?.photos?.[0]}
               alt={item.title}
               className="w-full h-40 object-cover rounded-lg mb-4"

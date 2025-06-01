@@ -1,6 +1,5 @@
 import { FaCommentMedical } from "react-icons/fa";
-
-import { useSidebar } from "../context/SidebarContext";
+import { useSidebar } from "../../context/SidebarContext";
 
 const CommentsCard = () => {
   const { isExpanded, isHovered, isMobileOpen } = useSidebar();
