@@ -9,8 +9,8 @@ import { IoNotificationsSharp, IoPersonSharp } from "react-icons/io5";
 import { BiChevronDown } from "react-icons/bi";
 import { BsPcHorizontal } from "react-icons/bs";
 import { useSidebar } from "../../context/SidebarContext";
-import WalletCard from "../../components1/CommentsCard";
 import { FaMoneyBillTransfer, FaUsersGear } from "react-icons/fa6";
+import CommentsCard from "../../components1/header/CommentsCard";
 
 type NavItem = {
   name: string;
@@ -337,7 +337,7 @@ const AppSidebar: React.FC = () => {
           </div>
         </nav>
       </div>
-      <WalletCard />
+      <CommentsCard />
     </aside>
   );
 };
