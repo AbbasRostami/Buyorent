@@ -7,21 +7,24 @@ import { Metadata } from "next";
 
 export const revalidate = 60;
 
+type SearchParams = {
+  minPrice?: string;
+  maxPrice?: string;
+  sort?: "rate" | "price";
+  order?: "asc" | "desc";
+  transactionType?: "mortgage" | "rental" | "reservation" | "direct_purchase";
+  search?: string;
+};
+
 type Props = {
-  searchParams: {
-    minPrice?: string;
-    maxPrice?: string;
-    sort?: "rate" | "price";
-    order?: "asc" | "desc";
-    transactionType?: "mortgage" | "rental" | "reservation" | "direct_purchase";
-    search?: string;
-  };
+  searchParams: Promise<SearchParams>;
 };
 
 export async function generateMetadata({
   searchParams,
 }: Props): Promise<Metadata> {
-  return generateHousesReserveMetadata(searchParams);
+  const resolvedSearchParams = await searchParams;
+  return generateHousesReserveMetadata(resolvedSearchParams);
 }
 
 export default async function Page(props: {

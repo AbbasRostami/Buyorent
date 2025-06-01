@@ -1,9 +1,9 @@
 import image from "./../../../../assets/Avatar1.png";
 import image2 from "./../../../../assets/Avatar2.png";
 import image3 from "./../../../../assets/Avatar3.png";
-import PaymentTable, { BookingData } from "./paymentTable";
+import PaymentTable from "./paymentTable";
 
-const data: BookingData[] = [
+const data: any = [
   {
     id: 1,
     title: "هتل سراوان",

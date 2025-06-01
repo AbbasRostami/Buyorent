@@ -85,12 +85,20 @@ export default function BookingTable({ data }: any) {
       },
       {
         accessorKey: "price",
-        header: "مبلغ ",
-        cell: (info) => `${(+info.getValue()).toLocaleString()} تومان`,
+        header: "قیمت کل",
+        cell: (info) => {
+          const value = info.getValue();
+          const numValue = typeof value === "number" ? value : Number(value);
+          return `${numValue.toLocaleString()} تومان`;
+        },
         enableSorting: true,
-        sortingFn: (rowA, rowB, columnId) =>
-          (rowA.getValue(columnId) as number) -
-          (rowB.getValue(columnId) as number),
+        sortingFn: (rowA, rowB, columnId) => {
+          const a = rowA.getValue(columnId);
+          const b = rowB.getValue(columnId);
+          const numA = typeof a === "number" ? a : Number(a);
+          const numB = typeof b === "number" ? b : Number(b);
+          return numA - numB;
+        },
       },
 
       {

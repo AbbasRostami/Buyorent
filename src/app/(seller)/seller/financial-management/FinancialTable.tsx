@@ -38,7 +38,7 @@ export interface BookingData {
   status: "تایید شده" | "تایید نشده";
 }
 
-export default function FinancialTable({ data }: BookingData) {
+export default function FinancialTable({ data }: any) {
   const [sorting, setSorting] = useState([]);
   const [pagination, setPagination] = useState({
     pageIndex: 0,

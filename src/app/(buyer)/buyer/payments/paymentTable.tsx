@@ -29,26 +29,25 @@ import Image from "next/image";
 import { MdOutlinePayments } from "react-icons/md";
 import { IoEyeSharp } from "react-icons/io5";
 import { PiSealWarningBold } from "react-icons/pi";
-export interface BookingData {
+
+export interface PaymentData {
   id: number;
   title: string;
   date: string;
-  trackingNumber: string;
   price: number;
-  guests: "شارژ کیف پول" | "رزرو";
-  status: "تایید شده" | "تایید نشده";
+  status: "تایید شده" | "لغو شده";
   image: string;
 }
 
-export default function PaymentTable({ data }: { data: BookingData[] }) {
-  const [sorting, setSorting] = useState([]);
+export default function PaymentTable({ data }: { data: PaymentData[] }) {
+  const [sorting, setSorting] = useState<SortingState>([]);
   const [globalFilter, setGlobalFilter] = useState("");
   const [pagination, setPagination] = useState({
     pageIndex: 0,
     pageSize: 5,
   });
 
-  const columns = useMemo<ColumnDef<BookingData>[]>(
+  const columns = useMemo<ColumnDef<PaymentData>[]>(
     () => [
       {
         accessorKey: "id",
@@ -59,20 +58,36 @@ export default function PaymentTable({ data }: { data: BookingData[] }) {
       {
         accessorKey: "image",
         header: "تصویر",
-        cell: (info) => (
-          <Image
-            src={info.getValue() as string}
-            alt="image"
-            width={42}
-            height={42}
-            className="rounded-full"
-          />
-        ),
+        cell: (info) => {
+          const value = info.getValue();
+          if (typeof value !== "string") return null;
+          return (
+            <Image
+              src={value}
+              alt="image"
+              width={42}
+              height={42}
+              className="rounded-full"
+            />
+          );
+        },
       },
-
+      {
+        accessorKey: "title",
+        header: "نام اقامتگاه",
+        cell: (info) => {
+          const value = info.getValue();
+          return typeof value === "string" ? value : "";
+        },
+        enableSorting: true,
+      },
       {
         accessorKey: "date",
         header: "تاریخ پرداخت",
+        cell: (info) => {
+          const value = info.getValue();
+          return typeof value === "string" ? value : "";
+        },
         enableSorting: false,
       },
       {
@@ -82,27 +97,34 @@ export default function PaymentTable({ data }: { data: BookingData[] }) {
       },
       {
         accessorKey: "price",
-        header: " مبلغ",
-        cell: (info) => `${(+info.getValue()).toLocaleString()} تومان`,
-        enableSorting: true,
-        sortingFn: (rowA, rowB, columnId) =>
-          (rowA.getValue(columnId) as number) -
-          (rowB.getValue(columnId) as number),
-      },
-
-      {
-        accessorKey: "status",
-        header: "وضعیت پرداخت",
+        header: "مبلغ",
         cell: (info) => {
           const value = info.getValue();
-
+          const numValue = typeof value === "number" ? value : Number(value);
+          return `${numValue.toLocaleString()} تومان`;
+        },
+        enableSorting: true,
+        sortingFn: (rowA, rowB, columnId) => {
+          const a = rowA.getValue(columnId);
+          const b = rowB.getValue(columnId);
+          const numA = typeof a === "number" ? a : Number(a);
+          const numB = typeof b === "number" ? b : Number(b);
+          return numA - numB;
+        },
+      },
+      {
+        accessorKey: "status",
+        header: "وضعیت",
+        cell: (info) => {
+          const value = info.getValue();
+          if (typeof value !== "string") return null;
           return (
             <Chip
-              color={value === "تایید نشده" ? "danger" : "success"}
+              color={value === "تایید شده" ? "success" : "danger"}
               variant="flat"
               className="text-sm px-2 py-1 rounded-xl font-normal"
             >
-              {value as string}
+              {value}
             </Chip>
           );
         },

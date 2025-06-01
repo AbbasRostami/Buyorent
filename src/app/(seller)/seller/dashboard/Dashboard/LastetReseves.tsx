@@ -49,20 +49,27 @@ export default function LastetReseves() {
       {
         accessorKey: "image",
         header: "تصویر",
-        cell: (info) => (
-          <Image
-            src={info.getValue() as string}
-            alt="image"
-            width={42}
-            height={42}
-            className="rounded-full object-cover"
-          />
-        ),
+        cell: (info) => {
+          const value = info.getValue();
+          if (typeof value !== "string") return null;
+          return (
+            <Image
+              src={value}
+              alt="image"
+              width={42}
+              height={42}
+              className="rounded-full"
+            />
+          );
+        },
       },
       {
         accessorKey: "title",
         header: "نام اقامتگاه",
-        cell: (info) => info.getValue(),
+        cell: (info) => {
+          const value = info.getValue();
+          return typeof value === "string" ? value : "";
+        },
         enableSorting: true,
       },
       {
@@ -72,14 +79,21 @@ export default function LastetReseves() {
       },
       {
         accessorKey: "price",
-        header: "قیمت کل",
-        cell: (info) => `${(+info.getValue()).toLocaleString()} تومان`,
+        header: "قیمت",
+        cell: (info) => {
+          const value = info.getValue();
+          const numValue = typeof value === "number" ? value : Number(value);
+          return `${numValue.toLocaleString()} تومان`;
+        },
         enableSorting: true,
-        sortingFn: (rowA, rowB, columnId) =>
-          (rowA.getValue(columnId) as number) -
-          (rowB.getValue(columnId) as number),
+        sortingFn: (rowA, rowB, columnId) => {
+          const a = rowA.getValue(columnId);
+          const b = rowB.getValue(columnId);
+          const numA = typeof a === "number" ? a : Number(a);
+          const numB = typeof b === "number" ? b : Number(b);
+          return numA - numB;
+        },
       },
-
       {
         accessorKey: "status",
         header: "وضعیت رزرو",

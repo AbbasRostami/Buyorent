@@ -12,12 +12,11 @@ import { useState } from "react";
 import { BsArrowDown, BsArrowUp } from "react-icons/bs";
 import { MdPayment } from "react-icons/md";
 import { PiSealWarningBold } from "react-icons/pi";
-import { BookingData } from "./BookingTable";
 
 interface ModalPaymentsProps {
   isOpen: boolean;
   onOpenChange: () => void;
-  selectedRow?: BookingData;
+  selectedRow?: any;
 }
 
 interface PaymentData {

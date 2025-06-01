@@ -21,7 +21,7 @@ const HeroSectionFilter = () => {
           </div>
 
           <div className="absolute left-0 -translate-x-1/2 md:-translate-x-1/3 translate-y-1/4 hidden md:flex bg-[#D27700] rounded-l-full justify-end items-center">
-            <FaMagnifyingGlass className="text-amber-50 text-xl sm:text-2xl lg:text-3xl" />
+            <FaMagnifyingGlass className="text-amber-50 text-xl sm:text-2xl lg:text-6xl p-3" />
           </div>
 
           <div className="relative bg-[#FFFBF5] dark:bg-gray-800 dark:text-white translate-x-2 sm:translate-x-7 drop-shadow-lg rounded-l-md rounded-r-full w-full z-10 px-4 sm:px-8 py-4">

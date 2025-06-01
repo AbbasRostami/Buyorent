@@ -1,5 +1,4 @@
 import { Modal, ModalContent, Button } from "@heroui/react";
-import { BookingData } from "./page";
 import { IoMdClose } from "react-icons/io";
 import { FaModx, FaStar } from "react-icons/fa";
 import Image from "next/image";
@@ -19,7 +18,7 @@ import ModalPassengerList from "./PassengerList";
 interface ModalDetailsProps {
   isOpen: boolean;
   onOpenChange: () => void;
-  selectedRow?: BookingData;
+  selectedRow?: any;
 }
 
 export default function ModalDetails({

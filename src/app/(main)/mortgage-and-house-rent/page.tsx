@@ -13,21 +13,23 @@ import { SearchParams, SearchParamsType } from "@/types/search";
 export const revalidate = 60;
 
 type Props = {
-  searchParams: SearchParams;
+  searchParams: Promise<SearchParams>;
 };
 
 export async function generateMetadata({
   searchParams,
 }: Props): Promise<Metadata> {
-  return generateMortgageAndRentMetadata(searchParams);
+  const resolvedSearchParams = await searchParams;
+  return generateMortgageAndRentMetadata(resolvedSearchParams);
 }
 
 export default async function RentPage({
   searchParams,
 }: {
-  searchParams: SearchParamsType;
+  searchParams: Promise<SearchParamsType>;
 }) {
-  const queryString = qs.stringify(searchParams, {
+  const resolvedSearchParams = await searchParams;
+  const queryString = qs.stringify(resolvedSearchParams, {
     encode: false,
   });
 

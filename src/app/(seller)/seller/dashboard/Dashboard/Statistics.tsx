@@ -37,8 +37,8 @@ const Statistics = () => {
       },
       markers: {
         size: 12,
-        radius: 12,
         offsetX: 5,
+        shape: "circle",
       },
       itemMargin: {
         horizontal: 10,

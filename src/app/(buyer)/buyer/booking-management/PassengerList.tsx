@@ -1,5 +1,4 @@
 import { Modal, ModalContent, ModalBody } from "@heroui/react";
-import { BookingData } from "./page";
 import { IoMdClose } from "react-icons/io";
 import {
   ColumnDef,
@@ -16,7 +15,7 @@ import { PiSealWarningBold } from "react-icons/pi";
 interface ModalReserveProps {
   isOpen: boolean;
   onOpenChange: () => void;
-  selectedRow?: BookingData;
+  selectedRow?: any;
 }
 
 interface ReservationData {

@@ -92,7 +92,7 @@ export default function RealStatesTable({ data }: any) {
         header: "تصویر",
         cell: (info) => (
           <Image
-            src={info.getValue() as string}
+            src={String(info.getValue())}
             alt="image"
             width={42}
             height={42}
@@ -108,11 +108,19 @@ export default function RealStatesTable({ data }: any) {
       {
         accessorKey: "price",
         header: " مبلغ",
-        cell: (info) => `${(+info.getValue()).toLocaleString()} تومان`,
+        cell: (info) => {
+          const value = info.getValue();
+          const numValue = typeof value === "number" ? value : Number(value);
+          return `${numValue.toLocaleString()} تومان`;
+        },
         enableSorting: true,
-        sortingFn: (rowA, rowB, columnId) =>
-          (rowA.getValue(columnId) as number) -
-          (rowB.getValue(columnId) as number),
+        sortingFn: (rowA, rowB, columnId) => {
+          const a = rowA.getValue(columnId);
+          const b = rowB.getValue(columnId);
+          const numA = typeof a === "number" ? a : Number(a);
+          const numB = typeof b === "number" ? b : Number(b);
+          return numA - numB;
+        },
       },
 
       {
@@ -137,18 +145,11 @@ export default function RealStatesTable({ data }: any) {
         accessorKey: "status",
         header: "وضعیت",
         cell: (info) => {
-          const value = info.getValue() as string;
-
+          const value = String(info.getValue());
           return (
             <Chip
-              color={
-                value === "غیرفعال"
-                  ? "danger"
-                  : value === "در انتظار"
-                  ? "warning"
-                  : "success"
-              }
-              variant="shadow"
+              color={value === "تایید شده" ? "success" : "danger"}
+              variant="flat"
               className="text-sm px-2 py-1 rounded-xl font-normal"
             >
               {value}

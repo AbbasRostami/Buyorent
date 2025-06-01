@@ -22,6 +22,7 @@ import {
   getPaginationRowModel,
   OnChangeFn,
   SortingState,
+  Row,
 } from "@tanstack/react-table";
 import { useMemo, useState } from "react";
 import { BsArrowDown, BsArrowUp } from "react-icons/bs";
@@ -45,9 +46,9 @@ export interface BookingData {
   image: string;
 }
 
-export default function BookingTable({ data }: any) {
+export default function BookingTable({ data }: { data: BookingData[] }) {
   const { isOpen, onOpen, onOpenChange } = useDisclosure();
-  const [sorting, setSorting] = useState([]);
+  const [sorting, setSorting] = useState<SortingState>([]);
   const [selectedRow, setSelectedRow] = useState<BookingData | null>(null);
   const [globalFilter, setGlobalFilter] = useState("");
   const [pagination, setPagination] = useState({
@@ -66,49 +67,77 @@ export default function BookingTable({ data }: any) {
       {
         accessorKey: "image",
         header: "تصویر",
-        cell: (info) => (
-          <Image
-            src={info.getValue() as string}
-            alt="image"
-            width={42}
-            height={42}
-            className="rounded-full"
-          />
-        ),
+        cell: (info) => {
+          const value = info.getValue();
+          if (typeof value !== "string") return null;
+          return (
+            <Image
+              src={value}
+              alt="image"
+              width={42}
+              height={42}
+              className="rounded-full"
+            />
+          );
+        },
       },
       {
         accessorKey: "title",
         header: "نام اقامتگاه",
-        cell: (info) => info.getValue(),
+        cell: (info) => {
+          const value = info.getValue();
+          return typeof value === "string" ? value : "";
+        },
         enableSorting: true,
       },
       {
         accessorKey: "date",
         header: "تاریخ رزرو",
+        cell: (info) => {
+          const value = info.getValue();
+          return typeof value === "string" ? value : "";
+        },
         enableSorting: false,
       },
       {
         accessorKey: "price",
         header: "قیمت کل",
-        cell: (info) => `${(+info.getValue()).toLocaleString()} تومان`,
+        cell: (info) => {
+          const value = info.getValue();
+          const numValue = typeof value === "number" ? value : Number(value);
+          return `${numValue.toLocaleString()} تومان`;
+        },
         enableSorting: true,
-        sortingFn: (rowA, rowB, columnId) =>
-          (rowA.getValue(columnId) as number) -
-          (rowB.getValue(columnId) as number),
+        sortingFn: (rowA, rowB, columnId) => {
+          const a = rowA.getValue(columnId);
+          const b = rowB.getValue(columnId);
+          const numA = typeof a === "number" ? a : Number(a);
+          const numB = typeof b === "number" ? b : Number(b);
+          return numA - numB;
+        },
       },
       {
         accessorKey: "guests",
         header: "تعداد مسافر",
+        cell: (info) => {
+          const value = info.getValue();
+          return typeof value === "number" ? value : Number(value);
+        },
         enableSorting: true,
-        sortingFn: (rowA, rowB, columnId) =>
-          (rowA.getValue(columnId) as number) -
-          (rowB.getValue(columnId) as number),
+        sortingFn: (rowA, rowB, columnId) => {
+          const a = rowA.getValue(columnId);
+          const b = rowB.getValue(columnId);
+          const numA = typeof a === "number" ? a : Number(a);
+          const numB = typeof b === "number" ? b : Number(b);
+          return numA - numB;
+        },
       },
       {
         accessorKey: "status",
         header: "وضعیت رزرو",
         cell: (info) => {
           const value = info.getValue();
+          if (typeof value !== "string") return null;
           return (
             <Chip
               color={
@@ -121,7 +150,7 @@ export default function BookingTable({ data }: any) {
               variant="flat"
               className="text-sm px-2 py-1 rounded-xl font-normal"
             >
-              {value as string}
+              {value}
             </Chip>
           );
         },
@@ -132,14 +161,14 @@ export default function BookingTable({ data }: any) {
         header: "وضعیت پرداخت",
         cell: (info) => {
           const value = info.getValue();
-
+          if (typeof value !== "string") return null;
           return (
             <Chip
               color={value === "تایید شده" ? "success" : "danger"}
               variant="flat"
               className="text-sm px-2 py-1 rounded-xl font-normal"
             >
-              {value as string}
+              {value}
             </Chip>
           );
         },

@@ -181,9 +181,9 @@ const ProfileEditImage = ({
             {image && (
               <p className="mt-4 text-sm text-gray-700 dark:text-gray-300">
                 فایل انتخاب شده:{" "}
-                <span className="font-semibold">
+                {/* <span className="font-semibold">
                   {image?.name || "فایلی انتخاب نشده است"}
-                </span>
+                </span> */}
               </p>
             )}
           </label>

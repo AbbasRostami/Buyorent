@@ -2,9 +2,10 @@ import { IoIosArrowBack } from "react-icons/io";
 import { FaCircle } from "react-icons/fa6";
 import { useServerData } from "@/utils/hooks/useServerData";
 import HotDealsOfWeekSwiper from "./HotDealsOfWeekSwiper";
+import { HouseTypeProps } from "@/types/LandingType";
 
 export default async function HotDealsOfWeek() {
-  const houses = await useServerData(
+  const houses = await useServerData<HouseTypeProps["houses"]>(
     "/houses?limit=4&sort=rate&order=DESC&transactionType=",
     "top-last_updated-houses",
     60

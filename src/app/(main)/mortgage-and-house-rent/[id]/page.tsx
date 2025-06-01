@@ -11,7 +11,7 @@ import { generateMortgageAndRentDetailMetadata } from "@/utils/metadata/mortgage
 export const revalidate = 60;
 
 type Props = {
-  params: { id: string };
+  params: Promise<{ id: string }>;
 };
 
 async function getHouseData(id: string) {
@@ -23,13 +23,14 @@ async function getHouseData(id: string) {
 }
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
-  
-  const data = await getHouseData(params.id);
+  const resolvedParams = await params;
+  const data = await getHouseData(resolvedParams.id);
   return generateMortgageAndRentDetailMetadata(data);
 }
 
 const SingleHouses = async ({ params }: Props) => {
-  const { id } = params;
+  const resolvedParams = await params;
+  const { id } = resolvedParams;
   const data = await getHouseData(id);
 
   console.log(data);
