@@ -1,5 +1,4 @@
 import { Modal, ModalContent, ModalBody } from "@heroui/react";
-import { BookingData } from "./page";
 import { IoMdClose } from "react-icons/io";
 import {
   ColumnDef,
@@ -13,6 +12,7 @@ import { useState } from "react";
 import { BsArrowDown, BsArrowUp } from "react-icons/bs";
 import { MdPayment } from "react-icons/md";
 import { PiSealWarningBold } from "react-icons/pi";
+import { BookingData } from "./BookingTable";
 
 interface ModalPaymentsProps {
   isOpen: boolean;
@@ -147,30 +147,30 @@ export default function ModalPayments({
                   </thead>
                   <tbody className="divide-y divide-gray-200 dark:divide-gray-700">
                     {table.getRowModel().rows.length === 0 ? (
-                     <tr className="bg-white dark:bg-gray-800">
-                     <td
-                       colSpan={columns.length}
-                       className="text-center py-12 text-gray-500 dark:text-gray-400"
-                     >
-                       <div className="flex flex-col items-center justify-center">
-                         <PiSealWarningBold
-                           size={80}
-                           className=" text-amber-500 mb-4"
-                         />
-                         <p className="text-xl font-bold text-gray-700 dark:text-gray-300">
-                           موردی یافت نشد
-                         </p>
-                         <p className="mt-2 text-gray-500 dark:text-gray-400">
-                           هیچ رزروی با مشخصات جستجو شده یافت نشد
-                         </p>
-                       </div>
-                     </td>
-                   </tr>
+                      <tr className="bg-white dark:bg-gray-800">
+                        <td
+                          colSpan={columns.length}
+                          className="text-center py-12 text-gray-500 dark:text-gray-400"
+                        >
+                          <div className="flex flex-col items-center justify-center">
+                            <PiSealWarningBold
+                              size={80}
+                              className=" text-amber-500 mb-4"
+                            />
+                            <p className="text-xl font-bold text-gray-700 dark:text-gray-300">
+                              موردی یافت نشد
+                            </p>
+                            <p className="mt-2 text-gray-500 dark:text-gray-400">
+                              هیچ رزروی با مشخصات جستجو شده یافت نشد
+                            </p>
+                          </div>
+                        </td>
+                      </tr>
                     ) : (
-                    table.getRowModel().rows.map((row, index) => (
-                      <tr
-                        key={row.id}
-                        className={`
+                      table.getRowModel().rows.map((row, index) => (
+                        <tr
+                          key={row.id}
+                          className={`
                           ${
                             index % 2 === 0
                               ? "bg-blue-50 dark:bg-gray-800/80"
@@ -180,20 +180,20 @@ export default function ModalPayments({
                           transition-colors duration-200
                           text-center
                         `}
-                      >
-                        {row.getVisibleCells().map((cell) => (
-                          <td
-                            key={cell.id}
-                            className="p-3 text-gray-700 dark:text-gray-300 whitespace-nowrap"
-                          >
-                            {flexRender(
-                              cell.column.columnDef.cell,
-                              cell.getContext()
-                            )}
-                          </td>
-                        ))}
-                      </tr>
-                    ))
+                        >
+                          {row.getVisibleCells().map((cell) => (
+                            <td
+                              key={cell.id}
+                              className="p-3 text-gray-700 dark:text-gray-300 whitespace-nowrap"
+                            >
+                              {flexRender(
+                                cell.column.columnDef.cell,
+                                cell.getContext()
+                              )}
+                            </td>
+                          ))}
+                        </tr>
+                      ))
                     )}
                   </tbody>
                 </table>

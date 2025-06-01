@@ -10,7 +10,7 @@ import { IoPersonSharp } from "react-icons/io5";
 import { BiChevronDown } from "react-icons/bi";
 import { BsPcHorizontal } from "react-icons/bs";
 import { useSidebar } from "../../context/SidebarContext";
-import WalletCard from "../../components/WalletCard";
+import WalletCard from "../../components/header/WalletCard";
 
 type NavItem = {
   name: string;
