@@ -6,6 +6,7 @@
     "dev": "next dev --turbopack",
     "build": "next build",
     "start": "next start",
+    "analyze": "cross-env ANALYZE=true next build",
     "lint": "next lint"
   },
   "dependencies": {
@@ -13,6 +14,8 @@
     "@heroui/modal": "^2.2.14",
     "@heroui/react": "^2.8.0-beta.2",
     "@heroui/theme": "^2.4.13",
+    "@next/bundle-analyzer": "^15.3.3",
+    "@reactour/tour": "^3.8.0",
     "@tanstack/react-query": "^5.75.7",
     "@tanstack/react-query-devtools": "^5.75.7",
     "@tanstack/react-table": "^8.21.3",
@@ -35,7 +38,6 @@
     "react-dom": "^19.0.0",
     "react-hot-toast": "^2.5.2",
     "react-icons": "^5.5.0",
-    "react-joyride": "^2.9.3",
     "react-leaflet": "^5.0.0",
     "react-medium-image-zoom": "^5.2.14",
     "react-toastify": "^11.0.5",
