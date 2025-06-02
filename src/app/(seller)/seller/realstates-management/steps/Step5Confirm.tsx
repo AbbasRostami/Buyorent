@@ -22,11 +22,10 @@ import { LuTags } from "react-icons/lu";
 export default function Step5Confirm() {
   const { values } = useFormikContext<any>();
   const images = values.images || [];
-
+  
   return (
     <div className="bg-[#FBFBFB] rounded-2xl p-4 sm:p-6 mt-4 dark:border-none dark:bg-gray-700 border border-gray-200 shadow-xl">
       <div className="flex flex-col lg:flex-row-reverse gap-4 lg:gap-6 items-stretch">
-        {/* ستون راست: اطلاعات متنی */}
         <div className="w-full lg:w-1/2 flex flex-col items-start min-w-0 lg:pr-4">
           <h2 className="text-xl flex items-center gap-2 sm:text-2xl text-amber-300 font-semibold text-center mb-2 w-full ">
             <MdAddHomeWork className="text-amber-200" />
@@ -76,7 +75,6 @@ export default function Step5Confirm() {
           </div>
         </div>
 
-        {/* ستون چپ: اسلایدر تصاویر */}
         <div className="w-full lg:w-1/2 flex flex-col items-center min-w-0 lg:pl-4 max-w-full lg:max-w-lg">
           <Swiper
             modules={[Pagination, Autoplay, EffectFade]}
