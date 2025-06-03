@@ -15,7 +15,7 @@ import Image from "next/image";
 export default function ReductionCarousel({ houses }: HouseTypeProps) {
   const extendHouses = [...houses, ...houses];
   return (
-    <div className="m-6 step-3">
+    <div className="m-6">
       <Swiper
         modules={[Navigation, Pagination, Autoplay]}
         navigation={{
@@ -54,7 +54,7 @@ export default function ReductionCarousel({ houses }: HouseTypeProps) {
                 pagination={{ clickable: true }}
                 loop
               >
-                {items.photos.map((photo: string, idx: number) => (
+                {items?.photos?.map((photo: string, idx: number) => (
                   <SwiperSlide key={idx}>
                     <Image
                       src={photo}
@@ -62,7 +62,7 @@ export default function ReductionCarousel({ houses }: HouseTypeProps) {
                       alt={`${items.title}-photo-${idx}`}
                       width={300}
                       height={176}
-                      className="object-cover rounded-xl bg-white shadow-xl p-1 border-2 border-gray-100 transition-all duration-300 ease-in-out transform"
+                      className="object-cover rounded-xl bg-white shadow-lg transition-all duration-300 ease-in-out transform"
                     />
                   </SwiperSlide>
                 ))}

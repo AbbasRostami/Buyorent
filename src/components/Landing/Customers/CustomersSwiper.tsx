@@ -138,7 +138,7 @@ const CustomersSwiper = () => {
           <SwiperSlide key={customer.id}>
             <div className="min-h-[240px] group flex flex-col sm:flex-row items-center gap-6 sm:gap-10 w-full cursor-pointer">
               <div className="group relative w-[160px] h-[160px] sm:w-4/12 sm:h-48 [perspective:1000px] shrink-0">
-                <div className="w-full h-full py-2 bg-[#F4F4F4] hidden sm:block rounded-2xl shadow-lg [transform:rotateY(-60deg)] [transform-style:preserve-3d] group-hover:bg-[#FFC800] transition-colors duration-300 z-0" />
+                <div className="w-full h-full py-2 bg-[#F4F4F4] dark:bg-neutral-800 hidden sm:block rounded-2xl shadow-lg [transform:rotateY(-60deg)] [transform-style:preserve-3d] group-hover:bg-[#FFC800] transition-colors duration-300 z-0" />
                 <Image
                   src={customer.image}
                   alt={customer.name}

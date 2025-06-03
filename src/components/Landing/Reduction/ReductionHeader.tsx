@@ -8,6 +8,7 @@ import {
   IoIosArrowRoundBack,
   IoIosArrowRoundForward,
 } from "react-icons/io";
+import Link from "next/link";
 
 export default function ReductionHeader() {
   const containerRef = useRef<HTMLDivElement>(null);
@@ -75,7 +76,8 @@ export default function ReductionHeader() {
             <button className="custom-next-off dark:bg-gray-900 z-10 w-10 h-10 flex items-center justify-center rounded-full border border-gray-100 shadow-md hover:bg-gray-300 hover:text-white transition">
               <IoIosArrowRoundBack className="dark:text-white cursor-pointer" />
             </button>
-            <button
+            <Link
+              href="/mortgage-and-house-rent"
               className="flex items-center gap-2 cursor-pointer justify-center px-5 py-2 rounded-xl
              text-lg font-semibold shadow-md transition-all duration-300
              text-gray-600 bg-white hover:bg-amber-100
@@ -83,7 +85,7 @@ export default function ReductionHeader() {
             >
               مشاهده همه
               <IoIosArrowBack className="text-xl transition-transform duration-300 group-hover:-translate-x-1" />
-            </button>
+            </Link>
           </div>
         </div>
 

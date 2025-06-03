@@ -3,6 +3,7 @@ import { FaCircle } from "react-icons/fa6";
 import { useServerData } from "@/utils/hooks/useServerData";
 import HotDealsOfWeekSwiper from "./HotDealsOfWeekSwiper";
 import { HouseTypeProps } from "@/types/LandingType";
+import Link from "next/link";
 
 export default async function HotDealsOfWeek() {
   const houses = await useServerData<HouseTypeProps["houses"]>(
@@ -30,7 +31,8 @@ export default async function HotDealsOfWeek() {
           </p>
         </div>
 
-        <button
+        <Link
+          href="/houses-reserve"
           className="flex items-center gap-2 cursor-pointer justify-center px-5 py-2 rounded-xl
              md:text-sm text-medium font-semibold shadow-md transition-all duration-300
              text-gray-600 bg-white hover:bg-amber-100
@@ -38,7 +40,7 @@ export default async function HotDealsOfWeek() {
         >
           مشاهده همه
           <IoIosArrowBack className="text-xl transition-transform duration-300 group-hover:-translate-x-1" />
-        </button>
+        </Link>
       </div>
 
       <HotDealsOfWeekSwiper houses={houses} />
