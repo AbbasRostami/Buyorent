@@ -16,7 +16,6 @@ export const useLoading = () => useContext(LoadingContext);
 export function LoadingProvider({ children }: { children: React.ReactNode }) {
   const [isLoading, setIsLoading] = useState(false);
   const pathname = usePathname();
-  const searchParams = useSearchParams();
 
   useEffect(() => {
     setIsLoading(true);
@@ -24,7 +23,7 @@ export function LoadingProvider({ children }: { children: React.ReactNode }) {
       setIsLoading(false);
     }, 1000);
     return () => clearTimeout(timer);
-  }, [pathname, searchParams]);
+  }, [pathname]);
 
   return (
     <LoadingContext.Provider value={{ setIsLoading }}>
@@ -40,8 +39,8 @@ export function LoadingProvider({ children }: { children: React.ReactNode }) {
           <Image
             src={LoadingIM}
             alt="logo"
-            width={200}
-            height={200}
+            width={250}
+            height={250}
             className="opacity-50"
           />
         </MotionDiv>
