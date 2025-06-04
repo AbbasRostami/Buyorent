@@ -11,6 +11,7 @@ import { BiChevronDown } from "react-icons/bi";
 import { BsPcHorizontal } from "react-icons/bs";
 import { useSidebar } from "../../context/SidebarContext";
 import WalletCard from "../../components/header/WalletCard";
+import { Tooltip } from "@heroui/react";
 
 type NavItem = {
   name: string;
@@ -123,71 +124,88 @@ const AppSidebar: React.FC = () => {
       {items.map((nav, index) => (
         <li key={nav.name}>
           {nav.subItems ? (
-            <button
-              onClick={() => handleSubmenuToggle(index, menuType)}
-              className={`menu-item group flex items-center px-4 py-3 rounded-lg ${
-                openSubmenu?.type === menuType && openSubmenu?.index === index
-                  ? "menu-item-active"
-                  : "menu-item-inactive"
-              } cursor-pointer ${
-                !isExpanded && !isHovered
-                  ? "lg:justify-center"
-                  : "lg:justify-start"
-              }`}
+            <Tooltip
+              content={nav.name}
+              placement="left"
+              color="warning"
+              isDisabled={isExpanded || isMobileOpen}
+              showArrow={true}
+              className="rounded-lg"
             >
-              <span
-                className={`menu-item-icon-size flex items-center justify-center text-2xl ${
-                  openSubmenu?.type === menuType && openSubmenu?.index === index
-                    ? "menu-item-icon-active"
-                    : "menu-item-icon-inactive"
-                }`}
-              >
-                {nav.icon}
-              </span>
-              {(isExpanded || isHovered || isMobileOpen) && (
-                <span className="menu-item-text text-lg mr-3">{nav.name}</span>
-              )}
-              {(isExpanded || isHovered || isMobileOpen) && (
-                <BiChevronDown
-                  className={`mr-auto w-6 h-6 transition-transform duration-200 ${
-                    openSubmenu?.type === menuType &&
-                    openSubmenu?.index === index
-                      ? "rotate-180 text-brand-500"
-                      : ""
-                  }`}
-                />
-              )}
-            </button>
-          ) : (
-            nav.path && (
-              <Link
-                href={nav.path}
+              <button
+                onClick={() => handleSubmenuToggle(index, menuType)}
                 className={`menu-item group flex items-center px-4 py-3 rounded-lg ${
-                  isActive(nav.path) ? "menu-item-active" : "menu-item-inactive"
-                } ${
-                  !isExpanded && !isHovered
-                    ? "lg:justify-center"
-                    : "lg:justify-start"
+                  openSubmenu?.type === menuType && openSubmenu?.index === index
+                    ? "menu-item-active"
+                    : "menu-item-inactive"
+                } cursor-pointer ${
+                  !isExpanded ? "lg:justify-center" : "lg:justify-start"
                 }`}
               >
                 <span
                   className={`menu-item-icon-size flex items-center justify-center text-2xl ${
-                    isActive(nav.path)
+                    openSubmenu?.type === menuType &&
+                    openSubmenu?.index === index
                       ? "menu-item-icon-active"
-                      : "menu-item-icon-inactive"
+                      : "menu-item-icon-inactive text-gray-500 dark:text-white"
                   }`}
                 >
                   {nav.icon}
                 </span>
-                {(isExpanded || isHovered || isMobileOpen) && (
-                  <span className="menu-item-text text-medium  mr-3">
+                {(isExpanded || isMobileOpen) && (
+                  <span className="menu-item-text text-lg mr-3">
                     {nav.name}
                   </span>
                 )}
-              </Link>
+                {(isExpanded || isMobileOpen) && (
+                  <BiChevronDown
+                    className={`mr-auto w-6 h-6 transition-transform duration-200 ${
+                      openSubmenu?.type === menuType &&
+                      openSubmenu?.index === index
+                        ? "rotate-180 text-brand-500"
+                        : ""
+                    }`}
+                  />
+                )}
+              </button>
+            </Tooltip>
+          ) : (
+            nav.path && (
+              <Tooltip
+                content={nav.name}
+                placement="left"
+                color="warning"
+                isDisabled={isExpanded || isMobileOpen}
+                showArrow={true}
+                className="rounded-lg"
+              >
+                <Link
+                  href={nav.path}
+                  className={`menu-item group flex items-center px-4 py-3 rounded-lg ${
+                    isActive(nav.path)
+                      ? "menu-item-active"
+                      : "menu-item-inactive"
+                  } ${!isExpanded ? "lg:justify-center" : "lg:justify-start"}`}
+                >
+                  <span
+                    className={`menu-item-icon-size flex items-center justify-center text-2xl ${
+                      isActive(nav.path)
+                        ? "menu-item-icon-active"
+                        : "menu-item-icon-inactive text-gray-500 dark:text-white"
+                    }`}
+                  >
+                    {nav.icon}
+                  </span>
+                  {(isExpanded || isMobileOpen) && (
+                    <span className="menu-item-text text-medium  mr-3">
+                      {nav.name}
+                    </span>
+                  )}
+                </Link>
+              </Tooltip>
             )
           )}
-          {nav.subItems && (isExpanded || isHovered || isMobileOpen) && (
+          {nav.subItems && (isExpanded || isMobileOpen) && (
             <div
               ref={(el) => {
                 subMenuRefs.current[`${menuType}-${index}`] = el;
@@ -311,7 +329,7 @@ const AppSidebar: React.FC = () => {
                 }`}
               >
                 {isExpanded || isHovered || isMobileOpen ? (
-                  "Menu"
+                  "منو"
                 ) : (
                   <BsPcHorizontal className="size-6" />
                 )}

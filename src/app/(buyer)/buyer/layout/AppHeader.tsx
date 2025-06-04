@@ -4,11 +4,16 @@ import { ThemeSwitcher } from "@/context/ThemeSwitcher";
 import { HiOutlineBellAlert } from "react-icons/hi2";
 import { useSidebar } from "../../context/SidebarContext";
 import UserDropdown from "../../components/header/UserDropdown";
+import {
+  TbLayoutSidebarLeftCollapseFilled,
+  TbLayoutSidebarLeftExpandFilled,
+} from "react-icons/tb";
 
 const AppHeader: React.FC = () => {
   const [isApplicationMenuOpen, setApplicationMenuOpen] = useState(false);
 
-  const { isMobileOpen, toggleSidebar, toggleMobileSidebar } = useSidebar();
+  const { isMobileOpen, toggleSidebar, toggleMobileSidebar, isExpanded } =
+    useSidebar();
 
   const handleToggle = () => {
     if (window.innerWidth >= 1024) {
@@ -63,6 +68,18 @@ const AppHeader: React.FC = () => {
                   fill="currentColor"
                 />
               </svg>
+            ) : window.innerWidth >= 1024 ? (
+              isExpanded ? (
+                <TbLayoutSidebarLeftCollapseFilled
+                  size={28}
+                  className="text-gray-800 dark:text-amber-50"
+                />
+              ) : (
+                <TbLayoutSidebarLeftExpandFilled
+                  size={28}
+                  className="text-gray-800 dark:text-amber-50"
+                />
+              )
             ) : (
               <svg
                 width="16"

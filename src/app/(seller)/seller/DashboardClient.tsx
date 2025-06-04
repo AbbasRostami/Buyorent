@@ -17,7 +17,7 @@ export default function DashboardClient({
   const mainContentMargin = isMobileOpen
     ? "mr-0"
     : isExpanded || isHovered
-    ? "lg:mr-[310px]"
+    ? "lg:mr-[260px]"
     : "lg:mr-[110px]";
 
   return (
