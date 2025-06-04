@@ -14,6 +14,7 @@ import { HouseTypeProps } from "@/types/LandingType";
 import Image from "next/image";
 import { Card } from "@heroui/react";
 import { Skeleton } from "@heroui/react";
+import Link from "next/link";
 
 const HotDealsOfWeekSwiper = ({ houses }: HouseTypeProps) => {
   const extendHouses = [...houses, ...houses];
@@ -63,7 +64,10 @@ const HotDealsOfWeekSwiper = ({ houses }: HouseTypeProps) => {
     >
       {extendHouses?.map((items, index) => (
         <SwiperSlide key={index} className="flex justify-center p-4 rounded-xl">
-          <div className="bg-[#FFFAF3] dark:bg-neutral-900 rounded-xl shadow-lg py-4 px-2 mx-auto cursor-pointer hover:shadow-amber-500/50">
+          <Link
+            href={`/mortgage-and-house-rent/${items.id}`}
+            className="bg-gray-100 dark:bg-neutral-900 hover:shadow-gray-400/50 transition-all duration-300 ease-in-out rounded-xl shadow-lg py-4 px-2 mx-auto cursor-pointer "
+          >
             <Swiper
               modules={[Autoplay, Pagination, EffectFade]}
               effect="fade"
@@ -90,7 +94,7 @@ const HotDealsOfWeekSwiper = ({ houses }: HouseTypeProps) => {
                     alt={`${items.title}-photo-${idx}`}
                     width={300}
                     height={176}
-                    className="object-cover rounded-xl shadow-lg  transition-all duration-300 ease-in-out transform"
+                    className="object-cover max-h-[176px] rounded-xl shadow-lg  transition-all duration-300 ease-in-out transform"
                   />
                 </SwiperSlide>
               ))}
@@ -131,7 +135,7 @@ const HotDealsOfWeekSwiper = ({ houses }: HouseTypeProps) => {
                 </p>
               </div>
             </div>
-          </div>
+          </Link>
         </SwiperSlide>
       ))}
     </Swiper>
