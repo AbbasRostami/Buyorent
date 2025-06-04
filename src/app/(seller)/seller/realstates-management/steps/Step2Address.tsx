@@ -90,7 +90,7 @@ export default function Step2Address() {
     }
     try {
       const response = await fetch(
-        `https://nominatim.openstreetmap.org/search?format=json&q=${encodeURIComponent(
+        `${process.env.NEXT_MAP_API_URL}&q=${encodeURIComponent(
           query
         )}&countrycodes=ir&limit=7`
       );

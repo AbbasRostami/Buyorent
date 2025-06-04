@@ -8,7 +8,7 @@ import {
   MotionH2,
   MotionP,
   MotionButton,
-} from "@/components/providers/MotionWrapper";
+} from "@/utils/providers/MotionWrapper";
 import { FcCancel } from "react-icons/fc";
 
 export default function Error({

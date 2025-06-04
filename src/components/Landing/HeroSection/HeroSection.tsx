@@ -2,9 +2,9 @@ import Image from "next/image";
 import home from "./../../../assets/Landing/home.png";
 import { IoIosArrowBack } from "react-icons/io";
 
-import { MotionDiv, MotionP } from "../../providers/MotionWrapper";
+import { MotionDiv, MotionP } from "../../../utils/providers/MotionWrapper";
 import Link from "next/link";
-import { HeroButton } from "../../providers/HeroUIClient";
+import { HeroButton } from "../../../utils/providers/HeroUIClient";
 import HeroSectionFilter from "./HeroSectionFilter";
 
 export default function HeroSection() {

@@ -7,7 +7,7 @@ import {
   MotionH2,
   MotionP,
   MotionButton,
-} from "@/components/providers/MotionWrapper";
+} from "@/utils/providers/MotionWrapper";
 import { FcSearch } from "react-icons/fc";
 
 export default function NotFound() {
@@ -92,11 +92,11 @@ export default function NotFound() {
           className="flex flex-col sm:flex-row justify-center items-center gap-4 rtl:space-x-reverse"
         >
           <Link
-          href="/"
+            href="/"
             className="inline-block bg-gradient-to-r from-amber-500 to-amber-600 hover:from-amber-600 hover:to-amber-700 text-white font-semibold py-3 px-8 rounded-xl transition-all duration-200 shadow-lg hover:shadow-amber-500/25"
-        >
+          >
             بازگشت به خانه
-        </Link>
+          </Link>
         </MotionDiv>
       </div>
     </div>

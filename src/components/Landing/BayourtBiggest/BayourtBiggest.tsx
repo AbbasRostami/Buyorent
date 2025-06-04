@@ -7,7 +7,7 @@ import {
   MotionButton,
   MotionDiv,
   MotionP,
-} from "@/components/providers/MotionWrapper";
+} from "@/utils/providers/MotionWrapper";
 const BayourtBiggest = () => {
   return (
     <>

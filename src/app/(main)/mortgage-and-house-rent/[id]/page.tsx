@@ -1,12 +1,17 @@
 import React from "react";
-import DetailsLists from "@/components/houses-reserve/DetailsLists";
-import CommentSingleHouses from "@/components/houses-reserve/Comments/Comments";
-import MapSingleReserve from "@/components/houses-reserve/Map";
-import HeaderSectionSingle from "@/components/houses-reserve/HeaderSection";
+import DetailsLists from "@/components/mortgage-details/DetailsLists";
+import CommentSingleHouses from "@/components/mortgage-details/Comments/Comments";
+import MapSingleReserve from "@/components/mortgage-details/Map";
+import HeaderSectionSingle from "@/components/mortgage-details/HeaderSection";
 import { useServerData } from "@/utils/hooks/useServerData";
 import { HouseSingleHousesProps } from "@/types/DetailsTypes";
 import { Metadata } from "next";
 import { generateMortgageAndRentDetailMetadata } from "@/utils/metadata/mortgage-and-rent";
+import {
+  MotionButton,
+  MotionH2,
+  MotionP,
+} from "@/utils/providers/MotionWrapper";
 
 export const revalidate = 60;
 
@@ -39,7 +44,7 @@ const SingleHouses = async ({ params }: Props) => {
     <>
       <HeaderSectionSingle data={data} />
 
-      <div className="flex flex-col justify-center items-start lg:flex-row gap-8 my-16 px-10 md:px-20">
+      <div className="flex flex-col justify-center items-start lg:flex-row gap-8 my-20 px-10 md:px-20">
         {/* ستون راست */}
         <div className="w-full lg:w-1/2 space-y-6">
           <DetailsLists data={data} />
@@ -47,13 +52,28 @@ const SingleHouses = async ({ params }: Props) => {
 
         {/* ستون چپ */}
         <div className="w-full lg:w-1/2 space-y-6">
-          <button className="text-lg font-bold border border-color2 px-4 py-2 rounded-full text-color1">
+          <MotionButton
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 1, delay: 1.5 }}
+            className="text-lg font-bold border border-color2 px-4 py-2 rounded-full text-color1"
+          >
             درباره ملک
-          </button>
-          <h2 className="text-2xl font-bold text-justify">
+          </MotionButton>
+          <MotionH2
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 1, delay: 1.7 }}
+            className="text-2xl font-bold text-justify"
+          >
             چرا هتل همایون رو انتخاب کنیم؟
-          </h2>
-          <p className="text-gray-700 dark:text-amber-50 leading-7 text-medium font-medium text-justify">
+          </MotionH2>
+          <MotionP
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 1, delay: 1.9 }}
+            className="text-gray-700 dark:text-amber-50 leading-7 text-medium font-medium text-justify"
+          >
             لورم ایپسوم متن ساختگی با تولید سادگی نامفهوم از صنعت چاپ، و با
             استفاده از طراحان گرافیک است، چاپگرها و متون بلکه روزنامه و مجله در
             ستون و سطرآنچنان که لازم است، و برای شرایط فعلی تکنولوژی مورد نیاز،
@@ -61,25 +81,17 @@ const SingleHouses = async ({ params }: Props) => {
             زیادی در شصت و سه درصد گذشته حال و آینده، شناخت فراوان جامعه و
             متخصصان را می طلبد، تا با نرم افزارها شناخت بیشتری را برای طراحان
             رایانه ای علی الخصوص طراحان خلاقی، و فرهنگ پیشرو در زبان فارسی ایجاد
-            کرد، در این صورت می توان امید داشت که تمام و دشواری موجود در ارائه
-            راهکارها، و شرایط سخت تایپ به پایان رسد و زمان مورد نیاز شامل
-            حروفچینی دستاوردهای اصلی، و جوابگوی سوالات پیوسته اهل دنیای موجود
-            طراحی اساسا مورد استفاده قرار گیرد. لورم ایپسوم متن ساختگی با تولید
-            سادگی نامفهوم از صنعت چاپ، و با استفاده از طراحان گرافیک است،
-            چاپگرها و متون بلکه روزنامه و مجله در ستون و سطرآنچنان که لازم است،
-            و برای شرایط فعلی تکنولوژی مورد نیاز، و کاربردهای متنوع با هدف بهبود
-            ابزارهای کاربردی می باشد، کتابهای زیادی در شصت و سه درصد گذشته حال و
-            آینده، شناخت فراوان جامعه و متخصصان را می طلبد، تا با نرم افزارها
-            شناخت بیشتری را برای طراحان رایانه ای علی الخصوص طراحان خلاقی، و
-            فرهنگ پیشرو در زبان فارسی ایجاد کرد، در این صورت می توان امید داشت
-            که تمام و دشواری موجود در ارائه راهکارها، و شرایط سخت تایپ به پایان
-            رسد و زمان مورد نیاز شامل حروفچینی دستاوردهای اصلی، و جوابگوی سوالات
-            پیوسته اهل دنیای موجود طراحی اساسا مورد استفاده قرار گیرد.
-          </p>
+            کرد، در این صورت می توان امید داشت که تمام و دشواری موجود در ارائه.
+          </MotionP>
 
           <MapSingleReserve data={data} />
 
-          <p className="text-gray-700 dark:text-amber-50 leading-7 text-medium font-medium text-justify">
+          <MotionP
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 1, delay: 2.1 }}
+            className="text-gray-700 dark:text-amber-50 leading-7 text-medium font-medium text-justify"
+          >
             لورم ایپسوم متن ساختگی با تولید سادگی نامفهوم از صنعت چاپ، و با
             استفاده از طراحان گرافیک است، چاپگرها و متون بلکه روزنامه و مجله در
             ستون و سطرآنچنان که لازم است، و برای شرایط فعلی تکنولوژی مورد نیاز،
@@ -89,7 +101,7 @@ const SingleHouses = async ({ params }: Props) => {
             رایانه ای علی الخصوص طراحان خلاقی، و فرهنگ پیشرو در زبان فارسی ایجاد
             کرد، در این صورت می توان امید داشت که تمام و دشواری موجود در ارائه
             راهکارها، و شرایط سخت.
-          </p>
+          </MotionP>
 
           {/* نظرات کاربران */}
           <CommentSingleHouses houseId={id} />

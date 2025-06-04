@@ -2,7 +2,7 @@
 
 import { createContext, useContext, useEffect, useState } from "react";
 import { usePathname, useSearchParams } from "next/navigation";
-import { MotionDiv } from "@/components/providers/MotionWrapper";
+import { MotionDiv } from "@/utils/providers/MotionWrapper";
 import Image from "next/image";
 import LoadingIM from "./../../assets/BUTORENT.png";
 const LoadingContext = createContext<{

@@ -208,7 +208,7 @@ export default function MapHousesReserve({
 
     try {
       const response = await fetch(
-        `https://nominatim.openstreetmap.org/search?format=json&q=${encodeURIComponent(
+        `${process.env.NEXT_MAP_API_URL}&q=${encodeURIComponent(
           searchQuery
         )}&countrycodes=ir&limit=7`,
         {

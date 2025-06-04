@@ -1,6 +1,6 @@
 import ClientLayout from "@/app/ClientLayout";
 import { Metadata } from "next";
-import { LoadingProvider } from "@/components/providers/LoadingProvider";
+import { LoadingProvider } from "@/utils/providers/LoadingProvider";
 
 export const metadata: Metadata = {
   title: "BUYORENT | خرید و اجاره املاک",

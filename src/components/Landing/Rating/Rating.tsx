@@ -1,7 +1,11 @@
 import Image from "next/image";
 import { CiMedal } from "react-icons/ci";
 import logo from "./../../../assets/Landing/image 5.png";
-import { MotionDiv, MotionP, MotionSpan } from "../../providers/MotionWrapper";
+import {
+  MotionDiv,
+  MotionP,
+  MotionSpan,
+} from "../../../utils/providers/MotionWrapper";
 
 const text = `لورم ایپسوم متن ساختگی با تولید سادگی نامفهوم از صنعت چاپ، و با
 استفاده از طراحان گرافیک است، چاپگرها و متون بلکه روزنامه و مجله در

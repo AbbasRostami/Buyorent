@@ -1,4 +1,7 @@
-import { MotionButton, MotionDiv } from "../../providers/MotionWrapper";
+import {
+  MotionButton,
+  MotionDiv,
+} from "../../../utils/providers/MotionWrapper";
 
 export default function Notice() {
   return (
