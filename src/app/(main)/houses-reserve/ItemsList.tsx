@@ -8,10 +8,9 @@ import { IoLocationOutline } from "react-icons/io5";
 import { MdOutlineNightsStay } from "react-icons/md";
 import { TfiFaceSad } from "react-icons/tfi";
 import { Swiper, SwiperSlide } from "swiper/react";
-import { Navigation, Pagination, Autoplay, EffectFade } from "swiper/modules";
+import { Pagination, Autoplay, EffectFade } from "swiper/modules";
 import "swiper/css";
 import "swiper/css/effect-fade";
-import "swiper/css/navigation";
 import "swiper/css/pagination";
 const ItemsList = ({ data }: { data: HouseReserveProps[] }) => {
   if (!data || data.length === 0) {
@@ -68,7 +67,9 @@ const ItemsList = ({ data }: { data: HouseReserveProps[] }) => {
                 ))}
               </Swiper>
             </div>
-            <h2 className="text-lg font-semibold truncate mt-2">{item.title}</h2>
+            <h2 className="text-lg font-semibold truncate mt-2">
+              {item.title}
+            </h2>
 
             <div className="flex items-center justify-between gap-2 text-sm text-gray-500 mt-2 flex-wrap">
               <div className="flex items-center gap-1">

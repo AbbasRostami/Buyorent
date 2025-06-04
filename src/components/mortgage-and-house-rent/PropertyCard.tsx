@@ -18,6 +18,7 @@ import {
 import "swiper/css";
 import "swiper/css/effect-fade";
 import SkeletonCard from "../skeleton/SkeletonCard";
+import { TfiFaceSad } from "react-icons/tfi";
 
 interface Property {
   id: string;
@@ -42,6 +43,17 @@ export default function PropertyCard({ data, isLoading }: Props) {
         {Array.from({ length: 6 }).map((_, i) => (
           <SkeletonCard key={i} />
         ))}
+      </div>
+    );
+  }
+  if (!data || data.length === 0) {
+    return (
+      <div className="text-center flex flex-col gap-5 items-center text-gray-500 dark:text-amber-50 py-10">
+        <TfiFaceSad size={80} />
+        <p className="text-lg">موردی برای نمایش وجود ندارد.</p>
+        <p className="text-sm mt-2">
+          فیلترها را تغییر دهید یا جستجوی جدیدی انجام دهید.
+        </p>
       </div>
     );
   }
