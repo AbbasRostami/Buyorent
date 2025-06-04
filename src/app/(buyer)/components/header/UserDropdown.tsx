@@ -12,11 +12,11 @@ import {
   User,
 } from "@heroui/react";
 import { FaBell, FaPlusCircle, FaUser, FaSignOutAlt } from "react-icons/fa";
-import Swal from "sweetalert2";
 import { signOut } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import { GiRingingBell } from "react-icons/gi";
 import { IoMdClose } from "react-icons/io";
+import { confirm } from "../../../../components/ui/ConfirmModal";
 export default function UserDropdown() {
   const router = useRouter();
   const { isOpen, onOpen, onOpenChange } = useDisclosure();
@@ -31,7 +31,7 @@ export default function UserDropdown() {
               src: "https://i.pravatar.cc/150?u=a042581f4e29026024d",
             }}
             className="transition-transform"
-            description="فروشنده"
+            description="خریدار"
             name="عباس رستمی"
           />
         </DropdownTrigger>
@@ -71,7 +71,7 @@ export default function UserDropdown() {
           </DropdownItem>
           <DropdownItem
             key="system"
-            onPress={() => router.push("/profile")}
+            onPress={() => router.push("/buyer/profile")}
             textValue="ویرایش اطلاعات کاربری"
           >
             <div className="flex items-center gap-2">
@@ -83,33 +83,17 @@ export default function UserDropdown() {
             textValue="خروج از حساب کاربری"
             key="logout"
             color="danger"
-            onPress={() => {
-              setTimeout(() => {
-                Swal.fire({
-                  title: "خروج از حساب کاربری",
-                  text: "آیا مطمئن هستید؟",
-                  icon: "warning",
-                  showCancelButton: true,
-                  confirmButtonText: "خروج",
-                  cancelButtonText: "انصراف",
-                  confirmButtonColor: "#d33",
-                  cancelButtonColor: "#aaa",
-                  customClass: {
-                    popup: "rounded-2xl shadow-lg dark:bg-gray-800",
-                    title: "text-lg font-bold text-gray-800 dark:text-white",
-                    htmlContainer: "text-sm text-gray-600 dark:text-gray-300",
-                    cancelButton:
-                      "bg-color2/20 hover:bg-color3 text-black dark:text-white px-4 py-2 rounded-md ml-2",
-                    confirmButton:
-                      "bg-color1  text-white px-4 py-2 ml-2 rounded-md",
-                  },
-                  buttonsStyling: false,
-                }).then((result) => {
-                  if (result.isConfirmed) {
-                    signOut({ callbackUrl: "/" });
-                  }
-                });
-              }, 0);
+            onPress={async () => {
+              const isConfirmed = await confirm({
+                title: "آیا از خروج از حساب کاربری مطمئن هستید؟",
+                description: "آیا مطمئن هستید؟",
+                confirmText: "خروج",
+                cancelText: "انصراف",
+              });
+
+              if (isConfirmed) {
+                signOut({ callbackUrl: "/" });
+              }
             }}
           >
             <div className="flex items-center gap-2">

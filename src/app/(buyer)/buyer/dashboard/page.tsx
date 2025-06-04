@@ -1,8 +1,8 @@
-import EcommerceMetrics from "./Dashboard/EcommerceMetrics";
-import MonthlyTarget from "./Dashboard/MonthlyTarget";
-import Statistics from "./Dashboard/Statistics";
-import UserProfileCard from "./Dashboard/UserProfileCard";
-import LastetReseves from "./Dashboard/LastetReseves";
+import EcommerceMetrics from "./components/EcommerceMetrics";
+import MonthlyTarget from "./components/MonthlyTarget";
+import Statistics from "./components/Statistics";
+import UserProfileCard from "./components/UserProfileCard";
+import LastetReseves from "./components/LastetReseves";
 
 export default function Home() {
   return (

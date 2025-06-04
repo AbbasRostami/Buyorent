@@ -338,12 +338,14 @@ export default function RealStatesTable({ data }: any) {
                       {row.getVisibleCells().map((cell) => (
                         <td
                           key={cell.id}
-                          className="p-3 text-gray-700 dark:text-gray-300 whitespace-nowrap"
+                          className="p-3 text-gray-700 dark:text-gray-300 whitespace-nowrap text-center"
                         >
-                          {flexRender(
-                            cell.column.columnDef.cell,
-                            cell.getContext()
-                          )}
+                          <div className="flex items-center justify-center">
+                            {flexRender(
+                              cell.column.columnDef.cell,
+                              cell.getContext()
+                            )}
+                          </div>
                         </td>
                       ))}
                     </tr>

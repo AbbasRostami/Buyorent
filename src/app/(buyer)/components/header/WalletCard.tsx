@@ -92,9 +92,45 @@ const WalletCard = () => {
 
   if (!isExpanded && !isHovered && !isMobileOpen) {
     return (
-      <div className="w-full flex-shrink-0 px-2 pb-6 mt-auto flex justify-center">
-        <GiWallet className="text-gray-700 dark:text-gray-200" size={32} />
-      </div>
+      <Dropdown placement="top-end" backdrop="opaque">
+        <DropdownTrigger>
+          <div className="w-full flex-shrink-0 px-2 pb-6 mt-auto flex justify-center cursor-pointer">
+            <GiWallet className="text-gray-700 dark:text-gray-200" size={32} />
+          </div>
+        </DropdownTrigger>
+        <DropdownMenu
+          aria-label="Wallet Actions"
+          className="min-w-[220px] text-right"
+        >
+          <DropdownItem key="settings" textValue="شارژ کردن کیف پول">
+            <div className="flex items-center gap-2 text-medium">
+              <FaPlusCircle />
+              شارژ کردن کیف پول
+            </div>
+          </DropdownItem>
+          <DropdownItem
+            key="transactions"
+            textValue="لیست تراکنش ها"
+            className="justify-start"
+            onPress={onOpen}
+          >
+            <div className="flex items-center gap-2 text-medium">
+              <PiCurrencyDollarFill />
+              لیست تراکنش ها
+            </div>
+          </DropdownItem>
+          <DropdownItem
+            key="withdraw"
+            textValue="برداشت وجه"
+            className="justify-start"
+          >
+            <div className="flex items-center gap-2 text-medium">
+              <FaMoneyBillTransfer />
+              برداشت وجه
+            </div>
+          </DropdownItem>
+        </DropdownMenu>
+      </Dropdown>
     );
   }
 

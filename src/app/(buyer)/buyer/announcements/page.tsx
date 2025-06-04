@@ -10,8 +10,6 @@ export interface Announcement {
 }
 
 export default function AnnouncementsPage() {
-  const [data, setData] = useState<Announcement[]>([]);
-
   const initialData: Announcement[] = [
     {
       id: 1,
@@ -74,5 +72,8 @@ export default function AnnouncementsPage() {
       isRead: true,
     },
   ];
-  return <AnnouncementsTable data={initialData} setData={setData} />;
+
+  const [data, setData] = useState<Announcement[]>(initialData);
+
+  return <AnnouncementsTable data={data} setData={setData} />;
 }

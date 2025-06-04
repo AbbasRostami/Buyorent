@@ -11,6 +11,7 @@ import { BsPcHorizontal } from "react-icons/bs";
 import { useSidebar } from "../../context/SidebarContext";
 import { FaMoneyBillTransfer, FaUsersGear } from "react-icons/fa6";
 import CommentsCard from "../../components1/header/CommentsCard";
+import { Tooltip } from "@heroui/react";
 
 type NavItem = {
   name: string;
@@ -128,71 +129,88 @@ const AppSidebar: React.FC = () => {
       {items.map((nav, index) => (
         <li key={nav.name}>
           {nav.subItems ? (
-            <button
-              onClick={() => handleSubmenuToggle(index, menuType)}
-              className={`menu-item group flex items-center px-4 py-3 rounded-lg ${
-                openSubmenu?.type === menuType && openSubmenu?.index === index
-                  ? "menu-item-active"
-                  : "menu-item-inactive"
-              } cursor-pointer ${
-                !isExpanded && !isHovered
-                  ? "lg:justify-center"
-                  : "lg:justify-start"
-              }`}
+            <Tooltip
+              showArrow={true}
+              content={nav.name}
+              placement="left"
+              color="warning"
+              isDisabled={isExpanded || isMobileOpen}
+              className="rounded-lg"
             >
-              <span
-                className={`menu-item-icon-size flex items-center justify-center text-2xl ${
-                  openSubmenu?.type === menuType && openSubmenu?.index === index
-                    ? "menu-item-icon-active"
-                    : "menu-item-icon-inactive"
-                }`}
-              >
-                {nav.icon}
-              </span>
-              {(isExpanded || isHovered || isMobileOpen) && (
-                <span className="menu-item-text text-lg mr-3">{nav.name}</span>
-              )}
-              {(isExpanded || isHovered || isMobileOpen) && (
-                <BiChevronDown
-                  className={`mr-auto w-6 h-6 transition-transform duration-200 ${
-                    openSubmenu?.type === menuType &&
-                    openSubmenu?.index === index
-                      ? "rotate-180 text-brand-500"
-                      : ""
-                  }`}
-                />
-              )}
-            </button>
-          ) : (
-            nav.path && (
-              <Link
-                href={nav.path}
+              <button
+                onClick={() => handleSubmenuToggle(index, menuType)}
                 className={`menu-item group flex items-center px-4 py-3 rounded-lg ${
-                  isActive(nav.path) ? "menu-item-active" : "menu-item-inactive"
-                } ${
-                  !isExpanded && !isHovered
-                    ? "lg:justify-center"
-                    : "lg:justify-start"
+                  openSubmenu?.type === menuType && openSubmenu?.index === index
+                    ? "menu-item-active"
+                    : "menu-item-inactive"
+                } cursor-pointer ${
+                  !isExpanded ? "lg:justify-center" : "lg:justify-start"
                 }`}
               >
                 <span
                   className={`menu-item-icon-size flex items-center justify-center text-2xl ${
-                    isActive(nav.path)
+                    openSubmenu?.type === menuType &&
+                    openSubmenu?.index === index
                       ? "menu-item-icon-active"
                       : "menu-item-icon-inactive"
                   }`}
                 >
                   {nav.icon}
                 </span>
-                {(isExpanded || isHovered || isMobileOpen) && (
-                  <span className="menu-item-text text-medium  mr-3">
+                {(isExpanded || isMobileOpen) && (
+                  <span className="menu-item-text text-lg mr-3">
                     {nav.name}
                   </span>
                 )}
-              </Link>
+                {(isExpanded || isMobileOpen) && (
+                  <BiChevronDown
+                    className={`mr-auto w-6 h-6 transition-transform duration-200 ${
+                      openSubmenu?.type === menuType &&
+                      openSubmenu?.index === index
+                        ? "rotate-180 text-brand-500"
+                        : ""
+                    }`}
+                  />
+                )}
+              </button>
+            </Tooltip>
+          ) : (
+            nav.path && (
+              <Tooltip
+                content={nav.name}
+                placement="left"
+                showArrow={true}
+                color="warning"
+                isDisabled={isExpanded || isMobileOpen}
+                className="rounded-lg"
+              >
+                <Link
+                  href={nav.path}
+                  className={`menu-item group flex items-center px-4 py-3 rounded-lg ${
+                    isActive(nav.path)
+                      ? "menu-item-active"
+                      : "menu-item-inactive"
+                  } ${!isExpanded ? "lg:justify-center" : "lg:justify-start"}`}
+                >
+                  <span
+                    className={`menu-item-icon-size flex items-center justify-center text-2xl ${
+                      isActive(nav.path)
+                        ? "menu-item-icon-active"
+                        : "menu-item-icon-inactive"
+                    }`}
+                  >
+                    {nav.icon}
+                  </span>
+                  {(isExpanded || isMobileOpen) && (
+                    <span className="menu-item-text text-medium  mr-3">
+                      {nav.name}
+                    </span>
+                  )}
+                </Link>
+              </Tooltip>
             )
           )}
-          {nav.subItems && (isExpanded || isHovered || isMobileOpen) && (
+          {nav.subItems && (isExpanded || isMobileOpen) && (
             <div
               ref={(el) => {
                 subMenuRefs.current[`${menuType}-${index}`] = el;
@@ -257,7 +275,7 @@ const AppSidebar: React.FC = () => {
       className={`fixed flex flex-col lg:mt-0 top-0 px-2 right-0 bg-white dark:bg-gray-900 dark:border-gray-800 text-gray-900 h-screen transition-all duration-300 ease-in-out z-50 border-l border-gray-200 
         ${
           isExpanded || isMobileOpen
-            ? "w-[320px]"
+            ? "w-[260px]"
             : isHovered
             ? "w-[320px]"
             : "w-[110px]"
@@ -290,7 +308,7 @@ const AppSidebar: React.FC = () => {
                 width={70}
                 height={40}
               />
-              <h1 className="text-4xl font-extrabold mt-1 text-neutral-900 tracking-tight leading-none">
+              <h1 className="text-3xl font-extrabold mt-1 text-neutral-900 tracking-tight leading-none">
                 <span className="dark:text-emerald-400 bg-gradient-to-r from-neutral-900 via-neutral-700 to-neutral-900 bg-clip-text text-black drop-shadow-sm">
                   B
                 </span>
@@ -307,7 +325,7 @@ const AppSidebar: React.FC = () => {
         </Link>
       </div>
       <div className="flex flex-col overflow-y-auto duration-300 ease-linear no-scrollbar">
-        <nav className="mb-6">
+        <nav className="mb-6 !pr-2 !pl-0">
           <div className="flex flex-col gap-4">
             <div>
               <h2

@@ -13,13 +13,13 @@ import {
   SortingState,
 } from "@tanstack/react-table";
 import { Dispatch, SetStateAction, useMemo, useState } from "react";
-import Swal from "sweetalert2";
 import { CgCheck } from "react-icons/cg";
 import { BsArrowUp } from "react-icons/bs";
 import { BsArrowDown } from "react-icons/bs";
 import { MdNotificationsActive } from "react-icons/md";
 import { PiSealWarningBold } from "react-icons/pi";
 import { Announcement } from "./page";
+import { confirm } from "../../../../components/ui/ConfirmModal";
 
 const filterOptions = [
   { key: "all", label: "همه" },
@@ -110,35 +110,19 @@ export default function AnnouncementsTable({
     pageCount: Math.ceil(filteredData.length / ITEMS_PER_PAGE),
   });
 
-  function handleMarkAsRead(id: number) {
-    Swal.fire({
-      title:
-        "آیا مطمئن هستید که می‌خواهید این اعلان را به عنوان خوانده شده علامت بزنید؟",
-      icon: "warning",
-      showCancelButton: true,
-      confirmButtonText: "بله، علامت بزن",
-      cancelButtonText: "انصراف",
-      confirmButtonColor: "#43d854",
-      cancelButtonColor: "#aaa",
-      customClass: {
-        popup: "rounded-2xl shadow-lg dark:bg-gray-800",
-        title:
-          "text-medium font-medium leading-none text-gray-800 dark:text-white",
-        htmlContainer: "text-sm text-gray-600 dark:text-gray-300",
-        cancelButton:
-          "bg-color2/20 hover:bg-color3 text-black dark:text-white px-4 py-2 rounded-md ml-2",
-        confirmButton: "bg-color1 text-white px-4 py-2 ml-2 rounded-md",
-      },
-      buttonsStyling: false,
-    }).then((result) => {
-      if (result.isConfirmed) {
-        setData((prev) =>
-          prev.map((item) =>
-            item.id === id ? { ...item, isRead: true } : item
-          )
-        );
-      }
+  async function handleMarkAsRead(id: number) {
+    const isConfirmed = await confirm({
+      title: "آیا از علامت گذاری این اعلان به عنوان خوانده شده مطمئن هستید؟",
+      description: "این اعلان دیگر به عنوان خوانده نشده نمایش داده نخواهد شد.",
+      confirmText: "تایید",
+      cancelText: "لغو",
     });
+
+    if (isConfirmed) {
+      setData((prev) =>
+        prev.map((item) => (item.id === id ? { ...item, isRead: true } : item))
+      );
+    }
   }
 
   function handleMarkAsUnread(id: number) {
@@ -147,31 +131,17 @@ export default function AnnouncementsTable({
     );
   }
 
-  function handleMarkAllAsRead() {
-    Swal.fire({
-      title:
-        "آیا مطمئن هستید که می‌خواهید همه اعلان‌ها را به عنوان خوانده شده علامت بزنید؟",
-      icon: "warning",
-      showCancelButton: true,
-      confirmButtonText: "بله، علامت بزن",
-      cancelButtonText: "انصراف",
-      confirmButtonColor: "#43d854",
-      cancelButtonColor: "#aaa",
-      customClass: {
-        popup: "rounded-2xl shadow-lg dark:bg-gray-800",
-        title:
-          "text-medium font-medium leading-none text-gray-800 dark:text-white",
-        htmlContainer: "text-sm text-gray-600 dark:text-gray-300",
-        cancelButton:
-          "bg-color2/20 hover:bg-color3 text-black dark:text-white px-4 py-2 rounded-md ml-2",
-        confirmButton: "bg-color1 text-white px-4 py-2 ml-2 rounded-md",
-      },
-      buttonsStyling: false,
-    }).then((result) => {
-      if (result.isConfirmed) {
-        setData((prev) => prev.map((item) => ({ ...item, isRead: true })));
-      }
+  async function handleMarkAllAsRead() {
+    const isConfirmed = await confirm({
+      title: "آیا از علامت گذاری همه اعلان‌ها به عنوان خوانده شده مطمئن هستید؟",
+      description: "آیا مطمئن هستید؟",
+      confirmText: "تایید",
+      cancelText: "انصراف",
     });
+
+    if (isConfirmed) {
+      setData((prev) => prev.map((item) => ({ ...item, isRead: true })));
+    }
   }
 
   return (
