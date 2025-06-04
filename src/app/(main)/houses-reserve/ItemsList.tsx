@@ -7,7 +7,12 @@ import React from "react";
 import { IoLocationOutline } from "react-icons/io5";
 import { MdOutlineNightsStay } from "react-icons/md";
 import { TfiFaceSad } from "react-icons/tfi";
-
+import { Swiper, SwiperSlide } from "swiper/react";
+import { Navigation, Pagination, Autoplay, EffectFade } from "swiper/modules";
+import "swiper/css";
+import "swiper/css/effect-fade";
+import "swiper/css/navigation";
+import "swiper/css/pagination";
 const ItemsList = ({ data }: { data: HouseReserveProps[] }) => {
   if (!data || data.length === 0) {
     return (
@@ -34,15 +39,36 @@ const ItemsList = ({ data }: { data: HouseReserveProps[] }) => {
             key={item.id}
             className="border border-[#EAEAEA] rounded-2xl shadow-sm hover:shadow-md transition p-4 flex flex-col min-h-[300px] overflow-hidden"
           >
-            <Image
-              unoptimized
-              width={300}
-              height={300}
-              src={item?.photos?.[0]}
-              alt={item.title}
-              className="w-full h-40 object-cover rounded-lg mb-4"
-            />
-            <h2 className="text-lg font-semibold truncate">{item.title}</h2>
+            <div className="relative w-full h-40">
+              <Swiper
+                modules={[Autoplay, Pagination, EffectFade]}
+                effect="fade"
+                fadeEffect={{
+                  crossFade: true,
+                }}
+                speed={2000}
+                autoplay={{
+                  delay: 2000,
+                  disableOnInteraction: false,
+                }}
+                loop={true}
+                className="flex justify-center items-center"
+              >
+                {item?.photos?.map((photo) => (
+                  <SwiperSlide key={photo}>
+                    <Image
+                      unoptimized
+                      width={300}
+                      height={300}
+                      src={photo}
+                      alt={item.title}
+                      className="w-full h-40 object-cover rounded-lg mb-4"
+                    />
+                  </SwiperSlide>
+                ))}
+              </Swiper>
+            </div>
+            <h2 className="text-lg font-semibold truncate mt-2">{item.title}</h2>
 
             <div className="flex items-center justify-between gap-2 text-sm text-gray-500 mt-2 flex-wrap">
               <div className="flex items-center gap-1">

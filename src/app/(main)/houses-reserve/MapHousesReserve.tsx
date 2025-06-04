@@ -9,24 +9,28 @@ import { IoLocationOutline, IoSearchOutline } from "react-icons/io5";
 import toast from "react-hot-toast";
 
 import { renderToStaticMarkup } from "react-dom/server";
-import { GiPositionMarker } from "react-icons/gi";
 import { useTheme } from "next-themes";
 import { HouseReserveProps } from "@/types/HousesReserve";
 import Link from "next/link";
 import Image from "next/image";
-import { FaLocationCrosshairs } from "react-icons/fa6";
 
-// Create a function to generate custom icon for each property
+declare module "leaflet-routing-machine" {
+  interface RoutingControlOptions {
+    serviceUrl?: string;
+    createMarker?: () => L.Marker | null;
+  }
+}
+
 const createCustomIcon = (imageUrl: string) => {
   const iconMarkup = renderToStaticMarkup(
     <div className="relative">
       <Image
         unoptimized
-        src={imageUrl || <FaLocationCrosshairs size={20} />}
+        src={imageUrl || "./../../../assets/BUTORENT.png"}
         alt="property"
-        width={50}
-        height={50}
-        className="w-20 h-20 rounded-full object-cover border-2 border-white shadow-lg"
+        width={60}
+        height={60}
+        className="w-24 h-24 rounded-full object-cover border-2 border-white shadow-lg"
         style={{ objectFit: "cover", width: "100%", height: "100%" }}
       />
     </div>
@@ -35,8 +39,8 @@ const createCustomIcon = (imageUrl: string) => {
   return new L.DivIcon({
     html: iconMarkup,
     className: "",
-    iconSize: [40, 40],
-    iconAnchor: [20, 40],
+    iconSize: [50, 50],
+    iconAnchor: [25, 50],
   });
 };
 
@@ -48,7 +52,6 @@ L.Icon.Default.mergeOptions({
   shadowUrl: "https://unpkg.com/leaflet@1.7.1/dist/images/marker-shadow.png",
 });
 
-// Create default marker icon
 const defaultIcon = new L.Icon({
   iconUrl: "https://unpkg.com/leaflet@1.7.1/dist/images/marker-icon.png",
   iconRetinaUrl:
@@ -117,10 +120,15 @@ function RoutingMachine({
         missingRouteTolerance: 0,
       },
       show: false,
-      createMarker: function () {
-        return null; // Disable default markers
-      },
-    }).addTo(map);
+    } as any).addTo(map);
+
+    if (routingControl) {
+      (routingControl as any).options.serviceUrl =
+        "https://router.project-osrm.org/route/v1";
+      (routingControl as any).options.createMarker = function () {
+        return null;
+      };
+    }
 
     routingControlRef.current = routingControl;
 
@@ -278,6 +286,18 @@ export default function MapHousesReserve({
       ),
     }));
     setDistances(newDistances);
+
+    toast.success("موقعیت شما انتخاب شد حالا ملک موردنظر را انتخاب کنید", {
+      duration: 4000,
+      position: "top-center",
+      style: {
+        background: "#4CAF50",
+        color: "#fff",
+        fontSize: "14px",
+        padding: "16px",
+        borderRadius: "8px",
+      },
+    });
   };
 
   const handlePropertyClick = (
@@ -289,7 +309,6 @@ export default function MapHousesReserve({
     }
   };
 
-  // Add debounce for search
   useEffect(() => {
     const timer = setTimeout(() => {
       if (searchQuery.trim()) {
@@ -308,6 +327,7 @@ export default function MapHousesReserve({
       ? [data[0].location.lat, data[0].location.lng]
       : [36.5633, 53.0601];
   const { theme } = useTheme();
+
   const tileLayerUrl =
     theme === "dark"
       ? "https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png"
