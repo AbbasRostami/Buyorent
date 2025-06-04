@@ -22,6 +22,7 @@ export interface CommentItemProps {
 export interface ReplyFormValues {
   title: string;
   caption: string;
+  rating: number;
 }
 
 export type CreateReplyInput = {
@@ -41,8 +42,6 @@ export type CreateReplyResponse = {
   parent_comment_id: string;
   created_at: string;
 };
-
-
 
 // NewCommentModal.tsx
 

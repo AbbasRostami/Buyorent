@@ -38,4 +38,5 @@ export type HouseDetailsData = Pick<
   | "sellerName"
   | "last_updated"
   | "tags"
+  | "address"
 >;
