@@ -3,13 +3,10 @@
 import {
   Button,
   Chip,
-  Dropdown,
-  DropdownItem,
-  DropdownMenu,
-  DropdownTrigger,
   Pagination,
   SelectItem,
   Select,
+  SharedSelection,
 } from "@heroui/react";
 import {
   ColumnDef,
@@ -25,18 +22,17 @@ import {
 import { useMemo, useState } from "react";
 import { BsArrowDown, BsArrowUp } from "react-icons/bs";
 
-import Image from "next/image";
 import { MdOutlinePayments } from "react-icons/md";
 import { IoEyeSharp } from "react-icons/io5";
 import { PiSealWarningBold } from "react-icons/pi";
 
 export interface PaymentData {
   id: number;
-  title: string;
   date: string;
+  trackingNumber: string;
   price: number;
   status: "تایید شده" | "لغو شده";
-  image: string;
+  guests: string;
 }
 
 export default function PaymentTable({ data }: { data: PaymentData[] }) {
@@ -55,32 +51,7 @@ export default function PaymentTable({ data }: { data: PaymentData[] }) {
         cell: (info) => info.row.original.id,
         sortingFn: (rowA, rowB) => rowA.original.id - rowB.original.id,
       },
-      {
-        accessorKey: "image",
-        header: "تصویر",
-        cell: (info) => {
-          const value = info.getValue();
-          if (typeof value !== "string") return null;
-          return (
-            <Image
-              src={value}
-              alt="image"
-              width={42}
-              height={42}
-              className="rounded-full"
-            />
-          );
-        },
-      },
-      {
-        accessorKey: "title",
-        header: "نام اقامتگاه",
-        cell: (info) => {
-          const value = info.getValue();
-          return typeof value === "string" ? value : "";
-        },
-        enableSorting: true,
-      },
+
       {
         accessorKey: "date",
         header: "تاریخ پرداخت",
@@ -167,10 +138,35 @@ export default function PaymentTable({ data }: { data: PaymentData[] }) {
     autoResetPageIndex: false,
   });
 
+  const [statusFilter, setStatusFilter] = useState<string>("همه");
+  const [typeFilter, setTypeFilter] = useState<string>("همه");
+
+  const handleStatusFilterChange = (keys: SharedSelection) => {
+    const selected = keys.currentKey as string;
+    setStatusFilter(selected);
+
+    if (selected === "همه") {
+      table.getColumn("status")?.setFilterValue(undefined);
+    } else {
+      table.getColumn("status")?.setFilterValue(selected);
+    }
+  };
+
+  const handleTypeFilterChange = (keys: SharedSelection) => {
+    const selected = keys.currentKey as string;
+    setTypeFilter(selected);
+
+    if (selected === "همه") {
+      table.getColumn("guests")?.setFilterValue(undefined);
+    } else {
+      table.getColumn("guests")?.setFilterValue(selected);
+    }
+  };
+
   return (
-    <div className="space-y-4">
+    <div className="space-y-4 bg-white/90 shadow-2xl dark:bg-gray-800 p-4 rounded-2xl">
       <div className="flex items-center justify-between gap-2 pb-6 border-b-2 border-dashed border-amber-500">
-        <div className="flex items-center gap-2">
+        <div className="flex items-center gap-2 ">
           <MdOutlinePayments
             className="text-amber-900 dark:text-amber-200"
             size={30}
@@ -179,13 +175,35 @@ export default function PaymentTable({ data }: { data: PaymentData[] }) {
             لیست تراکنش های شما
           </span>
         </div>
-        <input
-          type="text"
-          placeholder="نام اقامتگاه مورد نظر را جستجو کنید..."
-          value={globalFilter}
-          onChange={(e) => setGlobalFilter(e.target.value)}
-          className="w-1/3 p-2 rounded-md border-2 border-amber-500"
-        />
+        <div className="flex items-center gap-2 w-1/3">
+          <Select
+            selectionMode="single"
+            onSelectionChange={handleStatusFilterChange}
+            selectedKeys={[statusFilter]}
+            aria-label="Status Filter"
+            disallowEmptySelection
+            color="warning"
+            variant="faded"
+          >
+            <SelectItem key="همه">همه</SelectItem>
+            <SelectItem key="تایید شده">تایید شده</SelectItem>
+            <SelectItem key="تایید نشده">تایید نشده</SelectItem>
+          </Select>
+          <Select
+            selectionMode="single"
+            onSelectionChange={handleTypeFilterChange}
+            selectedKeys={[typeFilter]}
+            aria-label="Type Filter"
+            disallowEmptySelection
+            color="warning"
+            variant="faded"
+          >
+            <SelectItem key="همه">همه</SelectItem>
+            <SelectItem key="شارژ کیف پول">شارژ کیف پول</SelectItem>
+            <SelectItem key="رزرو">رزرو</SelectItem>
+          </Select>
+         
+        </div>
       </div>
 
       <div className="overflow-x-auto  rounded-xl">

@@ -9,6 +9,7 @@ import {
   Pagination,
   Select,
   SelectItem,
+  useDisclosure,
 } from "@heroui/react";
 import {
   ColumnDef,
@@ -27,10 +28,10 @@ import { CgAdd } from "react-icons/cg";
 import { TiDeleteOutline } from "react-icons/ti";
 import { HiDotsHorizontal } from "react-icons/hi";
 import { FaHeart } from "react-icons/fa";
-
 import Image from "next/image";
 import { PiSealWarningBold } from "react-icons/pi";
 import { BookingDataFavo } from "./page";
+import FavoriteFilter from "./FavoriteFilter";
 
 export default function FavoriteTable({ data }: any) {
   const [sorting, setSorting] = useState([]);
@@ -150,23 +151,31 @@ export default function FavoriteTable({ data }: any) {
 
     autoResetPageIndex: false,
   });
+  const { isOpen, onOpen, onOpenChange } = useDisclosure();
 
   return (
-    <div className="space-y-4">
-      <div className="flex items-center justify-between gap-2 pb-6 border-b-2 border-dashed border-amber-500">
-        <div className="flex items-center gap-2">
+    <div className="space-y-4 bg-white/90 shadow-2xl dark:bg-gray-800 p-4 rounded-2xl">
+      <div className="flex flex-col md:flex-row items-center justify-between gap-2 pb-6 border-b-2 border-dashed border-amber-500">
+        <div className="flex items-center gap-2  w-full md:w-1/3">
           <FaHeart className="text-amber-900 dark:text-amber-200" size={30} />
           <span className="text-amber-500 text-xl font-bold  dark:text-amber-200 pb-3 border-b-4 border-amber-500 relative group transition-all duration-300 ease-in-out">
             لیست رزرو های ذخیره شده
           </span>
         </div>
-        <input
-          type="text"
-          placeholder="نام هتل مورد نظر را جستجو کنید..."
-          value={globalFilter}
-          onChange={(e) => setGlobalFilter(e.target.value)}
-          className="w-1/3 p-2 rounded-md border-2 border-amber-500"
-        />
+        <div className="flex flex-col md:flex-row justify-end items-center mt-4 md:mt-0 gap-2 w-full md:w-1/3">
+          <input
+            type="text"
+            placeholder="نام هتل مورد نظر را جستجو کنید..."
+            value={globalFilter}
+            onChange={(e) => setGlobalFilter(e.target.value)}
+            className=" p-2 rounded-md border-2 border-amber-500 w-full md:w-2/3"
+          />
+          <FavoriteFilter
+            isOpen={isOpen}
+            onOpen={onOpen}
+            onOpenChange={onOpenChange}
+          />
+        </div>
       </div>
 
       <div className="overflow-x-auto  rounded-xl">

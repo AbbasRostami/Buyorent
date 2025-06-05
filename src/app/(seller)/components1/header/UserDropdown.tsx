@@ -6,9 +6,8 @@ import {
   User,
 } from "@heroui/react";
 import { FaPlusCircle, FaSignOutAlt } from "react-icons/fa";
-import Swal from "sweetalert2";
 import { signOut } from "next-auth/react";
-import { useRouter } from "next/navigation";
+import { confirm } from "@/components/common/ConfirmModal";
 
 export default function UserDropdown() {
   return (
@@ -44,7 +43,11 @@ export default function UserDropdown() {
             />
           </DropdownItem>
 
-          <DropdownItem color="primary" key="settings" textValue="موجودی قابل برداشت">
+          <DropdownItem
+            color="primary"
+            key="settings"
+            textValue="موجودی قابل برداشت"
+          >
             <div className="flex items-center gap-2">
               <FaPlusCircle />
               موجودی قابل برداشت
@@ -55,33 +58,17 @@ export default function UserDropdown() {
             textValue="خروج از حساب کاربری"
             key="logout"
             color="danger"
-            onPress={() => {
-              setTimeout(() => {
-                Swal.fire({
-                  title: "خروج از حساب کاربری",
-                  text: "آیا مطمئن هستید؟",
-                  icon: "warning",
-                  showCancelButton: true,
-                  confirmButtonText: "خروج",
-                  cancelButtonText: "انصراف",
-                  confirmButtonColor: "#d33",
-                  cancelButtonColor: "#aaa",
-                  customClass: {
-                    popup: "rounded-2xl shadow-lg dark:bg-gray-800",
-                    title: "text-lg font-bold text-gray-800 dark:text-white",
-                    htmlContainer: "text-sm text-gray-600 dark:text-gray-300",
-                    cancelButton:
-                      "bg-color2/20 hover:bg-color3 text-black dark:text-white px-4 py-2 rounded-md ml-2",
-                    confirmButton:
-                      "bg-color1  text-white px-4 py-2 ml-2 rounded-md",
-                  },
-                  buttonsStyling: false,
-                }).then((result) => {
-                  if (result.isConfirmed) {
-                    signOut({ callbackUrl: "/" });
-                  }
-                });
-              }, 0);
+            onPress={async () => {
+              const isConfirmed = await confirm({
+                title: "آیا از خروج از حساب کاربری مطمئن هستید؟",
+                description: "آیا مطمئن هستید؟",
+                confirmText: "خروج",
+                cancelText: "انصراف",
+              });
+
+              if (isConfirmed) {
+                signOut({ callbackUrl: "/" });
+              }
             }}
           >
             <div className="flex items-center gap-2">

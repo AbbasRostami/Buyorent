@@ -19,7 +19,7 @@ import { BsArrowDown } from "react-icons/bs";
 import { MdNotificationsActive } from "react-icons/md";
 import { PiSealWarningBold } from "react-icons/pi";
 import { Announcement } from "./page";
-import { confirm } from "../../../../components/ui/ConfirmModal";
+import { confirm } from "../../../../components/common/ConfirmModal";
 
 const filterOptions = [
   { key: "all", label: "همه" },
@@ -145,7 +145,7 @@ export default function AnnouncementsTable({
   }
 
   return (
-    <div className="space-y-4">
+    <div className="space-y-4 bg-white/90 shadow-2xl dark:bg-gray-800 p-4 rounded-2xl">
       <div className="flex flex-col md:flex-row items-center justify-between gap-2 pb-6 border-b-2 border-dashed border-amber-500">
         <div className="flex items-center gap-2">
           <MdNotificationsActive

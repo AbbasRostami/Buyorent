@@ -22,7 +22,6 @@ import {
   getPaginationRowModel,
   OnChangeFn,
   SortingState,
-  Row,
 } from "@tanstack/react-table";
 import { useMemo, useState } from "react";
 import { BsArrowDown, BsArrowUp } from "react-icons/bs";
@@ -34,6 +33,7 @@ import { FaPlusCircle } from "react-icons/fa";
 
 import Image from "next/image";
 import ModalDetails from "./ModalDetails";
+import BookingBuyerFilter from "./BookingFilter";
 
 export interface BookingData {
   id: number;
@@ -47,7 +47,16 @@ export interface BookingData {
 }
 
 export default function BookingTable({ data }: { data: BookingData[] }) {
-  const { isOpen, onOpen, onOpenChange } = useDisclosure();
+  const {
+    isOpen: isOpenFilter,
+    onOpen: onOpenFilter,
+    onOpenChange: onOpenChangeFilter,
+  } = useDisclosure();
+  const {
+    isOpen,
+    onOpen: onOpen,
+    onOpenChange: onOpenChange,
+  } = useDisclosure();
   const [sorting, setSorting] = useState<SortingState>([]);
   const [selectedRow, setSelectedRow] = useState<BookingData | null>(null);
   const [globalFilter, setGlobalFilter] = useState("");
@@ -241,9 +250,9 @@ export default function BookingTable({ data }: { data: BookingData[] }) {
   });
 
   return (
-    <div className="space-y-4">
-      <div className="flex items-center justify-between gap-2 pb-6 border-b-2 border-dashed border-amber-500">
-        <div className="flex items-center gap-2">
+    <div className="space-y-4 bg-white/90 shadow-2xl dark:bg-gray-800 p-4 rounded-2xl">
+      <div className="flex flex-col md:flex-row items-center justify-between gap-2 pb-6 border-b-2 border-dashed border-amber-500">
+        <div className="flex items-center gap-2  w-full md:w-1/3">
           <FaPlusCircle
             className="text-amber-900 dark:text-amber-200"
             size={30}
@@ -252,13 +261,20 @@ export default function BookingTable({ data }: { data: BookingData[] }) {
             لیست رزرو های شما
           </span>
         </div>
-        <input
-          type="text"
-          placeholder="نام اقامتگاه مورد نظر را جستجو کنید..."
-          value={globalFilter}
-          onChange={(e) => setGlobalFilter(e.target.value)}
-          className="w-1/3 p-2 rounded-md border-2 border-amber-500"
-        />
+        <div className="flex flex-col md:flex-row justify-end items-center mt-4 md:mt-0 gap-2 w-full md:w-1/3">
+          <input
+            type="text"
+            placeholder="نام هتل مورد نظر را جستجو کنید..."
+            value={globalFilter}
+            onChange={(e) => setGlobalFilter(e.target.value)}
+            className=" p-2 rounded-md border-2 border-amber-500 w-full md:w-2/3"
+          />
+          <BookingBuyerFilter
+            isOpenFilter={isOpenFilter}
+            onOpenFilter={onOpenFilter}
+            onOpenChangeFilter={onOpenChangeFilter}
+          />
+        </div>
       </div>
 
       <div className="overflow-x-auto  rounded-xl">

@@ -5,7 +5,7 @@ import AppSidebar from "./layout/AppSidebar";
 import Backdrop from "./layout/Backdrop";
 import AppHeader from "./layout/AppHeader";
 import { useSidebar } from "../context/SidebarContext";
-import { ConfirmModal } from "../../../components/ui/ConfirmModal";
+import { ConfirmModal } from "../../../components/common/ConfirmModal";
 
 export default function DashboardClient({
   children,

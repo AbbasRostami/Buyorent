@@ -10,6 +10,7 @@ import {
   Pagination,
   SelectItem,
   Select,
+  useDisclosure,
 } from "@heroui/react";
 import {
   ColumnDef,
@@ -49,7 +50,8 @@ import {
   PiArrowBendDoubleUpRightBold,
   PiSealWarningBold,
 } from "react-icons/pi";
-
+import { confirm, ConfirmModal } from "@/components/common/ConfirmModal";
+import RealStatesFilter from "./RealStatesFilter";
 export interface BookingDataRealState {
   id: number;
   title: string;
@@ -190,6 +192,17 @@ export default function RealStatesTable({ data }: any) {
                   key="delete"
                   className="text-danger"
                   color="danger"
+                  onPress={async () => {
+                    const isConfirmed = await confirm({
+                      title: "آیا از حذف ملک مطمئن هستید؟",
+                      description: "امکان بازگشت پس از حذف وجود ندارد!",
+                      confirmText: "حذف",
+                      cancelText: "انصراف",
+                    });
+                    if (isConfirmed) {
+                      console.log("حذف شد");
+                    }
+                  }}
                 >
                   <div className="flex items-center gap-2">
                     <TiDeleteOutline size={20} />
@@ -222,6 +235,7 @@ export default function RealStatesTable({ data }: any) {
 
   const [showStepper, setShowStepper] = useState(false);
 
+  const { isOpen, onOpen, onOpenChange } = useDisclosure();
   return (
     <div className="space-y-4 bg-white/90 shadow-2xl dark:bg-gray-800 p-4 rounded-2xl">
       {showStepper ? (
@@ -254,23 +268,30 @@ export default function RealStatesTable({ data }: any) {
         </div>
       ) : (
         <>
-          <div className="flex flex-col md:flex-row items-center justify-between gap-6 md:gap-2 pb-6 border-b-2 border-dashed border-amber-500">
-            <div className="flex items-center gap-2">
+          <div className="flex flex-col md:flex-row items-center justify-between gap-2 pb-6 border-b-2 border-dashed border-amber-500">
+            <div className="flex items-center gap-2  w-full md:w-1/3">
               <FaUsersGear
                 className="text-amber-900 dark:text-amber-200"
                 size={30}
               />
-              <span className="text-amber-500 text-xl font-bold  dark:text-amber-200  relative group transition-all duration-300 ease-in-out">
+              <span className="text-amber-500 text-xl font-bold  dark:text-amber-200 pb-3 border-b-4 border-amber-500 relative group transition-all duration-300 ease-in-out">
                 لیست املاک من
               </span>
             </div>
-            <input
-              type="text"
-              placeholder="نام اقامتگاه مورد نظر را جستجو کنید..."
-              value={globalFilter}
-              onChange={(e) => setGlobalFilter(e.target.value)}
-              className="w-full md:w-1/3 p-2 rounded-md border-2 border-amber-500"
-            />
+            <div className="flex flex-col md:flex-row justify-end items-center mt-4 md:mt-0 gap-2 w-full md:w-1/3">
+              <input
+                type="text"
+                placeholder="نام هتل مورد نظر را جستجو کنید..."
+                value={globalFilter}
+                onChange={(e) => setGlobalFilter(e.target.value)}
+                className=" p-2 rounded-md border-2 border-amber-500 w-full md:w-2/3"
+              />
+              <RealStatesFilter
+                isOpen={isOpen}
+                onOpen={onOpen}
+                onOpenChange={onOpenChange}
+              />
+            </div>
           </div>
 
           <div className="overflow-x-auto  rounded-xl">

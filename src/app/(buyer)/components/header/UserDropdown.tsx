@@ -16,7 +16,7 @@ import { signOut } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import { GiRingingBell } from "react-icons/gi";
 import { IoMdClose } from "react-icons/io";
-import { confirm } from "../../../../components/ui/ConfirmModal";
+import { confirm } from "../../../../components/common/ConfirmModal";
 export default function UserDropdown() {
   const router = useRouter();
   const { isOpen, onOpen, onOpenChange } = useDisclosure();

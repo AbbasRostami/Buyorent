@@ -22,7 +22,7 @@ interface ModalDetailsProps {
 }
 
 export default function ModalDetails({
-  isOpen,
+  isOpen ,
   onOpenChange,
   selectedRow,
 }: ModalDetailsProps) {
