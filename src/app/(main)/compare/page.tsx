@@ -1,6 +1,6 @@
 import { useServerData } from "@/utils/hooks/useServerData";
-import ClientWrapper from "./ClientWrapper";
 import { HouseSingleHousesProps } from "@/types/DetailsTypes";
+import ClientWrapper from "./components/ClientWrapper";
 
 export const revalidate = 300; 
 

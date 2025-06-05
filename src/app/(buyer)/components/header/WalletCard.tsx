@@ -9,6 +9,7 @@ import {
   ModalBody,
   ModalContent,
   ModalHeader,
+  Tooltip,
 } from "@heroui/react";
 import { FaPlusCircle } from "react-icons/fa";
 import { PiCurrencyDollarFill } from "react-icons/pi";
@@ -95,7 +96,12 @@ const WalletCard = () => {
       <Dropdown placement="top-end" backdrop="opaque">
         <DropdownTrigger>
           <div className="w-full flex-shrink-0 px-2 pb-6 mt-auto flex justify-center cursor-pointer">
-            <GiWallet className="text-gray-700 dark:text-gray-200" size={32} />
+            <Tooltip content="کیف پول" placement="left" color="warning" showArrow={true} className="rounded-lg">
+              <GiWallet
+                className="text-gray-700 dark:text-gray-200"
+                size={32}
+              />
+            </Tooltip>
           </div>
         </DropdownTrigger>
         <DropdownMenu
@@ -149,10 +155,12 @@ const WalletCard = () => {
                 </span>
                 <span className="text-xs text-gray-400 mt-1">عدم موجودی</span>
               </div>
-              <GiWallet
-                className="text-gray-700 dark:text-gray-200"
-                size={28}
-              />
+              <Tooltip content="کیف پول">
+                <GiWallet
+                  className="text-gray-700 dark:text-gray-200"
+                  size={28}
+                />
+              </Tooltip>
             </div>
           </div>
         </DropdownTrigger>

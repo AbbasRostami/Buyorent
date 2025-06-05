@@ -17,7 +17,6 @@ import { Swiper, SwiperSlide } from "swiper/react";
 import { Autoplay, EffectFade, Pagination } from "swiper/modules";
 import "swiper/css";
 import "swiper/css/effect-fade";
-
 import "swiper/css/pagination";
 import {
   useReactTable,
@@ -224,8 +223,7 @@ const CompareTable = ({
           </div>
 
           <p className="text-center text-gray-500 dark:text-gray-300">
-            با این جدول می‌توانید از بین املاک نتخاب کنید و
-            مقایسه کنید.
+            با این جدول می‌توانید از بین املاک نتخاب کنید و مقایسه کنید.
           </p>
         </div>
         <div className="flex justify-end mb-4 gap-2">
