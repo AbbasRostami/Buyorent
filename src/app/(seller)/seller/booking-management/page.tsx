@@ -1,7 +1,7 @@
 import image from "./../../../../assets/Avatar1.png";
 import image2 from "./../../../../assets/Avatar2.png";
 import image3 from "./../../../../assets/Avatar3.png";
-import BookingTable, { BookingData } from "./BookingTable";
+import BookingTable, { BookingData } from "./components/Table/BookingTable";
 
 export default function BookingManagementPage() {
   const data: BookingData[] = [

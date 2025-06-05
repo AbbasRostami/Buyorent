@@ -3,14 +3,14 @@ import { TbHomeFilled } from "react-icons/tb";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import Image from "next/image";
-import logo from "./../../../../assets/BUTORENT.png";
+import logo from "./../../../assets/BUTORENT.png";
 import { FaComments, FaPlusCircle } from "react-icons/fa";
 import { IoNotificationsSharp, IoPersonSharp } from "react-icons/io5";
 import { BiChevronDown } from "react-icons/bi";
 import { BsPcHorizontal } from "react-icons/bs";
-import { useSidebar } from "../../context/SidebarContext";
+import { useSidebar } from "../context/SidebarContext";
 import { FaMoneyBillTransfer, FaUsersGear } from "react-icons/fa6";
-import CommentsCard from "../../components1/header/CommentsCard";
+import CommentsCard from "../components1/Sidebar/CommentsCard";
 import { Tooltip } from "@heroui/react";
 
 type NavItem = {

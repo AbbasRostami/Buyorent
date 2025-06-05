@@ -2,13 +2,14 @@
 
 import {
   Button,
+  Chip,
   Dropdown,
   DropdownItem,
   DropdownMenu,
   DropdownTrigger,
   Pagination,
-  Select,
   SelectItem,
+  Select,
   useDisclosure,
 } from "@heroui/react";
 import {
@@ -24,24 +25,47 @@ import {
 } from "@tanstack/react-table";
 import { useMemo, useState } from "react";
 import { BsArrowDown, BsArrowUp } from "react-icons/bs";
-import { CgAdd } from "react-icons/cg";
 import { TiDeleteOutline } from "react-icons/ti";
+import { PiSealWarningBold, PiWarningCircleBold } from "react-icons/pi";
+import { GiWallet } from "react-icons/gi";
 import { HiDotsHorizontal } from "react-icons/hi";
-import { FaHeart } from "react-icons/fa";
-import Image from "next/image";
-import { PiSealWarningBold } from "react-icons/pi";
-import { BookingDataFavo } from "./page";
-import FavoriteFilter from "./FavoriteFilter";
+import { FaPlusCircle } from "react-icons/fa";
 
-export default function FavoriteTable({ data }: any) {
-  const [sorting, setSorting] = useState([]);
+import Image from "next/image";
+import ModalDetails from "../Details/ModalDetails";
+import BookingBuyerFilter from "../Filter/BookingFilter";
+
+export interface BookingData {
+  id: number;
+  title: string;
+  date: string;
+  price: number;
+  guests: number;
+  status: "تایید شده" | "در انتظار" | "لغو شده";
+  payment_status: "تایید شده" | "لغو شده";
+  image: string;
+}
+
+export default function BookingTable({ data }: { data: BookingData[] }) {
+  const {
+    isOpen: isOpenFilter,
+    onOpen: onOpenFilter,
+    onOpenChange: onOpenChangeFilter,
+  } = useDisclosure();
+  const {
+    isOpen,
+    onOpen: onOpen,
+    onOpenChange: onOpenChange,
+  } = useDisclosure();
+  const [sorting, setSorting] = useState<SortingState>([]);
+  const [selectedRow, setSelectedRow] = useState<BookingData | null>(null);
   const [globalFilter, setGlobalFilter] = useState("");
   const [pagination, setPagination] = useState({
     pageIndex: 0,
     pageSize: 5,
   });
 
-  const columns = useMemo<ColumnDef<BookingDataFavo>[]>(
+  const columns = useMemo<ColumnDef<BookingData>[]>(
     () => [
       {
         accessorKey: "id",
@@ -76,8 +100,17 @@ export default function FavoriteTable({ data }: any) {
         enableSorting: true,
       },
       {
+        accessorKey: "date",
+        header: "تاریخ رزرو",
+        cell: (info) => {
+          const value = info.getValue();
+          return typeof value === "string" ? value : "";
+        },
+        enableSorting: false,
+      },
+      {
         accessorKey: "price",
-        header: "قیمت",
+        header: "قیمت کل",
         cell: (info) => {
           const value = info.getValue();
           const numValue = typeof value === "number" ? value : Number(value);
@@ -93,10 +126,62 @@ export default function FavoriteTable({ data }: any) {
         },
       },
       {
-        accessorKey: "addres",
-        header: " آدرس",
-        cell: (info) => info.getValue(),
-        enableSorting: false,
+        accessorKey: "guests",
+        header: "تعداد مسافر",
+        cell: (info) => {
+          const value = info.getValue();
+          return typeof value === "number" ? value : Number(value);
+        },
+        enableSorting: true,
+        sortingFn: (rowA, rowB, columnId) => {
+          const a = rowA.getValue(columnId);
+          const b = rowB.getValue(columnId);
+          const numA = typeof a === "number" ? a : Number(a);
+          const numB = typeof b === "number" ? b : Number(b);
+          return numA - numB;
+        },
+      },
+      {
+        accessorKey: "status",
+        header: "وضعیت رزرو",
+        cell: (info) => {
+          const value = info.getValue();
+          if (typeof value !== "string") return null;
+          return (
+            <Chip
+              color={
+                value === "تایید شده"
+                  ? "success"
+                  : value === "در انتظار"
+                  ? "warning"
+                  : "danger"
+              }
+              variant="flat"
+              className="text-sm px-2 py-1 rounded-xl font-normal"
+            >
+              {value}
+            </Chip>
+          );
+        },
+        enableSorting: true,
+      },
+      {
+        accessorKey: "payment_status",
+        header: "وضعیت پرداخت",
+        cell: (info) => {
+          const value = info.getValue();
+          if (typeof value !== "string") return null;
+          return (
+            <Chip
+              color={value === "تایید شده" ? "success" : "danger"}
+              variant="flat"
+              className="text-sm px-2 py-1 rounded-xl font-normal"
+            >
+              {value}
+            </Chip>
+          );
+        },
+        enableSorting: true,
       },
       {
         accessorKey: "actions",
@@ -110,14 +195,26 @@ export default function FavoriteTable({ data }: any) {
                 </Button>
               </DropdownTrigger>
               <DropdownMenu aria-label="Static Actions">
-                <DropdownItem color="success" key="details" textValue="رزرو">
+                <DropdownItem color="success" key="payment">
                   <div className="flex items-center gap-2">
-                    <CgAdd size={20} />
-                    رزرو
+                    <GiWallet size={20} />
+                    پرداخت
                   </div>
                 </DropdownItem>
                 <DropdownItem
-                  textValue="حذف"
+                  color="warning"
+                  key="details"
+                  onPress={() => {
+                    setSelectedRow(info.row.original);
+                    onOpen();
+                  }}
+                >
+                  <div className="flex items-center gap-2">
+                    <PiWarningCircleBold size={20} />
+                    جزئیات
+                  </div>
+                </DropdownItem>
+                <DropdownItem
                   key="delete"
                   className="text-danger"
                   color="danger"
@@ -151,15 +248,17 @@ export default function FavoriteTable({ data }: any) {
 
     autoResetPageIndex: false,
   });
-  const { isOpen, onOpen, onOpenChange } = useDisclosure();
 
   return (
     <div className="space-y-4 bg-white/90 shadow-2xl dark:bg-gray-800 p-4 rounded-2xl">
       <div className="flex flex-col md:flex-row items-center justify-between gap-2 pb-6 border-b-2 border-dashed border-amber-500">
         <div className="flex items-center gap-2  w-full md:w-1/3">
-          <FaHeart className="text-amber-900 dark:text-amber-200" size={30} />
+          <FaPlusCircle
+            className="text-amber-900 dark:text-amber-200"
+            size={30}
+          />
           <span className="text-amber-500 text-xl font-bold  dark:text-amber-200 pb-3 border-b-4 border-amber-500 relative group transition-all duration-300 ease-in-out">
-            لیست رزرو های ذخیره شده
+            لیست رزرو های شما
           </span>
         </div>
         <div className="flex flex-col md:flex-row justify-end items-center mt-4 md:mt-0 gap-2 w-full md:w-1/3">
@@ -170,10 +269,10 @@ export default function FavoriteTable({ data }: any) {
             onChange={(e) => setGlobalFilter(e.target.value)}
             className=" p-2 rounded-md border-2 border-amber-500 w-full md:w-2/3"
           />
-          <FavoriteFilter
-            isOpen={isOpen}
-            onOpen={onOpen}
-            onOpenChange={onOpenChange}
+          <BookingBuyerFilter
+            isOpenFilter={isOpenFilter}
+            onOpenFilter={onOpenFilter}
+            onOpenChangeFilter={onOpenChangeFilter}
           />
         </div>
       </div>
@@ -205,7 +304,35 @@ export default function FavoriteTable({ data }: any) {
             ))}
           </thead>
           <tbody className="divide-y divide-gray-200 dark:divide-gray-700">
-            {table.getRowModel().rows.length === 0 ? (
+            {table.getRowModel().rows.length > 0 ? (
+              table.getRowModel().rows.map((row, index) => (
+                <tr
+                  key={row.id}
+                  className={`
+                    ${
+                      index % 2 === 0
+                        ? "bg-[#ebebe9] dark:bg-gray-800/80"
+                        : "bg-[#F8F8F8] dark:bg-gray-700/80"
+                    }
+                    hover:bg-amber-100/70 dark:hover:bg-gray-600
+                    transition-colors duration-200
+                    text-center
+                  `}
+                >
+                  {row.getVisibleCells().map((cell) => (
+                    <td
+                      key={cell.id}
+                      className="p-3 text-gray-700 dark:text-gray-300 whitespace-nowrap"
+                    >
+                      {flexRender(
+                        cell.column.columnDef.cell,
+                        cell.getContext()
+                      )}
+                    </td>
+                  ))}
+                </tr>
+              ))
+            ) : (
               <tr className="bg-white dark:bg-gray-800">
                 <td
                   colSpan={columns.length}
@@ -225,72 +352,49 @@ export default function FavoriteTable({ data }: any) {
                   </div>
                 </td>
               </tr>
-            ) : (
-              table.getRowModel().rows.map((row, index) => (
-                <tr
-                  key={row.id}
-                  className={`
-            ${
-              index % 2 === 0
-                ? "bg-[#ebebe9] dark:bg-gray-800/80"
-                : "bg-[#F8F8F8] dark:bg-gray-700/80"
-            }
-            hover:bg-amber-100/70 dark:hover:bg-gray-600
-            transition-colors duration-200
-            text-center
-          `}
-                >
-                  {row.getVisibleCells().map((cell) => (
-                    <td
-                      key={cell.id}
-                      className="p-3 text-gray-700 dark:text-gray-300 whitespace-nowrap text-center"
-                    >
-                      <div className="flex items-center justify-center">
-                        {flexRender(
-                          cell.column.columnDef.cell,
-                          cell.getContext()
-                        )}
-                      </div>
-                    </td>
-                  ))}
-                </tr>
-              ))
             )}
           </tbody>
         </table>
       </div>
-      <div className="flex flex-col-reverse md:flex-row justify-end items-center gap-6 md:gap-2">
-        <Select
-          variant="faded"
-          color="warning"
-          className="w-28"
-          aria-label="تعداد آیتم‌ها"
-          selectedKeys={[pagination.pageSize.toString()]}
-          renderValue={(items) => {
-            return `نمایش: ${items[0].key}`;
-          }}
-          onChange={(e) => {
-            const newSize = Number(e.target.value);
-            setPagination({
-              pageIndex: 0,
-              pageSize: newSize,
-            });
-          }}
-        >
-          {[5, 10, 15].map((size) => (
-            <SelectItem key={size}>{size}</SelectItem>
-          ))}
-        </Select>
-        <Pagination
-          dir="ltr"
-          color="warning"
-          isCompact
-          showControls
-          total={table.getPageCount()}
-          page={table.getState().pagination.pageIndex + 1}
-          onChange={(page) => table.setPageIndex(page - 1)}
-        />
-      </div>
+      {table.getRowModel().rows.length > 0 && (
+        <div className="flex flex-col-reverse md:flex-row justify-end items-center gap-6 md:gap-2">
+          <Select
+            variant="faded"
+            color="warning"
+            className="w-28"
+            aria-label="تعداد آیتم‌ها"
+            selectedKeys={[pagination.pageSize.toString()]}
+            renderValue={(items) => {
+              return `نمایش: ${items[0].key}`;
+            }}
+            onChange={(e) => {
+              const newSize = Number(e.target.value);
+              setPagination({
+                pageIndex: 0,
+                pageSize: newSize,
+              });
+            }}
+          >
+            {[5, 10, 15].map((size) => (
+              <SelectItem key={size}>{size}</SelectItem>
+            ))}
+          </Select>
+          <Pagination
+            dir="ltr"
+            color="warning"
+            isCompact
+            showControls
+            total={table.getPageCount()}
+            page={table.getState().pagination.pageIndex + 1}
+            onChange={(page) => table.setPageIndex(page - 1)}
+          />
+        </div>
+      )}
+      <ModalDetails
+        isOpen={isOpen}
+        onOpenChange={onOpenChange}
+        selectedRow={selectedRow as BookingData}
+      />
     </div>
   );
 }

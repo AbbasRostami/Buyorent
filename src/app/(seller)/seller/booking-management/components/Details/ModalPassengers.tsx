@@ -9,7 +9,7 @@ import {
   SortingState,
 } from "@tanstack/react-table";
 import { useState } from "react";
-import { BsArrowDown, BsArrowUp, BsCursorFill } from "react-icons/bs";
+import { BsArrowDown, BsArrowUp } from "react-icons/bs";
 import { FaListCheck } from "react-icons/fa6";
 import { RiTelegram2Fill } from "react-icons/ri";
 import { PiSealWarningBold } from "react-icons/pi";

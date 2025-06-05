@@ -39,19 +39,19 @@ import {
   FaImage,
   FaCheckCircle,
 } from "react-icons/fa";
-import Step2Address from "./steps/Step2Address";
-import Step3Facilities from "./steps/Step3Facilities";
-import Step4Images from "./steps/Step4Images";
-import Step5Confirm from "./steps/Step5Confirm";
-import Step1BasicInfo from "./steps/Step1BasicInfo";
-import AddEstateStepper from "./steps/AddEstateStepper";
+import Step1BasicInfo from "../Steps/Step1BasicInfo";
+import Step2Address from "../Steps/Step2Address";
+import Step3Facilities from "../Steps/Step3Facilities";
+import Step4Images from "../Steps/Step4Images";
+import Step5Confirm from "../Steps/Step5Confirm";
+import AddEstateStepper from "../Steps/AddEstateStepper";
+import RealStatesFilter from "../Filter/RealStatesFilter";
 import { MdOutlineBuildCircle } from "react-icons/md";
 import {
   PiArrowBendDoubleUpRightBold,
   PiSealWarningBold,
 } from "react-icons/pi";
-import { confirm, ConfirmModal } from "@/components/common/ConfirmModal";
-import RealStatesFilter from "./RealStatesFilter";
+import { confirm } from "@/components/common/ConfirmModal";
 export interface BookingDataRealState {
   id: number;
   title: string;

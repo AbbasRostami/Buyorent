@@ -1,4 +1,4 @@
-import FinancialTable, { BookingData } from "./FinancialTable";
+import FinancialTable, { BookingData } from "./components/FinancialTable";
 
 const data: BookingData[] = [
   {

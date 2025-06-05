@@ -10,11 +10,10 @@ import {
 } from "react-icons/md";
 import { HiHashtag } from "react-icons/hi";
 import { FaLocationDot } from "react-icons/fa6";
-import ModalReserve from "./ModalPassengers";
-import ModalPayments from "./ModalPayments";
 import { useDisclosure } from "@heroui/react";
-import ModalHistory from "./ModalHistory";
 import ModalPassengers from "./ModalPassengers";
+import ModalHistory from "./ModalHistory";
+import ModalPayments from "./ModalPayments";
 
 interface ModalDetailsProps {
   isOpen: boolean;
@@ -193,7 +192,7 @@ export default function ModalDetails({
           )}
         </ModalContent>
       </Modal>
-      <ModalReserve
+      <ModalPassengers
         isOpen={isReserveOpen}
         onOpenChange={onReserveOpenChange}
         selectedRow={selectedRow}
@@ -206,12 +205,6 @@ export default function ModalDetails({
       <ModalHistory
         isOpen={isModalHistoryOpen}
         onOpenChange={onHistoryOpenChange}
-        selectedRow={selectedRow}
-      />
-
-      <ModalPassengers
-        isOpen={isPassengerListOpen}
-        onOpenChange={onPassengerListOpenChange}
         selectedRow={selectedRow}
       />
     </>

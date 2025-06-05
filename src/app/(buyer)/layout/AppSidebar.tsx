@@ -4,13 +4,13 @@ import { MdNotificationsActive, MdOutlinePayments } from "react-icons/md";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import Image from "next/image";
-import logo from "./../../../../assets/BUTORENT.png";
+import logo from "./../../../assets/BUTORENT.png";
 import { FaHeart, FaPlusCircle } from "react-icons/fa";
 import { IoPersonSharp } from "react-icons/io5";
 import { BiChevronDown } from "react-icons/bi";
 import { BsPcHorizontal } from "react-icons/bs";
-import { useSidebar } from "../../context/SidebarContext";
-import WalletCard from "../../components/header/WalletCard";
+import { useSidebar } from "../context/SidebarContext";
+import WalletCard from "../components/Sidebar/WalletCard";
 import { Tooltip } from "@heroui/react";
 
 type NavItem = {

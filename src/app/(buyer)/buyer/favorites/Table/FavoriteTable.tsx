@@ -2,7 +2,6 @@
 
 import {
   Button,
-  Chip,
   Dropdown,
   DropdownItem,
   DropdownMenu,
@@ -25,48 +24,24 @@ import {
 } from "@tanstack/react-table";
 import { useMemo, useState } from "react";
 import { BsArrowDown, BsArrowUp } from "react-icons/bs";
+import { CgAdd } from "react-icons/cg";
 import { TiDeleteOutline } from "react-icons/ti";
-import { PiSealWarningBold, PiWarningCircleBold } from "react-icons/pi";
 import { HiDotsHorizontal } from "react-icons/hi";
-import { FaUsers } from "react-icons/fa";
+import { FaHeart } from "react-icons/fa";
+import Image from "next/image";
+import { PiSealWarningBold } from "react-icons/pi";
+import { BookingDataFavo } from "./page";
+import FavoriteFilter from "./Filter/FavoriteFilter";
 
-import ModalDetails from "./ModalDetails";
-import { SlBan } from "react-icons/sl";
-import { GiConfirmed } from "react-icons/gi";
-import BookingSellerFilter from "./BookingFilter";
-
-export interface BookingData {
-  id: number;
-  title: string;
-  title2: string;
-  date: string;
-  price: number;
-  passengers: string;
-  status: "تایید شده" | "در انتظار" | "لغو شده";
-  payment_status: "تایید شده" | "لغو شده";
-  image: string;
-}
-
-export default function BookingTable({ data }: any) {
-  const {
-    isOpen: isOpenFilter,
-    onOpen: onOpenFilter,
-    onOpenChange: onOpenChangeFilter,
-  } = useDisclosure();
-  const {
-    isOpen: isOpen,
-    onOpen: onOpen,
-    onOpenChange: onOpenChange,
-  } = useDisclosure();
+export default function FavoriteTable({ data }: any) {
   const [sorting, setSorting] = useState([]);
-  const [selectedRow, setSelectedRow] = useState<BookingData | null>(null);
   const [globalFilter, setGlobalFilter] = useState("");
   const [pagination, setPagination] = useState({
     pageIndex: 0,
     pageSize: 5,
   });
 
-  const columns = useMemo<ColumnDef<BookingData>[]>(
+  const columns = useMemo<ColumnDef<BookingDataFavo>[]>(
     () => [
       {
         accessorKey: "id",
@@ -74,28 +49,35 @@ export default function BookingTable({ data }: any) {
         cell: (info) => info.row.original.id,
         sortingFn: (rowA, rowB) => rowA.original.id - rowB.original.id,
       },
-
+      {
+        accessorKey: "image",
+        header: "تصویر",
+        cell: (info) => {
+          const value = info.getValue();
+          if (typeof value !== "string") return null;
+          return (
+            <Image
+              src={value}
+              alt="image"
+              width={42}
+              height={42}
+              className="rounded-full"
+            />
+          );
+        },
+      },
       {
         accessorKey: "title",
-        header: "نام ملک",
-        cell: (info) => info.getValue(),
+        header: "نام اقامتگاه",
+        cell: (info) => {
+          const value = info.getValue();
+          return typeof value === "string" ? value : "";
+        },
         enableSorting: true,
-      },
-      {
-        accessorKey: "title2",
-        header: "اطلاعات مسافر",
-        cell: (info) => info.getValue(),
-        enableSorting: true,
-      },
-
-      {
-        accessorKey: "date",
-        header: "تاریخ رزرو",
-        enableSorting: false,
       },
       {
         accessorKey: "price",
-        header: "قیمت کل",
+        header: "قیمت",
         cell: (info) => {
           const value = info.getValue();
           const numValue = typeof value === "number" ? value : Number(value);
@@ -110,47 +92,11 @@ export default function BookingTable({ data }: any) {
           return numA - numB;
         },
       },
-
       {
-        accessorKey: "status",
-        header: "وضعیت رزرو",
-        cell: (info) => {
-          const value = info.getValue();
-          return (
-            <Chip
-              color={
-                value === "تایید شده"
-                  ? "success"
-                  : value === "در انتظار"
-                  ? "warning"
-                  : "danger"
-              }
-              variant="shadow"
-              className="text-sm px-2 py-1 rounded-xl font-normal"
-            >
-              {value as string}
-            </Chip>
-          );
-        },
-        enableSorting: true,
-      },
-      {
-        accessorKey: "payment_status",
-        header: "وضعیت پرداخت",
-        cell: (info) => {
-          const value = info.getValue();
-
-          return (
-            <Chip
-              color={value === "تایید شده" ? "success" : "danger"}
-              variant="shadow"
-              className="text-sm px-2 py-1 rounded-xl font-normal"
-            >
-              {value as string}
-            </Chip>
-          );
-        },
-        enableSorting: true,
+        accessorKey: "addres",
+        header: " آدرس",
+        cell: (info) => info.getValue(),
+        enableSorting: false,
       },
       {
         accessorKey: "actions",
@@ -163,34 +109,15 @@ export default function BookingTable({ data }: any) {
                   <HiDotsHorizontal size={20} />
                 </Button>
               </DropdownTrigger>
-
               <DropdownMenu aria-label="Static Actions">
-                <DropdownItem color="success" key="payment">
+                <DropdownItem color="success" key="details" textValue="رزرو">
                   <div className="flex items-center gap-2">
-                    <GiConfirmed size={20} />
-                    تایید رزرو
-                  </div>
-                </DropdownItem>
-                <DropdownItem color="danger" key="payment">
-                  <div className="flex items-center gap-2">
-                    <SlBan size={20} />
-                    لغو رزرو
+                    <CgAdd size={20} />
+                    رزرو
                   </div>
                 </DropdownItem>
                 <DropdownItem
-                  color="warning"
-                  key="details"
-                  onPress={() => {
-                    setSelectedRow(info.row.original);
-                    onOpen();
-                  }}
-                >
-                  <div className="flex items-center gap-2">
-                    <PiWarningCircleBold size={20} />
-                    جزئیات
-                  </div>
-                </DropdownItem>
-                <DropdownItem
+                  textValue="حذف"
                   key="delete"
                   className="text-danger"
                   color="danger"
@@ -224,14 +151,15 @@ export default function BookingTable({ data }: any) {
 
     autoResetPageIndex: false,
   });
+  const { isOpen, onOpen, onOpenChange } = useDisclosure();
 
   return (
     <div className="space-y-4 bg-white/90 shadow-2xl dark:bg-gray-800 p-4 rounded-2xl">
       <div className="flex flex-col md:flex-row items-center justify-between gap-2 pb-6 border-b-2 border-dashed border-amber-500">
         <div className="flex items-center gap-2  w-full md:w-1/3">
-          <FaUsers className="text-amber-900 dark:text-amber-200" size={30} />
+          <FaHeart className="text-amber-900 dark:text-amber-200" size={30} />
           <span className="text-amber-500 text-xl font-bold  dark:text-amber-200 pb-3 border-b-4 border-amber-500 relative group transition-all duration-300 ease-in-out">
-            لیست رزرو های مشتریان
+            لیست رزرو های ذخیره شده
           </span>
         </div>
         <div className="flex flex-col md:flex-row justify-end items-center mt-4 md:mt-0 gap-2 w-full md:w-1/3">
@@ -242,10 +170,10 @@ export default function BookingTable({ data }: any) {
             onChange={(e) => setGlobalFilter(e.target.value)}
             className=" p-2 rounded-md border-2 border-amber-500 w-full md:w-2/3"
           />
-          <BookingSellerFilter
-            isOpenFilter={isOpenFilter}
-            onOpenFilter={onOpenFilter}
-            onOpenChangeFilter={onOpenChangeFilter}
+          <FavoriteFilter
+            isOpen={isOpen}
+            onOpen={onOpen}
+            onOpenChange={onOpenChange}
           />
         </div>
       </div>
@@ -315,12 +243,14 @@ export default function BookingTable({ data }: any) {
                   {row.getVisibleCells().map((cell) => (
                     <td
                       key={cell.id}
-                      className="p-3 text-gray-700 dark:text-gray-300 whitespace-nowrap"
+                      className="p-3 text-gray-700 dark:text-gray-300 whitespace-nowrap text-center"
                     >
-                      {flexRender(
-                        cell.column.columnDef.cell,
-                        cell.getContext()
-                      )}
+                      <div className="flex items-center justify-center">
+                        {flexRender(
+                          cell.column.columnDef.cell,
+                          cell.getContext()
+                        )}
+                      </div>
                     </td>
                   ))}
                 </tr>
@@ -361,11 +291,6 @@ export default function BookingTable({ data }: any) {
           onChange={(page) => table.setPageIndex(page - 1)}
         />
       </div>
-      <ModalDetails
-        isOpen={isOpen}
-        onOpenChange={onOpenChange}
-        selectedRow={selectedRow as BookingData}
-      />
     </div>
   );
 }

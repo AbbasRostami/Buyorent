@@ -2,8 +2,8 @@
 import { useEffect, useRef, useState } from "react";
 import { ThemeSwitcher } from "@/context/ThemeSwitcher";
 import { HiOutlineBellAlert } from "react-icons/hi2";
-import UserDropdown from "../../components1/header/UserDropdown";
-import { useSidebar } from "../../context/SidebarContext";
+import UserDropdown from "../components1/Header/UserDropdown";
+import { useSidebar } from "../context/SidebarContext";
 import {
   TbLayoutSidebarLeftCollapseFilled,
   TbLayoutSidebarLeftExpandFilled,
@@ -70,9 +70,15 @@ const AppHeader: React.FC = () => {
               </svg>
             ) : window.innerWidth >= 1024 ? (
               isExpanded ? (
-                <TbLayoutSidebarLeftCollapseFilled size={28} className="text-gray-800 dark:text-amber-50" />
+                <TbLayoutSidebarLeftCollapseFilled
+                  size={28}
+                  className="text-gray-800 dark:text-amber-50"
+                />
               ) : (
-                <TbLayoutSidebarLeftExpandFilled size={28} className="text-gray-800 dark:text-amber-50" />
+                <TbLayoutSidebarLeftExpandFilled
+                  size={28}
+                  className="text-gray-800 dark:text-amber-50"
+                />
               )
             ) : (
               <svg

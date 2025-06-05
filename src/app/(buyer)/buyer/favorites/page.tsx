@@ -1,8 +1,8 @@
 import React from "react";
-import FavoriteTable from "./FavoriteTable";
 import image from "./../../../../assets/Avatar1.png";
 import image2 from "./../../../../assets/Avatar2.png";
 import image3 from "./../../../../assets/Avatar3.png";
+import FavoriteTable from "./Table/FavoriteTable";
 export interface BookingDataFavo {
   id: number;
   title: string;

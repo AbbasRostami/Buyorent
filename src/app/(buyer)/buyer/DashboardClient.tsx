@@ -1,9 +1,9 @@
 "use client";
 
 import React from "react";
-import AppSidebar from "./layout/AppSidebar";
-import Backdrop from "./layout/Backdrop";
-import AppHeader from "./layout/AppHeader";
+import AppSidebar from "../layout/AppSidebar";
+import Backdrop from "../layout/Backdrop";
+import AppHeader from "../layout/AppHeader";
 import { useSidebar } from "../context/SidebarContext";
 import { ConfirmModal } from "../../../components/common/ConfirmModal";
 
