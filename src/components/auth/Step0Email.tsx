@@ -35,16 +35,14 @@ export const Step0Email = ({ onSuccess }: Step0EmailProps) => {
         <Form className="flex flex-col items-center gap-6">
           <p className="font-bold text-2xl">ایجاد حساب کاربری</p>
 
-          <div className="flex flex-col w-full items-center">
-            <label className="text-[#D27700] w-full font-bold text-right">
-              ایمیل
-            </label>
+          <div className="flex flex-col items-start gap-2 px-2">
+            <label className="text-[#D27700]  font-bold">ایمیل</label>
 
             <Field
               name="email"
               type="email"
               placeholder="ایمیل خود را وارد کنید"
-              className={`border-2 dark:bg-gray-800 dark:placeholder:text-amber-100 border-[#CCCCCC] bg-white rounded-lg w-[300px] h-[40px] p-2 ${
+              className={`border-2 dark:bg-gray-800 dark:placeholder:text-amber-100 border-[#CCCCCC] bg-white rounded-lg w-full h-[40px] px-2  ${
                 touched.email && errors.email ? "border-red-500" : ""
               }`}
             />

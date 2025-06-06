@@ -32,8 +32,8 @@ export const Step3Login = ({ onSuccess }: Step3LoginProps) => {
 
   return (
     <>
-      <div className="w-full max-w-[300px]">
-        <h2 className="font-bold text-2xl text-[#444444] dark:text-amber-100 mb-6 text-center">
+      <div className="w-full max-w-[300px] mt-10">
+        <h2 className="font-medium md:font-bold text-2xl text-[#444444] dark:text-amber-100 mb-2 text-center">
           ورود به حساب کاربری
         </h2>
 
@@ -106,10 +106,10 @@ export const Step3Login = ({ onSuccess }: Step3LoginProps) => {
           )}
         </Formik>
       </div>
-      <div className="flex flex-col sm:flex-row justify-center items-center gap-3 sm:gap-4 w-[24rem] mx-auto">
+      <div className="flex flex-col lg:flex-row justify-center items-center gap-3 sm:gap-2 w-full sm:w-[320px]">
         <button
           onClick={() => signIn("github", { callbackUrl: "/" })}
-          className="w-full cursor-pointer sm:w-auto flex-1 flex justify-center items-center gap-2 bg-white dark:bg-slate-800 text-gray-800 dark:text-white py-2 px-4 rounded-xl shadow-md hover:bg-blue-100 dark:hover:bg-slate-700 transition-all duration-300 transform hover:scale-105"
+          className="w-full sm:w-auto cursor-pointer  flex-1 flex justify-center items-center gap-2 bg-white dark:bg-slate-800 text-gray-800 dark:text-white py-2 px-4 rounded-xl shadow-md hover:bg-blue-100 dark:hover:bg-slate-700 transition-all duration-300 transform hover:scale-105"
         >
           <FaGithub size={22} />
           <span className="text-sm sm:text-base font-medium">ورود با گیتهاب</span>
@@ -117,7 +117,7 @@ export const Step3Login = ({ onSuccess }: Step3LoginProps) => {
 
         <button
           onClick={() => signIn("google", { callbackUrl: "/" })}
-          className="w-full cursor-pointer sm:w-auto flex-1 flex justify-center items-center gap-2 bg-white dark:bg-slate-800 text-black dark:text-white py-2 px-4 rounded-xl shadow-md hover:bg-amber-100 dark:hover:bg-amber-300/10 transition-all duration-300 transform hover:scale-105"
+          className="w-full sm:w-auto cursor-pointer  flex-1 flex justify-center items-center gap-2 bg-white dark:bg-slate-800 text-black dark:text-white py-2 px-4 rounded-xl shadow-md hover:bg-amber-100 dark:hover:bg-amber-300/10 transition-all duration-300 transform hover:scale-105"
         >
           <FcGoogle size={22} />
           <span className="text-sm sm:text-base font-medium">ورود با گوگل</span>
