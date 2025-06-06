@@ -146,7 +146,6 @@ export default function AuthModal({
                     />
                   </>
                 )}
-                
               </div>
 
               {/* Desktop Register/Login Tabs */}
