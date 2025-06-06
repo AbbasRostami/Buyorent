@@ -18,6 +18,7 @@ export default function UserDropdown() {
             as="button"
             avatarProps={{
               isBordered: true,
+              color:"warning",
               src: "https://i.pravatar.cc/150?u=a042581f4e29026024d",
             }}
             className="transition-transform"
@@ -35,6 +36,7 @@ export default function UserDropdown() {
               as="button"
               avatarProps={{
                 isBordered: true,
+                color:"primary",
                 src: "https://i.pravatar.cc/150?u=a042581f4e29026024d",
               }}
               className="transition-transform"

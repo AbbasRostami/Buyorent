@@ -4,7 +4,6 @@ import { IoIosArrowBack } from "react-icons/io";
 
 import { MotionDiv, MotionP } from "../../../utils/providers/MotionWrapper";
 import Link from "next/link";
-import { HeroButton } from "../../../utils/providers/HeroUIClient";
 import HeroSectionFilter from "./HeroSectionFilter";
 
 export default function HeroSection() {
@@ -43,7 +42,7 @@ export default function HeroSection() {
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.8, duration: 1 }}
           >
-            <HeroButton className="group relative bg-gradient-to-br from-amber-300 via-amber-400 to-amber-500 text-amber-900 px-9 py-7 rounded-[3rem] text-xl md:text-2xl font-bold tracking-wide mt-10 transition-all duration-700 ease-[cubic-bezier(0.4,0,0.2,1)] hover:scale-[1.03] hover:shadow-2xl hover:shadow-amber-500/30 overflow-hidden isolate">
+            <button className="group relative bg-gradient-to-br from-amber-300 via-amber-400 to-amber-500 text-amber-900 px-9 py-7 rounded-[3rem] text-xl md:text-2xl font-bold tracking-wide mt-10 transition-all duration-700 ease-[cubic-bezier(0.4,0,0.2,1)] hover:scale-[1.03] hover:shadow-2xl hover:shadow-amber-500/30 overflow-hidden isolate">
               <div className="absolute inset-0 rounded-[3rem] overflow-hidden">
                 <div className="absolute -inset-[3px] animate-rotate-metallic bg-[conic-gradient(from_var(--angle),#f59e0b_0%,#d97706_30%,transparent_80%,#d97706_100%)] opacity-90" />
                 <div className="absolute inset-0 bg-gradient-to-br from-white/30 to-amber-100/50 backdrop-blur-sm m-[3px] rounded-[3rem]" />
@@ -75,7 +74,7 @@ export default function HeroSection() {
                   <IoIosArrowBack className="w-8 h-8 text-[#78350f] transition-transform duration-500 group-hover:translate-x-3 group-hover:text-[#92400e]" />
                 </span>
               </Link>
-            </HeroButton>
+            </button>
           </MotionDiv>
         </MotionDiv>
 

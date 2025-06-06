@@ -1,4 +1,3 @@
-import { HeroButton } from "@/utils/providers/HeroUIClient";
 import { IoIosArrowRoundBack, IoIosArrowRoundForward } from "react-icons/io";
 import { IoIosArrowBack } from "react-icons/io";
 import FavoritesSwiper from "./FavoritesSwiper";
@@ -8,13 +7,10 @@ export default function Favourites() {
     <div className=" relative  rounded-2xl  border-gray-200 bg-gray-100 overflow-hidden mt-38 step-5">
       {/* گوشه معکوس */}
       <div className="absolute bottom-0 right-12 rounded-tab">
-        <HeroButton
-          variant="light"
-          className="flex items-center border-1 border-gray-300 dark:bg-gray-800 bg-white mt-2 justify-center px-4 py-2 text-lg font-semibold text-gray-400 "
-        >
+        <button className="flex items-center border-1 border-gray-300 dark:bg-gray-800 bg-white mt-2 justify-center px-4 py-2 text-lg font-semibold text-gray-400 ">
           مشاهده همه
           <IoIosArrowBack className="text-lg mr-1" />
-        </HeroButton>
+        </button>
       </div>
 
       <div className="absolute top-0 right-0 rotate-180 rounded-tab-right">

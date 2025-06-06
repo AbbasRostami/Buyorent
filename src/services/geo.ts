@@ -32,8 +32,8 @@ export async function getCoordinates(address: string): Promise<Coordinates> {
   try {
     let response = await fetch(
       `${
-        process.env.NEXT_MAP_API_URL
-      }/search?format=json&q=${encodeURIComponent(address)}&countrycodes=ir`,
+        process.env.NEXT_PUBLIC_MAP_API_URL
+      }&q=${encodeURIComponent(address)}&countrycodes=ir`,
       {
         headers: {
           "User-Agent": "NextLevelPropertyApp/1.0",
@@ -52,7 +52,7 @@ export async function getCoordinates(address: string): Promise<Coordinates> {
 
       if (cityName) {
         response = await fetch(
-          `${process.env.NEXT_MAP_API_URL}&q=${encodeURIComponent(
+          `${process.env.NEXT_PUBLIC_MAP_API_URL}&q=${encodeURIComponent(
             cityName
           )}&countrycodes=ir`,
           {
@@ -108,7 +108,7 @@ export async function getNearbyPOIs(
     `;
 
     const response = await fetch(
-      `${process.env.NEXT_interpreter}/interpreter`,
+      `${process.env.NEXT_PUBLIC_INTERPRETER_URL}/interpreter`,
       {
         method: "POST",
         body: query,

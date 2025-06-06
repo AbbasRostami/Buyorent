@@ -66,6 +66,7 @@ const CommentItem: React.FC<CommentItemProps> = ({
           height={40}
           className="w-10 h-10 rounded-full object-cover"
           loading="lazy"
+          unoptimized
           placeholder="blur"
           blurDataURL="/placeholder-avatar.png"
         />
@@ -109,7 +110,7 @@ const CommentItem: React.FC<CommentItemProps> = ({
           color="warning"
           size="md"
           className="text-sm"
-          onClick={() =>
+          onPress={() =>
             setActiveReply((prev) => (prev === comment.id ? null : comment.id))
           }
         >

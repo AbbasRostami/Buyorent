@@ -21,7 +21,7 @@ import { HiOutlineUser } from "react-icons/hi2";
 import { usePathname, useRouter } from "next/navigation";
 import clsx from "clsx";
 import logo from "./../../assets/Landing/logo.png";
-import RegisterModal from "../auth/RegisterModal";
+import AuthModal from "../auth/AuthModal";
 import { signOut, useSession } from "next-auth/react";
 import { ThemeSwitcher } from "@/context/ThemeSwitcher";
 import Link from "next/link";
@@ -90,7 +90,7 @@ export default function Header() {
           </NavbarBrand>
         </NavbarContent>
 
-        <NavbarContent className="hidden md:flex gap-4" justify="center">
+        <NavbarContent className="hidden md:flex gap-2" justify="center">
           {navItems.map((item, index) => (
             <NavbarItem
               key={item.href}
@@ -104,18 +104,19 @@ export default function Header() {
                   "before:absolute before:bottom-0 before:left-0 before:w-0",
                   "before:h-[2px] before:bg-amber-500 before:transition-all before:duration-300",
                   "hover:before:w-full",
+                  "text-sm md:text-base lg:text-lg",
                   pathname === item.href
                     ? "text-amber-600 font-semibold bg-gradient-to-r from-amber-600 to-amber-400 bg-clip-text"
                     : "text-gray-700 hover:text-amber-600"
                 )}
               >
-                <span className="relative z-10 text-lg dark:text-white">
+                <span className="relative z-10 dark:text-white">
                   {item.label}
                 </span>
               </Link>
 
               {index < navItems.length - 1 && (
-                <div className="w-px h-6 bg-gradient-to-b from-transparent via-gray-300 to-transparent mx-3" />
+                <div className="w-px h-6 bg-gradient-to-b from-transparent via-gray-300 to-transparent mx-2 md:mx-3" />
               )}
             </NavbarItem>
           ))}
@@ -179,15 +180,16 @@ export default function Header() {
             <NavbarItem className="border-1.5 border-amber-700 px-2 py-1 rounded-xl">
               <button
                 onClick={() => setIsModalOpen(true)}
-                className="text-[#543000] dark:text-white flex gap-1.5 text-lg cursor-pointer"
+                className="text-[#543000] dark:text-white flex gap-1.5 text-sm md:text-base lg:text-lg cursor-pointer whitespace-nowrap"
               >
-                ثبت نام / ورود <HiOutlineUser size={25} />
+                ثبت نام / ورود
+                <HiOutlineUser size={20} className="md:w-6 hidden lg:block md:h-6" />
               </button>
             </NavbarItem>
           )}
         </NavbarContent>
 
-        <RegisterModal isOpen={isModalOpen} setIsOpen={setIsModalOpen} />
+        <AuthModal isOpen={isModalOpen} setIsOpen={setIsModalOpen} />
 
         <NavbarMenu
           className={clsx(
