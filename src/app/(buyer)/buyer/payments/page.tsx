@@ -108,5 +108,5 @@ const data: any = [
 ];
 
 export default function PaymentsPage() {
-  return <PaymentTable data={data} />;
+  return <PaymentTable paymentData={data} />;
 }

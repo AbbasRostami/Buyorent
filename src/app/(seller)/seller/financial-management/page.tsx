@@ -1,6 +1,6 @@
-import FinancialTable, { BookingData } from "./components/FinancialTable";
+import FinancialTable, { FinancialData } from "./Table/FinancialTable";
 
-const data: BookingData[] = [
+const data: FinancialData[] = [
   {
     id: 1,
     numbertransaction: "1234567890",
@@ -109,7 +109,7 @@ const data: BookingData[] = [
 export default function FinancialManagementPage() {
   return (
     <div>
-      <FinancialTable data={data || []} />
+      <FinancialTable financialData={data || []} />
     </div>
   );
 }

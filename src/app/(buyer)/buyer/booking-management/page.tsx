@@ -135,5 +135,5 @@ const data: BookingData[] = [
   },
 ];
 export default function BookingManagement() {
-  return <BookingTable data={data} />;
+  return <BookingTable bookingData={data} />;
 }

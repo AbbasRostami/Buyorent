@@ -1,35 +1,29 @@
 "use client";
 
+import { useCustomTable } from "@/utils/hooks/useCustomTable";
 import {
   Button,
   Chip,
+  pagination,
   Pagination,
   Select,
   SelectItem,
   SharedSelection,
 } from "@heroui/react";
-import {
-  ColumnDef,
-  useReactTable,
-  getCoreRowModel,
-  getSortedRowModel,
-  getFilteredRowModel,
-  flexRender,
-  getPaginationRowModel,
-  OnChangeFn,
-  SortingState,
-} from "@tanstack/react-table";
+import { ColumnDef, flexRender } from "@tanstack/react-table";
 import { useMemo, useState } from "react";
 import { BsArrowDown, BsArrowUp } from "react-icons/bs";
+import { FaFileExcel, FaFilePdf } from "react-icons/fa";
 import {
   FaMoneyBillTransfer,
   FaMoneyBillTrendUp,
   FaMoneyBillWheat,
+  FaPrint,
 } from "react-icons/fa6";
 import { PiSealWarningBold } from "react-icons/pi";
 import { SiMoneygram } from "react-icons/si";
 
-export interface BookingData {
+export interface FinancialData {
   id: number;
   numbertransaction: string;
   date: string;
@@ -38,14 +32,12 @@ export interface BookingData {
   status: "تایید شده" | "تایید نشده";
 }
 
-export default function FinancialTable({ data }: any) {
-  const [sorting, setSorting] = useState([]);
-  const [pagination, setPagination] = useState({
-    pageIndex: 0,
-    pageSize: 5,
-  });
-
-  const columns = useMemo<ColumnDef<BookingData>[]>(
+export default function FinancialTable({
+  financialData,
+}: {
+  financialData: FinancialData[];
+}) {
+  const columns = useMemo<ColumnDef<FinancialData>[]>(
     () => [
       {
         accessorKey: "id",
@@ -171,17 +163,20 @@ export default function FinancialTable({ data }: any) {
     }
   };
 
-  const table = useReactTable({
-    data,
+  const {
+    table,
+    pagination,
+    setPageSize,
+    exportToExcel,
+    exportToPDF,
+    printTable,
+  } = useCustomTable<FinancialData>({
+    data: financialData,
     columns,
-    state: { sorting, pagination },
-    onSortingChange: setSorting as OnChangeFn<SortingState>,
-    onPaginationChange: setPagination,
-    getCoreRowModel: getCoreRowModel(),
-    getSortedRowModel: getSortedRowModel(),
-    getFilteredRowModel: getFilteredRowModel(),
-    getPaginationRowModel: getPaginationRowModel(),
-    autoResetPageIndex: false,
+    enableSorting: true,
+    enableFiltering: true,
+    enablePagination: true,
+    defaultPageSize: 5,
   });
 
   return (
@@ -345,37 +340,58 @@ export default function FinancialTable({ data }: any) {
             </tbody>
           </table>
         </div>
-        <div className="flex flex-col-reverse md:flex-row justify-end items-center gap-6 md:gap-2">
-          <Select
-            variant="faded"
-            color="warning"
-            className="w-28"
-            aria-label="تعداد آیتم‌ها"
-            selectedKeys={[pagination.pageSize.toString()]}
-            renderValue={(items) => {
-              return `نمایش: ${items[0].key}`;
-            }}
-            onChange={(e) => {
-              const newSize = Number(e.target.value);
-              setPagination({
-                pageIndex: 0,
-                pageSize: newSize,
-              });
-            }}
-          >
-            {[5, 10, 15].map((size) => (
-              <SelectItem key={size}>{size}</SelectItem>
-            ))}
-          </Select>
-          <Pagination
-            dir="ltr"
-            color="warning"
-            isCompact
-            showControls
-            total={table.getPageCount()}
-            page={table.getState().pagination.pageIndex + 1}
-            onChange={(page) => table.setPageIndex(page - 1)}
-          />
+        <div className="w-full flex flex-col-reverse md:flex-row justify-between items-center gap-5 md:gap-2">
+          <div className="w-full flex flex-col sm:flex-row items-start gap-2">
+            <Button variant="flat" color="success" onPress={exportToExcel}>
+              <FaFileExcel size={20} />
+              خروجی Excel
+            </Button>
+            <Button variant="flat" color="danger" onPress={exportToPDF}>
+              <FaFilePdf size={20} />
+              خروجی PDF
+            </Button>
+            <Button variant="flat" color="primary" onPress={printTable}>
+              <FaPrint size={20} />
+              چاپ
+            </Button>
+          </div>
+          <div className=" flex flex-col xl:flex-row items-center gap-3">
+            <Select
+              variant="faded"
+              color="warning"
+              className="w-28"
+              aria-label="تعداد آیتم‌ها"
+              selectedKeys={[pagination.pageSize.toString()]}
+              renderValue={(items) => {
+                return `نمایش: ${items[0].key}`;
+              }}
+              onChange={(e) => {
+                const newSize = Number(e.target.value);
+                setPageSize(newSize);
+              }}
+            >
+              {[5, 10, 15].map((size) => (
+                <SelectItem textValue="نمایش" key={size}>
+                  {size}
+                </SelectItem>
+              ))}
+            </Select>
+            <Pagination
+              dir="ltr"
+              color="warning"
+              isCompact
+              showControls
+              total={table.getPageCount()}
+              page={pagination.pageIndex + 1}
+              onChange={(page) =>
+                table.setPagination((prev) => ({
+                  ...prev,
+                  pageIndex: page - 1,
+                  pageSize: pagination.pageSize,
+                }))
+              }
+            />
+          </div>
         </div>
       </div>
     </>

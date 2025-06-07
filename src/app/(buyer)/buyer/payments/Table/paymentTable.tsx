@@ -7,24 +7,18 @@ import {
   SelectItem,
   Select,
   SharedSelection,
+  pagination,
 } from "@heroui/react";
-import {
-  ColumnDef,
-  useReactTable,
-  getCoreRowModel,
-  getSortedRowModel,
-  getFilteredRowModel,
-  flexRender,
-  getPaginationRowModel,
-  OnChangeFn,
-  SortingState,
-} from "@tanstack/react-table";
+import { ColumnDef, flexRender, SortingState } from "@tanstack/react-table";
 import { useMemo, useState } from "react";
 import { BsArrowDown, BsArrowUp } from "react-icons/bs";
 
 import { MdOutlinePayments } from "react-icons/md";
 import { IoEyeSharp } from "react-icons/io5";
 import { PiSealWarningBold } from "react-icons/pi";
+import { useCustomTable } from "@/utils/hooks/useCustomTable";
+import { FaPrint, FaFilePdf } from "react-icons/fa";
+import { FaFileExcel } from "react-icons/fa";
 
 export interface PaymentData {
   id: number;
@@ -35,14 +29,11 @@ export interface PaymentData {
   guests: string;
 }
 
-export default function PaymentTable({ data }: { data: PaymentData[] }) {
-  const [sorting, setSorting] = useState<SortingState>([]);
-  const [globalFilter, setGlobalFilter] = useState("");
-  const [pagination, setPagination] = useState({
-    pageIndex: 0,
-    pageSize: 5,
-  });
-
+export default function PaymentTable({
+  paymentData,
+}: {
+  paymentData: PaymentData[];
+}) {
   const columns = useMemo<ColumnDef<PaymentData>[]>(
     () => [
       {
@@ -123,19 +114,20 @@ export default function PaymentTable({ data }: { data: PaymentData[] }) {
     []
   );
 
-  const table = useReactTable({
-    data,
+  const {
+    table,
+    pagination,
+    setPageSize,
+    exportToExcel,
+    exportToPDF,
+    printTable,
+  } = useCustomTable<PaymentData>({
+    data: paymentData,
     columns,
-    state: { sorting, globalFilter, pagination },
-    onSortingChange: setSorting as OnChangeFn<SortingState>,
-    onGlobalFilterChange: setGlobalFilter,
-    onPaginationChange: setPagination,
-    getCoreRowModel: getCoreRowModel(),
-    getSortedRowModel: getSortedRowModel(),
-    getFilteredRowModel: getFilteredRowModel(),
-    getPaginationRowModel: getPaginationRowModel(),
-
-    autoResetPageIndex: false,
+    enableSorting: true,
+    enableFiltering: true,
+    enablePagination: true,
+    defaultPageSize: 5,
   });
 
   const [statusFilter, setStatusFilter] = useState<string>("همه");
@@ -202,7 +194,6 @@ export default function PaymentTable({ data }: { data: PaymentData[] }) {
             <SelectItem key="شارژ کیف پول">شارژ کیف پول</SelectItem>
             <SelectItem key="رزرو">رزرو</SelectItem>
           </Select>
-         
         </div>
       </div>
 
@@ -285,37 +276,58 @@ export default function PaymentTable({ data }: { data: PaymentData[] }) {
           </tbody>
         </table>
       </div>
-      <div className="flex flex-col-reverse md:flex-row justify-end items-center gap-6 md:gap-2">
-        <Select
-          variant="faded"
-          color="warning"
-          className="w-28"
-          aria-label="تعداد آیتم‌ها"
-          selectedKeys={[pagination.pageSize.toString()]}
-          renderValue={(items) => {
-            return `نمایش: ${items[0].key}`;
-          }}
-          onChange={(e) => {
-            const newSize = Number(e.target.value);
-            setPagination({
-              pageIndex: 0,
-              pageSize: newSize,
-            });
-          }}
-        >
-          {[5, 10, 15].map((size) => (
-            <SelectItem key={size}>{size}</SelectItem>
-          ))}
-        </Select>
-        <Pagination
-          dir="ltr"
-          color="warning"
-          isCompact
-          showControls
-          total={table.getPageCount()}
-          page={table.getState().pagination.pageIndex + 1}
-          onChange={(page) => table.setPageIndex(page - 1)}
-        />
+      <div className="w-full flex flex-col-reverse md:flex-row justify-between items-center gap-5 md:gap-2">
+        <div className="w-full flex flex-col sm:flex-row items-start gap-2">
+          <Button variant="flat" color="success" onPress={exportToExcel}>
+            <FaFileExcel size={20} />
+            خروجی Excel
+          </Button>
+          <Button variant="flat" color="danger" onPress={exportToPDF}>
+            <FaFilePdf size={20} />
+            خروجی PDF
+          </Button>
+          <Button variant="flat" color="primary" onPress={printTable}>
+            <FaPrint size={20} />
+            چاپ
+          </Button>
+        </div>
+        <div className=" flex flex-col xl:flex-row items-center gap-3">
+          <Select
+            variant="faded"
+            color="warning"
+            className="w-28"
+            aria-label="تعداد آیتم‌ها"
+            selectedKeys={[pagination.pageSize.toString()]}
+            renderValue={(items) => {
+              return `نمایش: ${items[0].key}`;
+            }}
+            onChange={(e) => {
+              const newSize = Number(e.target.value);
+              setPageSize(newSize);
+            }}
+          >
+            {[5, 10, 15].map((size) => (
+              <SelectItem textValue="نمایش" key={size}>
+                {size}
+              </SelectItem>
+            ))}
+          </Select>
+          <Pagination
+            dir="ltr"
+            color="warning"
+            isCompact
+            showControls
+            total={table.getPageCount()}
+            page={pagination.pageIndex + 1}
+            onChange={(page) =>
+              table.setPagination((prev) => ({
+                ...prev,
+                pageIndex: page - 1,
+                pageSize: pagination.pageSize,
+              }))
+            }
+          />
+        </div>
       </div>
     </div>
   );

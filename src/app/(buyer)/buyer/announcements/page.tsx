@@ -1,6 +1,6 @@
 "use client";
 import { useState } from "react";
-import AnnouncementsTable from "./AnnouncementsTable";
+import AnnouncementsTable from "./Table/AnnouncementsTable";
 
 export interface Announcement {
   id: number;
@@ -75,5 +75,7 @@ export default function AnnouncementsPage() {
 
   const [data, setData] = useState<Announcement[]>(initialData);
 
-  return <AnnouncementsTable data={data} setData={setData} />;
+  return (
+    <AnnouncementsTable announcementData={data} setAnnouncementData={setData} />
+  );
 }

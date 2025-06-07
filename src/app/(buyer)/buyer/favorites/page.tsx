@@ -114,7 +114,7 @@ export default function FavoritePage() {
 
   return (
     <div>
-      <FavoriteTable data={data || []} />
+      <FavoriteTable favoriteData={data || []} />
     </div>
   );
 }

@@ -1,10 +1,12 @@
 import image from "./../../../../assets/Avatar1.png";
 import image2 from "./../../../../assets/Avatar2.png";
 import image3 from "./../../../../assets/Avatar3.png";
-import BookingTable, { BookingData } from "./components/Table/BookingTable";
+import BookingTable, {
+  BookingDataSeller,
+} from "./components/Table/BookingTable";
 
 export default function BookingManagementPage() {
-  const data: BookingData[] = [
+  const data: BookingDataSeller[] = [
     {
       id: 1,
       title: "هتل سراوان",
@@ -150,5 +152,5 @@ export default function BookingManagementPage() {
     },
   ];
 
-  return <BookingTable data={data} />;
+  return <BookingTable bookingDataSeller={data} />;
 }

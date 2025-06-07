@@ -1,9 +1,9 @@
 import image from "./../../../../assets/Avatar1.png";
 import image2 from "./../../../../assets/Avatar2.png";
 import image3 from "./../../../../assets/Avatar3.png";
-import RealStatesTable, { BookingDataRealState } from "./Table/RealStatesTable";
+import RealStatesTable, { RealStateData } from "./Table/RealStatesTable";
 
-const data: BookingDataRealState[] = [
+const data: RealStateData[] = [
   {
     id: 1,
     title: "هتل سراوان",
@@ -162,5 +162,5 @@ const data: BookingDataRealState[] = [
   },
 ];
 export default function RealStatesManagementPage() {
-  return <RealStatesTable data={data} />;
+  return <RealStatesTable realStateData={data} />;
 }

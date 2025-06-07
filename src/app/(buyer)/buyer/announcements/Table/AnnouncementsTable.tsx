@@ -18,8 +18,12 @@ import { BsArrowUp } from "react-icons/bs";
 import { BsArrowDown } from "react-icons/bs";
 import { MdNotificationsActive } from "react-icons/md";
 import { PiSealWarningBold } from "react-icons/pi";
-import { Announcement } from "./page";
-import { confirm } from "../../../../components/common/ConfirmModal";
+import { Announcement } from "../page";
+import { confirm } from "@/components/common/ConfirmModal";
+import { FaPrint } from "react-icons/fa";
+import { FaFilePdf } from "react-icons/fa";
+import { FaFileExcel } from "react-icons/fa";
+import { useCustomTable } from "@/utils/hooks/useCustomTable";
 
 const filterOptions = [
   { key: "all", label: "همه" },
@@ -28,26 +32,20 @@ const filterOptions = [
 ];
 
 export default function AnnouncementsTable({
-  data,
-  setData,
+  announcementData,
+  setAnnouncementData,
 }: {
-  data: Announcement[];
-  setData: Dispatch<SetStateAction<Announcement[]>>;
+  announcementData: Announcement[];
+  setAnnouncementData: Dispatch<SetStateAction<Announcement[]>>;
 }) {
   const [filter, setFilter] = useState("all");
-  const [sorting, setSorting] = useState<SortingState>([]);
   const [page, setPage] = useState(1);
-  const ITEMS_PER_PAGE = 4;
 
-  const filteredData = data?.filter((item) => {
+  const filteredData = announcementData?.filter((item) => {
     if (filter === "all") return true;
     if (filter === "read") return item.isRead;
     if (filter === "unread") return !item.isRead;
     return true;
-  });
-  const [pagination, setPagination] = useState({
-    pageIndex: 0,
-    pageSize: 5,
   });
 
   const columns = useMemo<ColumnDef<Announcement>[]>(
@@ -94,20 +92,23 @@ export default function AnnouncementsTable({
           ),
       },
     ],
-    [data]
+    []
   );
 
-  const table = useReactTable({
-    data,
+  const {
+    table,
+    pagination,
+    setPageSize,
+    exportToExcel,
+    exportToPDF,
+    printTable,
+  } = useCustomTable<Announcement>({
+    data: announcementData,
     columns,
-    state: { sorting },
-    onSortingChange: setSorting as OnChangeFn<SortingState>,
-    getCoreRowModel: getCoreRowModel(),
-    getSortedRowModel: getSortedRowModel(),
-    getFilteredRowModel: getFilteredRowModel(),
-    getPaginationRowModel: getPaginationRowModel(),
-    manualPagination: true,
-    pageCount: Math.ceil(filteredData.length / ITEMS_PER_PAGE),
+    enableSorting: true,
+    enableFiltering: true,
+    enablePagination: true,
+    defaultPageSize: 5,
   });
 
   async function handleMarkAsRead(id: number) {
@@ -119,14 +120,14 @@ export default function AnnouncementsTable({
     });
 
     if (isConfirmed) {
-      setData((prev) =>
+      setAnnouncementData((prev) =>
         prev.map((item) => (item.id === id ? { ...item, isRead: true } : item))
       );
     }
   }
 
   function handleMarkAsUnread(id: number) {
-    setData((prev) =>
+    setAnnouncementData((prev) =>
       prev.map((item) => (item.id === id ? { ...item, isRead: false } : item))
     );
   }
@@ -140,7 +141,9 @@ export default function AnnouncementsTable({
     });
 
     if (isConfirmed) {
-      setData((prev) => prev.map((item) => ({ ...item, isRead: true })));
+      setAnnouncementData((prev) =>
+        prev.map((item) => ({ ...item, isRead: true }))
+      );
     }
   }
 
@@ -256,37 +259,58 @@ export default function AnnouncementsTable({
           </tbody>
         </table>
       </div>
-      <div className="flex flex-col-reverse md:flex-row justify-end items-center gap-6 md:gap-2">
-        <Select
-          variant="faded"
-          color="warning"
-          className="w-28"
-          aria-label="تعداد آیتم‌ها"
-          selectedKeys={[pagination.pageSize.toString()]}
-          renderValue={(items) => {
-            return `نمایش: ${items[0].key}`;
-          }}
-          onChange={(e) => {
-            const newSize = Number(e.target.value);
-            setPagination({
-              pageIndex: 0,
-              pageSize: newSize,
-            });
-          }}
-        >
-          {[5, 10, 15].map((size) => (
-            <SelectItem key={size}>{size}</SelectItem>
-          ))}
-        </Select>
-        <Pagination
-          dir="ltr"
-          color="warning"
-          isCompact
-          showControls
-          total={table.getPageCount()}
-          page={table.getState().pagination.pageIndex + 1}
-          onChange={(page) => table.setPageIndex(page - 1)}
-        />
+      <div className="w-full flex flex-col-reverse md:flex-row justify-between items-center gap-5 md:gap-2">
+        <div className="w-full flex flex-col sm:flex-row items-start gap-2">
+          <Button variant="flat" color="success" onPress={exportToExcel}>
+            <FaFileExcel size={20} />
+            خروجی Excel
+          </Button>
+          <Button variant="flat" color="danger" onPress={exportToPDF}>
+            <FaFilePdf size={20} />
+            خروجی PDF
+          </Button>
+          <Button variant="flat" color="primary" onPress={printTable}>
+            <FaPrint size={20} />
+            چاپ
+          </Button>
+        </div>
+        <div className=" flex flex-col xl:flex-row items-center gap-3">
+          <Select
+            variant="faded"
+            color="warning"
+            className="w-28"
+            aria-label="تعداد آیتم‌ها"
+            selectedKeys={[pagination.pageSize.toString()]}
+            renderValue={(items) => {
+              return `نمایش: ${items[0].key}`;
+            }}
+            onChange={(e) => {
+              const newSize = Number(e.target.value);
+              setPageSize(newSize);
+            }}
+          >
+            {[5, 10, 15].map((size) => (
+              <SelectItem textValue="نمایش" key={size}>
+                {size}
+              </SelectItem>
+            ))}
+          </Select>
+          <Pagination
+            dir="ltr"
+            color="warning"
+            isCompact
+            showControls
+            total={table.getPageCount()}
+            page={pagination.pageIndex + 1}
+            onChange={(page) =>
+              table.setPagination((prev) => ({
+                ...prev,
+                pageIndex: page - 1,
+                pageSize: pagination.pageSize,
+              }))
+            }
+          />
+        </div>
       </div>
     </div>
   );

@@ -38,6 +38,9 @@ import {
   FaList,
   FaImage,
   FaCheckCircle,
+  FaPrint,
+  FaFilePdf,
+  FaFileExcel,
 } from "react-icons/fa";
 import Step1BasicInfo from "../Steps/Step1BasicInfo";
 import Step2Address from "../Steps/Step2Address";
@@ -52,7 +55,8 @@ import {
   PiSealWarningBold,
 } from "react-icons/pi";
 import { confirm } from "@/components/common/ConfirmModal";
-export interface BookingDataRealState {
+import { useCustomTable } from "@/utils/hooks/useCustomTable";
+export interface RealStateData {
   id: number;
   title: string;
   date: string;
@@ -73,15 +77,14 @@ export const stepsConfig = [
   { title: "تایید نهایی", icon: <FaCheckCircle />, component: Step5Confirm },
 ];
 
-export default function RealStatesTable({ data }: any) {
-  const [sorting, setSorting] = useState([]);
+export default function RealStatesTable({
+  realStateData,
+}: {
+  realStateData: RealStateData[];
+}) {
   const [globalFilter, setGlobalFilter] = useState("");
-  const [pagination, setPagination] = useState({
-    pageIndex: 0,
-    pageSize: 5,
-  });
 
-  const columns = useMemo<ColumnDef<BookingDataRealState>[]>(
+  const columns = useMemo<ColumnDef<RealStateData>[]>(
     () => [
       {
         accessorKey: "id",
@@ -218,19 +221,20 @@ export default function RealStatesTable({ data }: any) {
     []
   );
 
-  const table = useReactTable({
-    data,
+  const {
+    table,
+    pagination,
+    setPageSize,
+    exportToExcel,
+    exportToPDF,
+    printTable,
+  } = useCustomTable<RealStateData>({
+    data: realStateData,
     columns,
-    state: { sorting, globalFilter, pagination },
-    onSortingChange: setSorting as OnChangeFn<SortingState>,
-    onGlobalFilterChange: setGlobalFilter,
-    onPaginationChange: setPagination,
-    getCoreRowModel: getCoreRowModel(),
-    getSortedRowModel: getSortedRowModel(),
-    getFilteredRowModel: getFilteredRowModel(),
-    getPaginationRowModel: getPaginationRowModel(),
-
-    autoResetPageIndex: false,
+    enableSorting: true,
+    enableFiltering: true,
+    enablePagination: true,
+    defaultPageSize: 5,
   });
 
   const [showStepper, setShowStepper] = useState(false);
@@ -375,8 +379,8 @@ export default function RealStatesTable({ data }: any) {
               </tbody>
             </table>
           </div>
-          <div className="flex justify-between items-center flex-col-reverse md:flex-row gap-6 md:gap-2">
-            <div className="flex items-center gap-2 ">
+          <div className="w-full flex flex-col-reverse md:flex-row justify-between items-center gap-5 md:gap-2">
+            <div className="w-full flex flex-col sm:flex-row items-start gap-2">
               <Button
                 color="warning"
                 variant="shadow"
@@ -386,8 +390,20 @@ export default function RealStatesTable({ data }: any) {
                 <LuCirclePlus size={20} />
                 افزودن ملک
               </Button>
+              <Button variant="flat" color="success" onPress={exportToExcel}>
+                <FaFileExcel size={20} />
+                خروجی Excel
+              </Button>
+              <Button variant="flat" color="danger" onPress={exportToPDF}>
+                <FaFilePdf size={20} />
+                خروجی PDF
+              </Button>
+              <Button variant="flat" color="primary" onPress={printTable}>
+                <FaPrint size={20} />
+                چاپ
+              </Button>
             </div>
-            <div className="flex  justify-center items-center gap-4 md:gap-2">
+            <div className=" flex flex-col xl:flex-row items-center gap-3">
               <Select
                 variant="faded"
                 color="warning"
@@ -399,14 +415,13 @@ export default function RealStatesTable({ data }: any) {
                 }}
                 onChange={(e) => {
                   const newSize = Number(e.target.value);
-                  setPagination({
-                    pageIndex: 0,
-                    pageSize: newSize,
-                  });
+                  setPageSize(newSize);
                 }}
               >
                 {[5, 10, 15].map((size) => (
-                  <SelectItem key={size}>{size}</SelectItem>
+                  <SelectItem textValue="نمایش" key={size}>
+                    {size}
+                  </SelectItem>
                 ))}
               </Select>
               <Pagination
@@ -415,8 +430,14 @@ export default function RealStatesTable({ data }: any) {
                 isCompact
                 showControls
                 total={table.getPageCount()}
-                page={table.getState().pagination.pageIndex + 1}
-                onChange={(page) => table.setPageIndex(page - 1)}
+                page={pagination.pageIndex + 1}
+                onChange={(page) =>
+                  table.setPagination((prev) => ({
+                    ...prev,
+                    pageIndex: page - 1,
+                    pageSize: pagination.pageSize,
+                  }))
+                }
               />
             </div>
           </div>
