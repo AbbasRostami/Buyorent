@@ -11,9 +11,12 @@ const Customers = () => {
         <p className="text-[#D27700] dark:text-amber-500 text-3xl font-black text-nowrap step-7">
           بایورنت از نگاه مشتریان
         </p>
-        <h4 className="text-[#9A815F] dark:text-gray-300 text-[16px] font-medium text-nowrap pt-2 pr-2">
+        <p
+          className="text-[#9A815F] dark:text-gray-300 text-[16px] font-medium pt-2 pr-2
+             whitespace-normal md:whitespace-nowrap leading-relaxed"
+        >
           بدی های ما رو به ما بگید خوبی های ما رو به دیگران !
-        </h4>
+        </p>
       </div>
 
       <div className="relative ">

@@ -23,15 +23,13 @@ const imageMap: Record<string, any> = {
 };
 
 export default function CategorySwiper({ categories }: CategorytypeProps) {
-  const extendedCategories = [...categories, ...categories];
-
   return (
     <div className="w-full px-4 py-8 relative">
       {/* Buttons */}
-      <button className="custom-prev absolute top-1/2 -translate-y-1/2 -right-4 z-10 bg-gray-200 dark:bg-gray-800 w-10 h-10 rounded-full flex items-center justify-center shadow-md hover:bg-gray-300 transition">
+      <button className="custom-prev absolute top-1/2 -translate-y-1/2 -right-2 z-10 bg-gray-200 dark:bg-gray-800 w-10 h-10 rounded-full flex items-center justify-center shadow-md hover:bg-gray-300 transition">
         <IoIosArrowRoundForward className="dark:text-amber-100" size={25} />
       </button>
-      <button className="custom-next absolute top-1/2 -translate-y-1/2 -left-4 z-10 bg-gray-200 dark:bg-gray-800 w-10 h-10 rounded-full flex items-center justify-center shadow-md hover:bg-gray-300 transition">
+      <button className="custom-next absolute top-1/2 -translate-y-1/2 -left-2 z-10 bg-gray-200 dark:bg-gray-800 w-10 h-10 rounded-full flex items-center justify-center shadow-md hover:bg-gray-300 transition">
         <IoIosArrowRoundBack className="dark:text-amber-100" size={25} />
       </button>
 
@@ -53,7 +51,7 @@ export default function CategorySwiper({ categories }: CategorytypeProps) {
           1024: { slidesPerView: 6 },
         }}
       >
-        {extendedCategories.map((category) => {
+        {categories?.map((category) => {
           const img = imageMap[category.name] || condo;
           return (
             <SwiperSlide key={category.id} className="flex justify-center">

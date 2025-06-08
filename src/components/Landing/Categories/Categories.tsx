@@ -5,7 +5,8 @@ import { CategoryProps } from "@/types/LandingType";
 export default async function Categories() {
   const categories = await useServerData<CategoryProps[]>(
     "/categories",
-    "categories"
+    "categories",
+    60 * 60 * 24
   );
 
   return <CategorySwiper categories={categories} />;

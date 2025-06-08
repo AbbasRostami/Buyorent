@@ -19,9 +19,9 @@ interface FilterModalProps {
 }
 
 const destinations = [
-  { label: "تهران", value: "tehran" },
-  { label: "شیراز", value: "shiraz" },
-  { label: "اصفهان", value: "isfahan" },
+  { label: "تهران", value: "تهران" },
+  { label: "شیراز", value: "شیراز" },
+  { label: "اصفهان", value: "اصفهان" },
 ];
 
 const propertyTypes = [
@@ -57,6 +57,7 @@ const FilterModal = ({
     minMortgage: "",
     maxMortgage: "",
     sort: "",
+    search: "",
   });
 
   return (
@@ -89,7 +90,7 @@ const FilterModal = ({
                     onChange={(e) =>
                       setFilters((prev) => ({
                         ...prev,
-                        location: e.target.value,
+                        search: e.target.value,
                       }))
                     }
                   >

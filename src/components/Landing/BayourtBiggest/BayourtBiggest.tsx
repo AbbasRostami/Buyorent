@@ -13,7 +13,7 @@ const BayourtBiggest = () => {
     <>
       <div className="flex flex-col-reverse lg:flex-row justify-center items-center gap-12 px-8 md:px-8 mb-24">
         <MotionDiv
-          initial={{ opacity: 0, x: 200 }}
+          initial={{ opacity: 0, x: 150 }}
           whileInView={{ opacity: 1, x: 0 }}
           transition={{ duration: 3 }}
           viewport={{ once: true }}
@@ -61,9 +61,9 @@ const BayourtBiggest = () => {
         </MotionDiv>
 
         <MotionDiv
-          initial={{ opacity: 0, x: -200 }}
+          initial={{ opacity: 0, x: 150 }}
           whileInView={{ opacity: 1, x: 0 }}
-          transition={{ duration: 1 }}
+          transition={{ duration: 2 }}
           viewport={{ once: true }}
           className="w-full lg:w-1/2 flex justify-center relative ml-2 lg:ml-0"
         >

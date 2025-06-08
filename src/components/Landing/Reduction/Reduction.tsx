@@ -3,11 +3,7 @@ import ReductionCarousel from "./ReductionSwiper";
 import ReductionHeader from "./ReductionHeader";
 
 export default async function Reduction() {
-  const houses = await useServerData(
-    "/houses?limit=4&sort=rate&order=DESC&transactionType=",
-    "top-rated-houses",
-    60
-  );
+  const houses = await useServerData("/houses", "top-rated-houses", 60);
 
   return (
     <div className="relative rounded-2xl border-2 border-gray-200 mt-20">

@@ -27,6 +27,7 @@ const ClientWrapper = ({ initialData }: ClientWrapperProps) => {
     minMortgage: "",
     maxMortgage: "",
     sort: "",
+    search: "",
   });
 
   const isFilterActive = () => {
@@ -41,6 +42,7 @@ const ClientWrapper = ({ initialData }: ClientWrapperProps) => {
       "maxMortgage",
       "sort",
       "order",
+      "search",
     ];
 
     return paramsToCheck.some((param) => {
