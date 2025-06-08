@@ -7,6 +7,7 @@ import AppHeader from "../layout/AppHeader";
 import { useSidebar } from "../context/SidebarContext";
 import { Toaster } from "react-hot-toast";
 import { ConfirmModal } from "@/components/common/ConfirmModal";
+import SellerBreadcrumbs from "../components/BreadcrumbsSeller";
 
 export default function DashboardClient({
   children,
@@ -30,6 +31,7 @@ export default function DashboardClient({
         <Toaster position="top-center" />
         <div className="p-4 mx-auto max-w-(--breakpoint-2xl) md:p-6">
           <ConfirmModal />
+          <SellerBreadcrumbs/>
           {children}
         </div>
       </div>

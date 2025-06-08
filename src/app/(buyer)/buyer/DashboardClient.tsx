@@ -6,6 +6,7 @@ import Backdrop from "../layout/Backdrop";
 import AppHeader from "../layout/AppHeader";
 import { useSidebar } from "../context/SidebarContext";
 import { ConfirmModal } from "../../../components/common/ConfirmModal";
+import BuyerBreadcrumbs from "../components/BreadcrumbsBuyer";
 
 export default function DashboardClient({
   children,
@@ -28,7 +29,8 @@ export default function DashboardClient({
         <AppHeader />
         <div className="p-4 mx-auto max-w-(--breakpoint-2xl) md:p-6">
           <ConfirmModal />
-          {children}
+            <BuyerBreadcrumbs />
+            {children}
         </div>
       </div>
       <AppSidebar />

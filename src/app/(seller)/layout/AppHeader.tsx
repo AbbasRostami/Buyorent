@@ -2,7 +2,7 @@
 import { useEffect, useRef, useState } from "react";
 import { ThemeSwitcher } from "@/context/ThemeSwitcher";
 import { HiOutlineBellAlert } from "react-icons/hi2";
-import UserDropdown from "../components1/Header/UserDropdown";
+import UserDropdown from "../components/Header/UserDropdown";
 import { useSidebar } from "../context/SidebarContext";
 import {
   TbLayoutSidebarLeftCollapseFilled,

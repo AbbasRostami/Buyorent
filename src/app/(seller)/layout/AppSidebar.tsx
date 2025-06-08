@@ -10,7 +10,7 @@ import { BiChevronDown } from "react-icons/bi";
 import { BsPcHorizontal } from "react-icons/bs";
 import { useSidebar } from "../context/SidebarContext";
 import { FaMoneyBillTransfer, FaUsersGear } from "react-icons/fa6";
-import CommentsCard from "../components1/Sidebar/CommentsCard";
+import CommentsCard from "../components/Sidebar/CommentsCard";
 import { Tooltip } from "@heroui/react";
 
 type NavItem = {

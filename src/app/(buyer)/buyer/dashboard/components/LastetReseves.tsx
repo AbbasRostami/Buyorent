@@ -363,7 +363,9 @@ export default function LastetReseves() {
           }}
         >
           {[5, 10, 15].map((size) => (
-            <SelectItem key={size}>{size}</SelectItem>
+            <SelectItem textValue={`نمایش: ${size}`} key={size}>
+              {size}
+            </SelectItem>
           ))}
         </Select>
         <Pagination
