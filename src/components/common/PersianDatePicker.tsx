@@ -3,7 +3,7 @@ import persian from "react-date-object/calendars/persian";
 import persian_fa from "react-date-object/locales/persian_fa";
 // @ts-ignore
 import transition from "react-element-popper/animations/transition";
-
+import "react-multi-date-picker/styles/backgrounds/bg-dark.css";
 interface PersianDatePickerProps extends DatePickerProps {}
 
 export default function PersianDatePicker(props: PersianDatePickerProps) {

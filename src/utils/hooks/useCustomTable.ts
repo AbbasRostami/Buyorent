@@ -213,6 +213,7 @@ export function useCustomTable<TData, TValue = unknown>({
     doc.save("table-export.pdf");
   }, [table]);
 
+  
   // function printTable
 
   const printTable = React.useCallback(() => {

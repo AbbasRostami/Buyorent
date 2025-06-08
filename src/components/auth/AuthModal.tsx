@@ -212,7 +212,7 @@ export default function AuthModal({
                 </button>
               </div>
 
-              <div className="h-full flex flex-col items-center justify-center gap-7 w-full ">
+              <div className="h-full flex flex-col items-center justify-center gap-7">
                 {renderStep()}
               </div>
 
@@ -228,7 +228,7 @@ export default function AuthModal({
                   className="hidden md:block"
                 />
               ) : (
-                <div className="w-full  hidden md:block">
+                <div className="hidden md:block w-28">
                   <VerticalStepper
                     currentStep={step}
                     step={step}

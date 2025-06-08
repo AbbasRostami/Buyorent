@@ -12,17 +12,7 @@ import {
   Select,
   useDisclosure,
 } from "@heroui/react";
-import {
-  ColumnDef,
-  useReactTable,
-  getCoreRowModel,
-  getSortedRowModel,
-  getFilteredRowModel,
-  flexRender,
-  getPaginationRowModel,
-  OnChangeFn,
-  SortingState,
-} from "@tanstack/react-table";
+import { ColumnDef, flexRender } from "@tanstack/react-table";
 import { useMemo, useState } from "react";
 import { BsArrowDown, BsArrowUp } from "react-icons/bs";
 
@@ -153,7 +143,13 @@ export default function RealStatesTable({
           const value = String(info.getValue());
           return (
             <Chip
-              color={value === "تایید شده" ? "success" : "danger"}
+              color={
+                value === "فعال"
+                  ? "success"
+                  : value === "غیرفعال"
+                  ? "danger"
+                  : "warning"
+              }
               variant="flat"
               className="text-sm px-2 py-1 rounded-xl font-normal"
             >

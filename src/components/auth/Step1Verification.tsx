@@ -72,7 +72,7 @@ export const Step1Verification = ({
           variant="faded"
           errorMessage="کد نامعتبر"
           length={6}
-          size="lg"
+          size="md"
           className="justify-center"
         />
 

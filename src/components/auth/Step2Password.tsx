@@ -128,7 +128,7 @@ export const Step2Password = ({
           </div>
 
           {/* Buttons */}
-          <div className="flex gap-4 w-full justify-center">
+          <div className="flex flex-col-reverse lg:flex-row gap-4 w-full justify-center">
             <button
               type="button"
               onClick={goBack}
