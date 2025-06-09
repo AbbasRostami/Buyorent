@@ -1,17 +1,7 @@
 "use client";
 
-import {
-  ColumnDef,
-  useReactTable,
-  getCoreRowModel,
-  getSortedRowModel,
-  getFilteredRowModel,
-  flexRender,
-  getPaginationRowModel,
-  OnChangeFn,
-  SortingState,
-} from "@tanstack/react-table";
-import { useMemo, useState } from "react";
+import { ColumnDef, flexRender } from "@tanstack/react-table";
+import { useMemo } from "react";
 import { BsArrowDown, BsArrowUp } from "react-icons/bs";
 import { FaPlusCircle } from "react-icons/fa";
 import image from "./../../../../../assets/Avatar1.png";
@@ -20,8 +10,9 @@ import image3 from "./../../../../../assets/Avatar3.png";
 import Image from "next/image";
 import { CgArrowTopLeftO } from "react-icons/cg";
 import { Chip, Pagination } from "@heroui/react";
+import { useCustomTable } from "@/utils/hooks/useCustomTable";
 
-export interface BookingData {
+export interface LastetResevesType {
   id: number;
   title: string;
   date: string;
@@ -31,14 +22,7 @@ export interface BookingData {
 }
 
 export default function LastetReseves() {
-  const [sorting, setSorting] = useState([]);
-  const [globalFilter, setGlobalFilter] = useState("");
-  const [pagination, setPagination] = useState({
-    pageIndex: 0,
-    pageSize: 5,
-  });
-
-  const columns = useMemo<ColumnDef<BookingData>[]>(
+  const columns = useMemo<ColumnDef<LastetResevesType>[]>(
     () => [
       {
         accessorKey: "id",
@@ -121,7 +105,7 @@ export default function LastetReseves() {
     []
   );
 
-  const data: BookingData[] = [
+  const lastetResevesData: LastetResevesType[] = [
     {
       id: 1,
       title: "هتل سراوان",
@@ -228,19 +212,13 @@ export default function LastetReseves() {
     },
   ];
 
-  const table = useReactTable({
-    data,
+  const { table } = useCustomTable({
+    data: lastetResevesData,
     columns,
-    state: { sorting, globalFilter, pagination },
-    onSortingChange: setSorting as OnChangeFn<SortingState>,
-    onGlobalFilterChange: setGlobalFilter,
-    onPaginationChange: setPagination,
-    getCoreRowModel: getCoreRowModel(),
-    getSortedRowModel: getSortedRowModel(),
-    getFilteredRowModel: getFilteredRowModel(),
-    getPaginationRowModel: getPaginationRowModel(),
-
-    autoResetPageIndex: false,
+    enableSorting: true,
+    enableFiltering: true,
+    enablePagination: true,
+    defaultPageSize: 5,
   });
 
   return (

@@ -37,6 +37,7 @@ export default function Header() {
   const router = useRouter();
   const { data: session } = useSession();
 
+  console.log("🔑 Session:", session);
   const navItems = [
     { label: "خانه", href: "/" },
     { label: "رهن و اجاره", href: "/mortgage-and-house-rent" },
@@ -141,6 +142,7 @@ export default function Header() {
                     as="button"
                     avatarProps={{
                       isBordered: true,
+                      color: "warning",
                       src: "https://i.pravatar.cc/150?u=a042581f4e29026024d",
                     }}
                     className="transition-transform text-right cursor-pointer hover:-translate-y-0.5"
@@ -149,17 +151,22 @@ export default function Header() {
                   />
                 </DropdownTrigger>
                 <DropdownMenu aria-label="User Actions" variant="flat">
-                  <DropdownItem key="profile" className="h-14 gap-2 text-right">
+                  <DropdownItem
+                    textValue={session?.user?.email || ""}
+                    key="profile"
+                    className="h-14 gap-2 text-right"
+                  >
                     <p className="font-bold">وارد شده با</p>
                     <p className="font-bold">{session?.user?.email}</p>
                   </DropdownItem>
                   <DropdownItem
+                    textValue="Settings"
                     key="settings"
                     onPress={() => router.push("/buyer/dashboard")}
                   >
                     تنظیمات من
                   </DropdownItem>
-                  <DropdownItem key="logout" color="danger">
+                  <DropdownItem textValue="Logout" key="logout" color="danger">
                     <button
                       onClick={handleLogout}
                       className="w-full flex items-center justify-between gap-2 cursor-pointer text-red-600"
@@ -183,7 +190,10 @@ export default function Header() {
                 className="text-[#543000] dark:text-white flex gap-1.5 text-sm md:text-base lg:text-lg cursor-pointer whitespace-nowrap"
               >
                 ثبت نام / ورود
-                <HiOutlineUser size={20} className="md:w-6 hidden lg:block md:h-6" />
+                <HiOutlineUser
+                  size={20}
+                  className="md:w-6 hidden lg:block md:h-6"
+                />
               </button>
             </NavbarItem>
           )}

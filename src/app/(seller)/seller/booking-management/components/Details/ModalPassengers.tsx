@@ -1,18 +1,12 @@
 import { Modal, ModalContent, ModalBody } from "@heroui/react";
 import { IoMdClose } from "react-icons/io";
-import {
-  ColumnDef,
-  useReactTable,
-  getCoreRowModel,
-  getSortedRowModel,
-  flexRender,
-  SortingState,
-} from "@tanstack/react-table";
-import { useState } from "react";
+import { ColumnDef, flexRender } from "@tanstack/react-table";
+import { useMemo } from "react";
 import { BsArrowDown, BsArrowUp } from "react-icons/bs";
 import { FaListCheck } from "react-icons/fa6";
 import { RiTelegram2Fill } from "react-icons/ri";
 import { PiSealWarningBold } from "react-icons/pi";
+import { useCustomTable } from "@/utils/hooks/useCustomTable";
 
 interface ModalReserveProps {
   isOpen: boolean;
@@ -31,8 +25,6 @@ export default function ModalPassengers({
   isOpen,
   onOpenChange,
 }: ModalReserveProps) {
-  const [sorting, setSorting] = useState<SortingState>([]);
-
   const reservations: ReservationData[] = [
     {
       id: 1,
@@ -48,50 +40,52 @@ export default function ModalPassengers({
     },
   ];
 
-  const columns: ColumnDef<ReservationData>[] = [
-    {
-      accessorKey: "id",
-      header: "ردیف",
-      cell: (info) => info.getValue(),
-    },
+  const columns = useMemo<ColumnDef<ReservationData>[]>(
+    () => [
+      {
+        accessorKey: "id",
+        header: "ردیف",
+        cell: (info) => info.getValue(),
+      },
 
-    {
-      accessorKey: "checkIn",
-      header: "نام ",
-      cell: (info) => info.getValue(),
-    },
-    {
-      accessorKey: "checkOut",
-      header: " جنسیت",
-      cell: (info) => info.getValue(),
-    },
-    {
-      accessorKey: "number",
-      header: " شماره تماس",
-      cell: (info) => info.getValue(),
-    },
-    {
-      accessorKey: "action",
-      header: "ارسال پیام",
-      cell: (info) => (
-        <div className="flex items-center justify-center gap-2">
-          <RiTelegram2Fill
-            size={20}
-            color="warning"
-            className="cursor-pointer"
-          />
-        </div>
-      ),
-    },
-  ];
-  const table = useReactTable({
+      {
+        accessorKey: "checkIn",
+        header: "نام ",
+        cell: (info) => info.getValue(),
+      },
+      {
+        accessorKey: "checkOut",
+        header: " جنسیت",
+        cell: (info) => info.getValue(),
+      },
+      {
+        accessorKey: "number",
+        header: " شماره تماس",
+        cell: (info) => info.getValue(),
+      },
+      {
+        accessorKey: "action",
+        header: "ارسال پیام",
+        cell: (info) => (
+          <div className="flex items-center justify-center gap-2">
+            <RiTelegram2Fill
+              size={20}
+              color="warning"
+              className="cursor-pointer"
+            />
+          </div>
+        ),
+      },
+    ],
+    []
+  );
+  const { table } = useCustomTable({
     data: reservations,
     columns,
-    state: { sorting },
-    onSortingChange: setSorting,
-    getCoreRowModel: getCoreRowModel(),
-    getSortedRowModel: getSortedRowModel(),
-    autoResetPageIndex: false,
+    enableSorting: true,
+    enableFiltering: true,
+    enablePagination: true,
+    defaultPageSize: 5,
   });
 
   return (
@@ -148,30 +142,30 @@ export default function ModalPassengers({
                     </thead>
                     <tbody className="divide-y divide-gray-200 dark:divide-gray-700">
                       {table.getRowModel().rows.length === 0 ? (
-                      <tr className="bg-white dark:bg-gray-800">
-                      <td
-                        colSpan={columns.length}
-                        className="text-center py-12 text-gray-500 dark:text-gray-400"
-                      >
-                        <div className="flex flex-col items-center justify-center">
-                          <PiSealWarningBold
-                            size={80}
-                            className=" text-amber-500 mb-4"
-                          />
-                          <p className="text-xl font-bold text-gray-700 dark:text-gray-300">
-                            موردی یافت نشد
-                          </p>
-                          <p className="mt-2 text-gray-500 dark:text-gray-400">
-                            هیچ رزروی با مشخصات جستجو شده یافت نشد
-                          </p>
-                        </div>
-                      </td>
+                        <tr className="bg-white dark:bg-gray-800">
+                          <td
+                            colSpan={columns.length}
+                            className="text-center py-12 text-gray-500 dark:text-gray-400"
+                          >
+                            <div className="flex flex-col items-center justify-center">
+                              <PiSealWarningBold
+                                size={80}
+                                className=" text-amber-500 mb-4"
+                              />
+                              <p className="text-xl font-bold text-gray-700 dark:text-gray-300">
+                                موردی یافت نشد
+                              </p>
+                              <p className="mt-2 text-gray-500 dark:text-gray-400">
+                                هیچ رزروی با مشخصات جستجو شده یافت نشد
+                              </p>
+                            </div>
+                          </td>
                         </tr>
                       ) : (
                         table.getRowModel().rows.map((row, index) => (
                           <tr
                             key={row.id}
-                          className={`
+                            className={`
                             ${
                               index % 2 === 0
                                 ? "bg-blue-50 dark:bg-gray-800/80"
@@ -181,19 +175,19 @@ export default function ModalPassengers({
                             transition-colors duration-200
                             text-center
                           `}
-                        >
-                          {row.getVisibleCells().map((cell) => (
-                            <td
-                              key={cell.id}
-                              className="p-3 text-gray-700 dark:text-gray-300 whitespace-nowrap"
-                            >
-                              {flexRender(
-                                cell.column.columnDef.cell,
-                                cell.getContext()
-                              )}
-                            </td>
-                          ))}
-                        </tr>
+                          >
+                            {row.getVisibleCells().map((cell) => (
+                              <td
+                                key={cell.id}
+                                className="p-3 text-gray-700 dark:text-gray-300 whitespace-nowrap"
+                              >
+                                {flexRender(
+                                  cell.column.columnDef.cell,
+                                  cell.getContext()
+                                )}
+                              </td>
+                            ))}
+                          </tr>
                         ))
                       )}
                     </tbody>

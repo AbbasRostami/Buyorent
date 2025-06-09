@@ -40,6 +40,12 @@ export const Step1Verification = ({
         verificationCode: code,
       });
     }
+    console.log("Code verified:", code);
+    console.log("Temp user ID:", tempUserId);
+    console.log("Email:", email);
+    console.log("Is verifying:", isVerifying);
+    console.log("Is resending:", isResending);
+    
   };
 
   const handleResendCode = () => {

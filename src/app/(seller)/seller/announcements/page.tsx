@@ -5,7 +5,6 @@ import { MdNotificationsActive } from "react-icons/md";
 // import { Button, Pagination, Select, SelectItem } from "@heroui/react";
 // import {
 //   ColumnDef,
-//   useReactTable,
 //   getCoreRowModel,
 //   getSortedRowModel,
 //   getFilteredRowModel,
@@ -163,17 +162,13 @@ import { MdNotificationsActive } from "react-icons/md";
 //     [data]
 //   );
 
-//   const table = useReactTable({
+//   const { table } = useCustomTable({
 //     data,
 //     columns,
-//     state: { sorting },
-//     onSortingChange: setSorting as OnChangeFn<SortingState>,
-//     getCoreRowModel: getCoreRowModel(),
-//     getSortedRowModel: getSortedRowModel(),
+//     enableSorting: true,
 //     getFilteredRowModel: getFilteredRowModel(),
 //     getPaginationRowModel: getPaginationRowModel(),
-//     manualPagination: true,
-//     pageCount: Math.ceil(filteredData.length / ITEMS_PER_PAGE),
+
 //   });
 
 //   function handleMarkAsRead(id: number) {

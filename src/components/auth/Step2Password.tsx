@@ -16,6 +16,7 @@ export const Step2Password = ({
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirm, setShowConfirm] = useState(false);
 
+  console.log("Is   :", userId);
   const { mutate, isPending } = usePost("/auth/complete-registration", {
     onSuccess: () => {
       toast.success("ثبت نام با موفقیت تکمیل شد");

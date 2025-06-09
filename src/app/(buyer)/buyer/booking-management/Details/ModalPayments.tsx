@@ -1,17 +1,11 @@
 import { Modal, ModalContent, ModalBody } from "@heroui/react";
 import { IoMdClose } from "react-icons/io";
-import {
-  ColumnDef,
-  useReactTable,
-  getCoreRowModel,
-  getSortedRowModel,
-  flexRender,
-  SortingState,
-} from "@tanstack/react-table";
+import { ColumnDef, flexRender, SortingState } from "@tanstack/react-table";
 import { useState } from "react";
 import { BsArrowDown, BsArrowUp } from "react-icons/bs";
 import { MdPayment } from "react-icons/md";
 import { PiSealWarningBold } from "react-icons/pi";
+import { useCustomTable } from "@/utils/hooks/useCustomTable";
 
 interface ModalPaymentsProps {
   isOpen: boolean;
@@ -19,7 +13,7 @@ interface ModalPaymentsProps {
   selectedRow?: any;
 }
 
-interface PaymentData {
+interface PaymentDataDetails {
   id: number;
   date: string;
   amount: string;
@@ -31,9 +25,7 @@ export default function ModalPayments({
   onOpenChange,
   selectedRow,
 }: ModalPaymentsProps) {
-  const [sorting, setSorting] = useState<SortingState>([]);
-
-  const payments: PaymentData[] = [
+  const paymentsDetails: PaymentDataDetails[] = [
     {
       id: 1,
       date: "1403/02/01",
@@ -48,7 +40,7 @@ export default function ModalPayments({
     },
   ];
 
-  const columns: ColumnDef<PaymentData>[] = [
+  const columns: ColumnDef<PaymentDataDetails>[] = [
     {
       accessorKey: "id",
       header: "ردیف",
@@ -83,14 +75,13 @@ export default function ModalPayments({
     },
   ];
 
-  const table = useReactTable({
-    data: payments,
+  const { table } = useCustomTable<PaymentDataDetails>({
+    data: paymentsDetails,
     columns,
-    state: { sorting },
-    onSortingChange: setSorting,
-    getCoreRowModel: getCoreRowModel(),
-    getSortedRowModel: getSortedRowModel(),
-    autoResetPageIndex: false,
+    enableSorting: true,
+    enableFiltering: true,
+    enablePagination: true,
+    defaultPageSize: 5,
   });
 
   return (

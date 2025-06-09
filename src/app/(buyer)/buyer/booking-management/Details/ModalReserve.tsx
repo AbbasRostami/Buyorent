@@ -1,19 +1,13 @@
 import { Modal, ModalContent, ModalBody } from "@heroui/react";
 import { IoMdClose } from "react-icons/io";
-import {
-  ColumnDef,
-  useReactTable,
-  getCoreRowModel,
-  getSortedRowModel,
-  flexRender,
-  SortingState,
-} from "@tanstack/react-table";
+import { ColumnDef, flexRender, SortingState } from "@tanstack/react-table";
 import { useState } from "react";
 import { BsArrowDown, BsArrowUp } from "react-icons/bs";
 import { FaListCheck } from "react-icons/fa6";
 import { useDisclosure } from "@heroui/react";
 import ModalPassengerList from "./PassengerList";
 import { PiSealWarningBold } from "react-icons/pi";
+import { useCustomTable } from "@/utils/hooks/useCustomTable";
 interface ModalReserveProps {
   isOpen: boolean;
   onOpenChange: () => void;
@@ -31,7 +25,6 @@ export default function ModalReserve({
   onOpenChange,
   selectedRow,
 }: ModalReserveProps) {
-  const [sorting, setSorting] = useState<SortingState>([]);
   const {
     isOpen: isPassengerListOpen,
     onOpen: onPassengerListOpen,
@@ -83,14 +76,13 @@ export default function ModalReserve({
       ),
     },
   ];
-  const table = useReactTable({
+  const { table } = useCustomTable<ReservationData>({
     data: reservations,
     columns,
-    state: { sorting },
-    onSortingChange: setSorting,
-    getCoreRowModel: getCoreRowModel(),
-    getSortedRowModel: getSortedRowModel(),
-    autoResetPageIndex: false,
+    enableSorting: true,
+    enableFiltering: true,
+    enablePagination: true,
+    defaultPageSize: 5,
   });
 
   return (
@@ -192,7 +184,7 @@ export default function ModalReserve({
                                 )}
                               </td>
                             ))}
-                          </tr> 
+                          </tr>
                         ))
                       )}
                     </tbody>

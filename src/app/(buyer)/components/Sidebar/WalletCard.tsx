@@ -15,62 +15,63 @@ import { FaPlusCircle } from "react-icons/fa";
 import { PiCurrencyDollarFill } from "react-icons/pi";
 import { FaMoneyBillTransfer } from "react-icons/fa6";
 
-import {
-  useReactTable,
-  createColumnHelper,
-  flexRender,
-  getCoreRowModel,
-} from "@tanstack/react-table";
-import { useState } from "react";
+import { flexRender, ColumnDef } from "@tanstack/react-table";
+import { useMemo } from "react";
 import { useSidebar } from "../../context/SidebarContext";
+import { useCustomTable } from "@/utils/hooks/useCustomTable";
 
-type Transaction = {
+interface Transaction {
   date: string;
   trackingId: string;
   amount: number;
-};
+}
 
-type SortingState = {
-  id: string;
-  desc: boolean;
-};
 const WalletCard = () => {
   const { isOpen, onOpen, onOpenChange } = useDisclosure();
-  const [sorting, setSorting] = useState<SortingState[]>([]);
-  const columnHelper = createColumnHelper<Transaction>();
   const { isExpanded, isHovered, isMobileOpen } = useSidebar();
 
-  const columns = [
-    columnHelper.display({
-      id: "rowIndex",
-      header: "#",
-      cell: ({ row }) => row.index + 1,
-    }),
+  const columns = useMemo<ColumnDef<Transaction>[]>(
+    () => [
+      {
+        accessorKey: "rowIndex",
+        header: "#",
+        cell: (info) => info.row.index + 1,
+      },
+      {
+        accessorKey: "date",
+        header: "تاریخ",
+        cell: (info) => info.getValue(),
+        sortingFn: "alphanumeric",
+      },
+      {
+        accessorKey: "trackingId",
+        header: "شماره پیگیری",
+        cell: (info) => info.getValue(),
+      },
+      {
+        accessorKey: "amount",
+        header: "مبلغ",
+        cell: (info) => {
+          const value = info.getValue();
+          const numValue = typeof value === "number" ? value : Number(value);
+          return `${numValue.toLocaleString()} تومان`;
+        },
+        sortingFn: "basic",
+      },
+      {
+        accessorKey: "actions",
+        header: "مشاهده رسید",
+        cell: () => (
+          <button className="text-primary hover:underline text-sm">
+            مشاهده
+          </button>
+        ),
+      },
+    ],
+    []
+  );
 
-    columnHelper.accessor("date", {
-      header: "تاریخ",
-      cell: (info) => info.getValue(),
-      sortingFn: "alphanumeric",
-    }),
-    columnHelper.accessor("trackingId", {
-      header: "شماره پیگیری",
-      cell: (info) => info.getValue(),
-    }),
-    columnHelper.accessor("amount", {
-      header: "مبلغ",
-      cell: (info) => `${info.getValue().toLocaleString()} تومان`,
-      sortingFn: "basic",
-    }),
-    columnHelper.display({
-      id: "actions",
-      header: "مشاهده رسید",
-      cell: () => (
-        <button className="text-primary hover:underline text-sm">مشاهده</button>
-      ),
-    }),
-  ];
-
-  const data: Transaction[] = [
+  const transactions: Transaction[] = [
     { date: "1403/02/01/ 10:00", trackingId: "123456", amount: 150000 },
     { date: "1403/02/05/ 10:00", trackingId: "987654", amount: 450000 },
     { date: "1403/02/01/ 10:00", trackingId: "123456", amount: 150000 },
@@ -79,16 +80,13 @@ const WalletCard = () => {
     { date: "1403/02/05/ 10:00", trackingId: "987654", amount: 450000 },
   ];
 
-  const table = useReactTable<Transaction>({
-    data,
+  const { table } = useCustomTable<Transaction>({
+    data: transactions,
     columns,
-    getCoreRowModel: getCoreRowModel(),
-    getSortedRowModel: getCoreRowModel(),
-    state: {
-      sorting,
-    },
-    autoResetPageIndex: false,
-    onSortingChange: setSorting,
+    enableSorting: true,
+    enableFiltering: true,
+    enablePagination: true,
+    defaultPageSize: 5,
   });
 
   if (!isExpanded && !isHovered && !isMobileOpen) {
@@ -96,7 +94,13 @@ const WalletCard = () => {
       <Dropdown placement="top-end" backdrop="opaque">
         <DropdownTrigger>
           <div className="w-full flex-shrink-0 px-2 pb-6 mt-auto flex justify-center cursor-pointer">
-            <Tooltip content="کیف پول" placement="left" color="warning" showArrow={true} className="rounded-lg">
+            <Tooltip
+              content="کیف پول"
+              placement="left"
+              color="warning"
+              showArrow={true}
+              className="rounded-lg"
+            >
               <GiWallet
                 className="text-gray-700 dark:text-gray-200"
                 size={32}

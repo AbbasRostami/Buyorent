@@ -1,17 +1,7 @@
 "use client";
 
 import { Button, Pagination, Select, SelectItem } from "@heroui/react";
-import {
-  ColumnDef,
-  useReactTable,
-  getCoreRowModel,
-  getSortedRowModel,
-  getFilteredRowModel,
-  flexRender,
-  getPaginationRowModel,
-  OnChangeFn,
-  SortingState,
-} from "@tanstack/react-table";
+import { ColumnDef, flexRender } from "@tanstack/react-table";
 import { Dispatch, SetStateAction, useMemo, useState } from "react";
 import { CgCheck } from "react-icons/cg";
 import { BsArrowUp } from "react-icons/bs";

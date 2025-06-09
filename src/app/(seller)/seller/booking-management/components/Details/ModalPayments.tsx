@@ -1,17 +1,11 @@
 import { Modal, ModalContent, ModalBody } from "@heroui/react";
 import { IoMdClose } from "react-icons/io";
-import {
-  ColumnDef,
-  useReactTable,
-  getCoreRowModel,
-  getSortedRowModel,
-  flexRender,
-  SortingState,
-} from "@tanstack/react-table";
-import { useState } from "react";
+import { ColumnDef, flexRender } from "@tanstack/react-table";
 import { BsArrowDown, BsArrowUp } from "react-icons/bs";
 import { MdPayment } from "react-icons/md";
 import { PiSealWarningBold } from "react-icons/pi";
+import { useCustomTable } from "@/utils/hooks/useCustomTable";
+import { useMemo } from "react";
 
 interface ModalPaymentsProps {
   isOpen: boolean;
@@ -30,8 +24,6 @@ export default function ModalPayments({
   isOpen,
   onOpenChange,
 }: ModalPaymentsProps) {
-  const [sorting, setSorting] = useState<SortingState>([]);
-
   const payments: PaymentData[] = [
     {
       id: 1,
@@ -47,50 +39,51 @@ export default function ModalPayments({
     },
   ];
 
-  const columns: ColumnDef<PaymentData>[] = [
-    {
-      accessorKey: "id",
-      header: "ردیف",
-      cell: (info) => info.getValue(),
-    },
-    {
-      accessorKey: "date",
-      header: "تاریخ پرداخت",
-      cell: (info) => info.getValue(),
-    },
-     {
-      accessorKey: "transactionId",
-      header: "شماره پیگیری",
-      cell: (info) => info.getValue(),
-    },
-    {
-      accessorKey: "amount",
-      header: "مبلغ",
-      cell: (info) => `${info.getValue()} تومان`,
-    },
-   
+  const columns = useMemo<ColumnDef<PaymentData>[]>(
+    () => [
+      {
+        accessorKey: "id",
+        header: "ردیف",
+        cell: (info) => info.getValue(),
+      },
+      {
+        accessorKey: "date",
+        header: "تاریخ پرداخت",
+        cell: (info) => info.getValue(),
+      },
+      {
+        accessorKey: "transactionId",
+        header: "شماره پیگیری",
+        cell: (info) => info.getValue(),
+      },
+      {
+        accessorKey: "amount",
+        header: "مبلغ",
+        cell: (info) => `${info.getValue()} تومان`,
+      },
 
-    {
-      accessorKey: "action",
-      header: "عملیات",
-      cell: (info) => (
-        <div className="flex items-center justify-center gap-2">
-          <button className="bg-amber-500 text-black px-4 py-2 rounded-md">
-            مشاهده رسید
-          </button>
-        </div>
-      ),
-    },
-  ];
+      {
+        accessorKey: "action",
+        header: "عملیات",
+        cell: (info) => (
+          <div className="flex items-center justify-center gap-2">
+            <button className="bg-amber-500 text-black px-4 py-2 rounded-md">
+              مشاهده رسید
+            </button>
+          </div>
+        ),
+      },
+    ],
+    []
+  );
 
-  const table = useReactTable({
+  const { table } = useCustomTable({
     data: payments,
     columns,
-    state: { sorting },
-    onSortingChange: setSorting,
-    getCoreRowModel: getCoreRowModel(),
-    getSortedRowModel: getSortedRowModel(),
-    autoResetPageIndex: false,
+    enableSorting: true,
+    enableFiltering: true,
+    enablePagination: true,
+    defaultPageSize: 5,
   });
 
   return (
@@ -107,7 +100,7 @@ export default function ModalPayments({
             <div className="flex items-center justify-between border-b pb-4 mb-4">
               <h2 className="text-3xl font-black text-right flex items-center gap-2">
                 <MdPayment size={30} />
-                لیست پرداخت‌های 
+                لیست پرداخت‌های
               </h2>
               <button
                 className="flex items-center gap-2 border border-red-400 text-red-500 rounded-full px-6 py-2 text-lg font-bold hover:bg-red-50 dark:hover:bg-red-500 dark:text-white transition"
@@ -145,32 +138,31 @@ export default function ModalPayments({
                     ))}
                   </thead>
                   <tbody className="divide-y divide-gray-200 dark:divide-gray-700">
-
                     {table.getRowModel().rows.length === 0 ? (
                       <tr className="bg-white dark:bg-gray-800">
-                      <td
-                        colSpan={columns.length}
-                        className="text-center py-12 text-gray-500 dark:text-gray-400"
-                      >
-                        <div className="flex flex-col items-center justify-center">
-                          <PiSealWarningBold
-                            size={80}
-                            className=" text-amber-500 mb-4"
-                          />
-                          <p className="text-xl font-bold text-gray-700 dark:text-gray-300">
-                            موردی یافت نشد
-                          </p>
-                          <p className="mt-2 text-gray-500 dark:text-gray-400">
-                            هیچ رزروی با مشخصات جستجو شده یافت نشد
-                          </p>
-                        </div>
-                      </td>
-                    </tr>
+                        <td
+                          colSpan={columns.length}
+                          className="text-center py-12 text-gray-500 dark:text-gray-400"
+                        >
+                          <div className="flex flex-col items-center justify-center">
+                            <PiSealWarningBold
+                              size={80}
+                              className=" text-amber-500 mb-4"
+                            />
+                            <p className="text-xl font-bold text-gray-700 dark:text-gray-300">
+                              موردی یافت نشد
+                            </p>
+                            <p className="mt-2 text-gray-500 dark:text-gray-400">
+                              هیچ رزروی با مشخصات جستجو شده یافت نشد
+                            </p>
+                          </div>
+                        </td>
+                      </tr>
                     ) : (
-                    table.getRowModel().rows.map((row, index) => (
-                      <tr
-                        key={row.id}
-                        className={`
+                      table.getRowModel().rows.map((row, index) => (
+                        <tr
+                          key={row.id}
+                          className={`
                           ${
                             index % 2 === 0
                               ? "bg-blue-50 dark:bg-gray-800/80"
@@ -180,20 +172,20 @@ export default function ModalPayments({
                           transition-colors duration-200
                           text-center
                         `}
-                      >
-                        {row.getVisibleCells().map((cell) => (
-                          <td
-                            key={cell.id}
-                            className="p-3 text-gray-700 dark:text-gray-300 whitespace-nowrap"
-                          >
-                            {flexRender(
-                              cell.column.columnDef.cell,
-                              cell.getContext()
-                            )}
-                          </td>
-                        ))}
-                      </tr>
-                    ))
+                        >
+                          {row.getVisibleCells().map((cell) => (
+                            <td
+                              key={cell.id}
+                              className="p-3 text-gray-700 dark:text-gray-300 whitespace-nowrap"
+                            >
+                              {flexRender(
+                                cell.column.columnDef.cell,
+                                cell.getContext()
+                              )}
+                            </td>
+                          ))}
+                        </tr>
+                      ))
                     )}
                   </tbody>
                 </table>

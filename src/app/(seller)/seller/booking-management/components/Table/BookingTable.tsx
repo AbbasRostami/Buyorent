@@ -12,17 +12,7 @@ import {
   SelectItem,
   useDisclosure,
 } from "@heroui/react";
-import {
-  ColumnDef,
-  useReactTable,
-  getCoreRowModel,
-  getSortedRowModel,
-  getFilteredRowModel,
-  flexRender,
-  getPaginationRowModel,
-  OnChangeFn,
-  SortingState,
-} from "@tanstack/react-table";
+import { ColumnDef, flexRender } from "@tanstack/react-table";
 import { useMemo, useState } from "react";
 import { BsArrowDown, BsArrowUp } from "react-icons/bs";
 import { TiDeleteOutline } from "react-icons/ti";
@@ -35,7 +25,6 @@ import { GiConfirmed } from "react-icons/gi";
 import BookingSellerFilter from "../Filter/BookingFilter";
 import ModalDetails from "../Details/ModalDetails";
 import { useCustomTable } from "@/utils/hooks/useCustomTable";
-import { BookingData } from "@/app/(buyer)/buyer/booking-management/Table/BookingTable";
 
 export interface BookingDataSeller {
   id: number;

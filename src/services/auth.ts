@@ -10,11 +10,6 @@ type Token = {
 };
 
 declare module "next-auth" {
-  interface Session {
-    accessToken?: string;
-    refreshToken?: string;
-  }
-
   interface User {
     accessToken: string;
     refreshToken: string;
@@ -22,6 +17,8 @@ declare module "next-auth" {
   interface Session {
     accessToken?: string;
     refreshToken?: string;
+    id?: string;
+    role?: string;
     exp?: number;
   }
 }
@@ -49,7 +46,7 @@ async function refreshAccessToken(token: Token): Promise<Token> {
     console.error("Error refreshing token:", error);
     return {
       ...token,
-      exp: Math.floor(Date.now() / 1000) + 60, // fallback 1 دقیقه
+      exp: Math.floor(Date.now() / 1000) + 60,
     };
   }
 }
@@ -107,7 +104,8 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
 
         const payload = JSON.parse(atob(user.accessToken.split(".")[1]));
         token.exp = payload.exp;
-
+        token.id = payload.id;
+        token.role = payload.role;
         return token;
       }
 
@@ -141,6 +139,8 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
       session.accessToken = token.accessToken as string;
       session.refreshToken = token.refreshToken as string;
       session.exp = token.exp;
+      session.id = token.id as string;
+      session.role = token.role as string;
       return session;
     },
 
