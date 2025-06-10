@@ -13,8 +13,6 @@ export const Step0Email = ({ onSuccess }: Step0EmailProps) => {
       onSuccess: (data, values) => {
         toast.success("کد تایید با موفقیت ارسال شد");
         onSuccess(data.tempUserId, values.email);
-        console.log("Email sent to Step1Verification:", data.email);
-        console.log("Is pending:", isPending);
       },
       onError: (error: any) => {
         toast.error(error.response?.data?.message || "خطا در ارسال کد تایید");
@@ -24,8 +22,6 @@ export const Step0Email = ({ onSuccess }: Step0EmailProps) => {
 
   const handleSubmit = (values: { email: string }) => {
     mutate({ email: values.email });
-    console.log("Email sent to Step0Email:", values.email);
-    console.log("Is pending:", isPending);
   };
 
   return (

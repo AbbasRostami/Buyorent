@@ -100,23 +100,17 @@ export default function AuthModal({
                 {step === 3 ? (
                   <>
                     <Image
-                      className="cursor-pointer absolute -right-4 top-4"
+                      className="cursor-pointer absolute -right-4 top-4 w-[101px] h-auto"
                       src={RegisterGray}
                       alt="Register"
-                      width={80}
-                      height={36}
-                      layout="intrinsic"
                       priority
                       placeholder="blur"
                       onClick={() => setStep(0)}
                     />
                     <Image
-                      className="cursor-pointer absolute -right-4 top-14"
+                      className="cursor-pointer absolute -right-4 top-14 w-[101px] h-auto"
                       src={LoginBrown}
                       alt="Login"
-                      width={80}
-                      height={36}
-                      layout="intrinsic"
                       priority
                       placeholder="blur"
                     />
@@ -124,23 +118,17 @@ export default function AuthModal({
                 ) : (
                   <>
                     <Image
-                      className="cursor-pointer absolute -right-4 top-4"
+                      className="cursor-pointer absolute -right-4 top-4 w-[101px] h-auto"
                       src={LoginGray}
                       alt="Register"
-                      width={80}
-                      height={36}
-                      layout="intrinsic"
                       priority
                       placeholder="blur"
                       onClick={() => setStep(3)}
                     />
                     <Image
-                      className="cursor-pointer absolute -right-4 top-14"
+                      className="cursor-pointer absolute -right-4 top-14 w-[101px] h-auto"
                       src={RegisterBrown}
                       alt="Login"
-                      width={80}
-                      height={36}
-                      layout="intrinsic"
                       priority
                       placeholder="blur"
                     />
@@ -154,23 +142,17 @@ export default function AuthModal({
                   {step === 3 ? (
                     <>
                       <Image
-                        className="absolute -right-5 top-4 cursor-pointer"
+                        className="absolute -right-5 top-4 w-[101px] h-auto cursor-pointer"
                         src={RegisterGray}
                         alt="Register"
-                        width={101}
-                        height={46}
-                        layout="intrinsic"
                         priority
                         placeholder="blur"
                         onClick={() => setStep(0)}
                       />
                       <Image
-                        className="absolute -right-5 top-17 cursor-pointer"
+                        className="absolute -right-5 top-17 w-[101px] h-auto cursor-pointer"
                         src={LoginBrown}
                         alt="Login"
-                        width={101}
-                        height={46}
-                        layout="intrinsic"
                         priority
                         placeholder="blur"
                       />
@@ -178,23 +160,17 @@ export default function AuthModal({
                   ) : (
                     <>
                       <Image
-                        className="absolute -right-5 top-4 cursor-pointer"
+                        className="absolute -right-5 top-4 w-[101px] h-auto cursor-pointer"
                         src={LoginGray}
                         alt="Register"
-                        width={101}
-                        height={46}
-                        layout="intrinsic"
                         priority
                         placeholder="blur"
                         onClick={() => setStep(3)}
                       />
                       <Image
-                        className="absolute -right-5 top-17 cursor-pointer"
+                        className="absolute -right-5 top-17 w-[101px] h-auto cursor-pointer"
                         src={RegisterBrown}
                         alt="Login"
-                        width={101}
-                        height={46}
-                        layout="intrinsic"
                         priority
                         placeholder="blur"
                       />
@@ -220,12 +196,9 @@ export default function AuthModal({
                 <Image
                   src={Bayournt}
                   alt="Register"
-                  width={40}
-                  height={33}
-                  layout="intrinsic"
                   priority
                   placeholder="blur"
-                  className="hidden md:block"
+                  className="hidden md:block w-[40px] h-auto"
                 />
               ) : (
                 <div className="hidden md:block w-28">

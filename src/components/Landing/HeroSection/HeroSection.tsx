@@ -84,7 +84,7 @@ export default function HeroSection() {
           transition={{ duration: 1 }}
           className="mx-auto"
         >
-          <Image src={home} alt="home" />
+          <Image src={home} priority alt="home" />
         </MotionDiv>
       </div>
       <HeroSectionFilter />

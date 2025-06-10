@@ -12,7 +12,6 @@ export default async function HotDealsOfWeek() {
     60
   );
 
-  console.log("houses:", houses);
   return (
     <div className="relative w-full mt-20">
       <div className="flex  flex-col md:flex-row items-center justify-between rounded-xl px-4">

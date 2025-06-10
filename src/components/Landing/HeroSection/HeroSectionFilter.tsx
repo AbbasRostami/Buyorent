@@ -52,7 +52,7 @@ const HeroSectionFilter = () => {
       <div className="w-full flex justify-center items-center px-2 sm:px-4 -mt-3 xl:-mt-10 mb-10 sm:mb-20 step-2">
         <div className="relative z-20 w-full">
           <div className="absolute -translate-y-7 -translate-x-25 z-30 hidden lg:block">
-            <Image src={reserve} alt="home" className="w-20" />
+            <Image src={reserve} alt="home" priority className="w-20" />
           </div>
 
           <div

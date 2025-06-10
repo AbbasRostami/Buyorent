@@ -89,6 +89,7 @@ const ClientWrapper = ({ initialData }: ClientWrapperProps) => {
             minMortgage: "",
             maxMortgage: "",
             sort: "",
+            search: "",
           });
           updateQueryParams({
             location: "",

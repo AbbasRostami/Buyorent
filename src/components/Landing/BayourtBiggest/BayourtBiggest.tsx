@@ -70,10 +70,8 @@ const BayourtBiggest = () => {
           <Image
             src={shape}
             priority
-            alt=""
-            width={300}
-            height={150}
-            className="object-cover z-9"
+            alt="shape"
+            className="object-cover z-9 w-[300px] h-auto"
           />
           <Image
             className="rounded-4xl z-10 absolute top-8 md:top-14 object-cover shadow-xl border-[8px] md:border-[12px] border-amber-50 transform-style preserve-3d -translate-x-4 md:-translate-x-6"

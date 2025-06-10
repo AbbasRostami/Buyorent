@@ -38,10 +38,8 @@ export function LoadingProvider({ children }: { children: React.ReactNode }) {
         >
           <Image
             src={LoadingIM}
-            alt="logo"
-            width={250}
-            height={250}
-            className="opacity-50"
+            alt="loading"
+            className="opacity-50 w-[250px] h-auto"
           />
         </MotionDiv>
       )}

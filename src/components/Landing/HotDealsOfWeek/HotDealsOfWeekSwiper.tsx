@@ -18,7 +18,7 @@ import Link from "next/link";
 
 const HotDealsOfWeekSwiper = ({ houses }: HouseTypeProps) => {
   const extendHouses = [...houses, ...houses];
-
+  console.log(houses);
   if (!houses) {
     return (
       <Card className="w-[200px] space-y-5 p-4" radius="lg">
@@ -50,11 +50,7 @@ const HotDealsOfWeekSwiper = ({ houses }: HouseTypeProps) => {
         el: ".HotDeals",
         clickable: true,
       }}
-      // autoplay={{
-      //   delay: 5000,
-      //   disableOnInteraction: false,
-      // }}
-      // loop={true}
+      loop={true}
       breakpoints={{
         0: { slidesPerView: 1 },
         640: { slidesPerView: 2 },
@@ -63,77 +59,93 @@ const HotDealsOfWeekSwiper = ({ houses }: HouseTypeProps) => {
       }}
     >
       {extendHouses?.map((items, index) => (
-        <SwiperSlide key={index} className="flex justify-center p-4 rounded-xl">
-          <Link
-            href={`/mortgage-and-house-rent/${items.id}`}
-            className="bg-gray-100 dark:bg-neutral-900 hover:shadow-gray-400/50 transition-all duration-300 ease-in-out rounded-xl shadow-lg py-4 px-2 mx-auto cursor-pointer "
-          >
-            <Swiper
-              modules={[Autoplay, Pagination, EffectFade]}
-              effect="fade"
-              fadeEffect={{
-                crossFade: true,
-              }}
-              speed={3000}
-              autoplay={{
-                delay: 3000,
-                disableOnInteraction: false,
-              }}
-              pagination={{ clickable: true }}
-              loop={true}
-              className="flex justify-center items-center"
-            >
-              {items?.photos?.map((photo: string, idx: number) => (
-                <SwiperSlide
-                  key={idx}
-                  className="!flex !justify-center !items-center"
+        <SwiperSlide
+          key={index}
+          className="flex justify-center p-6 animate-fade-in"
+        >
+          <Link href={`/mortgage-and-house-rent/${items.id}`}>
+            <div className="group relative w-full max-w-sm transform rounded-2xl border border-gray-100 dark:border-slate-700 bg-white/80 dark:bg-slate-800/80 backdrop-blur-sm shadow-xl transition-all duration-500 hover:-translate-y-1 hover:shadow-xl">
+              <div className="relative overflow-hidden rounded-t-2xl">
+                <Swiper
+                  modules={[Autoplay, Pagination, EffectFade]}
+                  effect="fade"
+                  fadeEffect={{ crossFade: true }}
+                  speed={3000}
+                  autoplay={{ delay: 3000, disableOnInteraction: false }}
+                  pagination={{ clickable: true }}
+                  loop={true}
                 >
-                  <Image
-                    src={photo}
-                    unoptimized
-                    alt={`${items.title}-photo-${idx}`}
-                    width={300}
-                    height={176}
-                    className="object-cover max-h-[176px] rounded-xl shadow-lg  transition-all duration-300 ease-in-out transform"
-                  />
-                </SwiperSlide>
-              ))}
-            </Swiper>
-            <div className="px-6 py-4 text-right space-y-5">
-              <p className="text-lg text-gray-700 font-semibold dark:text-amber-200 transition-all duration-300 ease-in-out hover:text-orange-600">
-                {items.title}
-              </p>
-              <p className="flex items-center truncate text-gray-600 text-sm dark:text-amber-100">
-                <IoLocationOutline size={26} className="dark:text-white" />
-                {items.address}
-              </p>
-              <div className="flex justify-start gap-6 text-sm text-gray-700 mt-3">
-                <div className="flex items-center gap-2">
-                  <IoMdBed size={25} className="dark:text-amber-50" />
-                  <span className="text-base dark:text-amber-100">
-                    {items.rooms}
-                  </span>
-                </div>
-                <div className="flex items-center gap-2">
-                  <FaShower size={25} className="dark:text-amber-50" />
-                  <span className="text-base dark:text-amber-100">
-                    {items.bathrooms}
-                  </span>
-                </div>
-                <div className="flex items-center gap-2">
-                  <MdFamilyRestroom size={25} className="dark:text-amber-50" />
-                  <span className="text-base dark:text-amber-100">
-                    {items.capacity}
+                  {items?.photos?.map((photo: string, idx: number) => (
+                    <SwiperSlide
+                      key={idx}
+                      className="!flex !justify-center !items-center bg-black/5 dark:bg-black/10"
+                    >
+                      <Image
+                        src={photo}
+                        unoptimized
+                        alt={`${items.title}-photo-${idx}`}
+                        width={400}
+                        height={220}
+                        loading="lazy"
+                        className="h-[220px] w-full object-cover transition-transform duration-700 ease-in-out group-hover:scale-105"
+                      />
+                    </SwiperSlide>
+                  ))}
+                </Swiper>
+
+                {/* Gradient */}
+                <div className="absolute bottom-0 left-0 w-full h-20 bg-gradient-to-t from-black/50 to-transparent z-0" />
+
+                {/* Rate badge */}
+                <div className="absolute top-3 left-3 z-10 flex items-center gap-2 rounded-full bg-orange-600 px-3 py-1.5 text-white shadow-md backdrop-blur-sm">
+                  <span className="text-lg">⭐</span>
+                  <span className="text-sm font-bold">
+                    {items.rate || "بدون امتیاز"}
                   </span>
                 </div>
               </div>
-              <div className="border border-gray-200 my-2"></div>
-              <div className="flex items-center justify-between text-lg text-orange-600 font-semibold mt-4">
-                <span>{items.price} تومان</span>
-                <p className="line-through decoration-orange-600 dark:text-gray-100 text-gray-400 text-base">
-                  300000 تومان
+
+              {/* Content */}
+              <div className="space-y-4 px-5 py-4 text-right">
+                <h3 className="text-lg font-bold leading-snug text-gray-800 dark:text-white transition-colors duration-300 group-hover:text-orange-600">
+                  {items.title}
+                </h3>
+
+                {/* Address */}
+                <p className="flex items-center gap-1 text-sm text-gray-600 dark:text-gray-300 truncate">
+                  <IoLocationOutline size={20} />
+                  {items.address}
                 </p>
+
+                {/* Features */}
+                <div className="flex justify-between text-sm text-gray-700 dark:text-amber-100 mt-2">
+                  <div className="flex items-center gap-1">
+                    <IoMdBed size={20} />
+                    {items.rooms} خواب
+                  </div>
+                  <div className="flex items-center gap-1">
+                    <FaShower size={18} />
+                    {items.bathrooms} حمام
+                  </div>
+                  <div className="flex items-center gap-1">
+                    <MdFamilyRestroom size={20} />
+                    {items.capacity} نفر
+                  </div>
+                </div>
+
+                <div className="border-t border-gray-200 dark:border-gray-600 my-2" />
+
+                {/* Price */}
+                <div className="flex items-center justify-between text-orange-600 font-bold text-base">
+                  <span>{items.price.toLocaleString()} تومان</span>
+                  <p className="line-through text-sm text-gray-400 dark:text-gray-500">
+                    ۳۰۰٬۰۰۰ تومان
+                  </p>
+                </div>
               </div>
+
+              {/* Border Glow on Hover */}
+              <div className="absolute inset-0 rounded-2xl border border-transparent group-hover:border-orange-400 group-hover:shadow-[0_0_10px_2px_rgba(251,146,60,0.3)] transition-all duration-500" />
             </div>
           </Link>
         </SwiperSlide>
