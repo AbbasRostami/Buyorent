@@ -157,21 +157,36 @@ export default function BookingTable({
               </DropdownTrigger>
 
               <DropdownMenu aria-label="Static Actions">
-                <DropdownItem color="success" key="payment">
+                <DropdownItem
+                  textValue="تایید رزرو"
+                  color="success"
+                  key="success"
+                  onPress={() => {
+                    console.log("info.row.original:", info.row.original.id);
+                  }}
+                >
                   <div className="flex items-center gap-2">
                     <GiConfirmed size={20} />
                     تایید رزرو
                   </div>
                 </DropdownItem>
-                <DropdownItem color="danger" key="payment">
+                <DropdownItem
+                  textValue="لغو رزرو"
+                  color="danger"
+                  key="danger"
+                  onPress={() => {
+                    console.log("info.row.original:", info.row.original.id);
+                  }}
+                >
                   <div className="flex items-center gap-2">
                     <SlBan size={20} />
                     لغو رزرو
                   </div>
                 </DropdownItem>
                 <DropdownItem
+                  textValue="جزئیات"
                   color="warning"
-                  key="details"
+                    key="details"
                   onPress={() => {
                     setSelectedRow(info.row.original);
                     onOpen();
@@ -183,9 +198,13 @@ export default function BookingTable({
                   </div>
                 </DropdownItem>
                 <DropdownItem
+                  textValue="حذف"
                   key="delete"
                   className="text-danger"
                   color="danger"
+                  onPress={() => {
+                    console.log("info.row.original:", info.row.original.id);
+                  }}
                 >
                   <div className="flex items-center gap-2">
                     <TiDeleteOutline size={20} />

@@ -185,13 +185,18 @@ export default function BookingTable({
                 </Button>
               </DropdownTrigger>
               <DropdownMenu aria-label="Static Actions">
-                <DropdownItem color="success" key="payment">
+                <DropdownItem
+                  textValue="پرداخت"
+                  color="success"
+                  key="payment"
+                >
                   <div className="flex items-center gap-2">
                     <GiWallet size={20} />
                     پرداخت
                   </div>
                 </DropdownItem>
                 <DropdownItem
+                  textValue="جزئیات"
                   color="warning"
                   key="details"
                   onPress={() => {
@@ -205,9 +210,13 @@ export default function BookingTable({
                   </div>
                 </DropdownItem>
                 <DropdownItem
+                  textValue="حذف"
                   key="delete"
                   className="text-danger"
                   color="danger"
+                  onPress={() => {
+                    console.log("info.row.original:", info.row.original.id);
+                  }}
                 >
                   <div className="flex items-center gap-2">
                     <TiDeleteOutline size={20} />

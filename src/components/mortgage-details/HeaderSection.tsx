@@ -15,6 +15,10 @@ import { IoIosArrowRoundBack } from "react-icons/io";
 import { useRouter } from "next/navigation";
 import { Tooltip } from "@heroui/react";
 import { MotionDiv } from "../../utils/providers/MotionWrapper";
+import toast, { ToastBar } from "react-hot-toast";
+import { BiCopy } from "react-icons/bi";
+import { useSession } from "next-auth/react";
+import { usePost } from "@/utils/hooks/useReactQueryHooks";
 
 const HeaderSectionSingle = ({ data }: any) => {
   const [mainImage, setMainImage] = useState(data?.photos[0]);
@@ -24,12 +28,40 @@ const HeaderSectionSingle = ({ data }: any) => {
 
   const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
     if (!isZoomed) return;
-
     const { left, top, width, height } =
       e.currentTarget.getBoundingClientRect();
     const x = ((e.clientX - left) / width) * 100;
     const y = ((e.clientY - top) / height) * 100;
     setZoomPosition({ x, y });
+  };
+  const { data: session } = useSession();
+
+  const { mutate: addFavorite } = usePost("/favorites");
+
+  const handleFavorite = () => {
+    if (!session?.id) {
+      toast.error("برای افزودن به علاقه مندی ها وارد شوید");
+      return;
+    }
+
+    if (data?.is_favorite) {
+      toast.error("این ملک قبلا به علاقه مندی ها اضافه شده است");
+      return;
+    }
+
+    const values = {
+      house_id: data?.id,
+      user_id: session?.id,
+    };
+
+    addFavorite(values, {
+      onSuccess: () => {
+        toast.success("ملک با موفقیت به علاقه مندی ها اضافه شد");
+      },
+      onError: () => {
+        toast.error("خطا در افزودن به علاقه مندی ها");
+      },
+    });
   };
 
   return (
@@ -62,14 +94,14 @@ const HeaderSectionSingle = ({ data }: any) => {
             {data?.photos.map((item: string, index: number) => (
               <div
                 key={index}
-                className="relative w-full aspect-[320/230] rounded-3xl overflow-hidden shadow cursor-pointer"
+                className="relative w-full aspect-[320/230] rounded-3xl overflow-hidden shadow cursor-pointer transition ease-in-out delay-150 hover:-translate-y-1 hover:scale-110  duration-300 hover:border-2 hover:border-color1"
                 onClick={() => setMainImage(item)}
               >
                 <Image
                   src={item}
                   alt="building"
                   fill
-                  className="object-cover transform-3d "
+                  className="object-cover transform-3d transition ease-in-out delay-150 hover:-translate-y-1 hover:scale-110  duration-300 ..."
                   unoptimized
                 />
               </div>
@@ -130,6 +162,20 @@ const HeaderSectionSingle = ({ data }: any) => {
 
       <div className="flex flex-col md:flex-row-reverse md:justify-between gap-10 justify-center md:px-20 w-full items-center">
         <div className="flex items-center gap-3">
+          <Tooltip content=" کپی لینک " placement="top-start" color="warning">
+            <MotionDiv
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 1, delay: 1.4 }}
+              className="w-10 h-10 rounded-full bg-blue-500 flex items-center justify-center cursor-pointer"
+              onClick={() => {
+                navigator.clipboard.writeText(window.location.href);
+                toast.success("لینک با موفقیت کپی شد");
+              }}
+            >
+              <BiCopy className="text-amber-50" size={26} />
+            </MotionDiv>
+          </Tooltip>
           <Tooltip content=" مقایسه ملک " placement="top-start" color="warning">
             <MotionDiv
               initial={{ opacity: 0, y: 20 }}
@@ -152,7 +198,7 @@ const HeaderSectionSingle = ({ data }: any) => {
             </MotionDiv>
           </Tooltip>
           <Tooltip
-            content="افزدون موردعلاقه"
+            content="افزدون به موردعلاقه"
             placement="top-start"
             color="warning"
           >
@@ -161,8 +207,12 @@ const HeaderSectionSingle = ({ data }: any) => {
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 1, delay: 2.0 }}
               className="w-10 h-10 rounded-full border hover:border-color1 flex items-center justify-center cursor-pointer"
+              onClick={handleFavorite}
             >
-              <CiHeart size={26} />
+              <CiHeart
+                size={26}
+                className={`${data?.is_favorite ? "text-red-500" : ""}`}
+              />
             </MotionDiv>
           </Tooltip>
           <Tooltip

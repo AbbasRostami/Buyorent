@@ -18,10 +18,23 @@ export function ThemeSwitcher() {
   return (
     <div className="relative group">
       <button
-        onClick={() => {
-          if (theme === "light") setTheme("dark");
-          else if (theme === "dark") setTheme("system");
-          else setTheme("light");
+        onClick={(e) => {
+          const root = document.documentElement;
+
+          const nextTheme =
+            theme === "light" ? "dark" : theme === "dark" ? "system" : "light";
+
+          if (!document.startViewTransition) {
+            setTheme(nextTheme);
+            return;
+          }
+
+          root.style.setProperty("--x", `${e.clientX}px`);
+          root.style.setProperty("--y", `${e.clientY}px`);
+
+          document.startViewTransition(() => {
+            setTheme(nextTheme);
+          });
         }}
         className="p-2 rounded-full border transition-all cursor-pointer duration-300 border-gray-300 dark:border-gray-600 bg-white dark:bg-neutral-800 shadow-sm hover:shadow-lg hover:scale-110"
       >
@@ -38,7 +51,28 @@ export function ThemeSwitcher() {
         {["light", "dark", "system"].map((t) => (
           <button
             key={t}
-            onClick={() => setTheme(t)}
+            onClick={(e) => {
+              const root = document.documentElement;
+
+              const nextTheme =
+                theme === "light"
+                  ? "dark"
+                  : theme === "dark"
+                  ? "system"
+                  : "light";
+
+              if (!document.startViewTransition) {
+                setTheme(nextTheme);
+                return;
+              }
+
+              root.style.setProperty("--x", `${e.clientX}px`);
+              root.style.setProperty("--y", `${e.clientY}px`);
+
+              document.startViewTransition(() => {
+                setTheme(nextTheme);
+              });
+            }}
             className="p-2 rounded-full transition-all duration-300 cursor-pointer hover:bg-gray-200 dark:hover:bg-neutral-700"
           >
             {t === "light" && <IoMoon className="w-6 h-6 text-yellow-500" />}

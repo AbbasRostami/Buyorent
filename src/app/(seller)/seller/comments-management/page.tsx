@@ -1,19 +1,102 @@
-import { FaComments } from "react-icons/fa";
+import CommentsTable, { CommentsData } from "./Table/CommentsTable";
 
+const data: CommentsData[] = [
+  {
+    id: 1,
+    numbertransaction: "1234567890",
+    date: "1403/02/01/ 10:00",
+    comment: "این کامنت به صورت خودکار ایجاد شده است",
+    status: "تایید شده",
+  },
+  {
+    id: 2,
+    numbertransaction: "1234567890",
+    date: "1403/02/01/ 10:00",
+    comment: "این کامنت به صورت خودکار ایجاد شده است",
+    status: "تایید نشده",
+  },
+  {
+    id: 3,
+    numbertransaction: "1234567890",
+    date: "1403/02/01/ 10:00",
+    comment: "این کامنت به صورت خودکار ایجاد شده است",
+    status: "تایید نشده",
+  },
+  {
+    id: 4,
+    numbertransaction: "1234567890",
+    date: "1403/02/01/ 10:00",
+    comment: "عالی  شده است",
+    status: "تایید شده",
+  },
+  {
+    id: 5,
+    numbertransaction: "1234567890",
+    date: "1403/02/01/ 10:00",
+    comment: "عالی  شده است",
+    status: "تایید نشده",
+  },
+  {
+    id: 6,
+    numbertransaction: "1234567890",
+    date: "1403/02/01/ 10:00",
+    comment: "عالی  کامنتتتتت است",
+    status: "تایید نشده",
+  },
+  {
+    id: 7,
+    numbertransaction: "1234567890",
+    date: "1403/02/01/ 10:00",
+    comment: "عالی  کامنتتتتت است",
+    status: "تایید شده",
+  },
+  {
+    id: 8,
+    numbertransaction: "1234567890",
+    date: "1403/02/01/ 10:00",
+    comment: "عالی  کامنتتتتت است",
+    status: "تایید نشده",
+  },
+  {
+    id: 9,
+    numbertransaction: "1234567890",
+    date: "1403/02/01/ 10:00",
+    comment: "عالی  کامنتتتتت است",
+    status: "تایید شده",
+  },
+  {
+    id: 10,
+    numbertransaction: "1234567890",
+    date: "1403/02/01/ 10:00",
+    comment: "عالی  کامنتتتتت است",
+    status: "تایید شده",
+  },
+  {
+    id: 11,
+    numbertransaction: "1234567890",
+    date: "1403/02/01/ 10:00",
+    comment: "عالی  کامنتتتتت است",
+    status: "تایید نشده",
+  },
+  {
+    id: 12,
+    numbertransaction: "1234567890",
+    date: "1403/02/01/ 10:00",
+    comment: "عالی  کامنتتتتت است",
+    status: "تایید شده",
+  },
+  {
+    id: 13,
+    numbertransaction: "1234567890",
+    date: "1403/02/01/ 10:00",
+    comment: "عالی  کامنتتتتت است",
+    status: "تایید نشده",
+  },
+];
 export default function CommentsManagementPage() {
   return (
-    <div className="space-y-4">
-      <div className="flex flex-col md:flex-row mr-20 items-center justify-between gap-2 pb-6 border-b-2 border-dashed border-amber-500">
-        <div className="flex items-center gap-2">
-          <FaComments
-            className="text-amber-900 dark:text-amber-200 "
-            size={30}
-          />
-          <h1 className="text-amber-500 text-3xl font-bold  dark:text-amber-200 pb-3 border-b-4 border-amber-500 relative group transition-all duration-300 ease-in-out">
-            مدیریت نظرات
-          </h1>
-        </div>
-      </div>
+    <div>
+      <CommentsTable commentsData={data || []} />
     </div>
   );
 }

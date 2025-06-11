@@ -100,7 +100,14 @@ export default function FavoriteTable({
                 </Button>
               </DropdownTrigger>
               <DropdownMenu aria-label="Static Actions">
-                <DropdownItem color="success" key="details" textValue="رزرو">
+                <DropdownItem
+                  onPress={() => {
+                    console.log("info.row.original:", info.row.original.id);
+                  }}
+                  color="success"
+                  key="details"
+                  textValue="رزرو"
+                >
                   <div className="flex items-center gap-2">
                     <CgAdd size={20} />
                     رزرو
@@ -111,6 +118,9 @@ export default function FavoriteTable({
                   key="delete"
                   className="text-danger"
                   color="danger"
+                  onPress={() => {
+                    console.log("info.row.original:", info.row.original.id);
+                  }}
                 >
                   <div className="flex items-center gap-2">
                     <TiDeleteOutline size={20} />

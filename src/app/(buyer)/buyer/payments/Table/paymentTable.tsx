@@ -7,9 +7,8 @@ import {
   SelectItem,
   Select,
   SharedSelection,
-  pagination,
 } from "@heroui/react";
-import { ColumnDef, flexRender, SortingState } from "@tanstack/react-table";
+import { ColumnDef, flexRender } from "@tanstack/react-table";
 import { useMemo, useState } from "react";
 import { BsArrowDown, BsArrowUp } from "react-icons/bs";
 
@@ -104,7 +103,13 @@ export default function PaymentTable({
         enableSorting: false,
         cell: (info) => {
           return (
-            <Button variant="light" color="warning">
+            <Button
+              variant="light"
+              color="warning"
+              onPress={() => {
+                console.log("info.row.original:", info.row.original.id);
+              }}
+            >
               <IoEyeSharp size={20} />
             </Button>
           );

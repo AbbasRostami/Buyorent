@@ -33,10 +33,8 @@ export const ConfirmModal = () => {
       >
         <Image
           src={SvgWarning}
-          width={100}
-          height={100}
           alt="Warning Icon"
-          className="mx-auto mb-4"
+          className="mx-auto mb-4 w-[100px] h-[100px]"
         />
         <h2 className="text-2xl font-black mb-3 text-gray-800 dark:text-white">
           {options.title || "آیا مطمئن هستید؟"}

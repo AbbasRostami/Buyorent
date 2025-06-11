@@ -174,20 +174,35 @@ export default function RealStatesTable({
               </DropdownTrigger>
 
               <DropdownMenu aria-label="Static Actions">
-                <DropdownItem color="success" key="payment">
+                <DropdownItem
+                  textValue="فعال کردن"
+                  color="success"
+                  key="payment"
+                  onPress={() => {
+                    console.log("Active:", info.row.original.id);
+                  }}
+                >
                   <div className="flex items-center gap-2">
                     <FaRegCircleCheck size={20} />
                     فعال کردن
                   </div>
                 </DropdownItem>
 
-                <DropdownItem color="primary" key="details">
+                <DropdownItem
+                  textValue="ویرایش"
+                  color="primary"
+                  key="details"
+                  onPress={() => {
+                    console.log("Edit:", info.row.original.id);
+                  }}
+                >
                   <div className="flex items-center gap-2">
                     <RiEdit2Fill size={20} />
                     ویرایش
                   </div>
                 </DropdownItem>
                 <DropdownItem
+                  textValue="حذف"
                   key="delete"
                   className="text-danger"
                   color="danger"
@@ -199,7 +214,7 @@ export default function RealStatesTable({
                       cancelText: "انصراف",
                     });
                     if (isConfirmed) {
-                      console.log("حذف شد");
+                      console.log("Delete:", info.row.original.id);
                     }
                   }}
                 >
