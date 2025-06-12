@@ -11,7 +11,7 @@ import { Step0Email } from "./Step0Email";
 import { Step1Verification } from "./Step1Verification";
 import { Step2Password } from "./Step2Password";
 import { Step3Login } from "./Step3Login";
-import { RegistrationData, Step } from "@/types/AuthTypes";
+import { RegistrationData, Step } from "@/types/Auth/AuthTypes";
 
 export default function AuthModal({
   isOpen,

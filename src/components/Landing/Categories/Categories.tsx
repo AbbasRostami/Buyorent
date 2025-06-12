@@ -1,6 +1,6 @@
 import { useServerData } from "@/utils/hooks/useServerData";
 import CategorySwiper from "./CategorySwiper";
-import { CategoryProps } from "@/types/LandingType";
+import { CategoryProps } from "@/types/Landing/LandingType";
 
 export default async function Categories() {
   const categories = await useServerData<CategoryProps[]>(

@@ -10,7 +10,7 @@ export default function BookingManagementPage() {
     {
       id: 1,
       title: "هتل سراوان",
-      title2: " سبحان عرب خزائلی ،4/1/8...",
+      bioPerson: " سبحان عرب خزائلی ،4/1/8...",
       date: "1403/02/01/ 10:00",
       price: 150000000,
       passengers: "سبحان عرب خزائلی ،4/1/8...",
@@ -21,7 +21,7 @@ export default function BookingManagementPage() {
     {
       id: 2,
       title: "شیراز پارک",
-      title2: " سبحان عرب خزائلی ،4/1/8...",
+      bioPerson: " سبحان عرب خزائلی ،4/1/8...",
       date: "1403/02/01/ 10:00",
       price: 150000000,
       passengers: "سبحان عرب خزائلی ،4/1/8...",
@@ -32,7 +32,7 @@ export default function BookingManagementPage() {
     {
       id: 3,
       title: "تراول پارک",
-      title2: " سبحان عرب خزائلی ،4/1/8...",
+      bioPerson: " سبحان عرب خزائلی ،4/1/8...",
       date: "1403/02/01/ 10:00",
       price: 160000000,
       passengers: "سبحان عرب خزائلی ،4/1/8...",
@@ -43,7 +43,7 @@ export default function BookingManagementPage() {
     {
       id: 4,
       title: "میدان جمهریه",
-      title2: " سبحان عرب خزائلی ،4/1/8...",
+      bioPerson: " سبحان عرب خزائلی ،4/1/8...",
       date: "1403/02/01/ 10:00",
       price: 180000000,
       passengers: "سبحان عرب خزائلی ،4/1/8...",
@@ -54,7 +54,7 @@ export default function BookingManagementPage() {
     {
       id: 5,
       title: "ماهی پارک",
-      title2: " سبحان عرب خزائلی ،4/1/8...",
+      bioPerson: " سبحان عرب خزائلی ،4/1/8...",
       date: "1403/02/01/ 10:00",
       price: 170000000,
       passengers: "سبحان عرب خزائلی ،4/1/8...",
@@ -65,7 +65,7 @@ export default function BookingManagementPage() {
     {
       id: 6,
       title: "کوه سراوان",
-      title2: " سبحان عرب خزائلی ،4/1/8...",
+      bioPerson: " سبحان عرب خزائلی ،4/1/8...",
       date: "1403/02/01/ 10:00",
       price: 170000000,
       passengers: "سبحان عرب خزائلی ،4/1/8...",
@@ -76,7 +76,7 @@ export default function BookingManagementPage() {
     {
       id: 7,
       title: "ساحل سراوان",
-      title2: " سبحان عرب خزائلی ،4/1/8...",
+      bioPerson: " سبحان عرب خزائلی ،4/1/8...",
       date: "1403/02/01/ 10:00",
       price: 100000,
       passengers: "سبحان عرب خزائلی ،4/1/8...",
@@ -87,7 +87,7 @@ export default function BookingManagementPage() {
     {
       id: 8,
       title: "ماهی پارک",
-      title2: " سبحان عرب خزائلی ،4/1/8...",
+      bioPerson: " سبحان عرب خزائلی ،4/1/8...",
       date: "1403/02/01/ 10:00",
       price: 160000000,
       passengers: "سبحان عرب خزائلی ،4/1/8...",
@@ -98,7 +98,7 @@ export default function BookingManagementPage() {
     {
       id: 9,
       title: "ماهی پارک",
-      title2: " سبحان عرب خزائلی ،4/1/8...",
+      bioPerson: " سبحان عرب خزائلی ،4/1/8...",
       date: "1403/02/01/ 10:00",
       price: 190000000,
       passengers: "سبحان عرب خزائلی ،4/1/8...",
@@ -109,7 +109,7 @@ export default function BookingManagementPage() {
     {
       id: 10,
       title: "نسرین پارک",
-      title2: " سبحان عرب خزائلی ،4/1/8...",
+      bioPerson: " سبحان عرب خزائلی ،4/1/8...",
       date: "1403/02/01/ 10:00",
       price: 170000000,
       passengers: "سبحان عرب خزائلی ،4/1/8...",
@@ -120,7 +120,7 @@ export default function BookingManagementPage() {
     {
       id: 11,
       title: "ماهی پارک",
-      title2: " سبحان عرب خزائلی ،4/1/8...",
+      bioPerson: " سبحان عرب خزائلی ،4/1/8...",
       date: "1403/02/01/ 10:00",
       price: 170000000,
       passengers: "سبحان عرب خزائلی ،4/1/8...",
@@ -131,7 +131,7 @@ export default function BookingManagementPage() {
     {
       id: 12,
       title: "ساحل سراوان",
-      title2: " سبحان عرب خزائلی ،4/1/8...",
+      bioPerson: " سبحان عرب خزائلی ،4/1/8...",
       date: "1403/02/01/ 10:00",
       price: 170000000,
       passengers: "سبحان عرب خزائلی ،4/1/8...",
@@ -142,7 +142,7 @@ export default function BookingManagementPage() {
     {
       id: 13,
       title: "ماهی بهشهر",
-      title2: " سبحان عرب خزائلی ،4/1/8...",
+      bioPerson: " سبحان عرب خزائلی ،4/1/8...",
       date: "1403/02/01/ 10:00",
       price: 186600000,
       passengers: "سبحان عرب خزائلی ،4/1/8...",

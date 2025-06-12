@@ -4,6 +4,7 @@ import { usePathname } from "next/navigation";
 import { Breadcrumbs as HeroBreadcrumbs, BreadcrumbItem } from "@heroui/react";
 import Link from "next/link";
 import { MdKeyboardDoubleArrowRight } from "react-icons/md";
+import { useTheme } from "next-themes";
 
 const routeMap: { [key: string]: string } = {
   dashboard: "داشبورد",
@@ -23,15 +24,14 @@ export default function SellerBreadcrumbs() {
   if (sellerIndex !== -1) {
     paths.splice(sellerIndex, 1);
   }
-
   return (
     <HeroBreadcrumbs
       className="!pl-0 !pr-0 !pb-4 !pt-0"
       separator={<MdKeyboardDoubleArrowRight size={20} />}
       size="lg"
-      color="warning"
+      color="foreground"
       variant="solid"
-      underline="focus"
+      underline="hover"
     >
       <BreadcrumbItem>
         <Link href="/seller/dashboard">خانه</Link>

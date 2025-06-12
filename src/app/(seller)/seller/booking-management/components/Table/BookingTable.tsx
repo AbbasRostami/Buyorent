@@ -29,7 +29,7 @@ import { useCustomTable } from "@/utils/hooks/useCustomTable";
 export interface BookingDataSeller {
   id: number;
   title: string;
-  title2: string;
+  bioPerson: string;
   date: string;
   price: number;
   passengers: string;
@@ -56,7 +56,6 @@ export default function BookingTable({
   const [selectedRow, setSelectedRow] = useState<BookingDataSeller | null>(
     null
   );
-  const [globalFilter, setGlobalFilter] = useState("");
 
   const columns = useMemo<ColumnDef<BookingDataSeller>[]>(
     () => [
@@ -72,9 +71,10 @@ export default function BookingTable({
         header: "نام ملک",
         cell: (info) => info.getValue(),
         enableSorting: true,
+        filterFn: "includesString",
       },
       {
-        accessorKey: "title2",
+        accessorKey: "bioPerson",
         header: "اطلاعات مسافر",
         cell: (info) => info.getValue(),
         enableSorting: true,
@@ -186,7 +186,7 @@ export default function BookingTable({
                 <DropdownItem
                   textValue="جزئیات"
                   color="warning"
-                    key="details"
+                  key="details"
                   onPress={() => {
                     setSelectedRow(info.row.original);
                     onOpen();
@@ -237,6 +237,8 @@ export default function BookingTable({
     defaultPageSize: 5,
   });
 
+  const [bookingSearch, setBookingSearch] = useState("");
+
   return (
     <div className="space-y-4 bg-white/90 shadow-2xl dark:bg-gray-800 p-4 rounded-2xl">
       <div className="flex flex-col md:flex-row items-center justify-between gap-2 pb-6 border-b-2 border-dashed border-amber-500">
@@ -249,9 +251,13 @@ export default function BookingTable({
         <div className="flex flex-col md:flex-row justify-end items-center mt-4 md:mt-0 gap-2 w-full md:w-1/3">
           <input
             type="text"
+            value={bookingSearch}
+            onChange={(e) => {
+              const value = e.target.value;
+              setBookingSearch(value);
+              table.getColumn("title")?.setFilterValue(value);
+            }}
             placeholder="نام هتل مورد نظر را جستجو کنید..."
-            value={globalFilter}
-            onChange={(e) => setGlobalFilter(e.target.value)}
             className=" p-2 rounded-md border-2 border-amber-500 w-full md:w-2/3"
           />
           <BookingSellerFilter

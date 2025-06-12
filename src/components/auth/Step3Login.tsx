@@ -5,7 +5,7 @@ import { ErrorMessage, Field, Form, Formik } from "formik";
 import { HiEye, HiEyeSlash } from "react-icons/hi2";
 import { signIn } from "next-auth/react";
 import toast from "react-hot-toast";
-import { LoginValues, Step3LoginProps } from "@/types/AuthTypes";
+import { LoginValues, Step3LoginProps } from "@/types/Auth/AuthTypes";
 import { loginSchema } from "@/utils/validation/AuthValidation";
 import { FaGithub } from "react-icons/fa";
 import { FcGoogle } from "react-icons/fc";
@@ -112,7 +112,9 @@ export const Step3Login = ({ onSuccess }: Step3LoginProps) => {
           className="w-full sm:w-auto cursor-pointer  flex-1 flex justify-center items-center gap-2 bg-white dark:bg-slate-800 text-gray-800 dark:text-white py-2 px-4 rounded-xl shadow-md hover:bg-blue-100 dark:hover:bg-slate-700 transition-all duration-300 transform hover:scale-105"
         >
           <FaGithub size={22} />
-          <span className="text-sm sm:text-base font-medium">ورود با گیتهاب</span>
+          <span className="text-sm sm:text-base font-medium">
+            ورود با گیتهاب
+          </span>
         </button>
 
         <button

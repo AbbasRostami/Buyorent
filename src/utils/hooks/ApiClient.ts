@@ -1,6 +1,6 @@
 import axios from "axios";
 import { unstable_cache } from "next/cache";
-import { HouseQueryParams } from "@/types/LandingType";
+import { HouseQueryParams } from "@/types/Landing/LandingType";
 
 const API_BASE = process.env.NEXT_PUBLIC_API_URL!;
 

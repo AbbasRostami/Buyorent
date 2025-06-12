@@ -10,7 +10,7 @@ import "swiper/css";
 import "swiper/css/effect-fade";
 import "swiper/css/navigation";
 import "swiper/css/pagination";
-import { HouseTypeProps } from "@/types/LandingType";
+import { HouseTypeProps } from "@/types/Landing/LandingType";
 import Image from "next/image";
 import { Card } from "@heroui/react";
 import { Skeleton } from "@heroui/react";

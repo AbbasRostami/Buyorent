@@ -1,5 +1,5 @@
 "use client";
-import { Step, StepperProps } from "@/types/AuthTypes";
+import { Step, StepperProps } from "@/types/Auth/AuthTypes";
 import { BsArrowDown } from "react-icons/bs";
 
 const steps = [

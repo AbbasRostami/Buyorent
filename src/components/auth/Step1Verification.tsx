@@ -3,7 +3,10 @@ import { useState, useEffect } from "react";
 import { InputOtp, Spinner } from "@heroui/react";
 import { usePost } from "@/utils/hooks/useReactQueryHooks";
 import toast from "react-hot-toast";
-import { Step1VerificationProps, VerifyEmailResponse } from "@/types/AuthTypes";
+import {
+  Step1VerificationProps,
+  VerifyEmailResponse,
+} from "@/types/Auth/AuthTypes";
 
 export const Step1Verification = ({
   email,

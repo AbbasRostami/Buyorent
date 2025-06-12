@@ -4,7 +4,10 @@ import { Spinner } from "@heroui/react";
 import { HiEye, HiEyeSlash } from "react-icons/hi2";
 import { usePost } from "@/utils/hooks/useReactQueryHooks";
 import toast from "react-hot-toast";
-import { Step2PasswordProps, Step2PasswordValues } from "@/types/AuthTypes";
+import {
+  Step2PasswordProps,
+  Step2PasswordValues,
+} from "@/types/Auth/AuthTypes";
 import { Formik, Field, Form, ErrorMessage } from "formik";
 import { validationStepPassword } from "@/utils/validation/AuthValidation";
 

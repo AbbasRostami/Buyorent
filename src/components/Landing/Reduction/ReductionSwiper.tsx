@@ -9,7 +9,7 @@ import { IoLocationOutline } from "react-icons/io5";
 import { IoMdBed } from "react-icons/io";
 import { FaShower } from "react-icons/fa";
 import { MdFamilyRestroom } from "react-icons/md";
-import { HouseTypeProps } from "@/types/LandingType";
+import { HouseTypeProps } from "@/types/Landing/LandingType";
 import Image from "next/image";
 import Link from "next/link";
 

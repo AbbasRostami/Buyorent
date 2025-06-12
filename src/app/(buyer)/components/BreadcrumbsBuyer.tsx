@@ -18,7 +18,6 @@ export default function BuyerBreadcrumbs() {
   const pathname = usePathname();
   const paths = pathname.split("/").filter(Boolean);
 
-  // Remove 'buyer' from the paths array if it exists
   const buyerIndex = paths.indexOf("buyer");
   if (buyerIndex !== -1) {
     paths.splice(buyerIndex, 1);
@@ -29,9 +28,9 @@ export default function BuyerBreadcrumbs() {
       className="!pl-0 !pr-0 !pb-4 !pt-0"
       separator={<MdKeyboardDoubleArrowRight size={20} />}
       size="lg"
-      color="warning"
+      color="foreground"
       variant="solid"
-      underline="focus"
+      underline="hover"
     >
       <BreadcrumbItem>
         <Link href="/buyer/dashboard">خانه</Link>

@@ -13,7 +13,7 @@ import condo from "./../../../assets/Landing/condo.png";
 import forest from "./../../../assets/Landing/forest.png";
 import swimmingpool from "./../../../assets/Landing/swimmingpool.png";
 import villa from "./../../../assets/Landing/villa.png";
-import { CategorytypeProps } from "@/types/LandingType";
+import { CategorytypeProps } from "@/types/Landing/LandingType";
 
 const imageMap: Record<string, any> = {
   "کلبه ای": boat,

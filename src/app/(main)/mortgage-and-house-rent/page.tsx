@@ -3,7 +3,7 @@ import ClientWrapper from "@/components/mortgage-and-house-rent/ClientWrapper";
 import PaginationWrapper from "@/components/mortgage-and-house-rent/PaginationWrapper";
 import qs from "qs";
 import { useServerData } from "@/utils/hooks/useServerData";
-import { HouseTypeRentProps } from "@/types/LandingType";
+import { HouseTypeRentProps } from "@/types/Landing/LandingType";
 import SmartSearchContainer from "@/components/mortgage-and-house-rent/SmartSearchContainer";
 import { convertToHouseItems } from "@/types/property";
 import { generateMortgageAndRentMetadata } from "@/utils/metadata/mortgage-and-rent";

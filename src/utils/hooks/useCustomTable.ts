@@ -1,4 +1,3 @@
-import { callAddFont } from "../../assets/fonts/Vazirmatn-normal.js";
 import * as React from "react";
 import {
   useReactTable,
@@ -20,6 +19,7 @@ import * as XLSX from "xlsx";
 import { saveAs } from "file-saver";
 import jsPDF from "jspdf";
 import autoTable from "jspdf-autotable";
+import { callAddFont } from "@/assets/fonts/Vazirmatn-normal"; // مسیر فونتت رو تنظیم کن
 
 interface UseCustomTableOptions<TData, TValue = unknown> {
   data: TData[];
@@ -31,9 +31,9 @@ interface UseCustomTableOptions<TData, TValue = unknown> {
   enableColumnVisibility?: boolean;
   manualPagination?: boolean;
   pageCount?: number;
-  defaultPageIndex?: number;
-  defaultPageSize?: number;
   getRowId?: (row: TData, index: number) => string;
+  pagination?: PaginationState;
+  onPaginationChange?: (pagination: PaginationState) => void;
 }
 
 interface TableState<TData> {
@@ -42,7 +42,6 @@ interface TableState<TData> {
   columnFilters: ColumnFiltersState;
   columnVisibility: VisibilityState;
   rowSelection: Record<string, boolean>;
-  pagination: PaginationState;
 }
 
 interface TableActions {
@@ -61,7 +60,6 @@ interface UseCustomTableReturn<TData, TValue>
   printTable: () => void;
 }
 
-// useCustomTable
 export function useCustomTable<TData, TValue = unknown>({
   data,
   columns,
@@ -72,9 +70,9 @@ export function useCustomTable<TData, TValue = unknown>({
   enableColumnVisibility = false,
   manualPagination = false,
   pageCount,
-  defaultPageIndex = 0,
-  defaultPageSize = 10,
   getRowId,
+  pagination,
+  onPaginationChange,
 }: UseCustomTableOptions<TData, TValue>): UseCustomTableReturn<TData, TValue> {
   const [sorting, setSorting] = React.useState<SortingState>([]);
   const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>(
@@ -85,13 +83,8 @@ export function useCustomTable<TData, TValue = unknown>({
   const [rowSelection, setRowSelection] = React.useState<
     Record<string, boolean>
   >({});
-  const [pagination, setPagination] = React.useState<PaginationState>({
-    pageIndex: defaultPageIndex,
-    pageSize: defaultPageSize,
-  });
 
-  // useReactTable
-
+  // React Table
   const table = useReactTable({
     data,
     columns,
@@ -100,7 +93,7 @@ export function useCustomTable<TData, TValue = unknown>({
       columnFilters: enableFiltering ? columnFilters : undefined,
       columnVisibility: enableColumnVisibility ? columnVisibility : undefined,
       rowSelection: enableRowSelection ? rowSelection : undefined,
-      pagination: enablePagination ? pagination : undefined,
+      pagination: manualPagination && pagination ? pagination : undefined,
     },
     onSortingChange: enableSorting
       ? (setSorting as OnChangeFn<SortingState>)
@@ -110,7 +103,10 @@ export function useCustomTable<TData, TValue = unknown>({
       ? setColumnVisibility
       : undefined,
     onRowSelectionChange: enableRowSelection ? setRowSelection : undefined,
-    onPaginationChange: enablePagination ? setPagination : undefined,
+    onPaginationChange:
+      manualPagination && onPaginationChange
+        ? (onPaginationChange as OnChangeFn<PaginationState>)
+        : undefined,
     getCoreRowModel: getCoreRowModel(),
     getSortedRowModel: enableSorting ? getSortedRowModel() : undefined,
     getFilteredRowModel: enableFiltering ? getFilteredRowModel() : undefined,
@@ -128,8 +124,7 @@ export function useCustomTable<TData, TValue = unknown>({
     autoResetPageIndex: false,
   });
 
-  // function exportToExcel
-
+  // Export to Excel
   const exportToExcel = React.useCallback(() => {
     const worksheetData = [
       columns.map((col) => (typeof col.header === "string" ? col.header : "")),
@@ -145,36 +140,26 @@ export function useCustomTable<TData, TValue = unknown>({
     const workbook = XLSX.utils.book_new();
     XLSX.utils.book_append_sheet(workbook, worksheet, "Sheet1");
 
-    const excelBuffer = XLSX.write(workbook, {
-      bookType: "xlsx",
-      type: "array",
-    });
-    const dataBlob = new Blob([excelBuffer], {
-      type: "application/octet-stream",
-    });
-    saveAs(dataBlob, "table-export.xlsx");
+    const buffer = XLSX.write(workbook, { bookType: "xlsx", type: "array" });
+    const blob = new Blob([buffer], { type: "application/octet-stream" });
+    saveAs(blob, "table-export.xlsx");
   }, [data, columns]);
 
-  // function exportToPDF
-
+  // Export to PDF
   jsPDF.API.events.push(["addFonts", callAddFont]);
-
   const exportToPDF = React.useCallback(() => {
     const doc = new jsPDF();
-
     doc.setFont("Vazirmatn");
     doc.setFontSize(10);
 
     const headers = table
       .getHeaderGroups()[0]
-      .headers.filter((header) => {
-        const columnDef = header.column.columnDef;
-        return !(columnDef as any).meta?.isImage;
-      })
-      .map((header) => {
-        const raw = header.column.columnDef.header;
-        return typeof raw === "string" ? raw : "";
-      });
+      .headers.filter((h) => !(h.column.columnDef as any).meta?.isImage)
+      .map((h) =>
+        typeof h.column.columnDef.header === "string"
+          ? h.column.columnDef.header
+          : ""
+      );
 
     const rows = table.getRowModel().rows.map((row) =>
       row
@@ -191,40 +176,21 @@ export function useCustomTable<TData, TValue = unknown>({
     autoTable(doc, {
       head: [headers],
       body: rows,
-      headStyles: {
-        fontSize: 10,
-        font: "Vazirmatn",
-        fontStyle: "normal",
-        halign: "center",
-        valign: "middle",
-      },
-      styles: {
-        font: "Vazirmatn",
-        fontSize: 10,
-        halign: "center",
-        valign: "middle",
-      },
-      margin: { top: 20 },
-      didParseCell: (data) => {
-        data.cell.styles.font = "Vazirmatn";
-      },
+      headStyles: { font: "Vazirmatn", fontSize: 10, halign: "center" },
+      styles: { font: "Vazirmatn", fontSize: 10, halign: "center" },
     });
 
     doc.save("table-export.pdf");
   }, [table]);
 
-  
-  // function printTable
-
+  // Print Table
   const printTable = React.useCallback(() => {
     const headers = table
       .getHeaderGroups()[0]
-      .headers.filter(
-        (header) => !(header.column.columnDef as any).meta?.isImage
-      )
-      .map((header) =>
-        typeof header.column.columnDef.header === "string"
-          ? header.column.columnDef.header
+      .headers.filter((h) => !(h.column.columnDef as any).meta?.isImage)
+      .map((h) =>
+        typeof h.column.columnDef.header === "string"
+          ? h.column.columnDef.header
           : ""
       );
 
@@ -244,56 +210,37 @@ export function useCustomTable<TData, TValue = unknown>({
       <html dir="rtl">
         <head>
           <meta charset="utf-8" />
-          <title>Print Table</title>
+          <title>چاپ جدول</title>
           <style>
-            body {
-              font-family: Vazirmatn, sans-serif;
-              direction: rtl;
-              padding: 20px;
-            }
-            table {
-              border-collapse: collapse;
-              width: 100%;
-            }
-            th, td {
-              border: 1px solid #000;
-              padding: 8px;
-              text-align: center;
-            }
-            th {
-              background-color: #f0f0f0;
-            }
+            body { font-family: Vazirmatn, sans-serif; padding: 20px; direction: rtl; }
+            table { border-collapse: collapse; width: 100%; }
+            th, td { border: 1px solid #000; padding: 8px; text-align: center; }
+            th { background-color: #f0f0f0; }
           </style>
-          <link href="https://cdn.jsdelivr.net/gh/rastikerdar/vazirmatn-font@v33.003/Vazirmatn-font-face.css" rel="stylesheet" type="text/css" />
+          <link href="https://cdn.jsdelivr.net/gh/rastikerdar/vazirmatn-font@v33.003/Vazirmatn-font-face.css" rel="stylesheet" />
         </head>
         <body>
           <table>
-            <thead>
-              <tr>${headers.map((h) => `<th>${h}</th>`).join("")}</tr>
-            </thead>
-            <tbody>
-              ${rows
-                .map(
-                  (row) =>
-                    `<tr>${row.map((cell) => `<td>${cell}</td>`).join("")}</tr>`
-                )
-                .join("")}
-            </tbody>
+            <thead><tr>${headers
+              .map((h) => `<th>${h}</th>`)
+              .join("")}</tr></thead>
+            <tbody>${rows
+              .map(
+                (row) =>
+                  `<tr>${row.map((cell) => `<td>${cell}</td>`).join("")}</tr>`
+              )
+              .join("")}</tbody>
           </table>
-          <script>
-            window.onload = function() {
-              window.print();
-            }
-          </script>
+          <script>window.onload = function() { window.print(); }</script>
         </body>
       </html>
     `;
 
-    const printWindow = window.open("", "_blank");
-    if (printWindow) {
-      printWindow.document.open();
-      printWindow.document.write(htmlContent);
-      printWindow.document.close();
+    const win = window.open("", "_blank");
+    if (win) {
+      win.document.open();
+      win.document.write(htmlContent);
+      win.document.close();
     }
   }, [table]);
 
@@ -303,30 +250,19 @@ export function useCustomTable<TData, TValue = unknown>({
     columnFilters,
     columnVisibility,
     rowSelection,
-    pagination,
     resetFilters: () => setColumnFilters([]),
+    setPageSize: (pageSize: number) =>
+      table.setPagination((prev) => ({ ...prev, pageSize })),
+    resetPagination: () =>
+      table.setPagination((prev) => ({ ...prev, pageIndex: 0 })),
+    goToPage: (page: number) =>
+      table.setPagination((prev) => ({ ...prev, pageIndex: page })),
     resetTable: () => {
       setSorting([]);
       setColumnFilters([]);
       setColumnVisibility({});
       setRowSelection({});
     },
-    setPageSize: (pageSize: number) =>
-      setPagination((prev) => ({
-        ...prev,
-        pageSize,
-        pageIndex: 0,
-      })),
-    resetPagination: () =>
-      setPagination((prev) => ({
-        ...prev,
-        pageIndex: 0,
-      })),
-    goToPage: (page: number) =>
-      setPagination((prev) => ({
-        ...prev,
-        pageIndex: Math.max(0, page),
-      })),
     exportToExcel,
     exportToPDF,
     printTable,

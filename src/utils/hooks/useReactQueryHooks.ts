@@ -61,12 +61,13 @@ export const usePut = <T, D = any>(
 
 // DELETE Hook
 export const useDelete = <T, D = any>(
-  url: string,
+  getUrl: (data: D) => string,
   options?: UseMutationOptions<T, AxiosError, D>
 ) => {
   return useMutation<T, AxiosError, D>({
     mutationFn: async (data: D) => {
-      const res = await api.delete<T>(url, { data });
+      const url = getUrl(data);
+      const res = await api.delete<T>(url);
       return res.data;
     },
     ...options,

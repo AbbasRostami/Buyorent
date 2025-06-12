@@ -1,20 +1,29 @@
 import { Button, Slider } from "@heroui/react";
 import { Modal, ModalContent } from "@heroui/react";
-import React from "react";
+import React, { useMemo } from "react";
 import { IoMdClose } from "react-icons/io";
-import { Field, Form, Formik } from "formik";
+import { Field, Form, Formik, ErrorMessage } from "formik";
 import { FaEdit } from "react-icons/fa";
+import { useEditComment } from "@/services/Seller/comments-management/editComment";
+import { validationEditComment } from "@/utils/validation/Seller/comments-management/editComment";
+import { CommentsData } from "@/types/Seller/comments-management/CommentTypes";
 
 export const FilterComment = ({
   isOpen,
   onOpenChange,
+  commentId,
+  data,
 }: {
   isOpen: boolean;
   onOpenChange: (open: boolean) => void;
+  commentId: number;
+  data: CommentsData[];
 }) => {
-  const handleSubmit = (values: any) => {
-    console.log("values:", values);
-  };
+  const selectedComment = useMemo(() => {
+    return data?.find((comment) => comment.id === commentId);
+  }, [data, commentId]);
+
+  const editComment = useEditComment(commentId);
 
   return (
     <Modal
@@ -39,8 +48,14 @@ export const FilterComment = ({
               </button>
             </div>
             <Formik
-              initialValues={{ title: "", caption: "", rating: 0 }}
-              onSubmit={handleSubmit}
+              enableReinitialize
+              initialValues={{
+                title: selectedComment?.title || "",
+                caption: selectedComment?.caption || "",
+                rating: selectedComment?.rating || 0,
+              }}
+              onSubmit={editComment.mutate}
+              validationSchema={validationEditComment}
             >
               {({ values, setFieldValue }) => (
                 <Form>
@@ -52,6 +67,11 @@ export const FilterComment = ({
                         className="w-full form-input"
                         placeholder="عنوان را وارد کنید"
                       />
+                      <ErrorMessage
+                        name="title"
+                        component="div"
+                        className="text-sm text-red-500 mt-1"
+                      />
                     </div>
                     <div className="flex flex-col col-span-2 gap-2">
                       <label className="text-sm font-bold">توضیحات</label>
@@ -61,6 +81,11 @@ export const FilterComment = ({
                         name="caption"
                         className="w-full form-input"
                         placeholder="توضیحات را وارد کنید"
+                      />
+                      <ErrorMessage
+                        name="caption"
+                        component="div"
+                        className="text-sm text-red-500 mt-1"
                       />
                     </div>
                     <div className="w-full col-span-2">
@@ -79,6 +104,11 @@ export const FilterComment = ({
                         onChange={(val) => setFieldValue("rating", val)}
                         showSteps
                       />
+                      <ErrorMessage
+                        name="rating"
+                        component="div"
+                        className="text-sm text-red-500 mt-1"
+                      />
                     </div>
                   </div>
                   <div className="flex justify-end mt-8">
@@ -87,6 +117,7 @@ export const FilterComment = ({
                       variant="shadow"
                       color="warning"
                       className="max-w-xs"
+                      isLoading={editComment.isPending}
                     >
                       ویرایش کامنت
                     </Button>

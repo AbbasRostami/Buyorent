@@ -2,7 +2,7 @@ import { IoIosArrowBack } from "react-icons/io";
 import { FaCircle } from "react-icons/fa6";
 import { useServerData } from "@/utils/hooks/useServerData";
 import HotDealsOfWeekSwiper from "./HotDealsOfWeekSwiper";
-import { HouseTypeProps } from "@/types/LandingType";
+import { HouseTypeProps } from "@/types/Landing/LandingType";
 import Link from "next/link";
 
 export default async function HotDealsOfWeek() {

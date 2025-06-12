@@ -3,7 +3,10 @@ import { Formik, Form, Field, ErrorMessage } from "formik";
 import { Spinner } from "@heroui/react";
 import { usePost } from "@/utils/hooks/useReactQueryHooks";
 import toast from "react-hot-toast";
-import { StartRegistrationResponse, Step0EmailProps } from "@/types/AuthTypes";
+import {
+  StartRegistrationResponse,
+  Step0EmailProps,
+} from "@/types/Auth/AuthTypes";
 import { validationStepEmail } from "@/utils/validation/AuthValidation";
 
 export const Step0Email = ({ onSuccess }: Step0EmailProps) => {

@@ -99,6 +99,7 @@ export default function RealStatesTable({
         accessorKey: "title",
         header: "نام اقامتگاه",
         cell: (info) => info.getValue(),
+        filterFn: "includesString",
       },
       {
         accessorKey: "price",
@@ -150,7 +151,7 @@ export default function RealStatesTable({
                   ? "danger"
                   : "warning"
               }
-              variant="flat"
+              variant="shadow"
               className="text-sm px-2 py-1 rounded-xl font-normal"
             >
               {value}
@@ -249,7 +250,7 @@ export default function RealStatesTable({
   });
 
   const [showStepper, setShowStepper] = useState(false);
-
+  const [realStateSearch, setRealStateSearch] = useState("");
   const { isOpen, onOpen, onOpenChange } = useDisclosure();
   return (
     <div className="space-y-4 bg-white/90 shadow-2xl dark:bg-gray-800 p-4 rounded-2xl">
@@ -297,8 +298,12 @@ export default function RealStatesTable({
               <input
                 type="text"
                 placeholder="نام هتل مورد نظر را جستجو کنید..."
-                value={globalFilter}
-                onChange={(e) => setGlobalFilter(e.target.value)}
+                value={realStateSearch}
+                onChange={(e) => {
+                  const value = e.target.value;
+                  setRealStateSearch(value);
+                  table.getColumn("title")?.setFilterValue(value);
+                }}
                 className=" p-2 rounded-md border-2 border-amber-500 w-full md:w-2/3"
               />
               <RealStatesFilter
