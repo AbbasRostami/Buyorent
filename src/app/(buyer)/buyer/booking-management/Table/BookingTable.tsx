@@ -185,11 +185,7 @@ export default function BookingTable({
                 </Button>
               </DropdownTrigger>
               <DropdownMenu aria-label="Static Actions">
-                <DropdownItem
-                  textValue="پرداخت"
-                  color="success"
-                  key="payment"
-                >
+                <DropdownItem textValue="پرداخت" color="success" key="payment">
                   <div className="flex items-center gap-2">
                     <GiWallet size={20} />
                     پرداخت
@@ -233,10 +229,13 @@ export default function BookingTable({
     []
   );
 
+  const [pagination, setPagination] = useState({
+    pageIndex: 0,
+    pageSize: 5,
+  });
   const {
     table,
     columnFilters,
-    pagination,
     setPageSize,
     exportToExcel,
     exportToPDF,
@@ -247,7 +246,9 @@ export default function BookingTable({
     enableSorting: true,
     enableFiltering: true,
     enablePagination: true,
-    defaultPageSize: 5,
+    manualPagination: true,
+    pagination,
+    onPaginationChange: setPagination,
   });
 
   return (
@@ -384,13 +385,18 @@ export default function BookingTable({
               color="warning"
               className="w-28"
               aria-label="تعداد آیتم‌ها"
-              selectedKeys={[pagination.pageSize.toString()]}
               renderValue={(items) => {
                 return `نمایش: ${items[0].key}`;
               }}
+              value={pagination.pageSize.toString()}
+              selectedKeys={[pagination.pageSize.toString()]}
               onChange={(e) => {
                 const newSize = Number(e.target.value);
-                setPageSize(newSize);
+                setPagination((prev) => ({
+                  ...prev,
+                  pageSize: newSize,
+                  pageIndex: 0,
+                }));
               }}
             >
               {[5, 10, 15].map((size) => (
@@ -406,13 +412,12 @@ export default function BookingTable({
               showControls
               total={table.getPageCount()}
               page={pagination.pageIndex + 1}
-              onChange={(page) =>
-                table.setPagination((prev) => ({
+              onChange={(page) => {
+                setPagination((prev) => ({
                   ...prev,
                   pageIndex: page - 1,
-                  pageSize: pagination.pageSize,
-                }))
-              }
+                }));
+              }}
             />
           </div>
         </div>

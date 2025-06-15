@@ -164,18 +164,16 @@ export default function CommentsTable() {
   const { comments, isLoading } = useGetComment(pagination, session as Session);
   const deleteComment = useDeleteComment();
 
-  const isLastPage = comments && comments.length < pagination.pageSize;
-  const totalPages = isLastPage ? pagination.pageIndex + 1 : 100;
-
-  const { table, exportToExcel, exportToPDF, printTable } = useCustomTable({
-    data: comments || [],
-    columns,
-    manualPagination: true,
-    enablePagination: true,
-    pagination,
-    onPaginationChange: setPagination,
-    pageCount: totalPages,
-  });
+  const { table, exportToExcel, exportToPDF, printTable, computedPageCount } =
+    useCustomTable<CommentsData>({
+      data: comments?.data || [],
+      columns,
+      manualPagination: true,
+      enablePagination: true,
+      pagination,
+      totalCount: comments?.totalCount,
+      onPaginationChange: setPagination,
+    });
 
   return (
     <>
@@ -196,7 +194,7 @@ export default function CommentsTable() {
             onChange={(e) => {
               const value = e.target.value;
               setCommentSearch(value);
-              table.getColumn("title")?.setFilterValue(value);
+              table.getColumn("ti")?.setFilterValue(value);
             }}
             placeholder="کامنت مورد نظر را جستجو کنید..."
             className="p-2 rounded-lg border-2 border-amber-500 w-full md:w-2/3"
@@ -206,7 +204,7 @@ export default function CommentsTable() {
           isOpen={isOpen}
           onOpenChange={onOpenChange}
           commentId={selectedCommentId || 0}
-          data={comments || []}
+          data={comments?.data || []}
         />
 
         <div className="overflow-x-auto  rounded-xl">
@@ -329,7 +327,7 @@ export default function CommentsTable() {
                 setPagination((prev) => ({
                   ...prev,
                   pageSize: newSize,
-                  pageIndex: 0, // بهتره صفحه رو ریست کنی
+                  pageIndex: 0,
                 }));
               }}
             >
@@ -344,7 +342,7 @@ export default function CommentsTable() {
               color="warning"
               isCompact
               showControls
-              total={table.getPageCount()}
+              total={computedPageCount ?? 1}
               page={pagination.pageIndex + 1}
               onChange={(page) => {
                 setPagination((prev) => ({

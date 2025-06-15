@@ -16,7 +16,7 @@ import { PiCurrencyDollarFill } from "react-icons/pi";
 import { FaMoneyBillTransfer } from "react-icons/fa6";
 
 import { flexRender, ColumnDef } from "@tanstack/react-table";
-import { useMemo } from "react";
+import { useMemo, useState } from "react";
 import { useSidebar } from "../../context/SidebarContext";
 import { useCustomTable } from "@/utils/hooks/useCustomTable";
 
@@ -80,13 +80,16 @@ const WalletCard = () => {
     { date: "1403/02/05/ 10:00", trackingId: "987654", amount: 450000 },
   ];
 
+  const [pagination, setPagination] = useState({
+    pageIndex: 0,
+    pageSize: 5,
+  });
   const { table } = useCustomTable<Transaction>({
     data: transactions,
     columns,
-    enableSorting: true,
-    enableFiltering: true,
-    enablePagination: true,
-    defaultPageSize: 5,
+    manualPagination: true,
+    pagination,
+    onPaginationChange: setPagination,
   });
 
   if (!isExpanded && !isHovered && !isMobileOpen) {

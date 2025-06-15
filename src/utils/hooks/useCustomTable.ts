@@ -19,18 +19,18 @@ import * as XLSX from "xlsx";
 import { saveAs } from "file-saver";
 import jsPDF from "jspdf";
 import autoTable from "jspdf-autotable";
-import { callAddFont } from "@/assets/fonts/Vazirmatn-normal"; // مسیر فونتت رو تنظیم کن
+import { callAddFont } from "@/assets/fonts/Vazirmatn-normal";
 
 interface UseCustomTableOptions<TData, TValue = unknown> {
   data: TData[];
   columns: ColumnDef<TData, TValue>[];
+  totalCount?: number; // ✅ اضافه‌شده
   enableSorting?: boolean;
   enableFiltering?: boolean;
   enablePagination?: boolean;
   enableRowSelection?: boolean;
   enableColumnVisibility?: boolean;
   manualPagination?: boolean;
-  pageCount?: number;
   getRowId?: (row: TData, index: number) => string;
   pagination?: PaginationState;
   onPaginationChange?: (pagination: PaginationState) => void;
@@ -58,6 +58,7 @@ interface UseCustomTableReturn<TData, TValue>
   exportToExcel: () => void;
   exportToPDF: () => void;
   printTable: () => void;
+  computedPageCount?: number;
 }
 
 export function useCustomTable<TData, TValue = unknown>({
@@ -69,7 +70,7 @@ export function useCustomTable<TData, TValue = unknown>({
   enableRowSelection = false,
   enableColumnVisibility = false,
   manualPagination = false,
-  pageCount,
+  totalCount,
   getRowId,
   pagination,
   onPaginationChange,
@@ -83,6 +84,10 @@ export function useCustomTable<TData, TValue = unknown>({
   const [rowSelection, setRowSelection] = React.useState<
     Record<string, boolean>
   >({});
+  const computedPageCount: number =
+    manualPagination && pagination && typeof totalCount === "number"
+      ? Math.ceil(totalCount / pagination.pageSize)
+      : 1;
 
   // React Table
   const table = useReactTable({
@@ -119,7 +124,7 @@ export function useCustomTable<TData, TValue = unknown>({
       : undefined,
     enableRowSelection,
     manualPagination,
-    pageCount,
+    pageCount: computedPageCount,
     getRowId: getRowId ?? ((row) => (row as any).id?.toString()),
     autoResetPageIndex: false,
   });
@@ -266,5 +271,6 @@ export function useCustomTable<TData, TValue = unknown>({
     exportToExcel,
     exportToPDF,
     printTable,
+    computedPageCount,
   };
 }

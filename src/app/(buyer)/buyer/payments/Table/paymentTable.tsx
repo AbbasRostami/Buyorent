@@ -119,9 +119,12 @@ export default function PaymentTable({
     []
   );
 
+  const [pagination, setPagination] = useState({
+    pageIndex: 0,
+    pageSize: 5,
+  });
   const {
     table,
-    pagination,
     setPageSize,
     exportToExcel,
     exportToPDF,
@@ -132,7 +135,9 @@ export default function PaymentTable({
     enableSorting: true,
     enableFiltering: true,
     enablePagination: true,
-    defaultPageSize: 5,
+    manualPagination: true,
+    pagination,
+    onPaginationChange: setPagination,
   });
 
   const [statusFilter, setStatusFilter] = useState<string>("همه");
@@ -297,41 +302,45 @@ export default function PaymentTable({
           </Button>
         </div>
         <div className=" flex flex-col xl:flex-row items-center gap-3">
-          <Select
-            variant="faded"
-            color="warning"
-            className="w-28"
-            aria-label="تعداد آیتم‌ها"
-            selectedKeys={[pagination.pageSize.toString()]}
-            renderValue={(items) => {
-              return `نمایش: ${items[0].key}`;
-            }}
-            onChange={(e) => {
-              const newSize = Number(e.target.value);
-              setPageSize(newSize);
-            }}
-          >
-            {[5, 10, 15].map((size) => (
-              <SelectItem textValue="نمایش" key={size}>
-                {size}
-              </SelectItem>
-            ))}
-          </Select>
-          <Pagination
-            dir="ltr"
-            color="warning"
-            isCompact
-            showControls
-            total={table.getPageCount()}
-            page={pagination.pageIndex + 1}
-            onChange={(page) =>
-              table.setPagination((prev) => ({
-                ...prev,
-                pageIndex: page - 1,
-                pageSize: pagination.pageSize,
-              }))
-            }
-          />
+        <Select
+              variant="faded"
+              color="warning"
+              className="w-28"
+              aria-label="تعداد آیتم‌ها"
+              renderValue={(items) => {
+                return `نمایش: ${items[0].key}`;
+              }}
+              value={pagination.pageSize.toString()}
+              selectedKeys={[pagination.pageSize.toString()]}
+              onChange={(e) => {
+                const newSize = Number(e.target.value);
+                setPagination((prev) => ({
+                  ...prev,
+                  pageSize: newSize,
+                  pageIndex: 0, 
+                }));
+              }}
+            >
+              {[5, 10, 15].map((size) => (
+                <SelectItem textValue="نمایش" key={size}>
+                  {size}
+                </SelectItem>
+              ))}
+            </Select>
+            <Pagination
+              dir="ltr"
+              color="warning"
+              isCompact
+              showControls
+              total={table.getPageCount()}
+              page={pagination.pageIndex + 1}
+              onChange={(page) => {
+                setPagination((prev) => ({
+                  ...prev,
+                  pageIndex: page - 1,
+                }));
+              }}
+            />
         </div>
       </div>
     </div>

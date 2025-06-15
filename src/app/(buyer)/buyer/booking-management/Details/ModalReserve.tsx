@@ -82,7 +82,6 @@ export default function ModalReserve({
     enableSorting: true,
     enableFiltering: true,
     enablePagination: true,
-    defaultPageSize: 5,
   });
 
   return (

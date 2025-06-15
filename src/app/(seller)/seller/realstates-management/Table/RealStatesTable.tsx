@@ -232,22 +232,21 @@ export default function RealStatesTable({
     ],
     []
   );
-
-  const {
-    table,
-    pagination,
-    setPageSize,
-    exportToExcel,
-    exportToPDF,
-    printTable,
-  } = useCustomTable<RealStateData>({
-    data: realStateData,
-    columns,
-    enableSorting: true,
-    enableFiltering: true,
-    enablePagination: true,
-    defaultPageSize: 5,
+  const [pagination, setPagination] = useState({
+    pageIndex: 0,
+    pageSize: 5,
   });
+  const { table, setPageSize, exportToExcel, exportToPDF, printTable } =
+    useCustomTable<RealStateData>({
+      data: realStateData,
+      columns,
+      enableSorting: true,
+      enableFiltering: true,
+      enablePagination: true,
+      manualPagination: true,
+      pagination,
+      onPaginationChange: setPagination,
+    });
 
   const [showStepper, setShowStepper] = useState(false);
   const [realStateSearch, setRealStateSearch] = useState("");
@@ -425,13 +424,18 @@ export default function RealStatesTable({
                 color="warning"
                 className="w-28"
                 aria-label="تعداد آیتم‌ها"
-                selectedKeys={[pagination.pageSize.toString()]}
                 renderValue={(items) => {
                   return `نمایش: ${items[0].key}`;
                 }}
+                value={pagination.pageSize.toString()}
+                selectedKeys={[pagination.pageSize.toString()]}
                 onChange={(e) => {
                   const newSize = Number(e.target.value);
-                  setPageSize(newSize);
+                  setPagination((prev) => ({
+                    ...prev,
+                    pageSize: newSize,
+                    pageIndex: 0,
+                  }));
                 }}
               >
                 {[5, 10, 15].map((size) => (
@@ -447,13 +451,12 @@ export default function RealStatesTable({
                 showControls
                 total={table.getPageCount()}
                 page={pagination.pageIndex + 1}
-                onChange={(page) =>
-                  table.setPagination((prev) => ({
+                onChange={(page) => {
+                  setPagination((prev) => ({
                     ...prev,
                     pageIndex: page - 1,
-                    pageSize: pagination.pageSize,
-                  }))
-                }
+                  }));
+                }}
               />
             </div>
           </div>

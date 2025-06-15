@@ -1,7 +1,7 @@
 import { Modal, ModalContent, ModalBody } from "@heroui/react";
 import { IoMdClose } from "react-icons/io";
 import { ColumnDef, flexRender } from "@tanstack/react-table";
-import { useMemo } from "react";
+import { useMemo, useState } from "react";
 import { BsArrowDown, BsArrowUp } from "react-icons/bs";
 import { FaListCheck } from "react-icons/fa6";
 import { useDisclosure } from "@heroui/react";
@@ -76,13 +76,18 @@ export default function ModalHistory({
     ],
     []
   );
+
+  const [pagination, setPagination] = useState({
+    pageIndex: 0,
+    pageSize: 5,
+  });
   const { table } = useCustomTable({
     data: historyData,
     columns,
     enableSorting: true,
     enableFiltering: true,
     enablePagination: true,
-    defaultPageSize: 5,
+    manualPagination: true,
   });
 
   return (

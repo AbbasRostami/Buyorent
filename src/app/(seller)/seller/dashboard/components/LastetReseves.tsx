@@ -1,7 +1,7 @@
 "use client";
 
 import { ColumnDef, flexRender } from "@tanstack/react-table";
-import { useMemo } from "react";
+import { useMemo, useState } from "react";
 import { BsArrowDown, BsArrowUp } from "react-icons/bs";
 import { FaPlusCircle } from "react-icons/fa";
 import image from "./../../../../../assets/Avatar1.png";
@@ -212,13 +212,20 @@ export default function LastetReseves() {
     },
   ];
 
+  const [pagination, setPagination] = useState({
+    pageIndex: 0,
+    pageSize: 5,
+  });
+
   const { table } = useCustomTable({
     data: lastetResevesData,
     columns,
     enableSorting: true,
     enableFiltering: true,
     enablePagination: true,
-    defaultPageSize: 5,
+    manualPagination: true,
+    pagination,
+    onPaginationChange: setPagination,
   });
 
   return (
@@ -305,8 +312,13 @@ export default function LastetReseves() {
           isCompact
           showControls
           total={table.getPageCount()}
-          page={table.getState().pagination.pageIndex + 1}
-          onChange={(page) => table.setPageIndex(page - 1)}
+          page={pagination.pageIndex + 1}
+          onChange={(page) => {
+            setPagination((prev) => ({
+              ...prev,
+              pageIndex: page - 1,
+            }));
+          }}
         />
       </div>
     </div>

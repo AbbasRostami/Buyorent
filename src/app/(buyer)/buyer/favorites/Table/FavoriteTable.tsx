@@ -137,9 +137,12 @@ export default function FavoriteTable({
     []
   );
 
+  const [pagination, setPagination] = useState({
+    pageIndex: 0,
+    pageSize: 5,
+  });
   const {
     table,
-    pagination,
     setPageSize,
     exportToExcel,
     exportToPDF,
@@ -150,7 +153,9 @@ export default function FavoriteTable({
     enableSorting: true,
     enableFiltering: true,
     enablePagination: true,
-    defaultPageSize: 5,
+    manualPagination: true,
+    pagination,
+    onPaginationChange: setPagination,
   });
   const { isOpen, onOpen, onOpenChange } = useDisclosure();
 
@@ -277,18 +282,23 @@ export default function FavoriteTable({
             </Button>
           </div>
           <div className=" flex flex-col xl:flex-row items-center gap-3">
-            <Select
+          <Select
               variant="faded"
               color="warning"
               className="w-28"
               aria-label="تعداد آیتم‌ها"
-              selectedKeys={[pagination.pageSize.toString()]}
               renderValue={(items) => {
                 return `نمایش: ${items[0].key}`;
               }}
+              value={pagination.pageSize.toString()}
+              selectedKeys={[pagination.pageSize.toString()]}
               onChange={(e) => {
                 const newSize = Number(e.target.value);
-                setPageSize(newSize);
+                setPagination((prev) => ({
+                  ...prev,
+                  pageSize: newSize,
+                  pageIndex: 0, 
+                }));
               }}
             >
               {[5, 10, 15].map((size) => (
@@ -304,13 +314,12 @@ export default function FavoriteTable({
               showControls
               total={table.getPageCount()}
               page={pagination.pageIndex + 1}
-              onChange={(page) =>
-                table.setPagination((prev) => ({
+              onChange={(page) => {
+                setPagination((prev) => ({
                   ...prev,
                   pageIndex: page - 1,
-                  pageSize: pagination.pageSize,
-                }))
-              }
+                }));
+              }}
             />
           </div>
         </div>

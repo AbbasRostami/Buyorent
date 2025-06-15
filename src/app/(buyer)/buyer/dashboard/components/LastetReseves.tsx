@@ -1,7 +1,7 @@
 "use client";
 
 import { ColumnDef, flexRender } from "@tanstack/react-table";
-import { useMemo } from "react";
+import { useMemo, useState } from "react";
 import { BsArrowDown, BsArrowUp } from "react-icons/bs";
 import { FaPlusCircle } from "react-icons/fa";
 import image from "./../../../../../assets/Avatar1.png";
@@ -212,14 +212,19 @@ export default function LastetReseves() {
       image: image2.src,
     },
   ];
-
-  const { table, pagination, setPageSize } = useCustomTable<LastetResevesType>({
+  const [pagination, setPagination] = useState({
+    pageIndex: 0,
+    pageSize: 5,
+  });
+  const { table, setPageSize } = useCustomTable<LastetResevesType>({
     data: lastetReseves,
     columns,
     enableSorting: true,
     enableFiltering: true,
     enablePagination: true,
-    defaultPageSize: 5,
+    manualPagination: true,
+    pagination,
+    onPaginationChange: setPagination,
   });
 
   return (
@@ -325,19 +330,24 @@ export default function LastetReseves() {
         <Select
           variant="faded"
           color="warning"
-          className="w-full md:w-28"
+          className="w-28"
           aria-label="تعداد آیتم‌ها"
-          selectedKeys={[pagination.pageSize.toString()]}
           renderValue={(items) => {
             return `نمایش: ${items[0].key}`;
           }}
+          value={pagination.pageSize.toString()}
+          selectedKeys={[pagination.pageSize.toString()]}
           onChange={(e) => {
             const newSize = Number(e.target.value);
-            setPageSize(newSize);
+            setPagination((prev) => ({
+              ...prev,
+              pageSize: newSize,
+              pageIndex: 0,
+            }));
           }}
         >
           {[5, 10, 15].map((size) => (
-            <SelectItem textValue={`نمایش: ${size}`} key={size}>
+            <SelectItem textValue="نمایش" key={size}>
               {size}
             </SelectItem>
           ))}
@@ -348,9 +358,13 @@ export default function LastetReseves() {
           isCompact
           showControls
           total={table.getPageCount()}
-          page={table.getState().pagination.pageIndex + 1}
-          onChange={(page) => table.setPageIndex(page - 1)}
-          className="w-full md:w-auto"
+          page={pagination.pageIndex + 1}
+          onChange={(page) => {
+            setPagination((prev) => ({
+              ...prev,
+              pageIndex: page - 1,
+            }));
+          }}
         />
       </div>
     </div>

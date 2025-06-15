@@ -81,7 +81,6 @@ export default function ModalPayments({
     enableSorting: true,
     enableFiltering: true,
     enablePagination: true,
-    defaultPageSize: 5,
   });
 
   return (

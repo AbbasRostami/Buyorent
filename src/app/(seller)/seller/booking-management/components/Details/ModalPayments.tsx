@@ -5,7 +5,7 @@ import { BsArrowDown, BsArrowUp } from "react-icons/bs";
 import { MdPayment } from "react-icons/md";
 import { PiSealWarningBold } from "react-icons/pi";
 import { useCustomTable } from "@/utils/hooks/useCustomTable";
-import { useMemo } from "react";
+import { useMemo, useState } from "react";
 
 interface ModalPaymentsProps {
   isOpen: boolean;
@@ -77,13 +77,19 @@ export default function ModalPayments({
     []
   );
 
+  const [pagination, setPagination] = useState({
+    pageIndex: 0,
+    pageSize: 5,
+  });
   const { table } = useCustomTable({
     data: payments,
     columns,
     enableSorting: true,
     enableFiltering: true,
     enablePagination: true,
-    defaultPageSize: 5,
+    manualPagination: true,
+    pagination,
+    onPaginationChange: setPagination,
   });
 
   return (
