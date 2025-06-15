@@ -6,7 +6,10 @@ export const useGetComment = (
   pagination: { pageIndex: number; pageSize: number },
   session: Session
 ) => {
-  const { data: comments, isLoading } = useGet<CommentsData[]>(
+  const { data: comments, isLoading } = useGet<{
+    data: CommentsData[];
+    totalCount: number;
+  }>(
     "/comments",
     {
       page: pagination.pageIndex + 1,
