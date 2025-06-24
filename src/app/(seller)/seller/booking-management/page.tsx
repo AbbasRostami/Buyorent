@@ -56,6 +56,8 @@ export interface TravelerDetail {
   nationalId: string;
 }
 
+
+
 export interface BookingDataSeller {
   id: number;
   user_id: number;
@@ -67,6 +69,7 @@ export interface BookingDataSeller {
   updatedAt: string;
   reservedDates: ReservedDate[];
   traveler_details: TravelerDetail[];
+  
 }
 export interface BookingSellerResponse {
   data: BookingDataSeller[];
