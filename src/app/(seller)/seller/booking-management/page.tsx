@@ -31,6 +31,9 @@ import { useQueryClient } from "@tanstack/react-query";
 import { useSession } from "next-auth/react";
 import toast from "react-hot-toast";
 import { confirm } from "@/components/common/ConfirmModal";
+import moment from "moment-jalaali";
+
+moment.loadPersian({ dialect: "persian-modern" });
 export interface BookingDataSeller {
   id: number;
   title: string;
@@ -38,13 +41,13 @@ export interface BookingDataSeller {
   date: string;
   price: number;
   passengers: string;
-  status: "pending" | "canceled" | "لغو شده";
+  status: "canceled" | "pending" | "confirmed";
   payment_status: "تایید شده" | "لغو شده";
   image: string;
   totalCount: number;
 }
 export interface ReservedDate {
-  value: string; 
+  value: string;
   inclusive: boolean;
 }
 
@@ -56,20 +59,17 @@ export interface TravelerDetail {
   nationalId: string;
 }
 
-
-
 export interface BookingDataSeller {
   id: number;
   user_id: number;
   houseId: number;
   sharedEmail: string;
   sharedMobile: string;
-  status: "pending" | "canceled" | "لغو شده";
+  status: "canceled" | "pending" | "confirmed";
   createdAt: string;
   updatedAt: string;
   reservedDates: ReservedDate[];
   traveler_details: TravelerDetail[];
-  
 }
 export interface BookingSellerResponse {
   data: BookingDataSeller[];
@@ -95,10 +95,9 @@ export default function BookingTable() {
     pageIndex: 0,
     pageSize: 5,
   });
-  const { data: bookingSeller, isLoading } = useGet<{
-    data: BookingSellerResponse;
-    totalCount: number;
-  }>(
+
+  
+  const { data: bookingSeller, isLoading } = useGet<BookingSellerResponse>(
     "/bookings",
     {
       page: pagination.pageIndex + 1,
@@ -121,6 +120,7 @@ export default function BookingTable() {
       enabled: !!session?.id,
     }
   );
+  
 
   console.log("bookingSeller:", bookingSeller);
   const queryClient = useQueryClient();
@@ -159,11 +159,17 @@ export default function BookingTable() {
         cell: (info) => info.getValue(),
         enableSorting: true,
       },
-
       {
-        accessorKey: "date",
+        accessorKey: "updatedAt",
         header: "تاریخ رزرو",
         enableSorting: false,
+        cell: (info) => {
+          const date = info.getValue() as string;
+      
+          const formatted = moment(date).format("jYYYY/jMM/jDD / HH:mm"); 
+      
+          return <span>{formatted}</span>;
+        },
       },
       {
         accessorKey: "price",
@@ -187,11 +193,21 @@ export default function BookingTable() {
         accessorKey: "status",
         header: "وضعیت رزرو",
         cell: (info) => {
-          const value = info.getValue();
+          const value = info.getValue() as string;
+      
+          const label =
+            value === "confirmed"
+              ? "تأیید شده"
+              : value === "pending"
+              ? "در انتظار"
+              : value === "canceled"
+              ? "لغو شده"
+              : value; 
+      
           return (
             <Chip
               color={
-                value === "canceled"
+                value === "confirmed"
                   ? "success"
                   : value === "pending"
                   ? "warning"
@@ -200,12 +216,13 @@ export default function BookingTable() {
               variant="shadow"
               className="text-sm px-2 py-1 rounded-xl font-normal"
             >
-              {value as string}
+              {label}
             </Chip>
           );
         },
         enableSorting: true,
-      },
+      }
+      ,
       {
         accessorKey: "payment_status",
         header: "وضعیت پرداخت",
