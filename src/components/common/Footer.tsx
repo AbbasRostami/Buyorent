@@ -24,10 +24,10 @@ const contactLinks = [
 ];
 const certificates = [enamad, eteh, samandehi];
 const socialLinks = [
-  { icon: <FaTelegramPlane size={30} />, className: "sm:mr-16 mt-6" },
-  { icon: <FaInstagram size={30} />, className: "sm:mr-28 mt-6" },
-  { icon: <SiAparat size={30} />, className: "sm:mr-28 mt-7" },
-  { icon: <FaLinkedinIn size={30} />, className: "sm:mr-16 mt-6" },
+  { icon: <FaTelegramPlane size={30} />, className: "sm:mr-16 mt-6 cursor-pointer hover:text-gray-500" },
+  { icon: <FaInstagram size={30} />, className: "sm:mr-28 mt-6 cursor-pointer hover:text-gray-500" },
+  { icon: <SiAparat size={30} />, className: "sm:mr-28 mt-7 cursor-pointer hover:text-gray-500" },
+  { icon: <FaLinkedinIn size={30} />, className: "sm:mr-16 mt-6 cursor-pointer hover:text-gray-500" },
 ];
 
 export default function Footer() {
@@ -48,37 +48,37 @@ export default function Footer() {
 
         <div className="w-[996px] h-[238px] flex bg-[#FFEFD9] dark:bg-gray-800 dark:text-amber-100 rounded-r-[20px] rounded-l-[162px] absolute left-18 mt-5">
           <div className="w-1/6 text-right pr-6 dark:text-amber-100">
-            <h1 className="text-black text-lg pt-4 dark:text-amber-200">
+            <h1 className="text-black text-lg font-medium pt-4 dark:text-amber-200">
               مختصری از بایورنت
             </h1>
-            <p className="text-[#737373] text-[12px] text-balance text-justify pt-2 dark:text-amber-100">
-              لورم ایپسوم تولید نامفهوم از صنعت چاپ و با استفاده از طراحان
-              گرافیک است. چاپگرها و متون...
+            <p className="text-[#737373] text-sm leading-6 text-balance text-justify pt-2 dark:text-amber-100">
+              سامانه هوشمند خرید، فروش و اجاره انواع ملک و ویلا در سراسر ایران.
+              با ما بهترین گزینه‌ها را برای سرمایه‌گذاری، سکونت یا سفر پیدا کنید.
             </p>
           </div>
 
-          <div className="w-1/6 text-right pr-20 leading-7">
-            <h3 className="text-black text-lg pt-4 dark:text-amber-200">
+          <div className="w-1/6 text-right pr-16 leading-7">
+            <p className="text-black text-base font-medium pt-4 dark:text-amber-200">
               لینک های مفید
-            </h3>
+            </p>
             {usefulLinks.map((link, index) => (
               <p
                 key={index}
-                className="text-[#737373] text-[12px] dark:text-amber-100"
+                className="text-[#737373] text-sm leading-7 hover:underline cursor-pointer dark:text-amber-100"
               >
                 {link}
               </p>
             ))}
           </div>
 
-          <div className="w-1/6 text-right pr-20 leading-7">
-            <h4 className="text-black text-lg pt-4 dark:text-amber-200">
+          <div className="w-1/6 text-right pr-18 leading-7">
+            <h4 className="text-black text-base font-medium pt-4 dark:text-amber-200">
               تماس با ما
             </h4>
             {contactLinks.map((link, index) => (
               <p
                 key={index}
-                className="text-[#737373] text-[12px] dark:text-amber-100"
+                className="text-[#737373] text-sm leading-7 hover:underline cursor-pointer dark:text-amber-100"
               >
                 {link}
               </p>
@@ -99,7 +99,7 @@ export default function Footer() {
           </div>
 
           <div className="w-1/6 text-center my-auto pr-18">
-            <h5 className="text-black text-lg dark:text-amber-200">
+            <h5 className="text-black text-base font-medium dark:text-amber-200">
               ما را دنبال کنید
             </h5>
           </div>
@@ -130,12 +130,13 @@ export default function Footer() {
           <div className="w-full bg-[#FFEFD9] dark:bg-gray-800 rounded-[20px] p-6">
             <div className="space-y-6">
               <div className="text-center">
-                <h1 className="text-black text-lg font-medium dark:text-amber-200">
+                <h1 className="text-black  text-lg font-medium dark:text-amber-200">
                   مختصری از بایورنت
                 </h1>
-                <p className="text-[#737373] text-xs mt-2 dark:text-amber-100">
-                  لورم ایپسوم تولید نامفهوم از صنعت چاپ و با استفاده از طراحان
-                  گرافیک است...
+                <p className="text-[#737373] text-sm leading-6 text-justify mt-2 dark:text-amber-100">
+                  سامانه هوشمند خرید، فروش و اجاره انواع ملک و ویلا در سراسر
+                  ایران. با ما بهترین گزینه‌ها را برای سرمایه‌گذاری، سکونت یا
+                  سفر پیدا کنید.
                 </p>
               </div>
 
@@ -147,7 +148,7 @@ export default function Footer() {
                   {usefulLinks.map((link, index) => (
                     <p
                       key={index}
-                      className="text-[#737373] text-[12px] dark:text-amber-100"
+                      className="text-[#737373] text-xs leading-6 hover:underline dark:text-amber-100"
                     >
                       {link}
                     </p>
@@ -161,7 +162,7 @@ export default function Footer() {
                   {contactLinks.map((link, index) => (
                     <p
                       key={index}
-                      className="text-[#737373] text-[12px] dark:text-amber-100"
+                      className="text-[#737373] text-xs leading-6 hover:underline dark:text-amber-100"
                     >
                       {link}
                     </p>
@@ -203,7 +204,7 @@ export default function Footer() {
               width={140}
               height={90}
               priority
-              className="rounded-lg shadow-lg"
+              className="rounded-lg"
             />
           </div>
 
@@ -213,9 +214,10 @@ export default function Footer() {
                 <h1 className="text-black text-base font-semibold dark:text-amber-200 mb-1">
                   مختصری از بایورنت
                 </h1>
-                <p className="text-[#737373] dark:text-amber-100 text-justify leading-relaxed">
-                  لورم ایپسوم تولید نامفهوم از صنعت چاپ و با استفاده از طراحان
-                  گرافیک است...
+                <p className="text-[#737373] text-xs dark:text-amber-100 text-justify">
+                  سامانه هوشمند خرید، فروش و اجاره انواع ملک و ویلا در سراسر
+                  ایران. با ما بهترین گزینه‌ها را برای سرمایه‌گذاری، سکونت یا
+                  سفر پیدا کنید.
                 </p>
               </div>
 
@@ -224,7 +226,10 @@ export default function Footer() {
                   لینک‌های مفید
                 </h3>
                 {usefulLinks.map((link, index) => (
-                  <p key={index} className="text-[#737373] dark:text-amber-100">
+                  <p
+                    key={index}
+                    className="text-[#737373] text-xs leading-5    dark:text-amber-100"
+                  >
                     {link}
                   </p>
                 ))}
@@ -235,30 +240,32 @@ export default function Footer() {
                   تماس با ما
                 </h4>
                 {contactLinks.map((link, index) => (
-                  <p key={index} className="text-[#737373] dark:text-amber-100">
+                  <p
+                    key={index}
+                    className="text-[#737373] text-xs leading-5  dark:text-amber-100"
+                  >
                     {link}
                   </p>
                 ))}
               </div>
             </div>
-            <div className="flex items-center justify-center gap-4 mt-5 mb-1">
-              <h5 className="text-black text-base font-semibold dark:text-amber-200">
-                ما را دنبال کنید
-              </h5>
+            <div className="flex items-center justify-between gap-4 mt-5 mb-1">
+              <div className="flex gap-2 mb-2">
+                {certificates.map((certificate, index) => (
+                  <Image
+                    key={index}
+                    src={certificate}
+                    alt={`certificate-${index}`}
+                    width={50}
+                    height={50}
+                  />
+                ))}
+              </div>
               <div className="flex gap-2 mb-2">
                 {socialLinks.map((social, index) => (
                   <div key={index}>{social.icon}</div>
                 ))}
               </div>
-              {certificates.map((certificate, index) => (
-                <Image
-                  key={index}
-                  src={certificate}
-                  alt={`certificate-${index}`}
-                  width={50}
-                  height={50}
-                />
-              ))}
             </div>
           </div>
         </div>
