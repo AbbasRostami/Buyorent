@@ -34,6 +34,8 @@ import { confirm } from "@/components/common/ConfirmModal";
 import moment from "moment-jalaali";
 
 moment.loadPersian({ dialect: "persian-modern" });
+
+
 export interface BookingDataSeller {
   id: number;
   title: string;
@@ -45,7 +47,10 @@ export interface BookingDataSeller {
   payment_status: "تایید شده" | "لغو شده";
   image: string;
   totalCount: number;
+
 }
+
+
 export interface ReservedDate {
   value: string;
   inclusive: boolean;
@@ -94,6 +99,7 @@ export default function BookingTable() {
   const [pagination, setPagination] = useState({
     pageIndex: 0,
     pageSize: 5,
+    
   });
 
   
