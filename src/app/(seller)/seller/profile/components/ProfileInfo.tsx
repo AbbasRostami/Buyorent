@@ -1,38 +1,75 @@
+import { useProfile } from "@/services/Profile/getProfile";
+import { Skeleton } from "@heroui/react";
+
 const ProfileInfo = () => {
+  const { user, isLoading, error } = useProfile();
+  if (isLoading)
+    return (
+      <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3 xl:gap-5">
+        {Array.from({ length: 9 }).map((_, index) => (
+          <div
+            key={index}
+            className="relative overflow-hidden rounded-xl border border-gray-100 bg-white p-5 dark:border-gray-700/60 dark:bg-gray-800/50"
+          >
+            <div className="flex items-start gap-4">
+              <Skeleton
+                classNames={{
+                  base: "animate-pulse bg-gray-200 dark:bg-gray-700",
+                }}
+                className="mt-1 h-10 w-10 rounded-lg bg-indigo-200 dark:bg-indigo-900/30"
+              />
+
+              <div className="flex-1 space-y-2">
+                <Skeleton
+                  classNames={{
+                    base: "animate-pulse bg-gray-200 dark:bg-gray-700",
+                  }}
+                  className="h-3 w-24 rounded-md"
+                />
+                <Skeleton
+                  classNames={{
+                    base: "animate-pulse bg-gray-200 dark:bg-gray-700",
+                  }}
+                  className="h-4 w-32 rounded-md"
+                />
+              </div>
+            </div>
+
+            <div className="absolute -right-10 -top-10 h-32 w-32 rounded-full bg-indigo-100/20 dark:bg-indigo-900/20 opacity-30" />
+          </div>
+        ))}
+      </div>
+    );
+  if (error) return <div>Error: {error.message}</div>;
   return (
     <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3 xl:gap-5">
       {[
-        { label: "نام", value: "Abbas", icon: "👤" },
-        { label: "نام خانوادگی", value: "Rostami", icon: "📜" },
-        { label: "آدرس ایمیل", value: "abbasrostami@gmail.com", icon: "✉️" },
-        { label: "شماره تلفن", value: "09123456789", icon: "📱" },
-        { label: "کد ملی", value: "1234567890", icon: "🆔" },
+        { label: "نام کامل", value: user?.user?.fullName, icon: "👤" },
+        { label: "نام", value: user?.user?.firstName, icon: "🧒" },
+        { label: "نام خانوادگی", value: user?.user?.lastName, icon: "📜" },
+        { label: "آدرس ایمیل", value: user?.user?.email, icon: "✉️" },
+        { label: "شماره تلفن", value: user?.user?.phoneNumber, icon: "📱" },
         {
-          label: "تاریخ تولد",
-          value: "1990/01/01",
-          icon: "🎂",
+          label: "نقش کاربر",
+          value: user?.user?.role === "buyer" ? "خریدار" : user?.user?.role,
+          icon: "🧾",
         },
         {
-          label: "جنسیت",
-          value: "مرد",
-          icon: "🚻",
-        },
-        { label: "آدرس خانه", value: "Tehran, Iran", icon: "🏘️" },
-        {
-          label: "پروفایل لینکدین",
-          value: "https://www.linkedin.com/in/abbasrostami",
-          icon: "💼",
+          label: "تایید ایمیل",
+          value: user?.user?.emailVerified ? "تایید شده" : "تایید نشده",
+          icon: user?.user?.emailVerified ? "✅" : "⚠️",
         },
         {
-          label: "لینک تلگرام",
-          value: "https://t.me/abbasrostami",
-          icon: "📨",
+          label: "آخرین بروزرسانی",
+          value: new Date(user?.user?.updatedAt || "").toLocaleDateString(
+            "fa-IR"
+          ),
+          icon: "🕒",
         },
-        { label: "درباره کاربر", value: "من یک برنامه نویس هستم", icon: "📝" },
         {
-          label: "وضعیت پروفایل",
-          value: "100%",
-          icon: "✅",
+          label: "شناسه کاربری",
+          value: user?.user?.id,
+          icon: "🆔",
         },
       ].map((item, index) => (
         <div

@@ -12,8 +12,9 @@ import {
 import { HouseReserveProps } from "@/types/HousesReserve";
 import { Swiper } from "swiper/react";
 import { SwiperSlide } from "swiper/react";
-import { Autoplay, EffectFade } from "swiper/modules";
+import { Autoplay, EffectFade, Pagination } from "swiper/modules";
 import Link from "next/link";
+
 interface PropertyDetailsModalProps {
   isOpen: boolean;
   onClose: () => void;
@@ -32,7 +33,7 @@ export default function PropertyDetailsModal({
   return (
     <>
       <div
-        className="fixed inset-0 bg-black/30  z-50"
+        className="fixed inset-0 bg-black/30 backdrop-blur-sm z-50"
         aria-hidden="true"
         onClick={onClose}
       />
@@ -45,7 +46,7 @@ export default function PropertyDetailsModal({
             <h2 className="text-2xl font-bold flex items-center gap-2">
               <MdAddHomeWork className="text-amber-500" size={20} />
               <span className="text-gray-600 dark:text-gray-400">
-                {property.title}
+                {property?.title}
               </span>
             </h2>
             <Button variant="flat" color="danger" onPress={onClose}>
@@ -61,7 +62,7 @@ export default function PropertyDetailsModal({
 
           <div className="relative h-64 mb-4 rounded-lg overflow-hidden">
             <Swiper
-              modules={[Autoplay, EffectFade]}
+              modules={[Autoplay, EffectFade, Pagination]}
               effect="fade"
               spaceBetween={50}
               slidesPerView={1}
@@ -72,6 +73,7 @@ export default function PropertyDetailsModal({
               speed={1000}
               pagination={{
                 clickable: true,
+                el: ".customer-pagination1",
               }}
             >
               {property.photos.map((photo) => (
@@ -86,35 +88,40 @@ export default function PropertyDetailsModal({
                 </SwiperSlide>
               ))}
             </Swiper>
+            <div className="customer-pagination mt-10 flex justify-center gap-2" />
           </div>
 
           <div className="space-y-4">
             <p className="flex items-center gap-2 text-gray-600 dark:text-gray-400">
               <IoLocationOutline className="text-amber-500" size={20} />
-              {property.address}
+              {property?.address}
             </p>
 
             <div className="flex flex-wrap gap-4">
               <div className="flex items-center gap-2 bg-gray-100 dark:bg-gray-800 px-4 py-2 rounded-full">
                 <MdOutlineBedroomParent size={20} />
-                <span>{property.rooms} خواب</span>
+                <span>{property?.rooms} خواب</span>
               </div>
               <div className="flex items-center gap-2 bg-gray-100 dark:bg-gray-800 px-4 py-2 rounded-full">
                 <MdOutlineBathroom size={20} />
-                <span>{property.bathrooms} حمام</span>
+                <span>{property?.bathrooms} حمام</span>
               </div>
               <div className="flex items-center gap-2 bg-gray-100 dark:bg-gray-800 px-4 py-2 rounded-full">
                 <MdCarRepair size={20} />
-                <span>{property.parking} پارکینگ</span>
+                <span>{property?.parking} پارکینگ</span>
               </div>
             </div>
 
             <div className="flex items-center justify-between pt-4 border-t">
-              <div className="text-2xl font-bold text-amber-600">
-                {property.price} تومان
+              <div className="text-2xl font-bold text-amber-600 flex items-center gap-2">
+                <p>
+                  {Number(property?.price).toLocaleString("fa-IR") ||
+                    "قیمت مورد نظر ثبت نشده است"}
+                </p>
+                <p className="text-lg">تومان</p>
               </div>
               <Link
-                href={`/mortgage-and-house-rent/${property.id}`}
+                href={`/mortgage-and-house-rent/${property?.id}`}
                 className="bg-gradient-to-r from-amber-500 to-amber-600 px-4 py-2 rounded-xl text-white hover:from-amber-600 hover:to-amber-700"
               >
                 مشاهده جزئیات بیشتر

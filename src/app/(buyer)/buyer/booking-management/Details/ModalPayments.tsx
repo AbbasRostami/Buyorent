@@ -1,12 +1,11 @@
 import { Modal, ModalContent, ModalBody } from "@heroui/react";
 import { IoMdClose } from "react-icons/io";
 import { ColumnDef, flexRender, SortingState } from "@tanstack/react-table";
-import { useState } from "react";
 import { BsArrowDown, BsArrowUp } from "react-icons/bs";
 import { MdPayment } from "react-icons/md";
 import { PiSealWarningBold } from "react-icons/pi";
 import { useCustomTable } from "@/utils/hooks/useCustomTable";
-
+import { useState } from "react";
 interface ModalPaymentsProps {
   isOpen: boolean;
   onOpenChange: () => void;
@@ -75,12 +74,19 @@ export default function ModalPayments({
     },
   ];
 
+  const [pagination, setPagination] = useState({
+    pageIndex: 0,
+    pageSize: 5,
+  });
   const { table } = useCustomTable<PaymentDataDetails>({
     data: paymentsDetails,
     columns,
     enableSorting: true,
     enableFiltering: true,
     enablePagination: true,
+    manualPagination: true,
+    pagination,
+    onPaginationChange: setPagination,
   });
 
   return (

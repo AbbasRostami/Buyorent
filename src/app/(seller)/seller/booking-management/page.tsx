@@ -35,7 +35,6 @@ import moment from "moment-jalaali";
 
 moment.loadPersian({ dialect: "persian-modern" });
 
-
 export interface BookingDataSeller {
   id: number;
   title: string;
@@ -47,9 +46,7 @@ export interface BookingDataSeller {
   payment_status: "تایید شده" | "لغو شده";
   image: string;
   totalCount: number;
-
 }
-
 
 export interface ReservedDate {
   value: string;
@@ -99,10 +96,8 @@ export default function BookingTable() {
   const [pagination, setPagination] = useState({
     pageIndex: 0,
     pageSize: 5,
-    
   });
 
-  
   const { data: bookingSeller, isLoading } = useGet<BookingSellerResponse>(
     "/bookings",
     {
@@ -110,7 +105,6 @@ export default function BookingTable() {
       limit: pagination.pageSize,
       sort: "created_at",
       order: "DESC",
-      user_id: session?.id,
     },
     {
       queryKey: [
@@ -120,13 +114,10 @@ export default function BookingTable() {
           limit: pagination.pageSize,
           sort: "created_at",
           order: "DESC",
-          user_id: session?.id,
         },
       ],
-      enabled: !!session?.id,
     }
   );
-  
 
   console.log("bookingSeller:", bookingSeller);
   const queryClient = useQueryClient();
@@ -171,9 +162,9 @@ export default function BookingTable() {
         enableSorting: false,
         cell: (info) => {
           const date = info.getValue() as string;
-      
-          const formatted = moment(date).format("jYYYY/jMM/jDD / HH:mm"); 
-      
+
+          const formatted = moment(date).format("jYYYY/jMM/jDD / HH:mm");
+
           return <span>{formatted}</span>;
         },
       },
@@ -200,7 +191,7 @@ export default function BookingTable() {
         header: "وضعیت رزرو",
         cell: (info) => {
           const value = info.getValue() as string;
-      
+
           const label =
             value === "confirmed"
               ? "تأیید شده"
@@ -208,8 +199,8 @@ export default function BookingTable() {
               ? "در انتظار"
               : value === "canceled"
               ? "لغو شده"
-              : value; 
-      
+              : value;
+
           return (
             <Chip
               color={
@@ -227,8 +218,7 @@ export default function BookingTable() {
           );
         },
         enableSorting: true,
-      }
-      ,
+      },
       {
         accessorKey: "payment_status",
         header: "وضعیت پرداخت",

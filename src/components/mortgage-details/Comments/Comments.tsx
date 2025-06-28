@@ -8,6 +8,7 @@ import NewCommentModal from "./NewCommentModal";
 import CommentItem from "./CommentItem";
 import { CommentType } from "@/types/CommetTypes";
 import SkeletonComments from "@/components/skeleton/SkeletonComments";
+import { TfiCommentsSmiley } from "react-icons/tfi";
 
 moment.loadPersian({ dialect: "persian-modern" });
 
@@ -86,6 +87,19 @@ const CommentSingleHouses = ({ houseId }: { houseId: string }) => {
             onChange={setPage}
             total={page + 1}
           />
+        </div>
+      )}
+      {commentsPage.length === 0 && (
+        <div className="mt-6 space-y-6">
+          <div className="flex flex-col justify-center items-center gap-4 mt-8 mb-10">
+            <TfiCommentsSmiley className="text-color2" size={100} />
+            <span className="flex flex-col items-center text-2xl font-bold">
+              نظری ثبت نشده است
+              <span className="text-color2 text-lg font-normal">
+                برای ثبت نظر وارد شوید
+              </span>
+            </span>
+          </div>
         </div>
       )}
     </div>

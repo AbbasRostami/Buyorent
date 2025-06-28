@@ -12,7 +12,7 @@ export const findSmartPropertyMatch = async ({
       "Content-Type": "application/json",
     },
     body: {
-      model: "deepseek/deepseek-r1-distill-qwen-32b:free",
+      model: "deepseek/deepseek-chat-v3-0324:free",
       response_format: { type: "json_object" },
       messages: [
         {

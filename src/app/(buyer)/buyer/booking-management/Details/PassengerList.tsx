@@ -1,3 +1,4 @@
+"use client";
 import { Modal, ModalContent, ModalBody } from "@heroui/react";
 import { IoMdClose } from "react-icons/io";
 import { ColumnDef, flexRender, SortingState } from "@tanstack/react-table";

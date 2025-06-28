@@ -63,7 +63,7 @@ export default function MonthlyTarget() {
           <h3 className="text-lg w-full flex items-center gap-2 font-semibold text-gray-800 dark:text-white/90">
             <BsBookmarkStarFill className="text-color1" size={24} />
             وضعیت پروفایل شما
-            <TbEdit className="hover:text-color1 cursor-pointer" size={20} onClick={() => router.push("/profile")}/>
+            <TbEdit className="hover:text-color1 cursor-pointer" size={20} onClick={() => router.push("/seller/profile")}/>
           </h3>
           <p className="mt-1 text-gray-500 text-theme-sm dark:text-gray-400">
             برای اینکه بازدید خوبی داشته باشید، پروفایل شما باید حداقل ۷۰٪ تکمیل

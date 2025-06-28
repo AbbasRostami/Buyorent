@@ -40,7 +40,7 @@ export default async function RentPage({
     `houses-${queryString}`,
     60
   );
-
+  console.log("data: ", data);
   const convertedData = convertToHouseItems(data);
 
   return (

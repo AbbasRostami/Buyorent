@@ -8,7 +8,7 @@ import { useEditComment } from "@/services/Seller/comments-management/editCommen
 import { validationEditComment } from "@/utils/validation/Seller/comments-management/editComment";
 import { CommentsData } from "@/types/Seller/comments-management/CommentTypes";
 
-export const FilterComment = ({
+export const EditComment = ({
   isOpen,
   onOpenChange,
   commentId,
@@ -23,7 +23,7 @@ export const FilterComment = ({
     return data?.find((comment) => comment.id === commentId);
   }, [data, commentId]);
 
-  const editComment = useEditComment(commentId);
+  const editComment = useEditComment(commentId, onOpenChange);
 
   return (
     <Modal

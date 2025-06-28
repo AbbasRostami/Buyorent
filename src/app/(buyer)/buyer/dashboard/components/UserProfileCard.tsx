@@ -1,17 +1,72 @@
+"use client";
 import Image from "next/image";
 import introImg from "./../../../../../assets/Avatar2.png";
 import { BiIdCard, BiPhoneCall } from "react-icons/bi";
 import { MdEmail } from "react-icons/md";
+import { Skeleton } from "@heroui/react";
+import { useProfile } from "@/services/Profile/getProfile";
 
 export default function UserProfileCard() {
+  const { user, isLoading, error } = useProfile();
+  if (error) return <div>خطا در بارگذاری اطلاعات: {error.message}</div>;
+  if (isLoading) {
+    return (
+      <div className="grid grid-cols-1 md:grid-cols-[auto_1fr] h-full items-center gap-6 w-full mx-auto dark:hover:bg-gray-700/80 bg-white/90 backdrop-blur-md border border-gray-200 rounded-2xl hover:bg-gray-100 shadow-xl p-6 rtl dark:border-gray-800 dark:bg-gray-900 transition-all duration-300">
+        <div className="flex flex-col items-center space-y-4">
+          <Skeleton
+            classNames={{
+              base: "animate-pulse bg-gray-200 dark:bg-gray-700",
+            }}  
+            className="w-24 h-24 rounded-full"
+          />
+          <Skeleton
+            classNames={{
+              base: "animate-pulse bg-gray-200 dark:bg-gray-700",
+            }}
+            className="h-4 w-20 rounded-md"
+          />
+          <div className="w-16 h-1 bg-gray-200 dark:bg-gray-600 rounded-full mt-2 mx-auto" />
+        </div>
+        <div className="space-y-5 max-h-64 md:max-h-none w-full">
+          {Array.from({ length: 3 }).map((_, i) => (
+            <div
+              key={i}
+              className="flex items-center gap-3 bg-gray-50 dark:bg-gray-700 rounded-lg p-3"
+            >
+              <Skeleton
+                classNames={{
+                  base: "animate-pulse bg-gray-200 dark:bg-gray-700",
+                }}
+                className="w-8 h-8 rounded-lg"
+              />
+              <Skeleton
+                classNames={{
+                  base: "animate-pulse bg-gray-200 dark:bg-gray-700",
+                }}
+                className="h-4 w-24 rounded-md flex-1"
+              />
+              <Skeleton
+                classNames={{
+                  base: "animate-pulse bg-gray-200 dark:bg-gray-700",
+                }}
+                className="h-3 w-32 rounded-md flex-1"
+              />
+            </div>
+          ))}
+        </div>
+      </div>
+    );
+  }
   return (
     <div className="grid grid-cols-1 md:grid-cols-[auto_1fr] items-center  h-full gap-6 w-full  mx-auto dark:hover:bg-gray-700/80 bg-white/90 backdrop-blur-md border border-gray-200 rounded-2xl hover:bg-gray-100 shadow-xl p-6 rtl dark:border-gray-800 dark:bg-gray-900 transition-all duration-300">
       <div className="flex flex-col items-center space-y-4">
         <div className="relative">
           <Image
             className="w-24 h-24 object-cover rounded-full border-4 border-color1 shadow-lg"
-            src={introImg}
-            alt={` "کاربر"`}
+            width={100}
+            height={100}
+            src={user?.user?.profilePicture || introImg}
+            alt="Profile Picture"
           />
           <span className="absolute -bottom-2 -right-2 bg-color2 text-white text-xs px-2 py-0.5 rounded-full shadow-sm">
             فعال
@@ -23,7 +78,7 @@ export default function UserProfileCard() {
             className="w-28 truncate text-2xl font-bold text-gray-900 dark:text-white"
             title={`کاربر`}
           >
-          خریدار
+            {user?.user?.role === "buyer" ? "خریدار" : "فروشنده"}
           </h2>
 
           <div className="w-16 h-1 bg-gradient-to-r from-indigo-400 via-purple-400 to-pink-400 rounded-full mt-2 mx-auto" />
@@ -42,7 +97,7 @@ export default function UserProfileCard() {
           </div>
           <div className="flex-1 min-w-0">
             <p className="text-xs text-end text-gray-600 dark:text-gray-300 truncate">
-              Abbas@gmail.com
+              {user?.user?.email}
             </p>
           </div>
         </div>
@@ -58,7 +113,7 @@ export default function UserProfileCard() {
           </div>
           <div className="flex-1 min-w-0">
             <p className="text-xs text-end text-gray-600 dark:text-gray-300">
-              +989123456789
+              {user?.user?.phoneNumber}
             </p>
           </div>
         </div>
@@ -69,12 +124,12 @@ export default function UserProfileCard() {
           </div>
           <div className="flex-1 min-w-0">
             <p className="text-sm font-medium text-gray-800 dark:text-gray-200 truncate">
-              کد ملی
+              شناسه کاربری
             </p>
           </div>
           <div className="flex-1  min-w-0">
             <p className="text-xs text-end text-gray-600 dark:text-gray-300">
-              1234567890
+              {user?.user?.id}
             </p>
           </div>
         </div>

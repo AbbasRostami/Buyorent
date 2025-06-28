@@ -1,4 +1,4 @@
-import { Modal, ModalContent, Button } from "@heroui/react";
+import { Modal, ModalContent, Button, pagination } from "@heroui/react";
 import { IoMdClose } from "react-icons/io";
 import { FaModx, FaStar } from "react-icons/fa";
 import Image from "next/image";
@@ -14,6 +14,8 @@ import { useDisclosure } from "@heroui/react";
 import ModalPassengers from "./ModalPassengers";
 import ModalHistory from "./ModalHistory";
 import ModalPayments from "./ModalPayments";
+import { useGet } from "@/utils/hooks/useReactQueryHooks";
+import { BookingSellerResponse } from "../../page";
 
 interface ModalDetailsProps {
   isOpen: boolean;
@@ -56,6 +58,14 @@ export default function ModalDetails({
   const price = "۵,۰۰۰,۰۰۰";
   const star = 5;
 
+  const { data: bookingDetails, isLoading } = useGet<BookingSellerResponse>(
+    `/bookings/${selectedRow?.id}`,
+    {
+      queryKey: ["bookingSeller", selectedRow?.id],
+    }
+  );
+
+  console.log("bookingDetails:", bookingDetails);
   return (
     <>
       <Modal

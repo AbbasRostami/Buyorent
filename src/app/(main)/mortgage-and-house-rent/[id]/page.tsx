@@ -38,7 +38,7 @@ const SingleHouses = async ({ params }: Props) => {
   const { id } = resolvedParams;
   const data = await getHouseData(id);
 
-  console.log(data);
+  console.log("data", data);
 
   return (
     <>
@@ -66,7 +66,7 @@ const SingleHouses = async ({ params }: Props) => {
             transition={{ duration: 1, delay: 1.7 }}
             className="text-2xl font-bold text-justify"
           >
-            چرا هتل همایون رو انتخاب کنیم؟
+            چرا {data?.title} رو انتخاب کنیم؟
           </MotionH2>
           <MotionP
             initial={{ opacity: 0, y: 20 }}
@@ -74,34 +74,10 @@ const SingleHouses = async ({ params }: Props) => {
             transition={{ duration: 1, delay: 1.9 }}
             className="text-gray-700 dark:text-amber-50 leading-7 text-medium font-medium text-justify"
           >
-            لورم ایپسوم متن ساختگی با تولید سادگی نامفهوم از صنعت چاپ، و با
-            استفاده از طراحان گرافیک است، چاپگرها و متون بلکه روزنامه و مجله در
-            ستون و سطرآنچنان که لازم است، و برای شرایط فعلی تکنولوژی مورد نیاز،
-            و کاربردهای متنوع با هدف بهبود ابزارهای کاربردی می باشد، کتابهای
-            زیادی در شصت و سه درصد گذشته حال و آینده، شناخت فراوان جامعه و
-            متخصصان را می طلبد، تا با نرم افزارها شناخت بیشتری را برای طراحان
-            رایانه ای علی الخصوص طراحان خلاقی، و فرهنگ پیشرو در زبان فارسی ایجاد
-            کرد، در این صورت می توان امید داشت که تمام و دشواری موجود در ارائه.
+            {data?.caption}
           </MotionP>
 
           <MapSingleReserve data={data} />
-
-          <MotionP
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 1, delay: 2.1 }}
-            className="text-gray-700 dark:text-amber-50 leading-7 text-medium font-medium text-justify"
-          >
-            لورم ایپسوم متن ساختگی با تولید سادگی نامفهوم از صنعت چاپ، و با
-            استفاده از طراحان گرافیک است، چاپگرها و متون بلکه روزنامه و مجله در
-            ستون و سطرآنچنان که لازم است، و برای شرایط فعلی تکنولوژی مورد نیاز،
-            و کاربردهای متنوع با هدف بهبود ابزارهای کاربردی می باشد، کتابهای
-            زیادی در شصت و سه درصد گذشته حال و آینده، شناخت فراوان جامعه و
-            متخصصان را می طلبد، تا با نرم افزارها شناخت بیشتری را برای طراحان
-            رایانه ای علی الخصوص طراحان خلاقی، و فرهنگ پیشرو در زبان فارسی ایجاد
-            کرد، در این صورت می توان امید داشت که تمام و دشواری موجود در ارائه
-            راهکارها، و شرایط سخت.
-          </MotionP>
 
           {/* نظرات کاربران */}
           <CommentSingleHouses houseId={id} />

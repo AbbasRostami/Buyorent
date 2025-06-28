@@ -23,11 +23,12 @@ import { TiDeleteOutline } from "react-icons/ti";
 import { HiDotsHorizontal } from "react-icons/hi";
 import { confirm } from "@/components/common/ConfirmModal";
 import { useSession } from "next-auth/react";
-import { FilterComment } from "./Filter/FilterComment";
+import { EditComment } from "./Edit/EditComment";
 import { useDeleteComment } from "@/services/Seller/comments-management/deleteComment";
 import { useGetComment } from "@/services/Seller/comments-management/getComment";
 import { Session } from "next-auth";
 import { CommentsData } from "@/types/Seller/comments-management/CommentTypes";
+import { useGetSummary } from "@/services/summary";
 
 export default function CommentsTable() {
   const { isOpen, onOpen, onOpenChange } = useDisclosure();
@@ -194,13 +195,13 @@ export default function CommentsTable() {
             onChange={(e) => {
               const value = e.target.value;
               setCommentSearch(value);
-              table.getColumn("ti")?.setFilterValue(value);
+              table.getColumn("title")?.setFilterValue(value);
             }}
             placeholder="کامنت مورد نظر را جستجو کنید..."
             className="p-2 rounded-lg border-2 border-amber-500 w-full md:w-2/3"
           />
         </div>
-        <FilterComment
+        <EditComment
           isOpen={isOpen}
           onOpenChange={onOpenChange}
           commentId={selectedCommentId || 0}

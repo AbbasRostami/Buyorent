@@ -29,6 +29,7 @@ export type HouseSingleHousesProps = {
 
 export type HouseDetailsData = Pick<
   HouseSingleHousesProps,
+  | "id"
   | "rooms"
   | "bathrooms"
   | "categories"

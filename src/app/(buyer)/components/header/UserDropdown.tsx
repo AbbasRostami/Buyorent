@@ -1,3 +1,4 @@
+"use client";
 import {
   Dropdown,
   DropdownItem,
@@ -7,6 +8,7 @@ import {
   ModalBody,
   ModalContent,
   ModalHeader,
+  Skeleton,
   Switch,
   useDisclosure,
   User,
@@ -17,24 +19,57 @@ import { useRouter } from "next/navigation";
 import { GiRingingBell } from "react-icons/gi";
 import { IoMdClose } from "react-icons/io";
 import { confirm } from "../../../../components/common/ConfirmModal";
+import { useProfile } from "@/services/Profile/getProfile";
 export default function UserDropdown() {
   const router = useRouter();
   const { isOpen, onOpen, onOpenChange } = useDisclosure();
+  const { user, isLoading, error } = useProfile();
+
+  if (isLoading)
+    return (
+      <div className="flex items-center gap-3 w-fit px-2 py-1">
+        <div>
+          <Skeleton
+            classNames={{
+              base: "animate-pulse bg-gray-200 dark:bg-gray-700",
+            }}
+            className="w-10 h-10 rounded-full"
+          />
+        </div>
+
+        <div className="flex flex-col gap-1">
+          <Skeleton
+            classNames={{
+              base: "animate-pulse bg-gray-200 dark:bg-gray-700",
+            }}
+            className="h-4 w-24 rounded-md"
+          />
+          <Skeleton
+            classNames={{
+              base: "animate-pulse bg-gray-200 dark:bg-gray-700",
+            }}
+            className="h-3 w-16 rounded-md"
+          />
+        </div>
+      </div>
+    );
+
+  if (error) return <div>Error: {error.message}</div>;
+
   return (
     <>
       <Dropdown placement="bottom-start">
         <DropdownTrigger>
           <User
-          
             as="button"
             avatarProps={{
               isBordered: true,
-              color:"warning",
-              src: "https://i.pravatar.cc/150?u=a04258114e29026702d",
+              color: "warning",
+              src: user?.user?.profilePicture,
             }}
             className="transition-transform"
-            description="خریدار"
-            name="عباس رستمی"
+            description={user?.user?.role === "buyer" ? "خریدار" : "فروشنده"}
+            name={user?.user?.firstName + " " + user?.user?.lastName}
           />
         </DropdownTrigger>
         <DropdownMenu aria-label="User Actions" variant="flat">
@@ -47,12 +82,14 @@ export default function UserDropdown() {
               as="button"
               avatarProps={{
                 isBordered: true,
-                color:"primary",
-                src: "https://i.pravatar.cc/150?u=a04258114e29026702d",
+                color: "primary",
+                src: user?.user?.profilePicture,
               }}
               className="transition-transform"
-              description="+989366666666"
-              name="عباس رستمی"
+              description={user?.user?.phoneNumber}
+              name={
+                user?.user?.firstName + " " + user?.user?.lastName || "Personal"
+              }
             />
           </DropdownItem>
 

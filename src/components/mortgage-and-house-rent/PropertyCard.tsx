@@ -92,7 +92,7 @@ export default function PropertyCard({ data, isLoading }: Props) {
               autoplay={{ delay: 3000, disableOnInteraction: false }}
               pagination={{ clickable: false }}
             >
-              {property.photos.map((photo, idx) => (
+              {property?.photos.map((photo, idx) => (
                 <SwiperSlide key={idx}>
                   <Image
                     src={photo}
@@ -110,7 +110,7 @@ export default function PropertyCard({ data, isLoading }: Props) {
 
           <div className="p-2 sm:p-4 space-y-3">
             <h3 className="text-xl font-bold text-gray-800 dark:text-amber-100 transition-colors duration-300 group-hover:text-amber-600 dark:group-hover:text-yellow-300">
-              {property.title}
+              {property?.title}
             </h3>
 
             <p className="text-sm flex items-center gap-1 text-gray-500 dark:text-gray-300 transition-all duration-300 group-hover:translate-x-1">
@@ -118,30 +118,30 @@ export default function PropertyCard({ data, isLoading }: Props) {
                 size={20}
                 className="text-gray-400 dark:text-white"
               />
-              {property.address}
+              {property?.address}
             </p>
 
             <div className="flex flex-wrap gap-2 border-t border-gray-200 dark:border-slate-700 pt-3">
               <div className="flex items-center gap-1 py-1 px-3 rounded-full text-sm font-medium bg-gray-100 dark:bg-slate-800 text-gray-700 dark:text-amber-50 hover:scale-105">
-                <MdOutlineBedroomParent size={18} /> {property.rooms} خواب
+                <MdOutlineBedroomParent size={18} /> {property?.rooms} خواب
               </div>
               <div className="flex items-center gap-1 py-1 px-3 rounded-full text-sm font-medium bg-gray-100 dark:bg-slate-800 text-gray-700 dark:text-amber-50 hover:scale-105">
-                <MdOutlineBathroom size={18} /> {property.bathrooms} حمام
+                <MdOutlineBathroom size={18} /> {property?.bathrooms} حمام
               </div>
               <div className="flex items-center gap-1 py-1 px-3 rounded-full text-sm font-medium bg-gray-100 dark:bg-slate-800 text-gray-700 dark:text-amber-50 hover:scale-105">
-                <MdCarRepair size={18} /> پارکینگ {property.parking}
+                <MdCarRepair size={18} /> پارکینگ {property?.parking}
               </div>
             </div>
 
             <div className="flex flex-wrap items-center gap-2 mt-7">
               <span className="text-sm sm:text-base font-semibold text-gray-400 line-through decoration-red-400">
-                12.000.000
+                ۱٬۲۰۰٬۰۰۰
               </span>
               <span className="text-xs text-gray-500 dark:text-gray-400">
                 تومان /
               </span>
               <span className="text-base sm:text-xl font-bold text-gray-900 dark:text-[#e2eaa0]">
-                {property.price}
+                {Number(property?.price).toLocaleString("fa-IR")}
                 <span className="text-xs"> تومان</span>
               </span>
               <div className="ml-auto bg-gradient-to-r from-red-500 to-red-600 text-xs sm:text-sm font-bold px-3 py-1 text-white rounded-full shadow-sm animate-pulse group-hover:animate-none">

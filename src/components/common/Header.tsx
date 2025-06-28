@@ -27,6 +27,7 @@ import { ThemeSwitcher } from "@/context/ThemeSwitcher";
 import Link from "next/link";
 import toast from "react-hot-toast";
 import { FaSpinner } from "react-icons/fa";
+import { useProfile } from "@/services/Profile/getProfile";
 
 export default function Header() {
   const pathname = usePathname();
@@ -66,6 +67,7 @@ export default function Header() {
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
+  const { user, isLoading, error } = useProfile();
   return (
     <div className="fixed step-1 top-0 z-50 w-full transition-transform duration-500 ease-in-out">
       <Navbar
@@ -143,7 +145,7 @@ export default function Header() {
                     avatarProps={{
                       isBordered: true,
                       color: "warning",
-                      src: "https://i.pravatar.cc/150?u=a042581f4e29026024d",
+                      src: user?.user?.profilePicture || "",
                     }}
                     className="transition-transform text-right cursor-pointer hover:-translate-y-0.5"
                     description=""

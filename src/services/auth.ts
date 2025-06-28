@@ -19,6 +19,7 @@ declare module "next-auth" {
     refreshToken?: string;
     id?: string;
     role?: string;
+    profilePicture?: string;
     exp?: number;
   }
 }
@@ -106,6 +107,7 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
         token.exp = payload.exp;
         token.id = payload.id;
         token.role = payload.role;
+        token.profilePicture = payload.profilePicture;
         return token;
       }
 
@@ -141,6 +143,8 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
       session.exp = token.exp;
       session.id = token.id as string;
       session.role = token.role as string;
+      session.user.id = token.id as string;
+      session.profilePicture = token.profilePicture as string;
       return session;
     },
 

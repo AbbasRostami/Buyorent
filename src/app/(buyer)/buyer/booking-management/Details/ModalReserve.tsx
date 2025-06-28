@@ -76,12 +76,20 @@ export default function ModalReserve({
       ),
     },
   ];
+  const [pagination, setPagination] = useState({
+    pageIndex: 0,
+    pageSize: 5,
+  });
   const { table } = useCustomTable<ReservationData>({
     data: reservations,
     columns,
+
     enableSorting: true,
     enableFiltering: true,
     enablePagination: true,
+    manualPagination: true,
+    pagination,
+    onPaginationChange: setPagination,
   });
 
   return (

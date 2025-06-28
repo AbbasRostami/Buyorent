@@ -1,26 +1,27 @@
 "use client";
+import { useGetSummary } from "@/services/summary";
+import { Skeleton } from "@heroui/react";
 import { ApexOptions } from "apexcharts";
 import { useTheme } from "next-themes";
-import { useState } from "react";
 import ReactApexChart from "react-apexcharts";
 import { BsBookmarkStarFill } from "react-icons/bs";
 
 const Statistics = () => {
   const { theme } = useTheme();
-  const [state, setState] = useState({
-    series: [50, 40, 50, 20],
-  });
+
+  const { summary, isLoading, isError } = useGetSummary();
+  const series = [
+    Number(summary?.bookings || 0),
+    Number(summary?.houses || 0),
+    Number(summary?.users || 0),
+    Number(summary?.averageRating || 0),
+  ];
   const chartOptions: ApexOptions = {
     chart: {
       width: 380,
       type: "donut" as const,
     },
-    labels: [
-      "علاقه مندی ها",
-      "کل رزرو ها",
-      "رزرو های فعال",
-      "رزرو های پرداخت نشده",
-    ],
+    labels: ["کل رزرو ها", "کل خانه ها", "کل کاربران", "امتیاز میانگین"],
     stroke: {
       show: false,
       width: 0,
@@ -35,8 +36,9 @@ const Statistics = () => {
         colors: theme === "dark" ? "#F97316" : "#000",
         useSeriesColors: false,
       },
+
       markers: {
-        size: 12,
+        size: 8,
         offsetX: 5,
       },
       itemMargin: {
@@ -44,6 +46,13 @@ const Statistics = () => {
         vertical: 5,
       },
       inverseOrder: true,
+      formatter: function (seriesName, opts) {
+        const value = opts.w.globals.series[opts.seriesIndex];
+        return ` <div style="display: flex; align-items: center; justify-content: space-between; gap: 8px;">
+            <span style="flex:1;  text-align: right;">  ${value} : <b>${seriesName}</b></span>
+          </div>
+        `;
+      },
     },
     responsive: [
       {
@@ -66,13 +75,24 @@ const Statistics = () => {
         <BsBookmarkStarFill className="text-color1" size={24} />
         وضعیت رزروها
       </h2>
-      <ReactApexChart
-        className="flex items-center justify-center"
-        options={chartOptions}
-        series={state.series}
-        type="donut"
-        height={200}
-      />
+      {isLoading ? (
+        <div className="flex justify-center items-center h-[200px]">
+          <Skeleton
+            classNames={{
+              base: "animate-pulse bg-gray-200 dark:bg-gray-700",
+            }}
+            className="rounded-full w-[180px] h-[180px]"
+          />
+        </div>
+      ) : (
+        <ReactApexChart
+          className="flex items-center justify-center"
+          options={chartOptions}
+          series={series}
+          type="donut"
+          height={200}
+        />
+      )}
     </div>
   );
 };
