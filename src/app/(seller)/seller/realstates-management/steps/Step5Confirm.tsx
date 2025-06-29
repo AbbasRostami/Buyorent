@@ -35,7 +35,7 @@ export default function Step5Confirm() {
               عنوان ملک: {values.title}
             </span>
           </h2>
-          <p className="text-gray-600 dark:text-gray-300 text-justify mb-3 text-sm sm:text-base line-clamp-none">
+          <p className="text-gray-600 dark:text-gray-300 truncate leading-5 text-justify mb-3 text-sm sm:text-base line-clamp-none">
             {values.caption}
           </p>
           <div className="flex flex-wrap items-center justify-start gap-2 mb-4 w-full">

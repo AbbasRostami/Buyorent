@@ -27,13 +27,20 @@ import BookingSellerFilter from "./components/Filter/BookingFilter";
 import ModalDetails from "./components/Details/ModalDetails";
 import { useCustomTable } from "@/utils/hooks/useCustomTable";
 import { useGet, useDelete } from "@/utils/hooks/useReactQueryHooks";
-import { useQueryClient } from "@tanstack/react-query";
-import { useSession } from "next-auth/react";
+import { useQueries, useQueryClient } from "@tanstack/react-query";
 import toast from "react-hot-toast";
 import { confirm } from "@/components/common/ConfirmModal";
 import moment from "moment-jalaali";
+import api from "@/services/interceptor";
+import { useBookingWithHouses } from "@/services/Bookings/getBooking";
 
 moment.loadPersian({ dialect: "persian-modern" });
+
+export const useHouse = (houseId: number | string, enabled: boolean = true) =>
+  useGet(`/houses/${houseId}`, undefined, {
+    queryKey: ["house", houseId],
+    enabled,
+  });
 
 export interface BookingDataSeller {
   id: number;
@@ -72,6 +79,7 @@ export interface BookingDataSeller {
   updatedAt: string;
   reservedDates: ReservedDate[];
   traveler_details: TravelerDetail[];
+  house: any;
 }
 export interface BookingSellerResponse {
   data: BookingDataSeller[];
@@ -92,34 +100,20 @@ export default function BookingTable() {
   const [selectedRow, setSelectedRow] = useState<BookingDataSeller | null>(
     null
   );
-  const { data: session } = useSession();
+
   const [pagination, setPagination] = useState({
     pageIndex: 0,
     pageSize: 5,
   });
 
-  const { data: bookingSeller, isLoading } = useGet<BookingSellerResponse>(
-    "/bookings",
-    {
-      page: pagination.pageIndex + 1,
-      limit: pagination.pageSize,
-      sort: "created_at",
-      order: "DESC",
-    },
-    {
-      queryKey: [
-        "bookingSeller",
-        {
-          page: pagination.pageIndex + 1,
-          limit: pagination.pageSize,
-          sort: "created_at",
-          order: "DESC",
-        },
-      ],
-    }
-  );
+  const { combinedData, isLoading, totalCount } =
+    useBookingWithHouses<BookingDataSeller>({
+      endpoint: "/bookings",
+      queryKeyPrefix: "bookingSeller",
+      pageIndex: pagination.pageIndex,
+      pageSize: pagination.pageSize,
+    });
 
-  console.log("bookingSeller:", bookingSeller);
   const queryClient = useQueryClient();
 
   const { mutate: deleteBooking } = useDelete(
@@ -144,48 +138,53 @@ export default function BookingTable() {
       },
 
       {
-        accessorKey: "title",
+        id: "houseTitle",
+        accessorFn: (row) => row.house?.title ?? "",
         header: "نام ملک",
         cell: (info) => info.getValue(),
         enableSorting: true,
-        filterFn: "includesString",
       },
       {
-        accessorKey: "bioPerson",
-        header: "اطلاعات مسافر",
-        cell: (info) => info.getValue(),
-        enableSorting: true,
+        header: "مسافران",
+        accessorKey: "traveler_details",
+        cell: ({ row }) => {
+          const travelers = row.original.traveler_details;
+          if (!travelers?.length) return "بدون مسافر";
+
+          return (
+            <div className="flex flex-col gap-1">
+              {travelers.map((t, i) => (
+                <span key={i}>
+                  {t.firstName} {t.lastName}
+                </span>
+              ))}
+            </div>
+          );
+        },
+        enableSorting: false,
       },
       {
-        accessorKey: "updatedAt",
+        accessorKey: "createdAt",
         header: "تاریخ رزرو",
         enableSorting: false,
         cell: (info) => {
           const date = info.getValue() as string;
 
-          const formatted = moment(date).format("jYYYY/jMM/jDD / HH:mm");
+          const formatted = moment(date).format("jYYYY/jMM/jDD - HH:mm");
 
-          return <span>{formatted}</span>;
+          return <span> {formatted}</span>;
         },
       },
       {
-        accessorKey: "price",
+        accessorKey: "house.price",
         header: "قیمت کل",
         cell: (info) => {
           const value = info.getValue();
           const numValue = typeof value === "number" ? value : Number(value);
-          return `${numValue.toLocaleString()} تومان`;
+          return `${numValue.toLocaleString("fa-IR")} تومان`;
         },
         enableSorting: true,
-        sortingFn: (rowA, rowB, columnId) => {
-          const a = rowA.getValue(columnId);
-          const b = rowB.getValue(columnId);
-          const numA = typeof a === "number" ? a : Number(a);
-          const numB = typeof b === "number" ? b : Number(b);
-          return numA - numB;
-        },
       },
-
       {
         accessorKey: "status",
         header: "وضعیت رزرو",
@@ -219,24 +218,7 @@ export default function BookingTable() {
         },
         enableSorting: true,
       },
-      {
-        accessorKey: "payment_status",
-        header: "وضعیت پرداخت",
-        cell: (info) => {
-          const value = info.getValue();
 
-          return (
-            <Chip
-              color={value === "تایید شده" ? "success" : "danger"}
-              variant="shadow"
-              className="text-sm px-2 py-1 rounded-xl font-normal"
-            >
-              {value as string}
-            </Chip>
-          );
-        },
-        enableSorting: true,
-      },
       {
         accessorKey: "actions",
         header: "عملیات",
@@ -326,12 +308,12 @@ export default function BookingTable() {
 
   const { table, exportToExcel, exportToPDF, printTable, computedPageCount } =
     useCustomTable<BookingDataSeller>({
-      data: bookingSeller?.data || [],
+      data: combinedData || [],
       columns,
       manualPagination: true,
       enablePagination: true,
       pagination,
-      totalCount: bookingSeller?.totalCount,
+      totalCount,
       onPaginationChange: setPagination,
     });
   const [bookingSearch, setBookingSearch] = useState("");
@@ -352,7 +334,7 @@ export default function BookingTable() {
             onChange={(e) => {
               const value = e.target.value;
               setBookingSearch(value);
-              table.getColumn("title")?.setFilterValue(value);
+              table.getColumn("houseTitle")?.setFilterValue(value); // 👈 استفاده از id جدید
             }}
             placeholder="نام هتل مورد نظر را جستجو کنید..."
             className=" p-2 rounded-md border-2 border-amber-500 w-full md:w-2/3"

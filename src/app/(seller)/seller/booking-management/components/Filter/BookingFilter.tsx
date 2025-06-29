@@ -63,11 +63,11 @@ export default function BookingSellerFilter({
                   <Select
                     aria-label="وضعیت رزرو"
                     placeholder="وضعیت رزرو را انتخاب کنید..."
+                    className="w-full"
                   >
                     {[
-                      { key: "tehran", label: "تهران" },
-                      { key: "mashhad", label: "مشهد" },
-                      { key: "shiraz", label: "شیراز" },
+                      { key: "tehran", label: "تایید شده" },
+                      { key: "mashhad", label: "تایید نشده" },
                     ].map((item) => (
                       <SelectItem key={item.key}>{item.label}</SelectItem>
                     ))}

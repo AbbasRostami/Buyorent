@@ -172,6 +172,12 @@ export default function MapHousesReserve({
   const isInIran = (lat: number, lng: number) => {
     return lat > 25.0 && lat < 39.5 && lng > 44.0 && lng < 63.5;
   };
+  const getLatLng = (location: any): [number, number] => {
+    if (!location) return [0, 0];
+    const lat = location.lat ?? location.latitude;
+    const lng = location.lng ?? location.longitude;
+    return [lat, lng];
+  };
 
   const handleLocateUser = () => {
     if (navigator.geolocation) {
@@ -276,15 +282,18 @@ export default function MapHousesReserve({
     setSearchQuery(result.display_name);
     setSelectedProperty(null);
 
-    const newDistances = data.map((property) => ({
-      id: property.id,
-      distance: calculateDistance(
-        parseFloat(result.lat),
-        parseFloat(result.lon),
-        property.location.lat,
-        property.location.lng
-      ),
-    }));
+    const newDistances = data.map((property) => {
+      const [propertyLat, propertyLng] = getLatLng(property.location);
+      return {
+        id: property.id,
+        distance: calculateDistance(
+          parseFloat(result.lat),
+          parseFloat(result.lon),
+          propertyLat,
+          propertyLng
+        ),
+      };
+    });
     setDistances(newDistances);
 
     toast.success("موقعیت شما انتخاب شد حالا ملک موردنظر را انتخاب کنید", {
@@ -322,10 +331,15 @@ export default function MapHousesReserve({
     return () => clearTimeout(timer);
   }, [searchQuery]);
 
-  const defaultCenter: [number, number] =
-    data?.length > 0
-      ? [data[0].location.lat, data[0].location.lng]
-      : [36.5633, 53.0601];
+  const defaultCenter: [number, number] = (() => {
+    if (data?.length > 0) {
+      const [lat, lng] = getLatLng(data[0].location);
+      if (lat !== 0 && lng !== 0) {
+        return [lat, lng];
+      }
+    }
+    return [36.5633, 53.0601]; // Default coordinates for Iran
+  })();
   const { theme } = useTheme();
 
   const tileLayerUrl =
@@ -411,118 +425,127 @@ export default function MapHousesReserve({
           maxZoom={20}
         />
 
-        {data?.map((property) => (
-          <Marker
-            key={property.id}
-            icon={createCustomIcon(property?.photos?.[0])}
-            position={[property.location.lat, property.location.lng]}
-            eventHandlers={{
-              click: () =>
-                handlePropertyClick(property.id, [
-                  property.location.lat,
-                  property.location.lng,
-                ]),
-            }}
-          >
-            <Popup className="custom-popup">
-              <Link
-                href={`/mortgage-and-house-rent/${property.id}`}
-                className="popup-inner"
-              >
-                <div className="w-[270px] bg-gradient-to-r from-[#cf9952] to-[#E89300] backdrop-blur-sm rounded-xl p-3 flex items-center gap-3 shadow-lg border border-white/20">
-                  <div className="relative shrink-0">
-                    <img
-                      src={
-                        property?.photos?.[0] ||
-                        "https://via.placeholder.com/64x64?text=%3A)"
-                      }
-                      alt={property.title}
-                      className="w-14 h-14 rounded-full object-cover border-2 border-white shadow-md"
-                    />
-                    <div className="absolute -bottom-1 -right-1 bg-red-600 text-white text-xs px-1.5 py-0.5 rounded-full shadow-sm">
-                      ٪5
-                    </div>
-                  </div>
-
-                  <div className="flex flex-col justify-between w-full text-white overflow-hidden">
-                    <h3 className="font-bold text-lg truncate">
-                      {property.title}
-                    </h3>
-
-                    <div className="flex items-center gap-1 text-sm text-white/90 mb-1">
-                      <IoLocationOutline size={18} />
-                      <span className="truncate whitespace-nowrap">
-                        {property.address}
-                      </span>
-                    </div>
-
-                    {selectedLocation && (
-                      <div className="text-sm text-white/90 mb-1">
-                        فاصله:{" "}
-                        {distances
-                          .find((d) => d.id === property.id)
-                          ?.distance.toFixed(1)}{" "}
-                        کیلومتر
+        {data?.map((property) => {
+          const [lat, lng] = getLatLng(property.location);
+          return (
+            <Marker
+              key={property.id}
+              icon={createCustomIcon(property?.photos?.[0])}
+              position={[lat, lng]}
+              eventHandlers={{
+                click: () => handlePropertyClick(property.id, [lat, lng]),
+              }}
+            >
+              <Popup className="custom-popup">
+                <Link
+                  href={`/mortgage-and-house-rent/${property.id}`}
+                  className="popup-inner"
+                >
+                  <div className="w-[270px] bg-gradient-to-r from-[#cf9952] to-[#E89300] backdrop-blur-sm rounded-xl p-3 flex items-center gap-3 shadow-lg border border-white/20">
+                    <div className="relative shrink-0">
+                      <img
+                        src={
+                          property?.photos?.[0] ||
+                          "https://via.placeholder.com/64x64?text=%3A)"
+                        }
+                        alt={property.title}
+                        className="w-14 h-14 rounded-full object-cover border-2 border-white shadow-md"
+                      />
+                      <div className="absolute -bottom-1 -right-1 bg-red-600 text-white text-xs px-1.5 py-0.5 rounded-full shadow-sm">
+                        ٪5
                       </div>
-                    )}
+                    </div>
 
-                    <div className="flex justify-center gap-1 items-baseline text-sm font-semibold">
-                      <div className="flex items-baseline gap-1">
-                        <span className="text-white">
-                          {property.price?.toLocaleString()}
+                    <div className="flex flex-col justify-between w-full text-white overflow-hidden">
+                      <h3 className="font-bold text-lg truncate">
+                        {property.title}
+                      </h3>
+
+                      <div className="flex items-center gap-1 text-sm text-white/90 mb-1">
+                        <IoLocationOutline size={18} />
+                        <span className="truncate whitespace-nowrap">
+                          {property.address}
                         </span>
                       </div>
-                      <span className="text-white dark:text-amber-50 text-xs">
-                        تومان
-                      </span>
+
+                      {selectedLocation && (
+                        <div className="text-sm text-white/90 mb-1">
+                          فاصله:{" "}
+                          {distances
+                            .find((d) => d.id === property.id)
+                            ?.distance.toFixed(1)}{" "}
+                          کیلومتر
+                        </div>
+                      )}
+
+                      <div className="flex justify-center gap-1 items-baseline text-sm font-semibold">
+                        <div className="flex items-baseline gap-1">
+                          <span className="text-white">
+                            {property.price?.toLocaleString()}
+                          </span>
+                        </div>
+                        <span className="text-white dark:text-amber-50 text-xs">
+                          تومان
+                        </span>
+                      </div>
                     </div>
                   </div>
-                </div>
-              </Link>
-            </Popup>
-          </Marker>
-        ))}
+                </Link>
+              </Popup>
+            </Marker>
+          );
+        })}
 
-        {selectedLocation && selectedProperty && (
-          <>
-            <RoutingMachine
-              start={selectedLocation}
-              end={[
-                data.find((p) => p.id === selectedProperty)?.location.lat || 0,
-                data.find((p) => p.id === selectedProperty)?.location.lng || 0,
-              ]}
-            />
-            <Marker position={selectedLocation} icon={defaultIcon}>
-              <Popup className="custom-popup">
-                <div className="w-[200px] bg-gradient-to-r from-blue-500 to-blue-600 backdrop-blur-sm rounded-xl p-3 flex flex-col items-center gap-2 shadow-lg border border-white/20">
-                  <div className="flex items-center gap-2 text-white">
-                    <IoLocationOutline size={20} className="text-blue-200" />
-                    <span className="font-medium">موقعیت انتخاب شده</span>
-                  </div>
-                  <div className="w-full h-[1px] bg-white/20"></div>
-                  <div className="text-sm text-blue-100 text-center">
-                    {searchQuery}
-                  </div>
-                </div>
-              </Popup>
-            </Marker>
-            <Marker
-              position={[
-                data.find((p) => p.id === selectedProperty)?.location.lat || 0,
-                data.find((p) => p.id === selectedProperty)?.location.lng || 0,
-              ]}
-              icon={createCustomIcon(
-                data.find((p) => p.id === selectedProperty)?.photos?.[0] || ""
-              )}
-            >
-              <Popup>
-                <div className="text-center font-semibold text-lg text-blue-600">
-                  مقصد
-                </div>
-              </Popup>
-            </Marker>
-          </>
-        )}
+        {selectedLocation &&
+          selectedProperty &&
+          (() => {
+            const selectedPropertyData = data.find(
+              (p) => p.id === selectedProperty
+            );
+            if (!selectedPropertyData) return null;
+
+            const [selectedLat, selectedLng] = getLatLng(
+              selectedPropertyData.location
+            );
+
+            return (
+              <>
+                <RoutingMachine
+                  start={selectedLocation}
+                  end={[selectedLat, selectedLng]}
+                />
+                <Marker position={selectedLocation} icon={defaultIcon}>
+                  <Popup className="custom-popup">
+                    <div className="w-[200px] bg-gradient-to-r from-blue-500 to-blue-600 backdrop-blur-sm rounded-xl p-3 flex flex-col items-center gap-2 shadow-lg border border-white/20">
+                      <div className="flex items-center gap-2 text-white">
+                        <IoLocationOutline
+                          size={20}
+                          className="text-blue-200"
+                        />
+                        <span className="font-medium">موقعیت انتخاب شده</span>
+                      </div>
+                      <div className="w-full h-[1px] bg-white/20"></div>
+                      <div className="text-sm text-blue-100 text-center">
+                        {searchQuery}
+                      </div>
+                    </div>
+                  </Popup>
+                </Marker>
+                <Marker
+                  position={[selectedLat, selectedLng]}
+                  icon={createCustomIcon(
+                    selectedPropertyData?.photos?.[0] || ""
+                  )}
+                >
+                  <Popup>
+                    <div className="text-center font-semibold text-lg text-blue-600">
+                      مقصد
+                    </div>
+                  </Popup>
+                </Marker>
+              </>
+            );
+          })()}
 
         {userLocation && (
           <>

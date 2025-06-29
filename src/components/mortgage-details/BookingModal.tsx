@@ -12,7 +12,7 @@ import {
   SelectItem,
 } from "@heroui/react";
 import { Formik, Form, Field, ErrorMessage } from "formik";
-import { CreateBooking } from "@/services/Bookings/bookingService";
+import { CreateBooking } from "@/services/Bookings/postBooking";
 import { BiSolidUserDetail } from "react-icons/bi";
 import { MdNotificationAdd } from "react-icons/md";
 import { GiPriceTag } from "react-icons/gi";
@@ -111,7 +111,6 @@ export const BookingModal: React.FC<BookingModalProps> = ({
     <Modal
       isOpen={isOpen}
       onClose={() => {
-        console.log("Modal closing triggered");
         onClose();
       }}
       size="3xl"

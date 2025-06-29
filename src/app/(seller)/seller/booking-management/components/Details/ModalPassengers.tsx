@@ -7,6 +7,9 @@ import { FaListCheck } from "react-icons/fa6";
 import { RiTelegram2Fill } from "react-icons/ri";
 import { PiSealWarningBold } from "react-icons/pi";
 import { useCustomTable } from "@/utils/hooks/useCustomTable";
+import moment from "moment-jalaali";
+
+moment.loadPersian({ dialect: "persian-modern" });
 
 interface ModalReserveProps {
   isOpen: boolean;
@@ -14,54 +17,61 @@ interface ModalReserveProps {
   selectedRow?: any;
 }
 
-interface ReservationData {
+interface TravelerData {
   id: number;
-  checkIn: string;
-  checkOut: string;
-  number: string;
+  firstName: string;
+  lastName: string;
+  gender: "male" | "female";
+  nationalId: string;
+  birthDate: string;
 }
 
 export default function ModalPassengers({
   isOpen,
   onOpenChange,
+  selectedRow,
 }: ModalReserveProps) {
-  const reservations: ReservationData[] = [
-    {
-      id: 1,
-      checkIn: "امیرمحمد ملایی",
-      checkOut: "مرد",
-      number: "09331334326",
-    },
-    {
-      id: 2,
-      checkIn: "امیرمحمد ملایی",
-      checkOut: "زن",
-      number: "09371834774",
-    },
-  ];
+  // Get travelers from selectedRow
+  const travelers: TravelerData[] = selectedRow?.traveler_details || [];
 
-  const columns = useMemo<ColumnDef<ReservationData>[]>(
+  const columns = useMemo<ColumnDef<TravelerData>[]>(
     () => [
       {
         accessorKey: "id",
         header: "ردیف",
-        cell: (info) => info.getValue(),
+        cell: (info) => info.row.index + 1,
       },
 
       {
-        accessorKey: "checkIn",
-        header: "نام ",
+        accessorKey: "firstName",
+        header: "نام",
         cell: (info) => info.getValue(),
       },
       {
-        accessorKey: "checkOut",
-        header: " جنسیت",
+        accessorKey: "lastName",
+        header: "نام خانوادگی",
         cell: (info) => info.getValue(),
       },
       {
-        accessorKey: "number",
-        header: " شماره تماس",
+        accessorKey: "gender",
+        header: "جنسیت",
+        cell: (info) => {
+          const gender = info.getValue() as string;
+          return gender === "male" ? "مرد" : "زن";
+        },
+      },
+      {
+        accessorKey: "nationalId",
+        header: "کد ملی",
         cell: (info) => info.getValue(),
+      },
+      {
+        accessorKey: "birthDate",
+        header: "تاریخ تولد",
+        cell: (info) => {
+          const date = info.getValue() as string;
+          return moment(date).format("jYYYY/jMM/jDD");
+        },
       },
       {
         accessorKey: "action",
@@ -84,7 +94,7 @@ export default function ModalPassengers({
     pageSize: 5,
   });
   const { table } = useCustomTable({
-    data: reservations,
+    data: travelers,
     columns,
     enableSorting: true,
     enableFiltering: true,
@@ -109,7 +119,7 @@ export default function ModalPassengers({
               <div className="flex items-center justify-between border-b pb-4 mb-4">
                 <h2 className="text-3xl font-black text-right flex items-center gap-2">
                   <FaListCheck className="dark:text-amber-200" size={30} />
-                  جزئیات مسافرها
+                  جزئیات مسافرها ({travelers.length})
                 </h2>
                 <button
                   className="flex items-center gap-2 border border-red-400 text-red-500 rounded-full px-6 py-2 text-lg font-bold hover:bg-red-50 dark:hover:bg-red-500 dark:text-white transition"
@@ -159,10 +169,10 @@ export default function ModalPassengers({
                                 className=" text-amber-500 mb-4"
                               />
                               <p className="text-xl font-bold text-gray-700 dark:text-gray-300">
-                                موردی یافت نشد
+                                مسافری یافت نشد
                               </p>
                               <p className="mt-2 text-gray-500 dark:text-gray-400">
-                                هیچ رزروی با مشخصات جستجو شده یافت نشد
+                                هیچ مسافری برای این رزرو ثبت نشده است
                               </p>
                             </div>
                           </td>

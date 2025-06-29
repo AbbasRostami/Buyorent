@@ -72,12 +72,12 @@ export default function ModalPassengerList({
       cell: (info) => info.getValue(),
     },
   ];
+
+                    
   const { table } = useCustomTable<ReservationData>({
     data: reservations,
     columns,
     enableSorting: true,
-    enableFiltering: true,
-    enablePagination: true,
   });
 
   return (

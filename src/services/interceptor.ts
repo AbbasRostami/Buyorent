@@ -6,14 +6,11 @@ const api = axios.create({
   baseURL: process.env.NEXT_PUBLIC_API_URL,
 });
 
-// Add access token to all requests
 api.interceptors.request.use(async (config) => {
   const session = await getSession();
-
   if (session?.accessToken) {
     config.headers["Authorization"] = `Bearer ${session.accessToken}`;
   }
-
   return config;
 });
 
@@ -33,7 +30,8 @@ api.interceptors.response.use(
         const refreshToken = session?.refreshToken;
 
         if (!refreshToken) {
-          toast.error("برای ادامه ابتدا وارد شوید ❌");
+          toast.error("ورود شما منقضی شده است.");
+          await signOut();
           return Promise.reject(error);
         }
 
@@ -48,18 +46,20 @@ api.interceptors.response.use(
           ] = `Bearer ${data.accessToken}`;
           return api(originalRequest);
         } else {
-          toast.error("دسترسی منقضی شده است. دوباره وارد شوید.");
-          await signOut();
+          toast.error("دسترسی منقضی شده. لطفا دوباره وارد شوید.");
+          await signOut({ redirect: false });
+          return Promise.reject(error);
         }
       } catch (err) {
-        toast.error("دسترسی شما منقضی شده است.");
-        await signOut();
+        toast.error("اعتبار شما پایان یافته است.");
+        await signOut({redirect:false});
         return Promise.reject(err);
       }
     }
 
     if (error.response?.status === 401 || error.response?.status === 403) {
-      toast.error("برای انجام این عملیات باید وارد شوید ❗");
+      toast.error("⛔️ برای انجام این عملیات وارد شوید.");
+      await signOut();
     }
 
     return Promise.reject(error);

@@ -1,9 +1,4 @@
 "use client";
-import image from "./../../../../assets/Avatar1.png";
-import image2 from "./../../../../assets/Avatar2.png";
-import image3 from "./../../../../assets/Avatar3.png";
-
-
 
 import {
   Button,
@@ -13,8 +8,9 @@ import {
   DropdownMenu,
   DropdownTrigger,
   Pagination,
-  SelectItem,
   Select,
+  SelectItem,
+  Skeleton,
   useDisclosure,
 } from "@heroui/react";
 import { ColumnDef, flexRender } from "@tanstack/react-table";
@@ -22,289 +18,207 @@ import { useMemo, useState } from "react";
 import { BsArrowDown, BsArrowUp } from "react-icons/bs";
 import { TiDeleteOutline } from "react-icons/ti";
 import { PiSealWarningBold, PiWarningCircleBold } from "react-icons/pi";
-import { GiWallet } from "react-icons/gi";
 import { HiDotsHorizontal } from "react-icons/hi";
-import { FaFileExcel, FaFilePdf, FaPlusCircle, FaPrint } from "react-icons/fa";
+import { FaPrint, FaFilePdf, FaFileExcel, FaUsers } from "react-icons/fa";
 
-import Image from "next/image";
+import { SlBan } from "react-icons/sl";
+import { GiConfirmed } from "react-icons/gi";
 import { useCustomTable } from "@/utils/hooks/useCustomTable";
+import { useGet, useDelete } from "@/utils/hooks/useReactQueryHooks";
+import { useQueries, useQueryClient } from "@tanstack/react-query";
+import toast from "react-hot-toast";
+import { confirm } from "@/components/common/ConfirmModal";
+import moment from "moment-jalaali";
+import api from "@/services/interceptor";
 import ModalDetails from "./Details/ModalDetails";
 import BookingBuyerFilter from "./Filter/BookingFilter";
+import { useBookingWithHouses } from "@/services/Bookings/getBooking";
 
-export interface BookingData {
+moment.loadPersian({ dialect: "persian-modern" });
+
+export const useHouse = (houseId: number | string, enabled: boolean = true) =>
+  useGet(`/houses/${houseId}`, undefined, {
+    queryKey: ["house", houseId],
+    enabled,
+  });
+
+export interface BookingDataBuyer {
   id: number;
   title: string;
+  bioPerson: string;
   date: string;
   price: number;
-  guests: number;
-  status: "تایید شده" | "در انتظار" | "لغو شده";
+  passengers: string;
+  status: "canceled" | "pending" | "confirmed";
   payment_status: "تایید شده" | "لغو شده";
   image: string;
+  totalCount: number;
 }
-const bookingDataBuyer: BookingData[] = [
-  {
-    id: 1,
-    title: "هتل سراوان",
-    date: "1403/02/01/ 10:00",
-    price: 150000000,
-    guests: 88,
-    status: "تایید شده",
-    payment_status: "لغو شده",
-    image: image.src,
-  },
-  {
-    id: 2,
-    title: "شیراز پارک",
-    date: "1403/02/01/ 10:00",
-    price: 150000000,
-    guests: 70,
-    status: "در انتظار",
-    payment_status: "تایید شده",
-    image: image2.src,
-  },
-  {
-    id: 3,
-    title: "تراول پارک",
-    date: "1403/02/01/ 10:00",
-    price: 160000000,
-    guests: 53,
-    status: "در انتظار",
-    payment_status: "لغو شده",
-    image: image3.src,
-  },
-  {
-    id: 4,
-    title: "میدان جمهریه",
-    date: "1403/02/01/ 10:00",
-    price: 180000000,
-    guests: 10,
-    status: "تایید شده",
-    payment_status: "لغو شده",
-    image: image2.src,
-  },
-  {
-    id: 5,
-    title: "ماهی پارک",
-    date: "1403/02/01/ 10:00",
-    price: 170000000,
-    guests: 7,
-    status: "در انتظار",
-    payment_status: "تایید شده",
-    image: image3.src,
-  },
-  {
-    id: 6,
-    title: "کوه سراوان",
-    date: "1403/02/01/ 10:00",
-    price: 170000000,
-    guests: 38,
-    status: "در انتظار",
-    payment_status: "لغو شده",
-    image: image2.src,
-  },
-  {
-    id: 7,
-    title: "ساحل سراوان",
-    date: "1403/02/01/ 10:00",
-    price: 100000,
-    guests: 85,
-    status: "در انتظار",
-    payment_status: "تایید شده",
-    image: image.src,
-  },
-  {
-    id: 8,
-    title: "ماهی پارک",
-    date: "1403/02/01/ 10:00",
-    price: 160000000,
-    guests: 741,
-    status: "در انتظار",
-    payment_status: "تایید شده",
-    image: image2.src,
-  },
-  {
-    id: 9,
-    title: "ماهی پارک",
-    date: "1403/02/01/ 10:00",
-    price: 190000000,
-    guests: 52,
-    status: "تایید شده",
-    payment_status: "لغو شده",
-    image: image3.src,
-  },
-  {
-    id: 10,
-    title: "نسرین پارک",
-    date: "1403/02/01/ 10:00",
-    price: 170000000,
-    guests: 976,
-    status: "در انتظار",
-    payment_status: "تایید شده",
-    image: image2.src,
-  },
-  {
-    id: 11,
-    title: "ماهی پارک",
-    date: "1403/02/01/ 10:00",
-    price: 170000000,
-    guests: 52,
-    status: "در انتظار",
-    payment_status: "لغو شده",
-    image: image.src,
-  },
-  {
-    id: 12,
-    title: "ساحل سراوان",
-    date: "1403/02/01/ 10:00",
-    price: 170000000,
-    guests: 5,
-    status: "در انتظار",
-    payment_status: "تایید شده",
-    image: image3.src,
-  },
-  {
-    id: 13,
-    title: "ماهی بهشهر",
-    date: "1403/02/01/ 10:00",
-    price: 186600000,
-    guests: 48,
-    status: "تایید شده",
-    payment_status: "لغو شده",
-    image: image2.src,
-  },
-];
+
+export interface ReservedDate {
+  value: string;
+  inclusive: boolean;
+}
+
+export interface TravelerDetail {
+  birthDate: string;
+  firstName: string;
+  lastName: string;
+  gender: "male" | "female";
+  nationalId: string;
+}
+
+export interface BookingDataBuyer {
+  id: number;
+  user_id: number;
+  houseId: number;
+  sharedEmail: string;
+  sharedMobile: string;
+  status: "canceled" | "pending" | "confirmed";
+  createdAt: string;
+  updatedAt: string;
+  reservedDates: ReservedDate[];
+  traveler_details: TravelerDetail[];
+  house: any;
+}
+export interface BookingBuyerResponse {
+  data: BookingDataBuyer[];
+  totalCount: number;
+}
+
 export default function BookingTable() {
-    const {
+  const {
     isOpen: isOpenFilter,
     onOpen: onOpenFilter,
     onOpenChange: onOpenChangeFilter,
   } = useDisclosure();
   const {
-    isOpen,
+    isOpen: isOpen,
     onOpen: onOpen,
     onOpenChange: onOpenChange,
   } = useDisclosure();
-  const [selectedRow, setSelectedRow] = useState<BookingData | null>(null);
+  const [selectedRow, setSelectedRow] = useState<BookingDataBuyer | null>(null);
 
-  const columns = useMemo<ColumnDef<BookingData>[]>(
+  const [pagination, setPagination] = useState({
+    pageIndex: 0,
+    pageSize: 5,
+  });
+
+  const { combinedData, isLoading, totalCount } = useBookingWithHouses<
+    BookingDataBuyer
+  >({
+    endpoint: "/bookings",
+    queryKeyPrefix: "bookingBuyer",
+    pageIndex: pagination.pageIndex,
+    pageSize: pagination.pageSize,
+  });
+
+  console.log("combinedData:", combinedData);
+  const queryClient = useQueryClient();
+
+  const { mutate: deleteBooking } = useDelete(
+    (id: number) => `/bookings/${id}`,
+    {
+      onSuccess: () => {
+        queryClient.invalidateQueries({ queryKey: ["bookingBuyer"] });
+        toast.success("ایتم انتخابی با موفقیت حذف شد");
+      },
+      onError: () => {
+        toast.error("خطا در حذف رزرو");
+      },
+    }
+  );
+  const columns = useMemo<ColumnDef<BookingDataBuyer>[]>(
     () => [
       {
-        accessorKey: "id",
+        accessorKey: "rowIndex",
         header: "ردیف",
-        cell: (info) => info.row.original.id,
-        sortingFn: (rowA, rowB) => rowA.original.id - rowB.original.id,
+        cell: (info) => info.row.index + 1,
+        enableSorting: true,
       },
+
       {
-        accessorKey: "image",
-        header: "تصویر",
-        cell: (info) => {
-          const value = info.getValue();
-          if (typeof value !== "string") return null;
-          return (
-            <Image
-              src={value}
-              alt="image"
-              width={42}
-              height={42}
-              className="rounded-full"
-            />
-          );
-        },
-        meta: { isImage: true },
-      },
-      {
-        accessorKey: "title",
-        header: "نام اقامتگاه",
-        cell: (info) => {
-          const value = info.getValue();
-          return typeof value === "string" ? value : "";
-        },
+        id: "houseTitle",
+        accessorFn: (row) => row.house?.title ?? "",
+        header: "نام ملک",
+        cell: (info) => info.getValue(),
         enableSorting: true,
       },
       {
-        accessorKey: "date",
-        header: "تاریخ رزرو",
-        cell: (info) => {
-          const value = info.getValue();
-          return typeof value === "string" ? value : "";
+        header: "مسافران",
+        accessorKey: "traveler_details",
+        cell: ({ row }) => {
+          const travelers = row.original.traveler_details;
+          if (!travelers?.length) return "بدون مسافر";
+
+          return (
+            <div className="flex flex-col gap-1">
+              {travelers.map((t, i) => (
+                <span key={i}>
+                  {t.firstName} {t.lastName}
+                </span>
+              ))}
+            </div>
+          );
         },
         enableSorting: false,
       },
       {
-        accessorKey: "price",
+        accessorKey: "createdAt",
+        header: "تاریخ رزرو",
+        enableSorting: false,
+        cell: (info) => {
+          const date = info.getValue() as string;
+
+          const formatted = moment(date).format("jYYYY/jMM/jDD - HH:mm");
+
+          return <span> {formatted}</span>;
+        },
+      },
+      {
+        accessorKey: "house.price",
         header: "قیمت کل",
         cell: (info) => {
           const value = info.getValue();
           const numValue = typeof value === "number" ? value : Number(value);
-          return `${numValue.toLocaleString()} تومان`;
+          return `${numValue.toLocaleString("fa-IR")} تومان`;
         },
         enableSorting: true,
-        sortingFn: (rowA, rowB, columnId) => {
-          const a = rowA.getValue(columnId);
-          const b = rowB.getValue(columnId);
-          const numA = typeof a === "number" ? a : Number(a);
-          const numB = typeof b === "number" ? b : Number(b);
-          return numA - numB;
-        },
-      },
-      {
-        accessorKey: "guests",
-        header: "تعداد مسافر",
-        cell: (info) => {
-          const value = info.getValue();
-          return typeof value === "number" ? value : Number(value);
-        },
-        enableSorting: true,
-        sortingFn: (rowA, rowB, columnId) => {
-          const a = rowA.getValue(columnId);
-          const b = rowB.getValue(columnId);
-          const numA = typeof a === "number" ? a : Number(a);
-          const numB = typeof b === "number" ? b : Number(b);
-          return numA - numB;
-        },
       },
       {
         accessorKey: "status",
         header: "وضعیت رزرو",
         cell: (info) => {
-          const value = info.getValue();
-          if (typeof value !== "string") return null;
+          const value = info.getValue() as string;
+
+          const label =
+            value === "confirmed"
+              ? "تأیید شده"
+              : value === "pending"
+              ? "در انتظار"
+              : value === "canceled"
+              ? "لغو شده"
+              : value;
+
           return (
             <Chip
               color={
-                value === "تایید شده"
+                value === "confirmed"
                   ? "success"
-                  : value === "در انتظار"
+                  : value === "pending"
                   ? "warning"
                   : "danger"
               }
-              variant="flat"
+              variant="shadow"
               className="text-sm px-2 py-1 rounded-xl font-normal"
             >
-              {value}
+              {label}
             </Chip>
           );
         },
         enableSorting: true,
       },
-      {
-        accessorKey: "payment_status",
-        header: "وضعیت پرداخت",
-        cell: (info) => {
-          const value = info.getValue();
-          if (typeof value !== "string") return null;
-          return (
-            <Chip
-              color={value === "تایید شده" ? "success" : "danger"}
-              variant="flat"
-              className="text-sm px-2 py-1 rounded-xl font-normal"
-            >
-              {value}
-            </Chip>
-          );
-        },
-        enableSorting: true,
-      },
+
       {
         accessorKey: "actions",
         header: "عملیات",
@@ -316,11 +230,32 @@ export default function BookingTable() {
                   <HiDotsHorizontal size={20} />
                 </Button>
               </DropdownTrigger>
+
               <DropdownMenu aria-label="Static Actions">
-                <DropdownItem textValue="پرداخت" color="success" key="payment">
+                <DropdownItem
+                  textValue="تایید رزرو"
+                  color="success"
+                  key="success"
+                  onPress={() => {
+                    console.log("info.row.original:", info.row.original.id);
+                  }}
+                >
                   <div className="flex items-center gap-2">
-                    <GiWallet size={20} />
-                    پرداخت
+                    <GiConfirmed size={20} />
+                    تایید رزرو
+                  </div>
+                </DropdownItem>
+                <DropdownItem
+                  textValue="لغو رزرو"
+                  color="danger"
+                  key="danger"
+                  onPress={() => {
+                    console.log("info.row.original:", info.row.original.id);
+                  }}
+                >
+                  <div className="flex items-center gap-2">
+                    <SlBan size={20} />
+                    لغو رزرو
                   </div>
                 </DropdownItem>
                 <DropdownItem
@@ -342,8 +277,18 @@ export default function BookingTable() {
                   key="delete"
                   className="text-danger"
                   color="danger"
-                  onPress={() => {
-                    console.log("info.row.original:", info.row.original.id);
+                  onPress={async () => {
+                    const isConfirmed = await confirm({
+                      title: "حذف رزرو",
+                      description:
+                        "آیا مطمئن هستید که می‌خواهید این رزرو را حذف کنید؟",
+                      confirmText: "حذف",
+                      cancelText: "انصراف",
+                    });
+
+                    if (isConfirmed) {
+                      deleteBooking(info.row.original.id);
+                    }
                   }}
                 >
                   <div className="flex items-center gap-2">
@@ -361,52 +306,38 @@ export default function BookingTable() {
     []
   );
 
-  const [pagination, setPagination] = useState({
-    pageIndex: 0,
-    pageSize: 5,
-  });
-  const {
-    table,
-    columnFilters,
-    setPageSize,
-    exportToExcel,
-    exportToPDF,
-    printTable,
-  } = useCustomTable<BookingData>({
-    data: bookingDataBuyer,
-    columns,
-    enableSorting: true,
-    enableFiltering: true,
-    enablePagination: true,
-    manualPagination: true,
-    pagination,
-    onPaginationChange: setPagination,
-  });
+  const { table, exportToExcel, exportToPDF, printTable, computedPageCount } =
+    useCustomTable<BookingDataBuyer>({
+      data: combinedData || [],
+      columns,
+      manualPagination: true,
+      enablePagination: true,
+      pagination,
+      totalCount,
+      onPaginationChange: setPagination,
+    });
+  const [bookingSearch, setBookingSearch] = useState("");
 
   return (
     <div className="space-y-4 bg-white/90 shadow-2xl dark:bg-gray-800 p-4 rounded-2xl">
       <div className="flex flex-col md:flex-row items-center justify-between gap-2 pb-6 border-b-2 border-dashed border-amber-500">
         <div className="flex items-center gap-2  w-full md:w-1/3">
-          <FaPlusCircle
-            className="text-amber-900 dark:text-amber-200"
-            size={30}
-          />
+          <FaUsers className="text-amber-900 dark:text-amber-200" size={30} />
           <span className="text-amber-500 text-xl font-bold  dark:text-amber-200 pb-3 border-b-4 border-amber-500 relative group transition-all duration-300 ease-in-out">
-            لیست رزرو های شما
+            لیست رزرو های مشتریان
           </span>
         </div>
         <div className="flex flex-col md:flex-row justify-end items-center mt-4 md:mt-0 gap-2 w-full md:w-1/3">
           <input
             type="text"
+            value={bookingSearch}
+            onChange={(e) => {
+              const value = e.target.value;
+              setBookingSearch(value);
+              table.getColumn("houseTitle")?.setFilterValue(value); // 👈 استفاده از id جدید
+            }}
             placeholder="نام هتل مورد نظر را جستجو کنید..."
-            value={
-              (columnFilters.find((f) => f.id === "title")?.value as string) ??
-              ""
-            }
-            onChange={(e) =>
-              table.setColumnFilters([{ id: "title", value: e.target.value }])
-            }
-            className="p-2 rounded-md border-2 border-amber-500 w-full md:w-2/3"
+            className=" p-2 rounded-md border-2 border-amber-500 w-full md:w-2/3"
           />
           <BookingBuyerFilter
             isOpenFilter={isOpenFilter}
@@ -443,20 +374,50 @@ export default function BookingTable() {
             ))}
           </thead>
           <tbody className="divide-y divide-gray-200 dark:divide-gray-700">
-            {table.getRowModel().rows.length > 0 ? (
+            {isLoading ? (
+              Array.from({ length: 5 }).map((_, i) => (
+                <tr key={i}>
+                  {Array.from({ length: columns.length }).map((_, j) => (
+                    <td key={j} className="p-2">
+                      <Skeleton
+                        classNames={{
+                          base: "animate-pulse bg-gray-200 dark:bg-gray-700",
+                        }}
+                        className="h-10 w-full rounded-lg"
+                      />
+                    </td>
+                  ))}
+                </tr>
+              ))
+            ) : table.getRowModel().rows.length === 0 ? (
+              <tr>
+                <td
+                  colSpan={columns.length}
+                  className="text-center py-12 text-gray-500 dark:text-gray-400"
+                >
+                  <div className="flex flex-col items-center justify-center">
+                    <PiSealWarningBold
+                      size={80}
+                      className=" text-amber-500 mb-4"
+                    />
+                    <p className="text-xl font-bold text-gray-700 dark:text-gray-300">
+                      موردی یافت نشد
+                    </p>
+                    <p className="mt-2 text-gray-500 dark:text-gray-400">
+                      هیچ کامنتی با مشخصات جستجو شده یافت نشد
+                    </p>
+                  </div>
+                </td>
+              </tr>
+            ) : (
               table.getRowModel().rows.map((row, index) => (
                 <tr
                   key={row.id}
-                  className={`
-                    ${
-                      index % 2 === 0
-                        ? "bg-[#ebebe9] dark:bg-gray-800/80"
-                        : "bg-[#F8F8F8] dark:bg-gray-700/80"
-                    }
-                    hover:bg-amber-100/70 dark:hover:bg-gray-600
-                    transition-colors duration-200
-                    text-center
-                  `}
+                  className={`${
+                    index % 2 === 0
+                      ? "bg-[#ebebe9] dark:bg-gray-800/80"
+                      : "bg-[#F8F8F8] dark:bg-gray-700/80"
+                  } hover:bg-amber-100/70 dark:hover:bg-gray-600 transition-colors duration-200 text-center`}
                 >
                   {row.getVisibleCells().map((cell) => (
                     <td
@@ -471,93 +432,71 @@ export default function BookingTable() {
                   ))}
                 </tr>
               ))
-            ) : (
-              <tr className="bg-white dark:bg-gray-800">
-                <td
-                  colSpan={columns.length}
-                  className="text-center py-12 text-gray-500 dark:text-gray-400"
-                >
-                  <div className="flex flex-col items-center justify-center">
-                    <PiSealWarningBold
-                      size={80}
-                      className=" text-amber-500 mb-4"
-                    />
-                    <p className="text-xl font-bold text-gray-700 dark:text-gray-300">
-                      موردی یافت نشد
-                    </p>
-                    <p className="mt-2 text-gray-500 dark:text-gray-400">
-                      هیچ رزروی با مشخصات جستجو شده یافت نشد
-                    </p>
-                  </div>
-                </td>
-              </tr>
             )}
           </tbody>
         </table>
       </div>
-      {table.getRowModel().rows.length > 0 && (
-        <div className="w-full flex flex-col-reverse md:flex-row justify-between items-center gap-5 md:gap-2">
-          <div className="w-full flex flex-col sm:flex-row items-start gap-2">
-            <Button variant="flat" color="success" onPress={exportToExcel}>
-              <FaFileExcel size={20} />
-              خروجی Excel
-            </Button>
-            <Button variant="flat" color="danger" onPress={exportToPDF}>
-              <FaFilePdf size={20} />
-              خروجی PDF
-            </Button>
-            <Button variant="flat" color="primary" onPress={printTable}>
-              <FaPrint size={20} />
-              چاپ
-            </Button>
-          </div>
-          <div className=" flex flex-col xl:flex-row items-center gap-3">
-            <Select
-              variant="faded"
-              color="warning"
-              className="w-28"
-              aria-label="تعداد آیتم‌ها"
-              renderValue={(items) => {
-                return `نمایش: ${items[0].key}`;
-              }}
-              value={pagination.pageSize.toString()}
-              selectedKeys={[pagination.pageSize.toString()]}
-              onChange={(e) => {
-                const newSize = Number(e.target.value);
-                setPagination((prev) => ({
-                  ...prev,
-                  pageSize: newSize,
-                  pageIndex: 0,
-                }));
-              }}
-            >
-              {[5, 10, 15].map((size) => (
-                <SelectItem textValue="نمایش" key={size}>
-                  {size}
-                </SelectItem>
-              ))}
-            </Select>
-            <Pagination
-              dir="ltr"
-              color="warning"
-              isCompact
-              showControls
-              total={table.getPageCount()}
-              page={pagination.pageIndex + 1}
-              onChange={(page) => {
-                setPagination((prev) => ({
-                  ...prev,
-                  pageIndex: page - 1,
-                }));
-              }}
-            />
-          </div>
+      <div className="w-full flex flex-col-reverse md:flex-row justify-between items-center gap-5 md:gap-2">
+        <div className="w-full flex flex-col sm:flex-row items-start gap-2">
+          <Button variant="flat" color="success" onPress={exportToExcel}>
+            <FaFileExcel size={20} />
+            خروجی Excel
+          </Button>
+          <Button variant="flat" color="danger" onPress={exportToPDF}>
+            <FaFilePdf size={20} />
+            خروجی PDF
+          </Button>
+          <Button variant="flat" color="primary" onPress={printTable}>
+            <FaPrint size={20} />
+            چاپ
+          </Button>
         </div>
-      )}
+        <div className=" flex flex-col xl:flex-row items-center gap-3">
+          <Select
+            variant="faded"
+            color="warning"
+            className="w-28"
+            aria-label="تعداد آیتم‌ها"
+            renderValue={(items) => {
+              return `نمایش: ${items[0].key}`;
+            }}
+            value={pagination.pageSize.toString()}
+            selectedKeys={[pagination.pageSize.toString()]}
+            onChange={(e) => {
+              const newSize = Number(e.target.value);
+              setPagination((prev) => ({
+                ...prev,
+                pageSize: newSize,
+                pageIndex: 0,
+              }));
+            }}
+          >
+            {[5, 10, 15].map((size) => (
+              <SelectItem textValue="نمایش" key={size}>
+                {size}
+              </SelectItem>
+            ))}
+          </Select>
+          <Pagination
+            dir="ltr"
+            color="warning"
+            isCompact
+            showControls
+            total={computedPageCount ?? 1}
+            page={pagination.pageIndex + 1}
+            onChange={(page) => {
+              setPagination((prev) => ({
+                ...prev,
+                pageIndex: page - 1,
+              }));
+            }}
+          />
+        </div>
+      </div>
       <ModalDetails
         isOpen={isOpen}
         onOpenChange={onOpenChange}
-        selectedRow={selectedRow as BookingData}
+        selectedRow={selectedRow as unknown as BookingDataBuyer}
       />
     </div>
   );

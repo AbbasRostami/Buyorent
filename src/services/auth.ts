@@ -35,19 +35,19 @@ async function refreshAccessToken(token: Token): Promise<Token> {
     if (!res.ok) throw new Error("Failed to refresh token");
 
     const data = await res.json();
-
-    const payload = JSON.parse(atob(data.accessToken.split(".")[1]));
+    const decoded = JSON.parse(atob(data.accessToken.split(".")[1]));
 
     return {
       accessToken: data.accessToken,
       refreshToken: data.refreshToken ?? token.refreshToken,
-      exp: payload.exp,
+      exp: decoded.exp,
     };
   } catch (error) {
-    console.error("Error refreshing token:", error);
+    console.error("❌ Error refreshing token:", error);
     return {
-      ...token,
-      exp: Math.floor(Date.now() / 1000) + 60,
+      accessToken: undefined,
+      refreshToken: undefined,
+      exp: 0,
     };
   }
 }
@@ -100,15 +100,17 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
   callbacks: {
     async jwt({ token, user }) {
       if (user) {
-        token.accessToken = user.accessToken;
-        token.refreshToken = user.refreshToken;
-
         const payload = JSON.parse(atob(user.accessToken.split(".")[1]));
-        token.exp = payload.exp;
-        token.id = payload.id;
-        token.role = payload.role;
-        token.profilePicture = payload.profilePicture;
-        return token;
+
+        return {
+          ...token,
+          accessToken: user.accessToken,
+          refreshToken: user.refreshToken,
+          exp: payload.exp,
+          id: payload.id,
+          role: payload.role,
+          profilePicture: payload.profilePicture,
+        };
       }
 
       const now = Math.floor(Date.now() / 1000);
@@ -121,15 +123,9 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
 
       const newToken = await refreshAccessToken(token);
 
-      try {
-        if (newToken.accessToken) {
-          const payload = JSON.parse(atob(newToken.accessToken.split(".")[1]));
-          newToken.exp = payload.exp;
-        } else {
-          throw new Error("No access token available");
-        }
-      } catch {
-        newToken.exp = Math.floor(Date.now() / 1000) + 300;
+      if (!newToken.accessToken) {
+        console.log("🚪 Refresh failed, logging out...");
+        throw new Error("Token refresh failed");
       }
 
       return {
@@ -169,10 +165,7 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
     maxAge: 60 * 60 * 1,
   },
 
-  pages: {
-    signIn: "/login",
-    error: "/login?error=true",
-  },
+  pages: {},
 
   events: {
     async signOut(message) {
@@ -186,6 +179,7 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({ refreshToken: token.refreshToken }),
         });
+
         console.log("✅ Logout API called from events");
       } catch (error) {
         console.error("❌ Logout failed in events:", error);
