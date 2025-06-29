@@ -17,7 +17,6 @@ import { Skeleton } from "@heroui/react";
 import Link from "next/link";
 
 const HotDealsOfWeekSwiper = ({ houses }: HouseTypeProps) => {
-  const extendHouses = [...houses, ...houses];
   console.log(houses);
   if (!houses) {
     return (
@@ -50,7 +49,6 @@ const HotDealsOfWeekSwiper = ({ houses }: HouseTypeProps) => {
         el: ".HotDeals",
         clickable: true,
       }}
-      loop={true}
       breakpoints={{
         0: { slidesPerView: 1 },
         640: { slidesPerView: 2 },
@@ -58,7 +56,7 @@ const HotDealsOfWeekSwiper = ({ houses }: HouseTypeProps) => {
         1280: { slidesPerView: 4 },
       }}
     >
-      {extendHouses?.map((items, index) => (
+      {houses?.map((items, index) => (
         <SwiperSlide
           key={index}
           className="flex justify-center p-6 animate-fade-in"

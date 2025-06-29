@@ -28,7 +28,7 @@ import { useDeleteComment } from "@/services/Seller/comments-management/deleteCo
 import { useGetComment } from "@/services/Seller/comments-management/getComment";
 import { Session } from "next-auth";
 import { CommentsData } from "@/types/Seller/comments-management/CommentTypes";
-import { useGetSummary } from "@/services/summary";
+import { useGetSummary } from "@/services/Dashboard/summary";
 
 export default function CommentsTable() {
   const { isOpen, onOpen, onOpenChange } = useDisclosure();

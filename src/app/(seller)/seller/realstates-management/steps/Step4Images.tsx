@@ -2,6 +2,7 @@ import { useFormikContext } from "formik";
 import { useRef } from "react";
 import { FaCamera, FaPlus } from "react-icons/fa";
 import { GrGallery } from "react-icons/gr";
+import { Field, ErrorMessage } from "formik";
 
 const MAX_IMAGES = 4;
 
@@ -23,8 +24,8 @@ export default function Step4Images() {
     );
     Promise.all(readers).then((images) => {
       setFieldValue(
-        "images",
-        [...(values.images || []), ...images].slice(0, MAX_IMAGES)
+        "photos",
+        [...(values.photos || []), ...images].slice(0, MAX_IMAGES)
       );
     });
     e.target.value = "";
@@ -32,16 +33,24 @@ export default function Step4Images() {
 
   const handleRemoveImage = (idx: number) => {
     setFieldValue(
-      "images",
-      values.images.filter((_: any, i: number) => i !== idx)
+      "photos",
+      values.photos.filter((_: any, i: number) => i !== idx)
     );
   };
 
-  if (!values.images || values.images.length === 0) {
+  const handleImageUrlChange = (index: number, url: string) => {
+    const newPhotos = [...(values.photos || [])];
+    if (url.trim() !== "") {
+      newPhotos[index] = url;
+    } else {
+      newPhotos.splice(index, 1);
+    }
+    setFieldValue("photos", newPhotos);
+  };
+
+  if (!values.photos || values.photos.length === 0) {
     return (
       <div className=" rounded-xl p-2 mt-2 ">
-
-
         <div className="text-right mb-4">
           <span className="text-gray-700 mb-4 dark:text-amber-50 text-2xl text-center flex items-center gap-2">
             <GrGallery className="text-amber-400" size={24} />
@@ -55,6 +64,25 @@ export default function Step4Images() {
           </p>
         </div>
 
+        <div className="mb-6">
+          <label className="block mb-3 text-sm font-medium text-center">
+            لینک تصاویر (اختیاری):
+          </label>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
+            {[0, 1, 2].map((index) => (
+              <div key={index}>
+                <input
+                  type="url"
+                  placeholder="https://example.com/image.jpg"
+                  className="form-input w-full text-sm"
+                  onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+                    handleImageUrlChange(index, e.target.value)
+                  }
+                />
+              </div>
+            ))}
+          </div>
+        </div>
 
         <div className="flex flex-wrap gap-4 justify-center mt-10">
           {[...Array(MAX_IMAGES)].map((_, idx) => (
@@ -82,8 +110,6 @@ export default function Step4Images() {
             />
           </div>
         </div>
-
-
       </div>
     );
   }
@@ -102,8 +128,30 @@ export default function Step4Images() {
           با قرار دادن عکس شانس دیده شدن ملک‌تان را ۵ برابر کنید.
         </p>
       </div>
+
+      {/* Image URL Inputs */}
+      <div className="mb-6">
+        <label className="block mb-3 text-sm font-medium text-center">
+          لینک تصاویر (اختیاری):
+        </label>
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
+          {[0, 1, 2].map((index) => (
+            <div key={index}>
+              <input
+                type="url"
+                placeholder="https://example.com/image.jpg"
+                className="form-input w-full text-sm"
+                onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+                  handleImageUrlChange(index, e.target.value)
+                }
+              />
+            </div>
+          ))}
+        </div>
+      </div>
+
       <div className="flex flex-wrap gap-4 justify-center mt-6">
-        {values.images.map((img: string, idx: number) => (
+        {values.photos.map((img: string, idx: number) => (
           <div
             key={idx}
             className={`w-32 h-32 border-2 rounded-xl flex items-center justify-center relative group overflow-hidden ${
@@ -130,7 +178,7 @@ export default function Step4Images() {
             )}
           </div>
         ))}
-        {values.images.length < MAX_IMAGES && (
+        {values.photos.length < MAX_IMAGES && (
           <div
             className="w-32 h-32 border-2 border-dashed border-amber-400 rounded-xl flex flex-col items-center justify-center cursor-pointer hover:bg-amber-50 transition"
             onClick={() => fileInputRef.current?.click()}
@@ -144,7 +192,7 @@ export default function Step4Images() {
               ref={fileInputRef}
               className="hidden"
               onChange={handleAddImage}
-              disabled={values.images.length >= MAX_IMAGES}
+              disabled={values.photos.length >= MAX_IMAGES}
             />
           </div>
         )}

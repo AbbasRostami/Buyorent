@@ -5,6 +5,8 @@ import {
   IoArrowForwardCircleOutline,
 } from "react-icons/io5";
 import { GiConfirmed } from "react-icons/gi";
+import { usePost } from "@/utils/hooks/useReactQueryHooks";
+import { toast } from "react-hot-toast";
 
 interface Step {
   title: string;
@@ -18,27 +20,23 @@ interface AddEstateStepperProps {
 }
 
 const initialValues = {
-  title: "اقامتگاه",
-  capacity: "1",
-  price: "10000000",
-  dealType: "فروش",
-  estateType: "آپارتمان",
-  subType: "سوئیت",
-  description:
-    "آپارتمانی دنج و آرام در قلب شهر، جایی که زندگی روزمره راحت و سبک‌تر است. فضایی مدرن با طراحی منحصربه‌فرد، یادآور خانه‌های دنج و دل‌نشین. محلی برای لحظه‌های خوش، آرامش و شروعی نو در زندگی روزمره‌تان.  آپارتمانی دنج و آرام در قلب شهر، جایی که زندگی روزمره راحت و سبک‌تر است. فضایی مدرن با طراحی منحصربه‌فرد، یادآور خانه‌های دنج و دل‌نشین. محلی برای لحظه‌های خوش، آرامش و شروعی نو در زندگی روزمره‌تان. آپارتمانی دنج و آرام در قلب شهر، جایی که زندگی روزمره راحت و سبک‌تر است. فضایی مدرن با طراحی منحصربه‌فرد، یادآور خانه‌های دنج و دل‌نشین. محلی برای لحظه‌های خوش، آرامش و شروعی نو در زندگی روزمره‌تان. محلی برای لحظه‌های خوش، آرامش و شروعی نو در زندگی روزمره‌تان. محلی برای لحظه‌های خوش، آرامش و شروعی نو در زندگی روزمره‌تان.",
-  address: "خیابان ولیعصر، تهران، منطقه مرکزی",
-  location: [],
-  roomCount: "1",
-  bathCount: "1",
-  parkingCount: "1",
-  bathType: "شومینه",
-  parkingType: "شومینه",
-  tags: ["آپارتمان", "مدرن", "آسانسوردار"],
-  images: [
-    "https://4kwallpapers.com/images/walls/thumbs_3t/21958.jpg",
-    "https://4kwallpapers.com/images/walls/thumbs_3t/22438.jpg",
-    "https://4kwallpapers.com/images/walls/thumbs_3t/22473.jpg",
-  ],
+  title: "",
+  address: "",
+  photos: [],
+  price: "",
+  tags: [],
+  capacity: 0,
+  location: { lat: 32, lng: 52 },
+  categories: {
+    id: 6,
+    name: "مدرن",
+  },
+  bathrooms: 0,
+  parking: 0,
+  rooms: 0,
+  yard_type: "",
+  transaction_type: "direct_purchase",
+  caption: "",
 };
 
 export default function AddEstateStepper({
@@ -54,14 +52,19 @@ export default function AddEstateStepper({
     setCurrentStep((s) => Math.min(s + 1, steps.length - 1));
   const handlePrev = () => setCurrentStep((s) => Math.max(s - 1, 0));
 
+  const { mutate: createHouse, isPending } = usePost("/houses", {
+    onSuccess: () => {
+      toast.success("آگهی با موفقیت ثبت شد");
+      onClose();
+    },
+    onError: (error: any) => {
+      toast.error(error.response?.data?.message || "خطا در ثبت آگهی");
+    },
+  });
+
   return (
     <div className="flex flex-col items-center justify-center ">
       <div className=" w-full mx-auto  relative">
-
-
-
-
-
         {/* Stepper */}
         <div className="flex  flex-wrap items-start gap-3 bg-[#D9D9D9] dark:bg-gray-500 rounded-xl px-6 py-3 mb-8">
           {steps.map((step, idx) => (
@@ -99,9 +102,6 @@ export default function AddEstateStepper({
           ))}
         </div>
 
-
-
-
         <Formik
           initialValues={initialValues}
           onSubmit={(values) => {
@@ -109,7 +109,7 @@ export default function AddEstateStepper({
               handleNext();
             } else {
               console.log(values);
-              onClose();
+              createHouse(values);
             }
           }}
         >
@@ -118,7 +118,7 @@ export default function AddEstateStepper({
             return (
               <Form>
                 <StepComponent formik={formik} />
-                <div className="flex justify-center md:justify-end mt-8 gap-4 items-center">
+                <div className="flex flex-wrap justify-center md:justify-end mt-8 gap-4 items-center">
                   {!isFirstStep && (
                     <button
                       type="button"
@@ -140,9 +140,10 @@ export default function AddEstateStepper({
                   ) : (
                     <button
                       type="submit"
-                      className="bg-amber-500 text-gray-700 px-8 py-2 rounded font-bold hover:bg-amber-600 transition flex items-center gap-2"
+                      disabled={isPending}
+                      className="bg-amber-500 text-gray-700 px-8 py-2 rounded font-bold hover:bg-amber-600 transition flex items-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed"
                     >
-                      ثبت آگهی
+                      {isPending ? "در حال ثبت..." : "ثبت آگهی"}
                       <GiConfirmed size={20} />
                     </button>
                   )}

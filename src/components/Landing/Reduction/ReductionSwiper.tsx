@@ -14,7 +14,6 @@ import Image from "next/image";
 import Link from "next/link";
 
 export default function ReductionCarousel({ houses }: HouseTypeProps) {
-  const extendHouses = [...houses, ...houses];
   return (
     <div className="m-6">
       <Swiper
@@ -31,7 +30,6 @@ export default function ReductionCarousel({ houses }: HouseTypeProps) {
           delay: 5000,
           disableOnInteraction: false,
         }}
-        loop={true}
         spaceBetween={20}
         breakpoints={{
           0: { slidesPerView: 1 },
@@ -40,7 +38,7 @@ export default function ReductionCarousel({ houses }: HouseTypeProps) {
           1280: { slidesPerView: 4 },
         }}
       >
-        {extendHouses?.map((items, index) => (
+        {houses?.map((items, index) => (
           <SwiperSlide
             key={index}
             className="flex justify-center p-6 animate-fade-in"

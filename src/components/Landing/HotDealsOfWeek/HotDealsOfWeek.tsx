@@ -7,7 +7,7 @@ import Link from "next/link";
 
 export default async function HotDealsOfWeek() {
   const houses = await useServerData<HouseTypeProps["houses"]>(
-    "/houses?limit=4&sort=rate&order=DESC&transactionType=",
+    "/houses?sort=rate&order=DESC&transactionType=",
     "top-last_updated-houses",
     60
   );

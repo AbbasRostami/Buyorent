@@ -51,7 +51,7 @@ export default function CategorySwiper({ categories }: CategorytypeProps) {
           1024: { slidesPerView: 6 },
         }}
       >
-        {categories?.map((category) => {
+        {categories?.data?.map((category) => {
           const img = imageMap[category.name] || condo;
           return (
             <SwiperSlide key={category.id} className="flex justify-center">

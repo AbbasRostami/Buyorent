@@ -1,5 +1,5 @@
 "use client";
-import { useGetSummary } from "@/services/summary";
+import { useGetSummary } from "@/services/Dashboard/summary";
 import { Skeleton } from "@heroui/react";
 import { ApexOptions } from "apexcharts";
 import { useTheme } from "next-themes";

@@ -20,6 +20,27 @@ const customIcon = new L.DivIcon({
 
 const defaultPosition: [number, number] = [36.5659, 53.0586];
 
+const extractPersianText = (address: string): string => {
+  const persianRegex =
+    /[\u0600-\u06FF\u0750-\u077F\u08A0-\u08FF\uFB50-\uFDFF\uFE70-\uFEFF]+/g;
+  const persianMatches = address.match(persianRegex);
+
+  if (persianMatches && persianMatches.length > 0) {
+    return persianMatches.join("، ");
+  }
+
+  const parts = address.split(",").map((part) => part.trim());
+  const meaningfulParts = parts.filter(
+    (part) =>
+      part.length > 2 &&
+      !part.includes("Province") &&
+      !part.includes("County") &&
+      !part.includes("Iran")
+  );
+
+  return meaningfulParts.slice(0, 2).join("، ") || address;
+};
+
 function LocationMarker({
   onMapPick,
 }: {
@@ -30,17 +51,20 @@ function LocationMarker({
 
   useMapEvents({
     click(e) {
-      setFieldValue("location", [e.latlng.lat, e.latlng.lng]);
+      setFieldValue("location", { lat: e.latlng.lat, lng: e.latlng.lng });
       setFieldValue("address", "");
       onMapPick(e.latlng.lat, e.latlng.lng);
     },
   });
 
-  return Array.isArray(values.location) &&
-    values.location.length === 2 &&
-    typeof values.location[0] === "number" &&
-    typeof values.location[1] === "number" ? (
-    <Marker position={values.location} ref={markerRef} icon={customIcon} />
+  return values.location &&
+    typeof values.location.lat === "number" &&
+    typeof values.location.lng === "number" ? (
+    <Marker
+      position={[values.location.lat, values.location.lng]}
+      ref={markerRef}
+      icon={customIcon}
+    />
   ) : null;
 }
 
@@ -52,29 +76,27 @@ export default function Step2Address() {
   const [showSuggestions, setShowSuggestions] = useState(false);
   const [inputValue, setInputValue] = useState(values.address || "");
   const [mapCenter, setMapCenter] = useState<[number, number]>(
-    Array.isArray(values.location) &&
-      values.location.length === 2 &&
-      typeof values.location[0] === "number" &&
-      typeof values.location[1] === "number"
-      ? values.location
+    values.location &&
+      typeof values.location.lat === "number" &&
+      typeof values.location.lng === "number"
+      ? [values.location.lat, values.location.lng]
       : defaultPosition
   );
   const [selectedAddressTitle, setSelectedAddressTitle] = useState<string>("");
 
   useEffect(() => {
     if (
-      Array.isArray(values.location) &&
-      values.location.length === 2 &&
-      typeof values.location[0] === "number" &&
-      typeof values.location[1] === "number"
+      values.location &&
+      typeof values.location.lat === "number" &&
+      typeof values.location.lng === "number"
     ) {
       if (!locationTouched) {
         toast.success("موقعیت انتخاب شد");
         setLocationTouched(true);
       } else if (
         prevLocation.current &&
-        (prevLocation.current[0] !== values.location[0] ||
-          prevLocation.current[1] !== values.location[1])
+        (prevLocation.current.lat !== values.location.lat ||
+          prevLocation.current.lng !== values.location.lng)
       ) {
         toast.success("موقعیت جدید اعمال شد");
       }
@@ -82,7 +104,6 @@ export default function Step2Address() {
     }
   }, [values.location]);
 
-  // Nominatim search
   const searchLocation = async (query: string) => {
     if (!query.trim()) {
       setSuggestions([]);
@@ -90,7 +111,7 @@ export default function Step2Address() {
     }
     try {
       const response = await fetch(
-        `${process.env.NEXT_MAP_API_URL}&q=${encodeURIComponent(
+        `${process.env.NEXT_PUBLIC_MAP_API_URL}&q=${encodeURIComponent(
           query
         )}&countrycodes=ir&limit=7`
       );
@@ -104,13 +125,15 @@ export default function Step2Address() {
   const handleSuggestionClick = (suggestion: any) => {
     const lat = parseFloat(suggestion.lat);
     const lon = parseFloat(suggestion.lon);
-    setFieldValue("location", [lat, lon]);
-    setFieldValue("address", suggestion.display_name);
-    setInputValue(suggestion.display_name);
+    const persianAddress = extractPersianText(suggestion.display_name);
+
+    setFieldValue("location", { lat, lng: lon });
+    setFieldValue("address", persianAddress);
+    setInputValue(persianAddress);
     setSuggestions([]);
     setShowSuggestions(false);
     setMapCenter([lat, lon]);
-    setSelectedAddressTitle(suggestion.display_name);
+    setSelectedAddressTitle(persianAddress);
   };
 
   const handleMapPick = () => {
@@ -150,7 +173,7 @@ export default function Step2Address() {
                   className="p-2 hover:bg-gray-100 dark:hover:bg-gray-700 cursor-pointer text-sm"
                   onClick={() => handleSuggestionClick(suggestion)}
                 >
-                  {suggestion.display_name}
+                  {extractPersianText(suggestion.display_name)}
                 </div>
               ))}
             </div>
@@ -182,10 +205,9 @@ export default function Step2Address() {
           <LocationMarker onMapPick={handleMapPick} />
         </MapContainer>
       </div>
-      {Array.isArray(values.location) &&
-        values.location.length === 2 &&
-        typeof values.location[0] === "number" &&
-        typeof values.location[1] === "number" && (
+      {values.location &&
+        typeof values.location.lat === "number" &&
+        typeof values.location.lng === "number" && (
           <p className="text-center text-sm text-gray-600 mt-8 dark:text-gray-300 flex flex-col justify-center items-start gap-8">
             {selectedAddressTitle && (
               <span className="font-bold flex items-center gap-2">
@@ -195,8 +217,8 @@ export default function Step2Address() {
             )}
             <span className="font-bold flex items-center gap-2">
               <FaMapLocationDot size={20} className="text-blue-500" />
-              موقعیت ملک: {values.location[0].toFixed(6)},{" "}
-              {values.location[1].toFixed(6)}
+              موقعیت ملک: {values.location.lat.toFixed(6)},{" "}
+              {values.location.lng.toFixed(6)}
             </span>
           </p>
         )}
