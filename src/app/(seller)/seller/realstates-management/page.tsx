@@ -47,6 +47,8 @@ import {
 } from "react-icons/pi";
 import { confirm } from "@/components/common/ConfirmModal";
 import { useCustomTable } from "@/utils/hooks/useCustomTable";
+import EditEstateModal from "./EditEstateModal";
+
 export interface RealStateData {
   id: number;
   title: string;
@@ -100,7 +102,9 @@ export default function RealStatesTable() {
         accessorKey: "title",
         header: "نام اقامتگاه",
         cell: (info) => (
-          <span className=" font-bold">{info.getValue() as string}</span>
+          <span className="truncate  max-w-[150px] font-bold">
+            {info.getValue() as string}
+          </span>
         ),
         filterFn: "includesString",
       },
@@ -172,6 +176,8 @@ export default function RealStatesTable() {
                   color="primary"
                   key="details"
                   onPress={() => {
+                    setEditEstateData(info.row.original);
+                    onEditEstateOpen();
                     console.log("Edit:", info.row.original.id);
                   }}
                 >
@@ -218,6 +224,7 @@ export default function RealStatesTable() {
     pagination.pageIndex + 1,
     pagination.pageSize
   );
+
   console.log("realStateData", realStateData);
   const { table, computedPageCount, exportToExcel, exportToPDF, printTable } =
     useCustomTable<RealStateData>({
@@ -232,8 +239,22 @@ export default function RealStatesTable() {
     });
 
   const [showStepper, setShowStepper] = useState(false);
+
   const [realStateSearch, setRealStateSearch] = useState("");
-  const { isOpen, onOpen, onOpenChange } = useDisclosure();
+
+  const {
+    isOpen: isFilterOpen,
+    onOpen: onFilterOpen,
+    onOpenChange: onFilterOpenChange,
+  } = useDisclosure();
+  const {
+    isOpen: isEditEstateOpen,
+    onOpen: onEditEstateOpen,
+    onOpenChange: onEditEstateOpenChange,
+  } = useDisclosure();
+  const [editEstateData, setEditEstateData] = useState<RealStateData | null>(
+    null
+  );
   return (
     <div className="space-y-4 bg-white/90 shadow-2xl dark:bg-gray-800 p-4 rounded-2xl">
       {showStepper ? (
@@ -288,10 +309,15 @@ export default function RealStatesTable() {
                 }}
                 className=" p-2 rounded-md border-2 border-amber-500 w-full md:w-2/3"
               />
+              <EditEstateModal
+                isOpen={isEditEstateOpen}
+                onOpenChange={onEditEstateOpenChange}
+                estateData={editEstateData}
+              />
               <RealStatesFilter
-                isOpen={isOpen}
-                onOpen={onOpen}
-                onOpenChange={onOpenChange}
+                isOpen={isFilterOpen}
+                onOpen={onFilterOpen}
+                onOpenChange={onFilterOpenChange}
               />
             </div>
           </div>

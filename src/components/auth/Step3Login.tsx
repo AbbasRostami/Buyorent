@@ -3,14 +3,17 @@ import { useState } from "react";
 import { Spinner } from "@heroui/react";
 import { ErrorMessage, Field, Form, Formik } from "formik";
 import { HiEye, HiEyeSlash } from "react-icons/hi2";
-import { signIn } from "next-auth/react";
+import { getSession, signIn } from "next-auth/react";
 import toast from "react-hot-toast";
 import { LoginValues, Step3LoginProps } from "@/types/Auth/AuthTypes";
 import { loginSchema } from "@/utils/validation/AuthValidation";
 import { FaGithub } from "react-icons/fa";
 import { FcGoogle } from "react-icons/fc";
+import { useAuthStore } from "@/services/interceptor";
 export const Step3Login = ({ onSuccess }: Step3LoginProps) => {
   const [showPassword, setShowPassword] = useState(false);
+
+  const setAccessToken = useAuthStore((s) => s.setAccessToken);
 
   const handleLogin = async (values: LoginValues) => {
     try {
@@ -20,6 +23,11 @@ export const Step3Login = ({ onSuccess }: Step3LoginProps) => {
       });
 
       if (res?.ok) {
+        const session = await getSession();
+        if (session?.accessToken) {
+          setAccessToken(session.accessToken);
+        }
+
         toast.success("ورود با موفقیت انجام شد");
         onSuccess();
       } else {

@@ -20,6 +20,7 @@ type UserType = {
   };
 };
 
+
 export const useProfile = () => {
   const { data: session } = useSession();
   const userId = session?.id;

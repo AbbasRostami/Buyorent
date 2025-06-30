@@ -1,19 +1,35 @@
 import axios from "axios";
 import { getSession, signOut } from "next-auth/react";
 import toast from "react-hot-toast";
+import { create } from "zustand";
 
+type AuthStore = {
+  accessToken: string | null;
+  setAccessToken: (token: string) => void;
+  clearAccessToken: () => void;
+};
+
+export const useAuthStore = create<AuthStore>((set) => ({
+  accessToken: null,
+  setAccessToken: (token) => set({ accessToken: token }),
+  clearAccessToken: () => set({ accessToken: null }),
+}));
 const api = axios.create({
   baseURL: process.env.NEXT_PUBLIC_API_URL,
 });
 
-api.interceptors.request.use(async (config) => {
-  const session = await getSession();
-  if (session?.accessToken) {
-    config.headers["Authorization"] = `Bearer ${session.accessToken}`;
+api.interceptors.request.use((config) => {
+  const accessToken = useAuthStore.getState().accessToken;
+  console.log("🔐 Using Zustand accessToken:", accessToken);
+
+  if (accessToken) {
+    config.headers["Authorization"] = `Bearer ${accessToken}`;
   }
+
   return config;
 });
 
+// ✅ Response Interceptor
 api.interceptors.response.use(
   (res) => res,
   async (error) => {
@@ -28,6 +44,7 @@ api.interceptors.response.use(
       try {
         const session = await getSession();
         const refreshToken = session?.refreshToken;
+        console.log("♻️ Trying token refresh...");
 
         if (!refreshToken) {
           toast.error("ورود شما منقضی شده است.");
@@ -37,10 +54,14 @@ api.interceptors.response.use(
 
         const { data } = await axios.post(
           `${process.env.NEXT_PUBLIC_API_URL}/auth/refresh`,
-          { refreshToken }
+          { token: refreshToken }
         );
 
+        console.log("✅ New token received:", data.accessToken);
+
         if (data?.accessToken) {
+          useAuthStore.getState().setAccessToken(data.accessToken);
+
           originalRequest.headers[
             "Authorization"
           ] = `Bearer ${data.accessToken}`;
@@ -52,14 +73,9 @@ api.interceptors.response.use(
         }
       } catch (err) {
         toast.error("اعتبار شما پایان یافته است.");
-        await signOut({redirect:false});
+        await signOut({ redirect: false });
         return Promise.reject(err);
       }
-    }
-
-    if (error.response?.status === 401 || error.response?.status === 403) {
-      toast.error("⛔️ برای انجام این عملیات وارد شوید.");
-      await signOut();
     }
 
     return Promise.reject(error);

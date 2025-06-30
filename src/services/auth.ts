@@ -2,6 +2,7 @@ import NextAuth from "next-auth";
 import Credentials from "next-auth/providers/credentials";
 import GitHubProvider from "next-auth/providers/github";
 import GoogleProvider from "next-auth/providers/google";
+import { useAuthStore } from "./interceptor";
 
 type Token = {
   accessToken?: string;
@@ -29,13 +30,16 @@ async function refreshAccessToken(token: Token): Promise<Token> {
     const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/auth/refresh`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ refreshToken: token.refreshToken }),
+      body: JSON.stringify({ token: token.refreshToken }),
     });
 
     if (!res.ok) throw new Error("Failed to refresh token");
 
     const data = await res.json();
     const decoded = JSON.parse(atob(data.accessToken.split(".")[1]));
+
+    // 👇 ذخیره توکن جدید در Zustand
+    useAuthStore.getState().setAccessToken(data.accessToken);
 
     return {
       accessToken: data.accessToken,

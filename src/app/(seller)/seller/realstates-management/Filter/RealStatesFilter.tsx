@@ -10,15 +10,19 @@ import { IoMdClose } from "react-icons/io";
 import { TbFilterCog, TbFilterPlus } from "react-icons/tb";
 import { useState } from "react";
 
+interface RealStatesFilterProps {
+  isOpen: boolean;
+  onOpen: () => void;
+  onOpenChange: () => void;
+} 
+
 export default function RealStatesFilter({
   isOpen,
   onOpen,
   onOpenChange,
-}: any) {
+}: RealStatesFilterProps) {
   const [value, setValue] = useState([100, 300]);
-  console.log("====================================");
-  console.log("value", value.join(" – "));
-  console.log("====================================");
+
   return (
     <>
       <Button
