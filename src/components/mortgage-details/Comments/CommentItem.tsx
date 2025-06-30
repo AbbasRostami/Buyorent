@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import Image from "next/image";
 import { IoHeartCircleOutline } from "react-icons/io5";
-import defaultAvatar from "../../../assets/Avatar1.png";
+import defaultAvatar from "../../../assets/noimage.png";
 import { usePost } from "@/utils/hooks/useReactQueryHooks";
 import { useQueryClient } from "@tanstack/react-query";
 import moment from "moment-jalaali";
@@ -197,20 +197,20 @@ const CommentItem: React.FC<CommentItemProps> = ({
       )}
 
       {/* نمایش ریپلای‌ها */}
-      {comment.replies.length > 0 && (
+      {comment?.replies?.length > 0 && (
         <Accordion selectionMode="multiple">
           <AccordionItem
-            aria-label={`پاسخ‌های ${comment.user.fullName}`}
+            aria-label={`پاسخ‌های ${comment?.user?.fullName}`}
             title={
               <span className="text-sm font-bold text-color1 cursor-pointer">
-                مشاهده {comment.replies.length} پاسخ ↓
+                مشاهده {comment?.replies?.length} پاسخ ↓
               </span>
             }
           >
             <div className="mt-4 space-y-4 pl-4 border-r-2 border-color2/80 rounded-2xl">
-              {comment.replies.map((reply) => (
+              {comment?.replies?.map((reply) => (
                 <CommentItem
-                  key={reply.id}
+                  key={reply?.id}
                   comment={reply}
                   depth={depth + 1}
                   houseId={houseId}

@@ -19,7 +19,7 @@ import toast, { ToastBar } from "react-hot-toast";
 import { BiCopy } from "react-icons/bi";
 import { useSession } from "next-auth/react";
 import { usePost } from "@/utils/hooks/useReactQueryHooks";
-
+import { MdVilla } from "react-icons/md";
 const HeaderSectionSingle = ({ data }: any) => {
   const [mainImage, setMainImage] = useState(data?.photos[0]);
   const [zoomPosition, setZoomPosition] = useState({ x: 0, y: 0 });
@@ -231,11 +231,14 @@ const HeaderSectionSingle = ({ data }: any) => {
           </Tooltip>
         </div>
 
-        <div className="text-center px-2">
-          <p className="text-3xl font-bold">{data.title}</p>
+        <div className="text-right px-2">
+          <p className="text-3xl font-bold flex items-center gap-2">
+            <MdVilla className=" text-color1 dark:text-shadow-amber-300" size={30} />
+            {data?.title}
+          </p>
           <p className="md:text-lg text-medium font-medium flex items-center gap-2 mt-2">
-            <IoLocationOutline className="dark:text-amber-600" size={30} />
-            {data.address}
+            <IoLocationOutline className="dark:text-amber-300 text-color1" size={30} />
+            {data?.address}
           </p>
         </div>
       </div>

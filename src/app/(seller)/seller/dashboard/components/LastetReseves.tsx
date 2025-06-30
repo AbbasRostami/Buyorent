@@ -7,12 +7,13 @@ import { FaPlusCircle } from "react-icons/fa";
 import image from "./../../../../../assets/noimage.png";
 import Image from "next/image";
 import { CgArrowTopLeftO } from "react-icons/cg";
-import { Chip, Pagination, SelectItem, Select } from "@heroui/react";
+import { Chip, Skeleton } from "@heroui/react";
 import { useCustomTable } from "@/utils/hooks/useCustomTable";
 import { useBookingWithHouses } from "@/services/Bookings/getBooking";
 import { BookingDataSeller } from "../../booking-management/page";
 import moment from "moment-jalaali";
-
+import Link from "next/link";
+import { PiSealWarningBold } from "react-icons/pi";
 export interface LastetResevesType {
   id: number;
   title: string;
@@ -23,14 +24,13 @@ export interface LastetResevesType {
 }
 
 export default function LastetReseves() {
-  const { combinedData: lastetResevesData } =
+  const { combinedData: lastetResevesData, isLoading } =
     useBookingWithHouses<BookingDataSeller>({
       endpoint: "/bookings",
       queryKeyPrefix: "bookingSeller",
       pageIndex: 0,
       pageSize: 5,
     });
-  console.log("lastetResevesData:", lastetResevesData);
   const columns = useMemo<ColumnDef<BookingDataSeller>[]>(
     () => [
       {
@@ -152,7 +152,7 @@ export default function LastetReseves() {
     pageSize: 5,
   });
 
-  const { table, computedPageCount } = useCustomTable({
+  const { table } = useCustomTable({
     data: lastetResevesData || [],
     columns,
     enableSorting: true,
@@ -175,10 +175,13 @@ export default function LastetReseves() {
             رزرو های اخیر مشتریان
           </span>
         </div>
-        <p className=" text-sm md:text-lg font-bold  dark:text-amber-200 relative group transition-all duration-300 ease-in-out flex items-center gap-2">
+        <Link
+          href="/seller/booking-management"
+          className=" text-sm md:text-lg font-bold  dark:text-amber-200 relative group transition-all duration-300 ease-in-out flex items-center gap-2"
+        >
           مشاهده همه رزرو ها
           <CgArrowTopLeftO size={25} className="text-amber-500" />
-        </p>
+        </Link>
       </div>
 
       <div className="overflow-x-auto  rounded-xl">
@@ -208,35 +211,67 @@ export default function LastetReseves() {
             ))}
           </thead>
           <tbody className="divide-y divide-gray-200 dark:divide-gray-700">
-            {table.getRowModel().rows.map((row, index) => (
-              <tr
-                key={row.id}
-                className={`
-            ${
-              index % 2 === 0
-                ? "bg-[#F5F5F5] dark:bg-gray-800/80"
-                : "bg-[#F8F8F8] dark:bg-gray-700/80"
-            }
-            hover:bg-amber-100/70 dark:hover:bg-gray-600
-            transition-colors duration-200
-            text-center
-          `}
-              >
-                {row.getVisibleCells().map((cell) => (
-                  <td
-                    key={cell.id}
-                    className="p-3 text-gray-700 dark:text-gray-300 whitespace-nowrap text-center"
-                  >
-                    <div className="flex items-center justify-center">
-                      {flexRender(
-                        cell.column.columnDef.cell,
-                        cell.getContext()
-                      )}
-                    </div>
-                  </td>
-                ))}
+            {isLoading ? (
+              Array.from({ length: 5 }).map((_, i) => (
+                <tr key={i}>
+                  {Array.from({ length: columns.length }).map((_, j) => (
+                    <td key={j} className="p-2">
+                      <Skeleton
+                        classNames={{
+                          base: "animate-pulse bg-gray-200 dark:bg-gray-700",
+                        }}
+                        className="h-10 w-full rounded-lg"
+                      />
+                    </td>
+                  ))}
+                </tr>
+              ))
+            ) : table.getRowModel().rows.length === 0 ? (
+              <tr>
+                <td
+                  colSpan={columns.length}
+                  className="text-center py-12 text-gray-500 dark:text-gray-400"
+                >
+                  <div className="flex flex-col items-center justify-center">
+                    <PiSealWarningBold
+                      size={80}
+                      className=" text-amber-500 mb-4"
+                    />
+                    <p className="text-xl font-bold text-gray-700 dark:text-gray-300">
+                      موردی یافت نشد
+                    </p>
+                    <p className="mt-2 text-gray-500 dark:text-gray-400">
+                      هیچ کامنتی با مشخصات جستجو شده یافت نشد
+                    </p>
+                  </div>
+                </td>
               </tr>
-            ))}
+            ) : (
+              table.getRowModel().rows.map((row, index) => (
+                <tr
+                  key={row.id}
+                  className={`${
+                    index % 2 === 0
+                      ? "bg-[#ebebe9] dark:bg-gray-800/80"
+                      : "bg-[#F8F8F8] dark:bg-gray-700/80"
+                  } hover:bg-amber-100/70 dark:hover:bg-gray-600 transition-colors duration-200 text-center`}
+                >
+                  {row.getVisibleCells().map((cell) => (
+                    <td
+                      key={cell.id}
+                      className="p-3 text-gray-700 dark:text-gray-300 text-center align-middle   whitespace-nowrap"
+                    >
+                      <div className="flex items-center justify-center">
+                        {flexRender(
+                          cell.column.columnDef.cell,
+                          cell.getContext()
+                        )}
+                      </div>
+                    </td>
+                  ))}
+                </tr>
+              ))
+            )}
           </tbody>
         </table>
       </div>

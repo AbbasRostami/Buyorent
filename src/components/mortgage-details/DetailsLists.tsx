@@ -53,7 +53,6 @@ const DetailsLists = ({ data }: { data: HouseDetailsData }) => {
     travelerCount: 1,
   };
 
-  // محاسبه قیمت داینامیک بر اساس تعداد نفرات
   const calculatePrices = (travelerCount: number) => {
     const basePrice = parseInt(data.price.replace(/,/g, "")) || 1500000;
     const originalPriceValue = basePrice * 1.33; // 33% تخفیف
@@ -63,14 +62,12 @@ const DetailsLists = ({ data }: { data: HouseDetailsData }) => {
     setTotalPrice(discountedPrice * travelerCount);
   };
 
-  // تولید تاریخ‌های رزرو شده
   const generateReservedDates = (
     checkInDate: string,
     checkOutDate: string
   ): string[] => {
     if (!checkInDate || !checkOutDate) return [];
 
-    // بررسی اعتبار تاریخ‌ها
     const startDate = moment(checkInDate, "YYYY/MM/DD");
     const endDate = moment(checkOutDate, "YYYY/MM/DD");
 
@@ -82,7 +79,6 @@ const DetailsLists = ({ data }: { data: HouseDetailsData }) => {
       return [];
     }
 
-    // فقط تاریخ ورود و خروج را برمی‌گردانیم
     const dates = [checkInDate, checkOutDate];
 
     console.log("dates", dates);
@@ -105,7 +101,6 @@ const DetailsLists = ({ data }: { data: HouseDetailsData }) => {
 
   const handleCheckInChange = (date: any, setFieldValue: any) => {
     if (date) {
-      // تبدیل تاریخ به فرمت صحیح با استفاده از moment
       const momentDate = moment(
         `${date.year}/${date.month}/${date.day}`,
         "YYYY/M/D"
@@ -117,22 +112,19 @@ const DetailsLists = ({ data }: { data: HouseDetailsData }) => {
 
   const handleCheckOutChange = (date: any, setFieldValue: any, values: any) => {
     if (date) {
-      // تبدیل تاریخ به فرمت صحیح با استفاده از moment
       const momentDate = moment(
         `${date.year}/${date.month}/${date.day}`,
         "YYYY/M/D"
       );
       const formattedDate = momentDate.format("YYYY/MM/DD");
 
-      // بررسی اینکه آیا تاریخ ورود انتخاب شده است
       if (values.checkInDate) {
         const checkInDate = moment(values.checkInDate, "YYYY/MM/DD");
         const checkOutDate = moment(formattedDate, "YYYY/MM/DD");
 
-        // اگر تاریخ خروج قبل از تاریخ ورود باشد
         if (checkOutDate.isSameOrBefore(checkInDate)) {
           toast.error("تاریخ خروج باید بعد از تاریخ ورود باشد");
-          return; // از تنظیم تاریخ جلوگیری می‌کنیم
+          return;
         }
       }
 
@@ -386,7 +378,6 @@ const DetailsLists = ({ data }: { data: HouseDetailsData }) => {
           return (
             <Form>
               <div className="grid gap-4 sm:grid-cols-2">
-                {/* تاریخ ورود */}
                 <div className="flex flex-col gap-2">
                   <label className="block text-medium font-semibold mb-1">
                     تاریخ ورود
@@ -406,7 +397,6 @@ const DetailsLists = ({ data }: { data: HouseDetailsData }) => {
                   />
                 </div>
 
-                {/* تاریخ خروج */}
                 <div className="flex flex-col gap-2">
                   <label className="block text-medium font-semibold mb-1">
                     تاریخ خروج
@@ -426,7 +416,6 @@ const DetailsLists = ({ data }: { data: HouseDetailsData }) => {
                   />
                 </div>
 
-                {/* تعداد نفرات */}
                 <div className="flex flex-col gap-2">
                   <label className="block text-medium font-semibold mb-1">
                     تعداد نفرات
@@ -447,7 +436,6 @@ const DetailsLists = ({ data }: { data: HouseDetailsData }) => {
                   />
                 </div>
 
-                {/* قیمت */}
                 <div className="text-sm flex flex-col justify-end">
                   <p className="text-medium font-semibold text-color2 dark:text-amber-400">
                     مجموع قیمت
@@ -474,7 +462,6 @@ const DetailsLists = ({ data }: { data: HouseDetailsData }) => {
         }}
       </Formik>
 
-      {/* Booking Modal */}
       <BookingModal
         isOpen={isModalOpen}
         onClose={() => setIsModalOpen(false)}

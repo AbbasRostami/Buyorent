@@ -12,7 +12,7 @@ import {
   SelectItem,
 } from "@heroui/react";
 import { Formik, Form, Field, ErrorMessage } from "formik";
-import { CreateBooking } from "@/services/Bookings/postBooking";
+import { CreateBooking } from "@/services/Bookings/bookingService";
 import { BiSolidUserDetail } from "react-icons/bi";
 import { MdNotificationAdd } from "react-icons/md";
 import { GiPriceTag } from "react-icons/gi";

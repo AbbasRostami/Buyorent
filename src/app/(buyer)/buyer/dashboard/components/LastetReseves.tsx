@@ -4,15 +4,15 @@ import { ColumnDef, flexRender } from "@tanstack/react-table";
 import { useMemo, useState } from "react";
 import { BsArrowDown, BsArrowUp } from "react-icons/bs";
 import { FaPlusCircle } from "react-icons/fa";
-import image from "./../../../../../assets/Avatar1.png";
-import image2 from "./../../../../../assets/Avatar2.png";
-import image3 from "./../../../../../assets/Avatar3.png";
+import image from "./../../../../../assets/noimage.png";
 import Image from "next/image";
 import { CgArrowTopLeftO } from "react-icons/cg";
-import { Chip, Pagination, Select, SelectItem } from "@heroui/react";
-import { PiSealWarningBold } from "react-icons/pi";
+import { Chip } from "@heroui/react";
 import { useCustomTable } from "@/utils/hooks/useCustomTable";
-
+import { useBookingWithHouses } from "@/services/Bookings/getBooking";
+import moment from "moment-jalaali";
+import Link from "next/link";
+import { BookingDataBuyer } from "@/app/(buyer)/buyer/booking-management/page";
 export interface LastetResevesType {
   id: number;
   title: string;
@@ -23,52 +23,82 @@ export interface LastetResevesType {
 }
 
 export default function LastetReseves() {
-  const columns = useMemo<ColumnDef<LastetResevesType>[]>(
+  const { combinedData: lastetResevesData } =
+    useBookingWithHouses<BookingDataBuyer>({
+      endpoint: "/bookings",
+      queryKeyPrefix: "bookingBuyer",
+      pageIndex: 0,
+      pageSize: 5,
+    });
+  const columns = useMemo<ColumnDef<BookingDataBuyer>[]>(
     () => [
       {
-        accessorKey: "id",
+        accessorKey: "rowIndex",
         header: "ردیف",
-        cell: (info) => info.row.original.id,
+        cell: (info) => info.row.index + 1,
         sortingFn: (rowA, rowB) => rowA.original.id - rowB.original.id,
+        enableSorting: true,
       },
       {
-        accessorKey: "image",
+        accessorKey: "house.photos",
         header: "تصویر",
         cell: (info) => {
           const value = info.getValue();
-          if (typeof value !== "string") return null;
+
+          if (!Array.isArray(value) || !value[0]) return null;
+
           return (
             <Image
-              src={value}
-              alt="image"
-              width={42}
-              height={42}
-              className="rounded-full"
+              src={value[0] || image}
+              alt="house"
+              width={48}
+              height={48}
+              unoptimized
+              className="w-12 h-12 rounded-full object-cover"
             />
           );
         },
       },
       {
-        accessorKey: "title",
+        accessorKey: "house.title",
         header: "نام اقامتگاه",
         cell: (info) => {
           const value = info.getValue();
-          return typeof value === "string" ? value : "";
+          return (
+            <span className="text-sm font-bold text-gray-700 dark:text-gray-300">
+              {typeof value === "string" ? value : ""}
+            </span>
+          );
         },
         enableSorting: true,
       },
       {
-        accessorKey: "date",
+        accessorKey: "createdAt",
         header: "تاریخ رزرو",
         enableSorting: false,
+        cell: (info) => {
+          const value = info.getValue();
+          const formattedDate = moment(value as string).format(
+            "jYYYY/jMM/jDD - HH:mm"
+          );
+          return (
+            <span className="text-sm font-bold text-gray-700 dark:text-gray-300">
+              {formattedDate}
+            </span>
+          );
+        },
       },
       {
-        accessorKey: "price",
+        accessorKey: "house.price",
         header: "قیمت",
         cell: (info) => {
           const value = info.getValue();
           const numValue = typeof value === "number" ? value : Number(value);
-          return `${numValue.toLocaleString()} تومان`;
+          return (
+            <span className="text-sm font-bold text-gray-700 dark:text-gray-300">
+              {numValue.toLocaleString("fa-IR")} تومان
+            </span>
+          );
         },
         enableSorting: true,
         sortingFn: (rowA, rowB, columnId) => {
@@ -83,20 +113,30 @@ export default function LastetReseves() {
         accessorKey: "status",
         header: "وضعیت رزرو",
         cell: (info) => {
-          const value = info.getValue();
+          const value = info.getValue() as string;
+
+          const label =
+            value === "confirmed"
+              ? "تأیید شده"
+              : value === "pending"
+              ? "در انتظار"
+              : value === "canceled"
+              ? "لغو شده"
+              : value;
+
           return (
             <Chip
               color={
-                value === "تایید شده"
+                value === "confirmed"
                   ? "success"
-                  : value === "در انتظار"
+                  : value === "pending"
                   ? "warning"
                   : "danger"
               }
-              variant="flat"
+              variant="shadow"
               className="text-sm px-2 py-1 rounded-xl font-normal"
             >
-              {value as string}
+              {label}
             </Chip>
           );
         },
@@ -106,118 +146,13 @@ export default function LastetReseves() {
     []
   );
 
-  const lastetReseves: LastetResevesType[] = [
-    {
-      id: 1,
-      title: "هتل سراوان",
-      date: "1403/02/01/ 10:00",
-      price: 150000000,
-      status: "تایید شده",
-      image: image.src,
-    },
-    {
-      id: 2,
-      title: "شیراز پارک",
-      date: "1403/02/01/ 10:00",
-      price: 150000000,
-      status: "در انتظار",
-      image: image2.src,
-    },
-    {
-      id: 3,
-      title: "تراول پارک",
-      date: "1403/02/01/ 10:00",
-      price: 160000000,
-      status: "در انتظار",
-      image: image3.src,
-    },
-    {
-      id: 4,
-      title: "میدان جمهریه",
-      date: "1403/02/01/ 10:00",
-      price: 180000000,
-      status: "تایید شده",
-      image: image2.src,
-    },
-    {
-      id: 5,
-      title: "ماهی پارک",
-      date: "1403/02/01/ 10:00",
-      price: 170000000,
-      status: "در انتظار",
-      image: image3.src,
-    },
-    {
-      id: 6,
-      title: "کوه سراوان",
-      date: "1403/02/01/ 10:00",
-      price: 170000000,
-      status: "لغو شده",
-      image: image2.src,
-    },
-    {
-      id: 7,
-      title: "ساحل سراوان",
-      date: "1403/02/01/ 10:00",
-      price: 100000,
-      status: "لغو شده",
-      image: image.src,
-    },
-    {
-      id: 8,
-      title: "ماهی پارک",
-      date: "1403/02/01/ 10:00",
-      price: 160000000,
-      status: "لغو شده",
-      image: image2.src,
-    },
-    {
-      id: 9,
-      title: "ماهی پارک",
-      date: "1403/02/01/ 10:00",
-      price: 190000000,
-      status: "تایید شده",
-      image: image3.src,
-    },
-    {
-      id: 10,
-      title: "نسرین پارک",
-      date: "1403/02/01/ 10:00",
-      price: 170000000,
-      status: "در انتظار",
-      image: image2.src,
-    },
-    {
-      id: 11,
-      title: "ماهی پارک",
-      date: "1403/02/01/ 10:00",
-      price: 170000000,
-      status: "لغو شده",
-      image: image.src,
-    },
-    {
-      id: 12,
-      title: "ساحل سراوان",
-      date: "1403/02/01/ 10:00",
-      price: 170000000,
-      status: "در انتظار",
-      image: image3.src,
-    },
-    {
-      id: 13,
-      title: "ماهی بهشهر",
-      date: "1403/02/01/ 10:00",
-      price: 186600000,
-      status: "لغو شده",
-      image: image2.src,
-    },
-  ];
   const [pagination, setPagination] = useState({
     pageIndex: 0,
     pageSize: 5,
   });
-  const { table, setPageSize } = useCustomTable<LastetResevesType>({
-    data: lastetReseves,
+
+  const { table } = useCustomTable({
+    data: lastetResevesData || [],
     columns,
     enableSorting: true,
     enableFiltering: true,
@@ -229,20 +164,23 @@ export default function LastetReseves() {
 
   return (
     <div className="shadow-xl transition-all duration-300 items-center justify-center h-full rounded-2xl bg-white/90 border hover:bg-gray-100 border-gray-200 dark:border-gray-800  dark:hover:bg-gray-700/80 dark:bg-gray-900 p-4 space-y-4">
-      <div className="flex flex-col md:flex-row items-center justify-between gap-4 pb-6 border-b-2 border-dashed border-amber-500">
+      <div className="flex items-center justify-between gap-2 pb-6 border-b-2 border-dashed border-amber-500">
         <div className="flex items-center gap-2">
           <FaPlusCircle
             className="text-amber-900 dark:text-amber-200"
             size={28}
           />
-          <span className="text-amber-500 text-sm md:text-lg font-bold  dark:text-amber-200 pb-3 border-b-4 border-amber-500 relative group transition-all duration-300 ease-in-out">
+          <span className="text-amber-500 text-lg font-bold  dark:text-amber-200 pb-3 border-b-4 border-amber-500 relative group transition-all duration-300 ease-in-out">
             رزرو های اخیر مشتریان
           </span>
         </div>
-        <p className=" text-sm font-bold  dark:text-amber-200 relative group transition-all duration-300 ease-in-out flex items-center gap-2">
+        <Link
+          href="/buyer/booking-management"
+          className=" text-sm md:text-lg font-bold  dark:text-amber-200 relative group transition-all duration-300 ease-in-out flex items-center gap-2"
+        >
           مشاهده همه رزرو ها
-          <CgArrowTopLeftO size={20} className="text-amber-500" />
-        </p>
+          <CgArrowTopLeftO size={25} className="text-amber-500" />
+        </Link>
       </div>
 
       <div className="overflow-x-auto  rounded-xl">
@@ -272,31 +210,10 @@ export default function LastetReseves() {
             ))}
           </thead>
           <tbody className="divide-y divide-gray-200 dark:divide-gray-700">
-            {table.getRowModel().rows.length === 0 ? (
-              <tr className="bg-white dark:bg-gray-800">
-                <td
-                  colSpan={columns.length}
-                  className="text-center py-12 text-gray-500 dark:text-gray-400"
-                >
-                  <div className="flex flex-col items-center justify-center">
-                    <PiSealWarningBold
-                      size={80}
-                      className=" text-amber-500 mb-4"
-                    />
-                    <p className="text-xl font-bold text-gray-700 dark:text-gray-300">
-                      موردی یافت نشد
-                    </p>
-                    <p className="mt-2 text-gray-500 dark:text-gray-400">
-                      هیچ رزروی با مشخصات جستجو شده یافت نشد
-                    </p>
-                  </div>
-                </td>
-              </tr>
-            ) : (
-              table.getRowModel().rows.map((row, index) => (
-                <tr
-                  key={row.id}
-                  className={`
+            {table.getRowModel().rows.map((row, index) => (
+              <tr
+                key={row.id}
+                className={`
             ${
               index % 2 === 0
                 ? "bg-[#F5F5F5] dark:bg-gray-800/80"
@@ -306,66 +223,24 @@ export default function LastetReseves() {
             transition-colors duration-200
             text-center
           `}
-                >
-                  {row.getVisibleCells().map((cell) => (
-                    <td
-                      key={cell.id}
-                      className="p-3 text-gray-700 dark:text-gray-300 whitespace-nowrap text-center"
-                    >
-                      <div className="flex items-center justify-center">
-                        {flexRender(
-                          cell.column.columnDef.cell,
-                          cell.getContext()
-                        )}
-                      </div>
-                    </td>
-                  ))}
-                </tr>
-              ))
-            )}
+              >
+                {row.getVisibleCells().map((cell) => (
+                  <td
+                    key={cell.id}
+                    className="p-3 text-gray-700 dark:text-gray-300 whitespace-nowrap text-center"
+                  >
+                    <div className="flex items-center justify-center">
+                      {flexRender(
+                        cell.column.columnDef.cell,
+                        cell.getContext()
+                      )}
+                    </div>
+                  </td>
+                ))}
+              </tr>
+            ))}
           </tbody>
         </table>
-      </div>
-      <div className="flex flex-col-reverse md:flex-row justify-end items-center gap-6 md:gap-2">
-        <Select
-          variant="faded"
-          color="warning"
-          className="w-28"
-          aria-label="تعداد آیتم‌ها"
-          renderValue={(items) => {
-            return `نمایش: ${items[0].key}`;
-          }}
-          value={pagination.pageSize.toString()}
-          selectedKeys={[pagination.pageSize.toString()]}
-          onChange={(e) => {
-            const newSize = Number(e.target.value);
-            setPagination((prev) => ({
-              ...prev,
-              pageSize: newSize,
-              pageIndex: 0,
-            }));
-          }}
-        >
-          {[5, 10, 15].map((size) => (
-            <SelectItem textValue="نمایش" key={size}>
-              {size}
-            </SelectItem>
-          ))}
-        </Select>
-        <Pagination
-          dir="ltr"
-          color="warning"
-          isCompact
-          showControls
-          total={table.getPageCount()}
-          page={pagination.pageIndex + 1}
-          onChange={(page) => {
-            setPagination((prev) => ({
-              ...prev,
-              pageIndex: page - 1,
-            }));
-          }}
-        />
       </div>
     </div>
   );

@@ -24,23 +24,16 @@ import { FaPrint, FaFilePdf, FaFileExcel, FaUsers } from "react-icons/fa";
 import { SlBan } from "react-icons/sl";
 import { GiConfirmed } from "react-icons/gi";
 import { useCustomTable } from "@/utils/hooks/useCustomTable";
-import { useGet, useDelete } from "@/utils/hooks/useReactQueryHooks";
-import { useQueries, useQueryClient } from "@tanstack/react-query";
+import { useDelete } from "@/utils/hooks/useReactQueryHooks";
+import { useQueryClient } from "@tanstack/react-query";
 import toast from "react-hot-toast";
 import { confirm } from "@/components/common/ConfirmModal";
 import moment from "moment-jalaali";
-import api from "@/services/interceptor";
 import ModalDetails from "./Details/ModalDetails";
 import BookingBuyerFilter from "./Filter/BookingFilter";
 import { useBookingWithHouses } from "@/services/Bookings/getBooking";
 
 moment.loadPersian({ dialect: "persian-modern" });
-
-export const useHouse = (houseId: number | string, enabled: boolean = true) =>
-  useGet(`/houses/${houseId}`, undefined, {
-    queryKey: ["house", houseId],
-    enabled,
-  });
 
 export interface BookingDataBuyer {
   id: number;
@@ -104,14 +97,13 @@ export default function BookingTable() {
     pageSize: 5,
   });
 
-  const { combinedData, isLoading, totalCount } = useBookingWithHouses<
-    BookingDataBuyer
-  >({
-    endpoint: "/bookings",
-    queryKeyPrefix: "bookingBuyer",
-    pageIndex: pagination.pageIndex,
-    pageSize: pagination.pageSize,
-  });
+  const { combinedData, isLoading, totalCount } =
+    useBookingWithHouses<BookingDataBuyer>({
+      endpoint: "/bookings",
+      queryKeyPrefix: "bookingBuyer",
+      pageIndex: pagination.pageIndex,
+      pageSize: pagination.pageSize,
+    });
 
   console.log("combinedData:", combinedData);
   const queryClient = useQueryClient();

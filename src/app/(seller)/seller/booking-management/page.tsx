@@ -27,20 +27,14 @@ import BookingSellerFilter from "./components/Filter/BookingFilter";
 import ModalDetails from "./components/Details/ModalDetails";
 import { useCustomTable } from "@/utils/hooks/useCustomTable";
 import { useGet, useDelete } from "@/utils/hooks/useReactQueryHooks";
-import { useQueries, useQueryClient } from "@tanstack/react-query";
+import { useQueryClient } from "@tanstack/react-query";
 import toast from "react-hot-toast";
 import { confirm } from "@/components/common/ConfirmModal";
 import moment from "moment-jalaali";
-import api from "@/services/interceptor";
 import { useBookingWithHouses } from "@/services/Bookings/getBooking";
 
 moment.loadPersian({ dialect: "persian-modern" });
 
-export const useHouse = (houseId: number | string, enabled: boolean = true) =>
-  useGet(`/houses/${houseId}`, undefined, {
-    queryKey: ["house", houseId],
-    enabled,
-  });
 
 export interface BookingDataSeller {
   id: number;

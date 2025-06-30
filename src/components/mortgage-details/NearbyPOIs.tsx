@@ -85,14 +85,7 @@ export function NearbyPOIs({ address }: NearbyPOIsProps) {
   }
 
   if (pois.length === 0) {
-    return (
-      <div>
-        <button className="text-lg font-bold border border-color2 mb-4 px-4 py-2 rounded-full text-color1">
-          مکان‌های نزدیک
-        </button>
-        <p className="text-gray-500">مکان نزدیکی یافت نشد</p>
-      </div>
-    );
+    return null
   }
 
   return (
