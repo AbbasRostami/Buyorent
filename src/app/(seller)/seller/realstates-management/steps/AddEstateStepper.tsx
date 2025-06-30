@@ -5,8 +5,7 @@ import {
   IoArrowForwardCircleOutline,
 } from "react-icons/io5";
 import { GiConfirmed } from "react-icons/gi";
-import { usePost } from "@/utils/hooks/useReactQueryHooks";
-import { toast } from "react-hot-toast";
+import { useCreateHouse } from "@/services/Houses/createHouse";
 
 interface Step {
   title: string;
@@ -52,15 +51,7 @@ export default function AddEstateStepper({
     setCurrentStep((s) => Math.min(s + 1, steps.length - 1));
   const handlePrev = () => setCurrentStep((s) => Math.max(s - 1, 0));
 
-  const { mutate: createHouse, isPending } = usePost("/houses", {
-    onSuccess: () => {
-      toast.success("آگهی با موفقیت ثبت شد");
-      onClose();
-    },
-    onError: (error: any) => {
-      toast.error(error.response?.data?.message || "خطا در ثبت آگهی");
-    },
-  });
+  const { createHouse, isPending } = useCreateHouse(() => onClose());
 
   return (
     <div className="flex flex-col items-center justify-center ">

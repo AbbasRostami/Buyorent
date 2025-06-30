@@ -59,7 +59,8 @@ export interface Step3LoginProps {
   onSuccess: () => void;
 }
 
-export interface LoginValues {
-  email: string;
-  password: string;
-}
+  export interface LoginValues {
+    email: string;
+    password: string;
+  }
+  

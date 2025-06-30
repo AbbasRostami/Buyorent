@@ -2,14 +2,13 @@
 import { useState } from "react";
 import { Spinner } from "@heroui/react";
 import { HiEye, HiEyeSlash } from "react-icons/hi2";
-import { usePost } from "@/utils/hooks/useReactQueryHooks";
-import toast from "react-hot-toast";
 import {
   Step2PasswordProps,
   Step2PasswordValues,
 } from "@/types/Auth/AuthTypes";
 import { Formik, Field, Form, ErrorMessage } from "formik";
 import { validationStepPassword } from "@/utils/validation/AuthValidation";
+import { useCompleteRegistration } from "@/services/Auth/Step2Password";
 
 export const Step2Password = ({
   userId,
@@ -19,19 +18,10 @@ export const Step2Password = ({
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirm, setShowConfirm] = useState(false);
 
-  console.log("Is   :", userId);
-  const { mutate, isPending } = usePost("/auth/complete-registration", {
-    onSuccess: () => {
-      toast.success("ثبت نام با موفقیت تکمیل شد");
-      onSuccess();
-    },
-    onError: (error: any) => {
-      toast.error(error.response?.data?.message || "خطا در تکمیل ثبت نام");
-    },
-  });
+  const { completeRegistration, isPending } = useCompleteRegistration(onSuccess);
 
   const handleSubmit = (values: Step2PasswordValues) => {
-    mutate({
+    completeRegistration({
       userId: parseInt(userId),
       password: values.password,
       phoneNumber: values.phoneNumber,

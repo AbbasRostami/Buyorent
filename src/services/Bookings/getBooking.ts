@@ -1,12 +1,11 @@
-// hooks/getBooking.ts
 import { useMemo } from "react";
-import { useQueries, useQueryClient } from "@tanstack/react-query";
+import { useQueries } from "@tanstack/react-query";
 
 import { useGet } from "@/utils/hooks/useReactQueryHooks";
 import api from "../interceptor";
 interface UseBookingWithHousesOptions {
-  endpoint: string; // مثل "/bookings"
-  queryKeyPrefix: string; // مثل "bookingSeller" یا "bookingBuyer"
+  endpoint: string;
+  queryKeyPrefix: string;
   pageIndex: number;
   pageSize: number;
 }

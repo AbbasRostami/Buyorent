@@ -26,59 +26,13 @@ import { GiConfirmed } from "react-icons/gi";
 import BookingSellerFilter from "./components/Filter/BookingFilter";
 import ModalDetails from "./components/Details/ModalDetails";
 import { useCustomTable } from "@/utils/hooks/useCustomTable";
-import { useGet, useDelete } from "@/utils/hooks/useReactQueryHooks";
-import { useQueryClient } from "@tanstack/react-query";
-import toast from "react-hot-toast";
 import { confirm } from "@/components/common/ConfirmModal";
 import moment from "moment-jalaali";
 import { useBookingWithHouses } from "@/services/Bookings/getBooking";
+import { useDeleteBooking } from "@/services/Bookings/deleteBooking";
+import { BookingDataSeller } from "@/types/Seller/booking-management/page";
 
 moment.loadPersian({ dialect: "persian-modern" });
-
-
-export interface BookingDataSeller {
-  id: number;
-  title: string;
-  bioPerson: string;
-  date: string;
-  price: number;
-  passengers: string;
-  status: "canceled" | "pending" | "confirmed";
-  payment_status: "تایید شده" | "لغو شده";
-  image: string;
-  totalCount: number;
-}
-
-export interface ReservedDate {
-  value: string;
-  inclusive: boolean;
-}
-
-export interface TravelerDetail {
-  birthDate: string;
-  firstName: string;
-  lastName: string;
-  gender: "male" | "female";
-  nationalId: string;
-}
-
-export interface BookingDataSeller {
-  id: number;
-  user_id: number;
-  houseId: number;
-  sharedEmail: string;
-  sharedMobile: string;
-  status: "canceled" | "pending" | "confirmed";
-  createdAt: string;
-  updatedAt: string;
-  reservedDates: ReservedDate[];
-  traveler_details: TravelerDetail[];
-  house: any;
-}
-export interface BookingSellerResponse {
-  data: BookingDataSeller[];
-  totalCount: number;
-}
 
 export default function BookingTable() {
   const {
@@ -108,20 +62,8 @@ export default function BookingTable() {
       pageSize: pagination.pageSize,
     });
 
-  const queryClient = useQueryClient();
+  const { deleteBooking } = useDeleteBooking();
 
-  const { mutate: deleteBooking } = useDelete(
-    (id: number) => `/bookings/${id}`,
-    {
-      onSuccess: () => {
-        queryClient.invalidateQueries({ queryKey: ["bookingSeller"] });
-        toast.success("ایتم انتخابی با موفقیت حذف شد");
-      },
-      onError: () => {
-        toast.error("خطا در حذف رزرو");
-      },
-    }
-  );
   const columns = useMemo<ColumnDef<BookingDataSeller>[]>(
     () => [
       {
@@ -328,7 +270,7 @@ export default function BookingTable() {
             onChange={(e) => {
               const value = e.target.value;
               setBookingSearch(value);
-              table.getColumn("houseTitle")?.setFilterValue(value); // 👈 استفاده از id جدید
+              table.getColumn("houseTitle")?.setFilterValue(value);
             }}
             placeholder="نام هتل مورد نظر را جستجو کنید..."
             className=" p-2 rounded-md border-2 border-amber-500 w-full md:w-2/3"

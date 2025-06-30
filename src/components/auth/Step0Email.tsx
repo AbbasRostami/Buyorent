@@ -1,30 +1,15 @@
 "use client";
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import { Spinner } from "@heroui/react";
-import { usePost } from "@/utils/hooks/useReactQueryHooks";
-import toast from "react-hot-toast";
-import {
-  StartRegistrationResponse,
-  Step0EmailProps,
-} from "@/types/Auth/AuthTypes";
+import { Step0EmailProps } from "@/types/Auth/AuthTypes";
 import { validationStepEmail } from "@/utils/validation/AuthValidation";
+import { useStartRegistration } from "@/services/Auth/Step0Email";
 
 export const Step0Email = ({ onSuccess }: Step0EmailProps) => {
-  const { mutate, isPending } = usePost<StartRegistrationResponse>(
-    "/auth/register",
-    {
-      onSuccess: (data, values) => {
-        toast.success("کد تایید با موفقیت ارسال شد");
-        onSuccess(data.tempUserId, values.email);
-      },
-      onError: (error: any) => {
-        toast.error(error.response?.data?.message || "خطا در ارسال کد تایید");
-      },
-    }
-  );
+  const { startRegistration, isPending } = useStartRegistration(onSuccess);
 
   const handleSubmit = (values: { email: string }) => {
-    mutate({ email: values.email });
+    startRegistration({ email: values.email });
   };
 
   return (

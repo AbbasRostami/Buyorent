@@ -24,60 +24,14 @@ import { FaPrint, FaFilePdf, FaFileExcel, FaUsers } from "react-icons/fa";
 import { SlBan } from "react-icons/sl";
 import { GiConfirmed } from "react-icons/gi";
 import { useCustomTable } from "@/utils/hooks/useCustomTable";
-import { useDelete } from "@/utils/hooks/useReactQueryHooks";
-import { useQueryClient } from "@tanstack/react-query";
-import toast from "react-hot-toast";
 import { confirm } from "@/components/common/ConfirmModal";
 import moment from "moment-jalaali";
 import ModalDetails from "./Details/ModalDetails";
 import BookingBuyerFilter from "./Filter/BookingFilter";
 import { useBookingWithHouses } from "@/services/Bookings/getBooking";
-
+import { useDeleteBooking } from "@/services/Bookings/deleteBooking";
+import { BookingDataBuyer } from "@/types/bookingBuyer";
 moment.loadPersian({ dialect: "persian-modern" });
-
-export interface BookingDataBuyer {
-  id: number;
-  title: string;
-  bioPerson: string;
-  date: string;
-  price: number;
-  passengers: string;
-  status: "canceled" | "pending" | "confirmed";
-  payment_status: "تایید شده" | "لغو شده";
-  image: string;
-  totalCount: number;
-}
-
-export interface ReservedDate {
-  value: string;
-  inclusive: boolean;
-}
-
-export interface TravelerDetail {
-  birthDate: string;
-  firstName: string;
-  lastName: string;
-  gender: "male" | "female";
-  nationalId: string;
-}
-
-export interface BookingDataBuyer {
-  id: number;
-  user_id: number;
-  houseId: number;
-  sharedEmail: string;
-  sharedMobile: string;
-  status: "canceled" | "pending" | "confirmed";
-  createdAt: string;
-  updatedAt: string;
-  reservedDates: ReservedDate[];
-  traveler_details: TravelerDetail[];
-  house: any;
-}
-export interface BookingBuyerResponse {
-  data: BookingDataBuyer[];
-  totalCount: number;
-}
 
 export default function BookingTable() {
   const {
@@ -97,29 +51,17 @@ export default function BookingTable() {
     pageSize: 5,
   });
 
-  const { combinedData, isLoading, totalCount } =
-    useBookingWithHouses<BookingDataBuyer>({
-      endpoint: "/bookings",
-      queryKeyPrefix: "bookingBuyer",
-      pageIndex: pagination.pageIndex,
-      pageSize: pagination.pageSize,
-    });
+  const { combinedData, isLoading, totalCount } = useBookingWithHouses<
+    BookingDataBuyer & { houseId: number }
+  >({
+    endpoint: "/bookings",
+    queryKeyPrefix: "bookingBuyer",
+    pageIndex: pagination.pageIndex,
+    pageSize: pagination.pageSize,
+  });
 
-  console.log("combinedData:", combinedData);
-  const queryClient = useQueryClient();
+  const { deleteBooking } = useDeleteBooking();
 
-  const { mutate: deleteBooking } = useDelete(
-    (id: number) => `/bookings/${id}`,
-    {
-      onSuccess: () => {
-        queryClient.invalidateQueries({ queryKey: ["bookingBuyer"] });
-        toast.success("ایتم انتخابی با موفقیت حذف شد");
-      },
-      onError: () => {
-        toast.error("خطا در حذف رزرو");
-      },
-    }
-  );
   const columns = useMemo<ColumnDef<BookingDataBuyer>[]>(
     () => [
       {

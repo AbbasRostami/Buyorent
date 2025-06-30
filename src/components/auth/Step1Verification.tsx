@@ -1,12 +1,11 @@
 "use client";
 import { useState, useEffect } from "react";
 import { InputOtp, Spinner } from "@heroui/react";
-import { usePost } from "@/utils/hooks/useReactQueryHooks";
-import toast from "react-hot-toast";
+import { Step1VerificationProps } from "@/types/Auth/AuthTypes";
 import {
-  Step1VerificationProps,
-  VerifyEmailResponse,
-} from "@/types/Auth/AuthTypes";
+  useResendCode,
+  useVerifyEmail,
+} from "@/services/Auth/Step1Verification";
 
 export const Step1Verification = ({
   email,
@@ -15,30 +14,14 @@ export const Step1Verification = ({
   goBack,
 }: Step1VerificationProps) => {
   const [code, setCode] = useState("");
-  const [isResending, setIsResending] = useState(false);
+  const [isResend, setIsResend] = useState(false);
+  const { verifyEmail, isPending: isVerifying } = useVerifyEmail(onSuccess);
 
-  const { mutate: verify, isPending: isVerifying } = usePost(
-    "/auth/verify-email",
-    {
-      onSuccess: (data: VerifyEmailResponse) => {
-        toast.success("ایمیل با موفقیت تایید شد");
-        onSuccess(data.userId);
-      },
-      onError: (error: any) => {
-        toast.error(error.response?.data?.message || "کد تایید نامعتبر است");
-        setCode("");
-      },
-    }
-  );
-
-  const { mutate: resendCode } = usePost("/auth/resend-code", {
-    onSuccess: () => toast.success("کد جدید ارسال شد"),
-    onError: () => toast.error("خطا در ارسال مجدد کد"),
-  });
+  const { resendCode, isPending: isResending } = useResendCode();
 
   const handleVerify = () => {
     if (code.length === 6) {
-      verify({
+      verifyEmail({
         tempUserId: parseInt(tempUserId),
         verificationCode: code,
       });
@@ -46,9 +29,9 @@ export const Step1Verification = ({
   };
 
   const handleResendCode = () => {
-    setIsResending(true);
     resendCode({ email });
-    setTimeout(() => setIsResending(false), 30000);
+    setIsResend(true);
+    setTimeout(() => setIsResend(false), 1000 * 60 * 10);
   };
 
   useEffect(() => {
@@ -82,10 +65,10 @@ export const Step1Verification = ({
         <button
           type="button"
           onClick={handleResendCode}
-          disabled={isResending}
+          disabled={isResend}
           className="text-[#12e4e0] text-medium cursor-pointer mt-4 hover:underline disabled:opacity-50"
         >
-          {isResending ? "ارسال مجدد ( 10 دقیقه )" : "ارسال مجدد کد"}
+          {isResend ? "ارسال مجدد ( 10 دقیقه )" : "ارسال مجدد کد"}
         </button>
       </div>
 

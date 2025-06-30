@@ -12,25 +12,18 @@ import { useCustomTable } from "@/utils/hooks/useCustomTable";
 import { useBookingWithHouses } from "@/services/Bookings/getBooking";
 import moment from "moment-jalaali";
 import Link from "next/link";
-import { BookingDataBuyer } from "@/app/(buyer)/buyer/booking-management/page";
-export interface LastetResevesType {
-  id: number;
-  title: string;
-  date: string;
-  price: number;
-  status: "تایید شده" | "در انتظار" | "لغو شده";
-  image: string;
-}
+import { LastetResevesType } from "@/types/Buyer/dashboard/page";
 
 export default function LastetReseves() {
-  const { combinedData: lastetResevesData } =
-    useBookingWithHouses<BookingDataBuyer>({
-      endpoint: "/bookings",
-      queryKeyPrefix: "bookingBuyer",
-      pageIndex: 0,
-      pageSize: 5,
-    });
-  const columns = useMemo<ColumnDef<BookingDataBuyer>[]>(
+  const { combinedData: lastetResevesData } = useBookingWithHouses<
+    LastetResevesType & { houseId: number }
+  >({
+    endpoint: "/bookings",
+    queryKeyPrefix: "bookingBuyer",
+    pageIndex: 0,
+    pageSize: 5,
+  });
+  const columns = useMemo<ColumnDef<LastetResevesType & { houseId: number }>[]>(
     () => [
       {
         accessorKey: "rowIndex",

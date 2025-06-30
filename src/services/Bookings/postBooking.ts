@@ -1,4 +1,7 @@
-import { BookingRequest, BookingResponse } from "@/types/BookingModalReserve";
+import {
+  BookingRequest,
+  BookingResponse,
+} from "@/types/Buyer/booking-management/page";
 import { usePost } from "@/utils/hooks/useReactQueryHooks";
 import { toast } from "react-hot-toast";
 

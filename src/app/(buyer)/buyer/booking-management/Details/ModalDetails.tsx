@@ -13,10 +13,9 @@ import { useDisclosure } from "@heroui/react";
 import ModalPayments from "./ModalPayments";
 import moment from "moment-jalaali";
 import { Swiper, SwiperSlide } from "swiper/react";
-import { Navigation, Pagination, Autoplay, EffectFade } from "swiper/modules";
+import { Pagination, Autoplay, EffectFade } from "swiper/modules";
 import "swiper/css";
 import "swiper/css/effect-fade";
-import "swiper/css/navigation";
 import "swiper/css/pagination";
 import ModalReserve from "./ModalReserve";
 import ModalPassengerList from "./PassengerList";
@@ -147,10 +146,8 @@ export default function ModalDetails({
                       ))}
                     </Swiper>
 
-                    {/* Gradient */}
                     <div className="absolute bottom-0 left-0 w-full h-20 bg-gradient-to-t from-black/50 to-transparent z-0" />
 
-                    {/* Rate badge */}
                     <div className="absolute top-3 left-3 z-10 flex items-center gap-2 rounded-full bg-orange-600 px-3 py-1.5 text-white shadow-md backdrop-blur-sm">
                       <span className="text-lg">⭐</span>
                       <span className="text-sm font-bold">
