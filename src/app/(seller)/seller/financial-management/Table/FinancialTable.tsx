@@ -66,6 +66,14 @@ export default function FinancialTable({
         sortingFn: (rowA, rowB, columnId) =>
           (rowA.getValue(columnId) as number) -
           (rowB.getValue(columnId) as number),
+        cell: (info) => {
+          const value = info.getValue();
+          return (
+            <span className="font-bold">
+              {(value as number).toLocaleString("fa-IR")}
+            </span>
+          );
+        },
       },
       {
         accessorKey: "status",
@@ -125,7 +133,7 @@ export default function FinancialTable({
               variant="light"
               color="default"
               size="sm"
-              className="text-gray-800 dark:text-amber-500"
+              className="text-gray-800 font-bold dark:text-amber-500"
               onPress={() => {
                 console.log("info.row.original:", info.row.original.id);
               }}
@@ -169,9 +177,16 @@ export default function FinancialTable({
     pageIndex: 0,
     pageSize: 5,
   });
+
+  const paginatedData = useMemo(() => {
+    const start = pagination.pageIndex * pagination.pageSize;
+    const end = start + pagination.pageSize;
+    return financialData.slice(start, end);
+  }, [financialData, pagination]);
+
   const { table, setPageSize, exportToExcel, exportToPDF, printTable } =
     useCustomTable<FinancialData>({
-      data: financialData,
+      data: paginatedData,
       columns,
       enableSorting: true,
       enableFiltering: true,
@@ -330,10 +345,12 @@ export default function FinancialTable({
                         key={cell.id}
                         className="p-3 text-gray-700 dark:text-gray-300 whitespace-nowrap"
                       >
-                        {flexRender(
-                          cell.column.columnDef.cell,
-                          cell.getContext()
-                        )}
+                        <span className="font-bold">
+                          {flexRender(
+                            cell.column.columnDef.cell,
+                            cell.getContext()
+                          )}
+                        </span>
                       </td>
                     ))}
                   </tr>
@@ -388,7 +405,8 @@ export default function FinancialTable({
               color="warning"
               isCompact
               showControls
-              total={table.getPageCount()}
+              showShadow
+              total={Math.ceil(financialData.length / pagination.pageSize)}
               page={pagination.pageIndex + 1}
               onChange={(page) => {
                 setPagination((prev) => ({

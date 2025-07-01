@@ -26,6 +26,7 @@ import Image from "next/image";
 import { PiSealWarningBold } from "react-icons/pi";
 import FavoriteFilter from "./Filter/FavoriteFilter";
 import { useCustomTable } from "@/utils/hooks/useCustomTable";
+import { confirm } from "@/components/common/ConfirmModal";
 export interface BookingDataFavo {
   id: number;
   title: string;
@@ -164,11 +165,12 @@ export default function FavoriteTable() {
       {
         accessorKey: "title",
         header: "نام اقامتگاه",
+        enableSorting: true,
+        enableColumnFilter: true,
         cell: (info) => {
           const value = info.getValue();
           return typeof value === "string" ? value : "";
         },
-        enableSorting: true,
       },
       {
         accessorKey: "price",
@@ -223,8 +225,16 @@ export default function FavoriteTable() {
                   key="delete"
                   className="text-danger"
                   color="danger"
-                  onPress={() => {
-                    console.log("info.row.original:", info.row.original.id);
+                  onPress={async () => {
+                    const isConfirmed = await confirm({
+                      title: "حذف",
+                      description: "آیا از حذف این رزرو مطمئن هستید؟",
+                      confirmText: "بله",
+                      cancelText: "خیر",
+                    });
+                    if (isConfirmed) {
+                      console.log("info.row.original:", info.row.original.id);
+                    }
                   }}
                 >
                   <div className="flex items-center gap-2">
@@ -246,9 +256,15 @@ export default function FavoriteTable() {
     pageIndex: 0,
     pageSize: 5,
   });
+  const paginatedData = useMemo(() => {
+    const start = pagination.pageIndex * pagination.pageSize;
+    const end = start + pagination.pageSize;
+    return data.slice(start, end);
+  }, [data, pagination]);
+
   const { table, exportToExcel, exportToPDF, printTable } =
     useCustomTable<BookingDataFavo>({
-      data,
+      data: paginatedData,
       columns,
       enableSorting: true,
       enableFiltering: true,
@@ -258,7 +274,6 @@ export default function FavoriteTable() {
       onPaginationChange: setPagination,
     });
   const { isOpen, onOpen, onOpenChange } = useDisclosure();
-
   return (
     <div className="space-y-4 bg-white/90 shadow-2xl dark:bg-gray-800 p-4 rounded-2xl">
       <div className="flex flex-col md:flex-row items-center justify-between gap-2 pb-6 border-b-2 border-dashed border-amber-500">
@@ -272,10 +287,14 @@ export default function FavoriteTable() {
           <input
             type="text"
             placeholder="نام هتل مورد نظر را جستجو کنید..."
-            value={globalFilter}
-            onChange={(e) => setGlobalFilter(e.target.value)}
-            className=" p-2 rounded-md border-2 border-amber-500 w-full md:w-2/3"
+            className="p-2 rounded-md border-2 border-amber-500 w-full md:w-2/3"
+            value={table.getColumn("title")?.getFilterValue() as string}
+            onChange={(e) => {
+              setPagination((prev) => ({ ...prev, pageIndex: 0 }));
+              table.getColumn("title")?.setFilterValue(e.target.value);
+            }}
           />
+
           <FavoriteFilter
             isOpen={isOpen}
             onOpen={onOpen}
@@ -352,10 +371,12 @@ export default function FavoriteTable() {
                       className="p-3 text-gray-700 dark:text-gray-300 whitespace-nowrap text-center"
                     >
                       <div className="flex items-center justify-center">
-                        {flexRender(
-                          cell.column.columnDef.cell,
-                          cell.getContext()
-                        )}
+                        <span className="font-bold">
+                          {flexRender(
+                            cell.column.columnDef.cell,
+                            cell.getContext()
+                          )}
+                        </span>
                       </div>
                     </td>
                   ))}
@@ -412,7 +433,7 @@ export default function FavoriteTable() {
               color="warning"
               isCompact
               showControls
-              total={table.getPageCount()}
+              total={Math.ceil(data.length / pagination.pageSize)}
               page={pagination.pageIndex + 1}
               onChange={(page) => {
                 setPagination((prev) => ({

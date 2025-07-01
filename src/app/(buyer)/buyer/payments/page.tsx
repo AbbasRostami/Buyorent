@@ -21,7 +21,7 @@ import { FaFileExcel } from "react-icons/fa";
 const data: any = [
   {
     id: 1,
-    date: "1403/02/01/ 10:00",
+    date: "1403/02/09/ 10:00",
     trackingNumber: "123456789123456",
     price: 150000000,
     guests: "رزرو",
@@ -29,40 +29,40 @@ const data: any = [
   },
   {
     id: 2,
-    date: "1403/02/01/ 10:00",
-    trackingNumber: "123456789123456",
+    date: "1403/07/08/ 10:00",
+    trackingNumber: "456456654",
     price: 150000000,
     guests: "شارژ کیف پول",
     status: "تایید نشده",
   },
   {
     id: 3,
-    date: "1403/02/01/ 10:00",
-    trackingNumber: "123456789123456",
+    date: "1403/07/08/ 10:00",
+    trackingNumber: "9889454654",
     price: 160000000,
     guests: "شارژ کیف پول",
     status: "تایید نشده",
   },
   {
     id: 4,
-    date: "1403/02/01/ 10:00",
-    trackingNumber: "123456789123456",
+    date: "1403/07/08/ 10:00",
+    trackingNumber: "189123456",
     price: 180000000,
     guests: "رزرو",
     status: "تایید شده",
   },
   {
     id: 5,
-    date: "1403/02/01/ 10:00",
-    trackingNumber: "123456789123456",
+    date: "1403/07/08/ 10:00",
+    trackingNumber: "123423456",
     price: 170000000,
     guests: "شارژ کیف پول",
     status: "تایید نشده",
   },
   {
     id: 6,
-    date: "1403/02/01/ 10:00",
-    trackingNumber: "123456789123456",
+    date: "1403/07/08/ 10:00",
+    trackingNumber: "1235465456",
     price: 170000000,
     guests: "شارژ کیف پول",
     status: "تایید شده",
@@ -70,7 +70,7 @@ const data: any = [
   {
     id: 7,
     date: "1403/02/01/ 10:00",
-    trackingNumber: "123456789123456",
+    trackingNumber: "129123456",
     price: 100000,
     guests: "شارژ کیف پول",
     status: "تایید نشده",
@@ -78,7 +78,7 @@ const data: any = [
   {
     id: 8,
     date: "1403/02/01/ 10:00",
-    trackingNumber: "123456789123456",
+    trackingNumber: "12343456",
     price: 160000000,
     guests: "رزرو",
     status: "تایید نشده",
@@ -86,7 +86,7 @@ const data: any = [
   {
     id: 9,
     date: "1403/02/01/ 10:00",
-    trackingNumber: "123456789123456",
+    trackingNumber: "12349123456",
     price: 190000000,
     guests: "شارژ کیف پول",
     status: "تایید شده",
@@ -94,7 +94,7 @@ const data: any = [
   {
     id: 10,
     date: "1403/02/01/ 10:00",
-    trackingNumber: "123456789123456",
+    trackingNumber: "123453456",
     price: 170000000,
     guests: "رزرو",
     status: "تایید نشده",
@@ -102,7 +102,7 @@ const data: any = [
   {
     id: 11,
     date: "1403/02/01/ 10:00",
-    trackingNumber: "123456789123456",
+    trackingNumber: "1234789123456",
     price: 170000000,
     guests: "رزرو",
     status: "تایید نشده",
@@ -110,7 +110,7 @@ const data: any = [
   {
     id: 12,
     date: "1403/02/01/ 10:00",
-    trackingNumber: "123456789123456",
+    trackingNumber: "12345675123456",
     price: 170000000,
     guests: "شارژ کیف پول",
     status: "تایید نشده",
@@ -118,10 +118,130 @@ const data: any = [
   {
     id: 13,
     date: "1403/02/01/ 10:00",
-    trackingNumber: "123456789123456",
+    trackingNumber: "12323456",
+    price: 186600000,
+    guests: "رزرو",
+    status: "تایید نشده",
+  },
+  {
+    id: 14,
+    date: "1403/02/01/ 10:00",
+    trackingNumber: "165456456",
     price: 186600000,
     guests: "رزرو",
     status: "تایید شده",
+  },
+  {
+    id: 15,
+    date: "1403/02/01/ 10:00",
+    trackingNumber: "12345459123456",
+    price: 186600000,
+    guests: "شارژ کیف پول",
+    status: "تایید نشده",
+  },
+  {
+    id: 16,
+    date: "1403/02/01/ 10:00",
+    trackingNumber: "1234567453456",
+    price: 186600000,
+    guests: "رزرو",
+    status: "تایید شده",
+  },
+  {
+    id: 17,
+    date: "1403/02/01/ 10:00",
+    trackingNumber: "129123456",
+    price: 186600000,
+    guests: "شارژ کیف پول",
+    status: "تایید نشده",
+  },
+  {
+    id: 18,
+    date: "1403/02/01/ 10:00",
+    trackingNumber: "123123456",
+    price: 186600000,
+    guests: "رزرو",
+    status: "تایید شده",
+  },
+  {
+    id: 19,
+    date: "1403/02/01/ 10:00",
+    trackingNumber: "1223456",
+    price: 186600000,
+    guests: "شارژ کیف پول",
+    status: "تایید نشده",
+  },
+  {
+    id: 20,
+    date: "1403/02/01/ 10:00",
+    trackingNumber: "16893456",
+    price: 186600000,
+    guests: "رزرو",
+    status: "تایید شده",
+  },
+  {
+    id: 21,
+    date: "1403/02/01/ 10:00",
+    trackingNumber: "1236453456",
+    price: 186600000,
+    guests: "شارژ کیف پول",
+    status: "تایید نشده",
+  },
+  {
+    id: 22,
+    date: "1403/02/01/ 10:00",
+    trackingNumber: "1237756",
+    price: 186600000,
+    guests: "رزرو",
+    status: "تایید شده",
+  },
+  {
+    id: 23,
+    date: "1403/02/01/ 10:00",
+    trackingNumber: "12377456",
+    price: 186600000,
+    guests: "شارژ کیف پول",
+    status: "تایید نشده",
+  },
+  {
+    id: 24,
+    date: "1403/02/01/ 10:00",
+    trackingNumber: "18883456",
+    price: 186600000,
+    guests: "رزرو",
+    status: "تایید شده",
+  },
+  {
+    id: 25,
+    date: "1403/02/01/ 10:00",
+    trackingNumber: "199923456",
+    price: 186600000,
+    guests: "شارژ کیف پول",
+    status: "تایید نشده",
+  },
+  {
+    id: 26,
+    date: "1403/02/01/ 10:00",
+    trackingNumber: "1454887456",
+    price: 186600000,
+    guests: "شارژ کیف پول",
+    status: "تایید نشده",
+  },
+  {
+    id: 27,
+    date: "1403/02/01/ 10:00",
+    trackingNumber: "545646545",
+    price: 186600000,
+    guests: "شارژ کیف پول",
+    status: "تایید نشده",
+  },
+  {
+    id: 28,
+    date: "1403/02/01/ 10:00",
+    trackingNumber: "12665423456",
+    price: 186600000,
+    guests: "رزرو",
+    status: "تایید نشده",
   },
 ];
 export interface PaymentData {
@@ -183,7 +303,7 @@ export default function PaymentManagement() {
           return (
             <Chip
               color={value === "تایید شده" ? "success" : "danger"}
-              variant="flat"
+              variant="shadow"
               className="text-sm px-2 py-1 rounded-xl font-normal"
             >
               {value}
@@ -224,9 +344,15 @@ export default function PaymentManagement() {
     pageIndex: 0,
     pageSize: 5,
   });
+  const paginatedData = useMemo(() => {
+    const start = pagination.pageIndex * pagination.pageSize;
+    const end = start + pagination.pageSize;
+    return data.slice(start, end);
+  }, [data, pagination]);
+
   const { table, setPageSize, exportToExcel, exportToPDF, printTable } =
     useCustomTable<PaymentData>({
-      data,
+      data: paginatedData,
       columns,
       enableSorting: true,
       enableFiltering: true,
@@ -370,10 +496,12 @@ export default function PaymentManagement() {
                       key={cell.id}
                       className="p-3 text-gray-700 dark:text-gray-300 whitespace-nowrap"
                     >
-                      {flexRender(
-                        cell.column.columnDef.cell,
-                        cell.getContext()
-                      )}
+                      <span className="font-bold">
+                        {flexRender(
+                          cell.column.columnDef.cell,
+                          cell.getContext()
+                        )}
+                      </span>
                     </td>
                   ))}
                 </tr>
@@ -428,7 +556,7 @@ export default function PaymentManagement() {
             color="warning"
             isCompact
             showControls
-            total={table.getPageCount()}
+            total={Math.ceil(data.length / pagination.pageSize)}
             page={pagination.pageIndex + 1}
             onChange={(page) => {
               setPagination((prev) => ({

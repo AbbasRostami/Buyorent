@@ -399,11 +399,13 @@ export default function RealStatesTable() {
                           key={cell.id}
                           className="p-3 text-gray-700 dark:text-gray-300 text-center align-middle   whitespace-nowrap"
                         >
-                          <div className="flex items-center justify-center">
-                            {flexRender(
-                              cell.column.columnDef.cell,
-                              cell.getContext()
-                            )}
+                          <div className="flex items-center  justify-center">
+                            <span className="font-bold">
+                              {flexRender(
+                                cell.column.columnDef.cell,
+                                cell.getContext()
+                              )}
+                            </span>
                           </div>
                         </td>
                       ))}

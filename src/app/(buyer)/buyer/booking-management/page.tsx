@@ -358,10 +358,12 @@ export default function BookingTable() {
                       key={cell.id}
                       className="p-3 text-gray-700 dark:text-gray-300 whitespace-nowrap"
                     >
-                      {flexRender(
-                        cell.column.columnDef.cell,
-                        cell.getContext()
-                      )}
+                      <span className="font-bold">
+                        {flexRender(
+                          cell.column.columnDef.cell,
+                          cell.getContext()
+                        )}
+                      </span>
                     </td>
                   ))}
                 </tr>

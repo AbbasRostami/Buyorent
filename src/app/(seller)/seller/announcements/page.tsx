@@ -35,7 +35,7 @@ const initialData: Announcement[] = [
   },
   {
     id: 2,
-    title: "به سایت دلتـا خوش آمدید",
+    title: "اگهی خود را به سایت آگهی خوش آمدید",
     date: "04 مرداد / 1401 – 13:33",
     isRead: false,
   },
@@ -87,6 +87,74 @@ const initialData: Announcement[] = [
     date: "19 مرداد / 1401 – 13:33",
     isRead: true,
   },
+  {
+    id: 11,
+    title: "بهترین سایت آگهی",
+    date: "19 مرداد / 1401 – 13:33",
+    isRead: false,
+  },
+  {
+    id: 12,
+    title: "به سایت سرویس آگهی خوش آمدید",
+    date: "19 مرداد / 1401 – 13:33",
+    isRead: true,
+  },
+  {
+    id: 13,
+    title: "توصیه سایت آگهی",
+    date: "19 مرداد / 1401 – 13:33",
+    isRead: false,
+  },
+  {
+    id: 14,
+    title: "توصیه سایت آگهی",
+    date: "19 مرداد / 1401 – 13:33",
+    isRead: true,
+  },
+  {
+    id: 15,
+    title: "بهترین ملک",
+    date: "19 مرداد / 1401 – 13:33",
+    isRead: true,
+  },
+  {
+    id: 16,
+    title: "به سایت سرویس آگهی خوش آمدید",
+    date: "19 مرداد / 1401 – 13:33",
+    isRead: false,
+  },
+  {
+    id: 17,
+    title: "به سایت سرویس آگهی خوش آمدید",
+    date: "19 مرداد / 1401 – 13:33",
+    isRead: true,
+  },
+  {
+    id: 18,
+    title: "به سایت سرویس آگهی خوش آمدید",
+    date: "19 مرداد / 1401 – 13:33",
+    isRead: false,
+  },
+  {
+    id: 19,
+    title: "به سایت سرویس آگهی خوش آمدید",
+    date: "19 مرداد / 1401 – 13:33",
+    isRead: true,
+  },
+  {
+    id: 20,
+    title: "به سایت سرویس آگهی خوش آمدید",
+    date: "19 مرداد / 1401 – 13:33",
+    isRead: false,
+  },
+  {
+    id: 21,
+    title: "به سایت سرویس آگهی خوش آمدید",
+    date: "19 مرداد / 1401 – 13:33",
+    isRead: true,
+  },
+  
+  
 ];
 
 export default function AnnouncementsManagementSeller() {
@@ -152,9 +220,16 @@ export default function AnnouncementsManagementSeller() {
     pageIndex: 0,
     pageSize: 5,
   });
+
+  const paginatedData = useMemo(() => {
+    const start = pagination.pageIndex * pagination.pageSize;
+    const end = start + pagination.pageSize;
+    return data.slice(start, end);
+  }, [data, pagination]);
+
   const { table, exportToExcel, exportToPDF, printTable } =
     useCustomTable<Announcement>({
-      data,
+      data: paginatedData,
       columns,
       enableSorting: true,
       enableFiltering: true,
@@ -231,7 +306,7 @@ export default function AnnouncementsManagementSeller() {
             }}
             aria-label="Filter"
           >
-            {(item) => <SelectItem>{item.label}</SelectItem>}
+            {(item) => <SelectItem key={item.key}>{item.label}</SelectItem>}
           </Select>
         </div>
       </div>
@@ -298,10 +373,12 @@ export default function AnnouncementsManagementSeller() {
                       key={cell.id}
                       className="p-3 text-gray-700 dark:text-gray-300 whitespace-nowrap"
                     >
-                      {flexRender(
-                        cell.column.columnDef.cell,
-                        cell.getContext()
-                      )}
+                      <span className="font-bold">
+                        {flexRender(
+                          cell.column.columnDef.cell,
+                          cell.getContext()
+                        )}
+                      </span>
                     </td>
                   ))}
                 </tr>
@@ -356,7 +433,7 @@ export default function AnnouncementsManagementSeller() {
             color="warning"
             isCompact
             showControls
-            total={table.getPageCount()}
+            total={Math.ceil(data.length / pagination.pageSize)}
             page={pagination.pageIndex + 1}
             onChange={(page) => {
               setPagination((prev) => ({
