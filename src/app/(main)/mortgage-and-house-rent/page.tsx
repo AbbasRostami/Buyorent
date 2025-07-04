@@ -23,6 +23,7 @@ export async function generateMetadata({
   return generateMortgageAndRentMetadata(resolvedSearchParams);
 }
 
+
 export default async function RentPage({
   searchParams,
 }: {
