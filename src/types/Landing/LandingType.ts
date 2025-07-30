@@ -71,7 +71,7 @@ export interface HouseItem {
 }
 
 export interface HouseTypeRentResponse {
-  houses: Property[]; // یا HouseTypeRentProps[]
+  houses: Property[]; 
   totalCount: number;
 }
 
