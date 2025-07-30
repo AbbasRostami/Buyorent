@@ -3,13 +3,12 @@ import { useEffect, useRef, useState } from "react";
 import { ThemeSwitcher } from "@/context/ThemeSwitcher";
 import { HiOutlineBellAlert } from "react-icons/hi2";
 import { useSidebar } from "../context/SidebarContext";
-import UserDropdown from "../components/Header/UserDropdown";
 import {
   TbLayoutSidebarLeftCollapseFilled,
   TbLayoutSidebarLeftExpandFilled,
   TbLayoutSidebarRightExpandFilled,
 } from "react-icons/tb";
-import BuyerBreadcrumbs from "../components/BreadcrumbsBuyer";
+import UserDropdown from "../components/header/UserDropdown";
 
 const AppHeader: React.FC = () => {
   const [isApplicationMenuOpen, setApplicationMenuOpen] = useState(false);

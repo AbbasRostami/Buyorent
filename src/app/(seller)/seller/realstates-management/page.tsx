@@ -34,13 +34,6 @@ import {
   FaFilePdf,
   FaFileExcel,
 } from "react-icons/fa";
-import Step1BasicInfo from "./Steps/Step1BasicInfo";
-import Step2Address from "./Steps/Step2Address";
-import Step3Facilities from "./Steps/Step3Facilities";
-import Step4Images from "./Steps/Step4Images";
-import Step5Confirm from "./Steps/Step5Confirm";
-import AddEstateStepper from "./Steps/AddEstateStepper";
-import RealStatesFilter from "./Filter/RealStatesFilter";
 import { MdOutlineBuildCircle } from "react-icons/md";
 import {
   PiArrowBendDoubleUpRightBold,
@@ -50,6 +43,13 @@ import { confirm } from "@/components/common/ConfirmModal";
 import { useCustomTable } from "@/utils/hooks/useCustomTable";
 import EditEstateModal from "./EditEstateModal";
 import React, { ChangeEvent } from "react";
+import Step1BasicInfo from "./steps/Step1BasicInfo";
+import Step2Address from "./steps/Step2Address";
+import Step3Facilities from "./steps/Step3Facilities";
+import Step4Images from "./steps/Step4Images";
+import Step5Confirm from "./steps/Step5Confirm";
+import AddEstateStepper from "./steps/AddEstateStepper";
+import RealStatesFilter from "./Filter/RealStatesFilter";
 
 export interface RealStateData {
   id: number;
