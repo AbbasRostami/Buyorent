@@ -13,6 +13,7 @@ import { useTheme } from "next-themes";
 import { HouseReserveProps } from "@/types/HousesReserve";
 import Link from "next/link";
 import Image from "next/image";
+import { Input } from "@heroui/react";
 
 declare module "leaflet-routing-machine" {
   interface RoutingControlOptions {
@@ -378,7 +379,7 @@ export default function MapHousesReserve({
         </button>
 
         <div className="relative w-64">
-          <input
+          <Input
             type="text"
             value={searchQuery}
             onChange={(e) => {

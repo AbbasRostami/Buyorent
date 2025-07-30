@@ -12,6 +12,7 @@ import {
   SelectItem,
   useDisclosure,
   Skeleton,
+  Input,
 } from "@heroui/react";
 import { ColumnDef, flexRender } from "@tanstack/react-table";
 import { useMemo, useState } from "react";
@@ -189,7 +190,7 @@ export default function CommentsTable() {
               لیست کامنت ها
             </span>
           </div>
-          <input
+          <Input
             type="text"
             value={commentSearch}
             onChange={(e) => {

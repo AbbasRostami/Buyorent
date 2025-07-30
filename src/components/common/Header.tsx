@@ -21,13 +21,15 @@ import { HiOutlineUser } from "react-icons/hi2";
 import { usePathname, useRouter } from "next/navigation";
 import clsx from "clsx";
 import logo from "./../../assets/Landing/logo.png";
-import AuthModal from "../auth/AuthModal";
+import dynamic from "next/dynamic";
 import { signOut, useSession } from "next-auth/react";
 import { ThemeSwitcher } from "@/context/ThemeSwitcher";
 import Link from "next/link";
 import toast from "react-hot-toast";
 import { FaSpinner } from "react-icons/fa";
 import { useProfile } from "@/services/Profile/getProfile";
+
+const AuthModal = dynamic(() => import("../auth/AuthModal"), { ssr: false });
 
 export default function Header() {
   const pathname = usePathname();

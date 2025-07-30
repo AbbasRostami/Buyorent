@@ -5,6 +5,8 @@ import Image from "next/image";
 import { useConfirmStore } from "../../app/(buyer)/context/useConfirmStore";
 import SvgWarning from "./../../assets/SvgWarning.svg";
 
+// پیشنهاد: این کامپوننت را با dynamic import در parent لود کنید تا حجم باندل اولیه کاهش یابد.
+
 export const ConfirmModal = () => {
   const { isOpen, options, resolve, closeConfirm } = useConfirmStore();
 

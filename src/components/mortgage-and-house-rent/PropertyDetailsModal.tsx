@@ -15,6 +15,8 @@ import { SwiperSlide } from "swiper/react";
 import { Autoplay, EffectFade, Pagination } from "swiper/modules";
 import Link from "next/link";
 
+// پیشنهاد: این کامپوننت را با dynamic import در parent لود کنید تا حجم باندل اولیه کاهش یابد.
+
 interface PropertyDetailsModalProps {
   isOpen: boolean;
   onClose: () => void;

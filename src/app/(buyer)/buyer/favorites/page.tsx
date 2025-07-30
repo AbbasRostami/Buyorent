@@ -10,6 +10,7 @@ import {
   DropdownItem,
   DropdownMenu,
   DropdownTrigger,
+  Input,
   Pagination,
   Select,
   SelectItem,
@@ -284,7 +285,7 @@ export default function FavoriteTable() {
           </span>
         </div>
         <div className="flex flex-col md:flex-row justify-end items-center mt-4 md:mt-0 gap-2 w-full md:w-1/3">
-          <input
+          <Input
             type="text"
             placeholder="نام هتل مورد نظر را جستجو کنید..."
             className="p-2 rounded-md border-2 border-amber-500 w-full md:w-2/3"

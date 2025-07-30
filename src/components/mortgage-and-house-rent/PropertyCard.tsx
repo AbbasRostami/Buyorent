@@ -37,6 +37,8 @@ interface Props {
 }
 
 export default function PropertyCard({ data, isLoading }: Props) {
+  console.log("hasgyhds", data);
+  
   if (isLoading) {
     return (
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 px-4 sm:px-6 md:px-8 border-t border-[#ccc] mt-6 pt-6 max-w-screen-xl mx-auto">
@@ -92,7 +94,7 @@ export default function PropertyCard({ data, isLoading }: Props) {
               autoplay={{ delay: 3000, disableOnInteraction: false }}
               pagination={{ clickable: false }}
             >
-              {property?.photos.map((photo, idx) => (
+              {property?.photos?.map((photo, idx) => (
                 <SwiperSlide key={idx}>
                   <Image
                     src={photo}

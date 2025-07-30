@@ -1,3 +1,4 @@
+// پیشنهاد: این کامپوننت را با dynamic import در parent لود کنید تا حجم باندل اولیه کاهش یابد.
 import {
   Button,
   Input,

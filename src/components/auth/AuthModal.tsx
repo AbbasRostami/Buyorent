@@ -13,6 +13,8 @@ import { Step2Password } from "./Step2Password";
 import { Step3Login } from "./Step3Login";
 import { RegistrationData, Step } from "@/types/Auth/AuthTypes";
 
+// پیشنهاد: این کامپوننت را با dynamic import در parent لود کنید تا حجم باندل اولیه کاهش یابد.
+
 export default function AuthModal({
   isOpen,
   setIsOpen,

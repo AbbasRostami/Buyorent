@@ -17,7 +17,6 @@ import { Skeleton } from "@heroui/react";
 import Link from "next/link";
 
 const HotDealsOfWeekSwiper = ({ houses }: HouseTypeProps) => {
-  console.log(houses);
   if (!houses) {
     return (
       <Card className="w-[200px] space-y-5 p-4" radius="lg">
@@ -38,6 +37,7 @@ const HotDealsOfWeekSwiper = ({ houses }: HouseTypeProps) => {
       </Card>
     );
   }
+
   return (
     <Swiper
       modules={[Navigation, Pagination, Autoplay]}

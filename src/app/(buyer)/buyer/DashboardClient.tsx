@@ -5,9 +5,17 @@ import AppSidebar from "../layout/AppSidebar";
 import Backdrop from "../layout/Backdrop";
 import AppHeader from "../layout/AppHeader";
 import { useSidebar } from "../context/SidebarContext";
-import { ConfirmModal } from "../../../components/common/ConfirmModal";
+import dynamic from "next/dynamic";
 import BuyerBreadcrumbs from "../components/BreadcrumbsBuyer";
 import { Toaster } from "react-hot-toast";
+
+const ConfirmModal = dynamic(
+  () =>
+    import("../../../components/common/ConfirmModal").then(
+      (mod) => mod.ConfirmModal
+    ),
+  { ssr: false }
+);
 
 export default function DashboardClient({
   children,

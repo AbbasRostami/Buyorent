@@ -7,6 +7,7 @@ import {
   DropdownItem,
   DropdownMenu,
   DropdownTrigger,
+  Input,
   Pagination,
   Select,
   SelectItem,
@@ -26,11 +27,24 @@ import { GiConfirmed } from "react-icons/gi";
 import { useCustomTable } from "@/utils/hooks/useCustomTable";
 import { confirm } from "@/components/common/ConfirmModal";
 import moment from "moment-jalaali";
-import ModalDetails from "./Details/ModalDetails";
-import BookingBuyerFilter from "./Filter/BookingFilter";
 import { useBookingWithHouses } from "@/services/Bookings/getBooking";
 import { useDeleteBooking } from "@/services/Bookings/deleteBooking";
 import { BookingDataBuyer } from "@/types/bookingBuyer";
+import dynamic from "next/dynamic";
+
+const ModalDetails = dynamic(
+  () => import("./Details/ModalDetails").then((mod) => mod.default),
+  {
+    ssr: false,
+  }
+);
+const BookingBuyerFilter = dynamic(
+  () => import("./Filter/BookingFilter").then((mod) => mod.default),
+  {
+    ssr: false,
+  }
+);
+
 moment.loadPersian({ dialect: "persian-modern" });
 
 export default function BookingTable() {
@@ -262,7 +276,7 @@ export default function BookingTable() {
           </span>
         </div>
         <div className="flex flex-col md:flex-row justify-end items-center mt-4 md:mt-0 gap-2 w-full md:w-1/3">
-          <input
+          <Input
             type="text"
             value={bookingSearch}
             onChange={(e) => {

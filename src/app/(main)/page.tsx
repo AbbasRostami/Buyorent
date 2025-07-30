@@ -1,12 +1,25 @@
-import CustomSwiper from "@/components/Landing/Categories/Categories";
+import dynamic from "next/dynamic";
 import HeroSection from "@/components/Landing/HeroSection/HeroSection";
-import Customers from "@/components/Landing/Customers/Customers";
-import Notice from "@/components/Landing/Notice/Notice";
-import Rating from "@/components/Landing/Rating/Rating";
-import Favourites from "@/components/Landing/Favorites/Favorites";
-import BayourtBiggest from "@/components/Landing/BayourtBiggest/BayourtBiggest";
-import Reduction from "@/components/Landing/Reduction/Reduction";
-import HotDealsOfWeek from "@/components/Landing/HotDealsOfWeek/HotDealsOfWeek";
+const CustomSwiper = dynamic(
+  () => import("@/components/Landing/Categories/Categories")
+);
+const Customers = dynamic(
+  () => import("@/components/Landing/Customers/Customers")
+);
+const Notice = dynamic(() => import("@/components/Landing/Notice/Notice"));
+const Rating = dynamic(() => import("@/components/Landing/Rating/Rating"));
+const Favourites = dynamic(
+  () => import("@/components/Landing/Favorites/Favorites")
+);
+const BayourtBiggest = dynamic(
+  () => import("@/components/Landing/BayourtBiggest/BayourtBiggest")
+);
+const Reduction = dynamic(
+  () => import("@/components/Landing/Reduction/Reduction")
+);
+const HotDealsOfWeek = dynamic(
+  () => import("@/components/Landing/HotDealsOfWeek/HotDealsOfWeek")
+);
 
 export default function Home() {
   return (

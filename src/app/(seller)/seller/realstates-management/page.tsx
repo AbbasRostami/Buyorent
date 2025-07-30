@@ -12,6 +12,7 @@ import {
   Select,
   useDisclosure,
   Skeleton,
+  Input,
 } from "@heroui/react";
 import { ColumnDef, flexRender } from "@tanstack/react-table";
 import { useMemo, useState } from "react";
@@ -48,6 +49,7 @@ import {
 import { confirm } from "@/components/common/ConfirmModal";
 import { useCustomTable } from "@/utils/hooks/useCustomTable";
 import EditEstateModal from "./EditEstateModal";
+import React, { ChangeEvent } from "react";
 
 export interface RealStateData {
   id: number;
@@ -65,7 +67,7 @@ export interface RealStateData {
   photos: string[];
 }
 
-export const stepsConfig = [
+const stepsConfig = [
   { title: "مشخصات اولیه", icon: <FaInfoCircle />, component: Step1BasicInfo },
   { title: "آدرس", icon: <FaMapMarkerAlt />, component: Step2Address },
   { title: "امکانات", icon: <FaList />, component: Step3Facilities },
@@ -228,7 +230,7 @@ export default function RealStatesTable() {
   console.log("realStateData", realStateData);
   const { table, computedPageCount, exportToExcel, exportToPDF, printTable } =
     useCustomTable<RealStateData>({
-      data: realStateData ?? [],
+      data: Array.isArray(realStateData) ? realStateData : [],
       columns,
       enableSorting: true,
       enableFiltering: true,
@@ -240,7 +242,7 @@ export default function RealStatesTable() {
 
   const [showStepper, setShowStepper] = useState(false);
 
-  const [realStateSearch, setRealStateSearch] = useState("");
+  const [realStateSearch, setRealStateSearch] = useState<string>("");
 
   const {
     isOpen: isFilterOpen,
@@ -298,11 +300,11 @@ export default function RealStatesTable() {
               </span>
             </div>
             <div className="flex flex-col md:flex-row justify-end items-center mt-4 md:mt-0 gap-2 w-full md:w-1/3">
-              <input
+              <Input
                 type="text"
                 placeholder="نام هتل مورد نظر را جستجو کنید..."
                 value={realStateSearch}
-                onChange={(e) => {
+                onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
                   const value = e.target.value;
                   setRealStateSearch(value);
                   table.getColumn("title")?.setFilterValue(value);

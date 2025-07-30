@@ -54,13 +54,12 @@ export default function ModalDetails({
     onOpenChange: onPassengerListOpenChange,
   } = useDisclosure();
 
-  // Get house details from selectedRow
   const house = selectedRow?.house;
   const booking = selectedRow;
 
   // Format dates
   const formatDate = (dateString: string) => {
-    return moment(  dateString).format("jYYYY/jMM/jDD  HH:mm");
+    return moment(dateString).format("jYYYY/jMM/jDD  HH:mm");
   };
 
   const getStatusLabel = (status: string) => {
@@ -171,8 +170,6 @@ export default function ModalDetails({
                     {house?.caption || "توضیحات ملک موجود نیست"}
                   </p>
 
-
-                        
                   {/* Booking Infomation */}
                   <div className="bg-white dark:bg-gray-900 rounded-xl p-4 space-y-3">
                     <h3 className="text-xl font-bold text-amber-600 dark:text-amber-400">
@@ -223,7 +220,7 @@ export default function ModalDetails({
                         </span>
                         <span className="text-gray-800 dark:text-gray-100">
                           {booking?.updatedAt
-                            ? formatDate( booking?.updatedAt )
+                            ? formatDate(booking?.updatedAt)
                             : "-"}
                         </span>
                       </div>

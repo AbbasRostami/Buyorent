@@ -22,7 +22,10 @@ const imageMap: Record<string, any> = {
   "بوم گردی": forest,
 };
 
-export default function CategorySwiper({ categories }: CategorytypeProps) {
+export default function CategorySwiper({
+  data,
+  totalCount,
+}: CategorytypeProps) {
   return (
     <div className="w-full px-4 py-8 relative">
       {/* Buttons */}
@@ -51,7 +54,7 @@ export default function CategorySwiper({ categories }: CategorytypeProps) {
           1024: { slidesPerView: 6 },
         }}
       >
-        {categories?.data?.map((category) => {
+        {data?.map((category) => {
           const img = imageMap[category.name] || condo;
           return (
             <SwiperSlide key={category.id} className="flex justify-center">

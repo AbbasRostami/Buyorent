@@ -20,6 +20,7 @@ export const Step3Login = ({ onSuccess }: Step3LoginProps) => {
       const res = await signIn("credentials", {
         ...values,
         redirect: false,
+            
       });
 
       if (res?.ok) {

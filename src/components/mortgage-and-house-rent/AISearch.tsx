@@ -15,6 +15,8 @@ import { PiOpenAiLogoBold } from "react-icons/pi";
 import { findSmartPropertyMatch } from "@/services/propertyService";
 import { HouseItemsInterface } from "@/types/property";
 
+// پیشنهاد: این کامپوننت را با dynamic import در parent لود کنید تا حجم باندل اولیه کاهش یابد.
+
 interface SmartSearchModalProps {
   isOpen: boolean;
   onClose: () => void;

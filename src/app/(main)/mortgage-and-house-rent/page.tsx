@@ -3,12 +3,12 @@ import ClientWrapper from "@/components/mortgage-and-house-rent/ClientWrapper";
 import PaginationWrapper from "@/components/mortgage-and-house-rent/PaginationWrapper";
 import qs from "qs";
 import { useServerData } from "@/utils/hooks/useServerData";
-import { HouseTypeRentProps } from "@/types/Landing/LandingType";
 import SmartSearchContainer from "@/components/mortgage-and-house-rent/SmartSearchContainer";
 import { convertToHouseItems } from "@/types/property";
 import { generateMortgageAndRentMetadata } from "@/utils/metadata/mortgage-and-rent";
 import { Metadata } from "next";
 import { SearchParams, SearchParamsType } from "@/types/search";
+import { HouseTypeRentResponse } from "@/types/Landing/LandingType";
 
 export const revalidate = 60;
 
@@ -36,13 +36,13 @@ export default async function RentPage({
 
   const endpoint = queryString ? `/houses?${queryString}` : "/houses";
 
-  const data = await useServerData<HouseTypeRentProps>(
+  const data = await useServerData<HouseTypeRentResponse>(
     endpoint,
     `houses-${queryString}`,
     60
   );
   console.log("data: ", data);
-  const convertedData = convertToHouseItems(data);
+  const convertedData: any = convertToHouseItems(data?.houses);
 
   return (
     <>
@@ -62,7 +62,7 @@ export default async function RentPage({
         <ClientWrapper initialData={data} />
       </div>
 
-      <PropertyCard data={data} isLoading={false} />
+      <PropertyCard data={data?.houses} isLoading={false} />
 
       <PaginationWrapper total={5} />
     </>

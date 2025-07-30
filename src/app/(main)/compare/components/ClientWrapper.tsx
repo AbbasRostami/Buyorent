@@ -1,7 +1,7 @@
 "use client";
 import React from "react";
 import { useDisclosure } from "@heroui/react";
-import CompareModal from "./CompareModal";
+import dynamic from "next/dynamic";
 import CompareTable from "./CompareTable";
 import { HouseSingleHousesProps } from "@/types/DetailsTypes";
 
@@ -10,6 +10,8 @@ interface ClientWrapperProps {
   ids: string[];
   housesData: HouseSingleHousesProps[];
 }
+
+const CompareModal = dynamic(() => import("./CompareModal"), { ssr: false });
 
 const ClientWrapper = ({
   selectedHouses,

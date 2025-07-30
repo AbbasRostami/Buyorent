@@ -58,7 +58,24 @@ export interface HouseTypeProps {
   }>;
 }
 
-export type HouseTypeRentProps = {
+export interface HouseItem {
+  id: string;
+  title: string;
+  photos: string[] | null;
+  address: string;
+  rooms?: number;
+  bathrooms?: number;
+  parking?: number;
+  price?: number;
+  rate?: string | null;
+}
+
+export interface HouseTypeRentResponse {
+  houses: Property[]; // یا HouseTypeRentProps[]
+  totalCount: number;
+}
+
+export interface Property {
   id: string;
   title: string;
   photos: string[];
@@ -67,9 +84,4 @@ export type HouseTypeRentProps = {
   bathrooms: number;
   parking: number;
   price: number;
-}[];
-
-export interface CategoryProps {
-  id: string;
-  name: string;
 }

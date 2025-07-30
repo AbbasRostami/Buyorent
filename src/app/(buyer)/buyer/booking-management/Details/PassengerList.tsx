@@ -7,6 +7,9 @@ import { BsArrowDown, BsArrowUp } from "react-icons/bs";
 import { MdFamilyRestroom } from "react-icons/md";
 import { PiSealWarningBold } from "react-icons/pi";
 import { useCustomTable } from "@/utils/hooks/useCustomTable";
+
+// پیشنهاد: این کامپوننت را با dynamic import در parent لود کنید تا حجم باندل اولیه کاهش یابد.
+
 interface ModalReserveProps {
   isOpen: boolean;
   onOpenChange: () => void;
@@ -73,7 +76,6 @@ export default function ModalPassengerList({
     },
   ];
 
-                    
   const { table } = useCustomTable<ReservationData>({
     data: reservations,
     columns,

@@ -1,6 +1,6 @@
-import { Button, useDisclosure } from "@heroui/react";
+import { Button, useDisclosure, Input } from "@heroui/react";
 import { RiMenuSearchLine } from "react-icons/ri";
-import FilterModal from "./FilterModal";
+import dynamic from "next/dynamic";
 
 interface SearchAndFilterProps {
   searchValue: string;
@@ -9,6 +9,8 @@ interface SearchAndFilterProps {
   onClearFilters: () => void;
   onApplyFilters: (filters: any) => void;
 }
+
+const FilterModal = dynamic(() => import("./FilterModal"), { ssr: false });
 
 const SearchAndFilter = ({
   searchValue,
@@ -25,7 +27,7 @@ const SearchAndFilter = ({
         <span className="absolute right-2 top-1/2 -translate-y-1/2 text-gray-400">
           <RiMenuSearchLine size={25} />
         </span>
-        <input
+        <Input
           type="text"
           placeholder="جستجو کنید..."
           value={searchValue}

@@ -7,6 +7,7 @@ import { renderToStaticMarkup } from "react-dom/server";
 import { GiPositionMarker } from "react-icons/gi";
 import L from "leaflet";
 import { FaLocationPinLock, FaMapLocationDot } from "react-icons/fa6";
+import { Input } from "@heroui/react";
 
 const iconMarkup = renderToStaticMarkup(
   <GiPositionMarker size={30} color="red" />
@@ -146,7 +147,7 @@ export default function Step2Address() {
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4 items-center">
         <div className="relative">
           <label className="block mb-1 text-sm font-medium">نشانی ملک:</label>
-          <input
+          <Input 
             type="text"
             value={inputValue}
             onChange={(e) => {

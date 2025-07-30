@@ -10,10 +10,10 @@ import { CgArrowTopLeftO } from "react-icons/cg";
 import { Chip, Skeleton } from "@heroui/react";
 import { useCustomTable } from "@/utils/hooks/useCustomTable";
 import { useBookingWithHouses } from "@/services/Bookings/getBooking";
-import { BookingDataSeller } from "../../booking-management/page";
 import moment from "moment-jalaali";
 import Link from "next/link";
 import { PiSealWarningBold } from "react-icons/pi";
+import { BookingDataSeller } from "@/types/Seller/booking-management/page";
 export interface LastetResevesType {
   id: number;
   title: string;

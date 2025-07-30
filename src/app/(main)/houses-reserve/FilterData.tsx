@@ -9,6 +9,7 @@ import {
   SelectItem,
   Slider,
   useDisclosure,
+  Input,
 } from "@heroui/react";
 import React, { useEffect, useState } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
@@ -323,7 +324,7 @@ const FilterData = () => {
           <span className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400">
             <RiMenuSearchLine size={25} />
           </span>
-          <input
+          <Input
             type="text"
             placeholder="جستجو کنید..."
             value={search}

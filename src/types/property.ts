@@ -44,7 +44,7 @@ export const convertToHouseItems = (
     price: number;
   }[]
 ): HouseItemsInterface[] => {
-  return houses.map((house) => ({
+  return houses?.map((house) => ({
     ...house,
     rate: "0",
     price: house.price.toString(),

@@ -8,6 +8,9 @@ import { useDisclosure } from "@heroui/react";
 import ModalPassengerList from "./PassengerList";
 import { PiSealWarningBold } from "react-icons/pi";
 import { useCustomTable } from "@/utils/hooks/useCustomTable";
+
+// پیشنهاد: این کامپوننت را با dynamic import در parent لود کنید تا حجم باندل اولیه کاهش یابد.
+
 interface ModalReserveProps {
   isOpen: boolean;
   onOpenChange: () => void;
