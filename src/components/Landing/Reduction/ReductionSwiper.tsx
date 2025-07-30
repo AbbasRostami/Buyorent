@@ -9,11 +9,10 @@ import { IoLocationOutline } from "react-icons/io5";
 import { IoMdBed } from "react-icons/io";
 import { FaShower } from "react-icons/fa";
 import { MdFamilyRestroom } from "react-icons/md";
-import { HouseTypeProps } from "@/types/Landing/LandingType";
 import Image from "next/image";
 import Link from "next/link";
 
-export default function ReductionCarousel({ houses }: HouseTypeProps) {
+export default function ReductionCarousel({ houses }: any) {
   return (
     <div className="m-6">
       <Swiper
@@ -38,14 +37,14 @@ export default function ReductionCarousel({ houses }: HouseTypeProps) {
           1280: { slidesPerView: 4 },
         }}
       >
-        {houses?.map((items, index) => (
+        {houses?.houses?.map((items: any, index: number  ) => (
           <SwiperSlide
             key={index}
             className="flex justify-center p-6 animate-fade-in"
           >
             <Link href={`/mortgage-and-house-rent/${items.id}`}>
               <div className="group relative w-full max-w-sm transform rounded-2xl border border-gray-100 dark:border-slate-700 bg-white/80 dark:bg-slate-800/80 backdrop-blur-sm shadow-xl transition-all duration-500 hover:-translate-y-1 hover:shadow-xl">
-                <div className="relative overflow-hidden rounded-t-2xl">
+                <div className="relative overflow-hidden rounded-t-2xl min-h-[220px]">
                   <Swiper
                     modules={[Autoplay, Pagination, EffectFade]}
                     effect="fade"
@@ -67,7 +66,7 @@ export default function ReductionCarousel({ houses }: HouseTypeProps) {
                           width={400}
                           height={220}
                           loading="lazy"
-                          className="h-[220px] w-full object-cover transition-transform duration-700 ease-in-out group-hover:scale-105"
+                          className="h-[220px] min-h-[220px] w-full object-cover transition-transform duration-700 ease-in-out group-hover:scale-105"
                         />
                       </SwiperSlide>
                     ))}

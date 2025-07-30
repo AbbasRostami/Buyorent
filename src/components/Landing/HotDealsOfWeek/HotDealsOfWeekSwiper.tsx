@@ -16,7 +16,7 @@ import { Card } from "@heroui/react";
 import { Skeleton } from "@heroui/react";
 import Link from "next/link";
 
-const HotDealsOfWeekSwiper = ({ houses }: HouseTypeProps) => {
+const HotDealsOfWeekSwiper = ({ houses }: any) => {
   if (!houses) {
     return (
       <Card className="w-[200px] space-y-5 p-4" radius="lg">
@@ -37,6 +37,7 @@ const HotDealsOfWeekSwiper = ({ houses }: HouseTypeProps) => {
       </Card>
     );
   }
+console.log("houses", houses);
 
   return (
     <Swiper
@@ -56,14 +57,14 @@ const HotDealsOfWeekSwiper = ({ houses }: HouseTypeProps) => {
         1280: { slidesPerView: 4 },
       }}
     >
-      {houses?.map((items, index) => (
+      {houses?.houses?.map((items:any, index:any) => (
         <SwiperSlide
           key={index}
           className="flex justify-center p-6 animate-fade-in"
         >
           <Link href={`/mortgage-and-house-rent/${items.id}`}>
             <div className="group relative w-full max-w-sm transform rounded-2xl border border-gray-100 dark:border-slate-700 bg-white/80 dark:bg-slate-800/80 backdrop-blur-sm shadow-xl transition-all duration-500 hover:-translate-y-1 hover:shadow-xl">
-              <div className="relative overflow-hidden rounded-t-2xl">
+              <div className="relative overflow-hidden rounded-t-2xl min-h-[220px]">
                 <Swiper
                   modules={[Autoplay, Pagination, EffectFade]}
                   effect="fade"

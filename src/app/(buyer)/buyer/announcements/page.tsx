@@ -247,14 +247,14 @@ export default function AnnouncementsManagementSeller() {
 
     if (isConfirmed) {
       setData((prev) =>
-        prev.map((item) => (item.id === id ? { ...item, isRead: true } : item))
+        prev?.map((item) => (item.id === id ? { ...item, isRead: true } : item))
       );
     }
   }
 
   function handleMarkAsUnread(id: number) {
     setData((prev) =>
-      prev.map((item) => (item.id === id ? { ...item, isRead: false } : item))
+      prev?.map((item) => (item.id === id ? { ...item, isRead: false } : item))
     );
   }
 

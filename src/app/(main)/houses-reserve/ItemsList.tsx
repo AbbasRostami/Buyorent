@@ -12,7 +12,7 @@ import { Pagination, Autoplay, EffectFade } from "swiper/modules";
 import "swiper/css";
 import "swiper/css/effect-fade";
 import "swiper/css/pagination";
-const ItemsList = ({ data }: { data: HouseReserveProps[] }) => {
+const ItemsList = ({ data }: { data: any }) => {
   if (!data || data.length === 0) {
     return (
       <div className="text-center flex flex-col gap-5 items-center text-gray-500 dark:text-amber-50 py-10">
@@ -32,7 +32,7 @@ const ItemsList = ({ data }: { data: HouseReserveProps[] }) => {
         hideScrollBar
         className="h-full overflow-y-auto grid grid-cols-1 sm:grid-cols-2 gap-4"
       >
-        {data?.map((item) => (
+        {data?.houses?.map((item:any) => (
           <Link
             href={`/mortgage-and-house-rent/${item.id}`}
             key={item.id}
@@ -53,7 +53,7 @@ const ItemsList = ({ data }: { data: HouseReserveProps[] }) => {
                 loop={true}
                 className="flex justify-center items-center"
               >
-                {item?.photos?.map((photo) => (
+                {item?.photos?.map((photo:string) => (
                   <SwiperSlide key={photo}>
                     <Image
                       unoptimized
@@ -68,14 +68,14 @@ const ItemsList = ({ data }: { data: HouseReserveProps[] }) => {
               </Swiper>
             </div>
             <h2 className="text-lg font-semibold truncate mt-2">
-              {item.title}
+              {item?.title}
             </h2>
 
             <div className="flex items-center justify-between gap-2 text-sm text-gray-500 mt-2 flex-wrap">
               <div className="flex items-center gap-1">
                 <IoLocationOutline className="dark:text-amber-100" size={18} />
                 <span className="truncate dark:text-amber-50">
-                  {item.address}
+                  {item?.address}
                 </span>
               </div>
               <div className="flex items-center gap-1">
@@ -95,14 +95,14 @@ const ItemsList = ({ data }: { data: HouseReserveProps[] }) => {
                   {Number(1200000).toLocaleString("fa-IR")} تومان
                 </span>
                 <span className="text-black dark:text-amber-100">
-                  / {Number(item.price).toLocaleString("fa-IR")}
+                  / {Number(item?.price).toLocaleString("fa-IR")}
                   <span className="text-[#595959] text-xs dark:text-amber-50 mr-1">
                     تومان
                   </span>
                 </span>
               </div>
               <button className="text-xs bg-red-100 text-red-600 px-2 py-0.5 rounded-md">
-                ٪{Number(item.rate).toLocaleString("fa-IR")} تخفیف
+                ٪{Number(item?.rate).toLocaleString("fa-IR")} تخفیف
               </button>
             </div>
           </Link>

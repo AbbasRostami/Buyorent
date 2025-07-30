@@ -19,4 +19,5 @@ export interface HouseReserveProps {
   sellerId: string;
   sellerName: string;
   caption: string | null;
+  
 }

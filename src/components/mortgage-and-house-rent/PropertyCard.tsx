@@ -84,7 +84,7 @@ export default function PropertyCard({ data, isLoading }: Props) {
             </Link>
           </div>
 
-          <div className="relative overflow-hidden rounded-2xl">
+          <div className="relative overflow-hidden rounded-2xl min-h-[220px]">
             <Swiper
               modules={[Autoplay, SwiperPagination, EffectFade]}
               effect="fade"

@@ -29,7 +29,7 @@ export type HouseQueryParams = {
 };
 
 export interface HouseTypeProps {
-  houses: Array<{
+  houses:  Array<{
     id: string;
     title: string;
     address: string;
