@@ -40,7 +40,7 @@ export default function Header() {
   const router = useRouter();
   const { data: session } = useSession();
 
-  console.log("🔑 Session:", session);
+  // console.log("🔑 Session:", session);
   const navItems = [
     { label: "خانه", href: "/" },
     { label: "رهن و اجاره", href: "/mortgage-and-house-rent" },
