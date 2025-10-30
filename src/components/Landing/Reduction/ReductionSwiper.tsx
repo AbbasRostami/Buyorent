@@ -8,10 +8,10 @@ import "swiper/css/pagination";
 import { IoLocationOutline } from "react-icons/io5";
 import { IoMdBed } from "react-icons/io";
 import { FaShower } from "react-icons/fa";
-import { MdFamilyRestroom } from "react-icons/md";
+import { MdFamilyRestroom, MdOutlineImageNotSupported } from "react-icons/md";
 import Image from "next/image";
 import Link from "next/link";
-
+import { formatCurrency } from "@/utils/formatters";
 export default function ReductionCarousel({ houses }: any) {
   return (
     <div className="m-6">
@@ -37,7 +37,7 @@ export default function ReductionCarousel({ houses }: any) {
           1280: { slidesPerView: 4 },
         }}
       >
-        {houses?.houses?.map((items: any, index: number  ) => (
+        {houses?.houses?.map((items: any, index: number) => (
           <SwiperSlide
             key={index}
             className="flex justify-center p-6 animate-fade-in"
@@ -54,28 +54,40 @@ export default function ReductionCarousel({ houses }: any) {
                     pagination={{ clickable: true }}
                     loop={true}
                   >
-                    {items?.photos?.map((photo: string, idx: number) => (
-                      <SwiperSlide
-                        key={idx}
-                        className="!flex !justify-center !items-center bg-black/5 dark:bg-black/10"
-                      >
-                        <Image
-                          src={photo}
-                          unoptimized
-                          alt={`${items.title}-photo-${idx}`}
-                          width={400}
-                          height={220}
-                          loading="lazy"
-                          className="h-[220px] min-h-[220px] w-full object-cover transition-transform duration-700 ease-in-out group-hover:scale-105"
-                        />
+                    {items?.photos?.filter((p: string) => p.trim() !== "")
+                      .length > 0 ? (
+                      items.photos
+                        .filter((p: string) => p.trim() !== "")
+                        .map((photo: string, idx: number) => (
+                          <SwiperSlide
+                            key={idx}
+                            className="!flex !justify-center !items-center bg-black/5 dark:bg-black/10"
+                          >
+                            <Image
+                              src={photo}
+                              unoptimized
+                              alt={`${items.title}-photo-${idx}`}
+                              width={400}
+                              height={220}
+                              loading="lazy"
+                              className="h-[220px] min-h-[220px] w-full object-cover transition-transform duration-700 ease-in-out group-hover:scale-105"
+                            />
+                          </SwiperSlide>
+                        ))
+                    ) : (
+                      <SwiperSlide className="!flex !h-full !justify-center !items-center bg-black/5 dark:bg-black/10 min-h-[220px]">
+                        <div className="flex flex-col items-center justify-center gap-2">
+                          <span className="text-lg font-bold text-gray-500 dark:text-gray-400">
+                            تصویری یافت نشد
+                          </span>
+                          <MdOutlineImageNotSupported size={45} />
+                        </div>
                       </SwiperSlide>
-                    ))}
+                    )}
                   </Swiper>
 
-                  {/* Gradient */}
                   <div className="absolute bottom-0 left-0 w-full h-20 bg-gradient-to-t from-black/50 to-transparent z-0" />
 
-                  {/* Rate badge */}
                   <div className="absolute top-3 left-3 z-10 flex items-center gap-2 rounded-full bg-orange-600 px-3 py-1.5 text-white shadow-md backdrop-blur-sm">
                     <span className="text-lg">⭐</span>
                     <span className="text-sm font-bold">
@@ -84,19 +96,16 @@ export default function ReductionCarousel({ houses }: any) {
                   </div>
                 </div>
 
-                {/* Content */}
                 <div className="space-y-4 px-5 py-4 text-right">
                   <h3 className="text-lg font-bold leading-snug text-gray-800 dark:text-white transition-colors duration-300 group-hover:text-orange-600">
                     {items.title}
                   </h3>
 
-                  {/* Address */}
                   <p className="flex items-center gap-1 text-sm text-gray-600 dark:text-gray-300 truncate">
                     <IoLocationOutline size={20} />
                     {items.address}
                   </p>
 
-                  {/* Features */}
                   <div className="flex justify-between text-sm text-gray-700 dark:text-amber-100 mt-2">
                     <div className="flex items-center gap-1">
                       <IoMdBed size={20} />
@@ -114,16 +123,14 @@ export default function ReductionCarousel({ houses }: any) {
 
                   <div className="border-t border-gray-200 dark:border-gray-600 my-2" />
 
-                  {/* Price */}
                   <div className="flex items-center justify-between text-orange-600 font-bold text-base">
-                    <span>{items.price.toLocaleString()} تومان</span>
+                    <span>{formatCurrency(items?.price)} تومان</span>
                     <p className="line-through text-sm text-gray-400 dark:text-gray-500">
-                      ۳۰۰٬۰۰۰ تومان
+                      {formatCurrency(1200000)} تومان
                     </p>
                   </div>
                 </div>
 
-                {/* Border Glow on Hover */}
                 <div className="absolute inset-0 rounded-2xl border border-transparent group-hover:border-orange-400 group-hover:shadow-[0_0_10px_2px_rgba(251,146,60,0.3)] transition-all duration-500" />
               </div>
             </Link>

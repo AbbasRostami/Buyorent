@@ -20,6 +20,7 @@ import "swiper/css/effect-fade";
 import "swiper/css/pagination";
 import ModalReserve from "./ModalReserve";
 import ModalPassengerList from "./PassengerList";
+import { formatCurrency } from "@/utils/formatters";
 moment.loadPersian({ dialect: "persian-modern" });
 
 interface ModalDetailsProps {
@@ -279,7 +280,7 @@ export default function ModalDetails({
 
               <div className="flex flex-col md:flex-row gap-4 justify-between items-center mt-6">
                 <span className="bg-gray-200 dark:bg-gray-900 px-2 py-2 rounded-xl text-medium md:text-lg  font-bold text-red-600 ml-4">
-                  قیمت: {house?.price?.toLocaleString() || 0} تومان
+                  قیمت: {formatCurrency(house?.price) || 0} تومان
                 </span>
 
                 <div className="flex  items-center gap-2">

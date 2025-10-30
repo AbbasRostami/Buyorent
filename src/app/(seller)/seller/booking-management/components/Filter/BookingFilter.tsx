@@ -1,7 +1,7 @@
 import { Button, Modal, ModalContent, SelectItem, Select } from "@heroui/react";
 import { IoMdClose } from "react-icons/io";
 import { TbFilterPlus } from "react-icons/tb";
-import PersianDatePicker from "@/components/common/PersianDatePicker";
+import PersianDatePicker from "@/components/shared/PersianDatePicker";
 
 export default function BookingSellerFilter({
   isOpenFilter,

@@ -8,7 +8,7 @@ import { auth } from "@/services/auth";
 import image from "./../assets/BUTORENT.png";
 
 const vazirmatn = localFont({
-  src: "./../assets/fonts/Vazirmatn.ttf",
+  src: "./../assets/fonts/Vazirmatn-UI-FD-Regular.ttf",
   variable: "--font-vazirmatn",
   display: "swap",
 });
@@ -71,7 +71,6 @@ export const metadata: Metadata = {
         width: 1200,
         height: 630,
         alt: "BUYORENT",
-        
       },
     ],
   },

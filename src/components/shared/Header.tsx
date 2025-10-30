@@ -40,7 +40,6 @@ export default function Header() {
   const router = useRouter();
   const { data: session } = useSession();
 
-  // console.log("🔑 Session:", session);
   const navItems = [
     { label: "خانه", href: "/" },
     { label: "رهن و اجاره", href: "/mortgage-and-house-rent" },
@@ -69,7 +68,7 @@ export default function Header() {
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
-  const { user, isLoading, error } = useProfile();
+  const { user } = useProfile();
   return (
     <div className="fixed step-1 top-0 z-50 w-full transition-transform duration-500 ease-in-out">
       <Navbar
@@ -111,7 +110,7 @@ export default function Header() {
                   "hover:before:w-full",
                   "text-sm md:text-base lg:text-lg",
                   pathname === item.href
-                    ? "text-amber-600 font-semibold bg-gradient-to-r from-amber-600 to-amber-400 bg-clip-text"
+                    ? "text-amber-600 font-semibold bg-gradient-to-r from-amber-600 to-amber-400 bg-clip-text "
                     : "text-gray-700 hover:text-amber-600"
                 )}
               >

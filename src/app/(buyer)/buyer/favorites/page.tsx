@@ -27,7 +27,7 @@ import Image from "next/image";
 import { PiSealWarningBold } from "react-icons/pi";
 import FavoriteFilter from "./Filter/FavoriteFilter";
 import { useCustomTable } from "@/utils/hooks/useCustomTable";
-import { confirm } from "@/components/common/ConfirmModal";
+import { confirm } from "@/components/shared/ConfirmModal";
 export interface BookingDataFavo {
   id: number;
   title: string;
@@ -136,8 +136,6 @@ const data: BookingDataFavo[] = [
   },
 ];
 export default function FavoriteTable() {
-  const [globalFilter, setGlobalFilter] = useState("");
-
   const columns = useMemo<ColumnDef<BookingDataFavo>[]>(
     () => [
       {
@@ -288,7 +286,7 @@ export default function FavoriteTable() {
           <Input
             type="text"
             placeholder="نام هتل مورد نظر را جستجو کنید..."
-            className="p-2 rounded-md border-2 border-amber-500 w-full md:w-2/3"
+            className="p-2 rounded-md  w-full md:w-2/3"
             value={table.getColumn("title")?.getFilterValue() as string}
             onChange={(e) => {
               setPagination((prev) => ({ ...prev, pageIndex: 0 }));

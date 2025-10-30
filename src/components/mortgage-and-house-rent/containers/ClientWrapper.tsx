@@ -3,8 +3,8 @@
 import { useRouter, useSearchParams } from "next/navigation";
 import { useDebounce } from "use-debounce";
 import { useState, useEffect } from "react";
-import SearchAndFilter from "./SearchAndFilter";
-import SortOptions from "./SortOptions";
+import SearchAndFilter from "../filters/SearchAndFilter";
+import SortOptions from "../filters/SortOptions";
 
 interface ClientWrapperProps {
   initialData: any;

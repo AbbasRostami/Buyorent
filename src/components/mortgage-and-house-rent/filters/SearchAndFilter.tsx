@@ -32,7 +32,7 @@ const SearchAndFilter = ({
           placeholder="جستجو کنید..."
           value={searchValue}
           onChange={(e) => setSearchValue(e.target.value)}
-          className="w-full p-3 pr-10 text-sm border dark:text-amber-100 dark:placeholder:text-amber-50 border-gray-300 rounded-2xl focus:outline-none focus:ring-2 focus:ring-blue-500"
+          className="w-full p-3 pr-10 text-sm  dark:placeholder:text-amber-50 border-gray-300 rounded-2xl focus:outline-none focus:ring-2 focus:ring-blue-500"
         />
       </div>
 

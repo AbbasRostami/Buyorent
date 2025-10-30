@@ -25,12 +25,13 @@ import { FaPrint, FaFilePdf, FaFileExcel, FaUsers } from "react-icons/fa";
 import { SlBan } from "react-icons/sl";
 import { GiConfirmed } from "react-icons/gi";
 import { useCustomTable } from "@/utils/hooks/useCustomTable";
-import { confirm } from "@/components/common/ConfirmModal";
+import { confirm } from "@/components/shared/ConfirmModal";
 import moment from "moment-jalaali";
 import { useBookingWithHouses } from "@/services/Bookings/getBooking";
 import { useDeleteBooking } from "@/services/Bookings/deleteBooking";
 import { BookingDataBuyer } from "@/types/bookingBuyer";
 import dynamic from "next/dynamic";
+import { formatCurrency } from "@/utils/formatters";
 
 const ModalDetails = dynamic(
   () => import("./Details/ModalDetails").then((mod) => mod.default),
@@ -129,7 +130,7 @@ export default function BookingTable() {
         cell: (info) => {
           const value = info.getValue();
           const numValue = typeof value === "number" ? value : Number(value);
-          return `${numValue.toLocaleString("fa-IR")} تومان`;
+          return <span>{formatCurrency(numValue)} تومان</span>;
         },
         enableSorting: true,
       },
@@ -285,7 +286,7 @@ export default function BookingTable() {
               table.getColumn("houseTitle")?.setFilterValue(value); // 👈 استفاده از id جدید
             }}
             placeholder="نام هتل مورد نظر را جستجو کنید..."
-            className=" p-2 rounded-md border-2 border-amber-500 w-full md:w-2/3"
+            className=" p-2 rounded-md w-full md:w-2/3"
           />
           <BookingBuyerFilter
             isOpenFilter={isOpenFilter}

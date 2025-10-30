@@ -15,13 +15,16 @@ import { IoIosArrowRoundBack } from "react-icons/io";
 import { useRouter } from "next/navigation";
 import { Tooltip } from "@heroui/react";
 import { MotionDiv } from "../../utils/providers/MotionWrapper";
-import toast, { ToastBar } from "react-hot-toast";
+import toast from "react-hot-toast";
 import { BiCopy } from "react-icons/bi";
 import { useSession } from "next-auth/react";
 import { usePost } from "@/utils/hooks/useReactQueryHooks";
 import { MdVilla } from "react-icons/md";
 const HeaderSectionSingle = ({ data }: any) => {
-  const [mainImage, setMainImage] = useState(data?.photos[0]);
+  const [mainImage, setMainImage] = useState(
+    data?.photos?.[0] ?? "/images/default.jpg"
+  );
+
   const [zoomPosition, setZoomPosition] = useState({ x: 0, y: 0 });
   const [isZoomed, setIsZoomed] = useState(false);
   const router = useRouter();
@@ -75,7 +78,7 @@ const HeaderSectionSingle = ({ data }: any) => {
             onMouseMove={handleMouseMove}
           >
             <Image
-              src={mainImage}
+              src={mainImage || "./../../assets/Avatar1.png"}
               alt="Main Image"
               fill
               className={`object-cover rounded-3xl transition-transform cursor-pointer duration-200 ${
@@ -91,14 +94,14 @@ const HeaderSectionSingle = ({ data }: any) => {
 
         <div className="w-full md:w-1/3 flex flex-col gap-4">
           <div className="grid grid-cols-2  gap-4">
-            {data?.photos.map((item: string, index: number) => (
+            {data?.photos?.map((item: string, index: number) => (
               <div
                 key={index}
                 className="relative w-full aspect-[320/230] rounded-3xl overflow-hidden shadow cursor-pointer transition ease-in-out delay-150 hover:-translate-y-1 hover:scale-110  duration-300 hover:border-2 hover:border-color1"
                 onClick={() => setMainImage(item)}
               >
                 <Image
-                  src={item}
+                  src={item || "./../../assets/Avatar1.png"}
                   alt="building"
                   fill
                   className="object-cover transform-3d transition ease-in-out delay-150 hover:-translate-y-1 hover:scale-110  duration-300 ..."
@@ -108,7 +111,7 @@ const HeaderSectionSingle = ({ data }: any) => {
             ))}
           </div>
 
-          {data?.photos.length > 4 && (
+          {data?.photos?.length > 4 && (
             <div className="w-full">
               <Swiper
                 modules={[Navigation, Pagination]}
@@ -131,7 +134,7 @@ const HeaderSectionSingle = ({ data }: any) => {
                       onClick={() => setMainImage(item)}
                     >
                       <Image
-                        src={item}
+                        src={item || "./../../assets/Avatar1.png"}
                         alt="building"
                         fill
                         className="object-cover"
@@ -233,11 +236,17 @@ const HeaderSectionSingle = ({ data }: any) => {
 
         <div className="text-right px-2">
           <p className="text-3xl font-bold flex items-center gap-2">
-            <MdVilla className=" text-color1 dark:text-shadow-amber-300" size={30} />
+            <MdVilla
+              className=" text-color1 dark:text-shadow-amber-300"
+              size={30}
+            />
             {data?.title}
           </p>
           <p className="md:text-lg text-medium font-medium flex items-center gap-2 mt-2">
-            <IoLocationOutline className="dark:text-amber-300 text-color1" size={30} />
+            <IoLocationOutline
+              className="dark:text-amber-300 text-color1"
+              size={30}
+            />
             {data?.address}
           </p>
         </div>

@@ -9,19 +9,25 @@ import { BsBookmarkStarFill } from "react-icons/bs";
 const Statistics = () => {
   const { theme } = useTheme();
 
-  const { summary, isLoading, isError } = useGetSummary();
+  const { summary, isLoading } = useGetSummary();
+
   const series = [
-    Number(summary?.bookings || 0),
-    Number(summary?.houses || 0),
-    Number(summary?.users || 0),
-    Number(summary?.averageRating || 0),
+    summary?.bookings?.bookingCount || 0,
+    summary?.bookings?.canceledBookings || 0,
+    summary?.bookings?.conformedBookings || 0,
+    summary?.bookings?.pendingBookings || 0,
   ];
   const chartOptions: ApexOptions = {
     chart: {
       width: 380,
       type: "donut" as const,
     },
-    labels: ["کل رزرو ها", "کل خانه ها", "کل کاربران", "امتیاز میانگین"],
+    labels: [
+      "کل رزرو ها",
+      "کل رزرو های لغو شده",
+      "کل رزرو های تایید شده",
+      "کل رزرو های درحال انتظار",
+    ],
     stroke: {
       show: false,
       width: 0,

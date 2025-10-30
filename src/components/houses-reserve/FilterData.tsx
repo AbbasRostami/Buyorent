@@ -340,7 +340,7 @@ const FilterData = () => {
                 transactionType,
               });
             }}
-            className="w-full p-3 pr-10 text-sm border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-color2"
+            className="w-full p-3 pr-10 text-sm rounded-md focus:outline-none focus:ring-2 focus:ring-color2"
           />
         </div>
       </div>

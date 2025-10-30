@@ -22,14 +22,13 @@ import { FaMoneyBillTransfer, FaPrint } from "react-icons/fa6";
 import { PiSealWarningBold, PiWarningCircleBold } from "react-icons/pi";
 import { TiDeleteOutline } from "react-icons/ti";
 import { HiDotsHorizontal } from "react-icons/hi";
-import { confirm } from "@/components/common/ConfirmModal";
+import { confirm } from "@/components/shared/ConfirmModal";
 import { useSession } from "next-auth/react";
 import { EditComment } from "./Edit/EditComment";
 import { useDeleteComment } from "@/services/Seller/comments-management/deleteComment";
 import { useGetComment } from "@/services/Seller/comments-management/getComment";
 import { Session } from "next-auth";
 import { CommentsData } from "@/types/Seller/comments-management/CommentTypes";
-import { useGetSummary } from "@/services/Dashboard/summary";
 
 export default function CommentsTable() {
   const { isOpen, onOpen, onOpenChange } = useDisclosure();
@@ -46,7 +45,7 @@ export default function CommentsTable() {
         enableSorting: true,
       },
       {
-        accessorKey: "title",
+        accessorKey: "dataValues.title",
         header: "کامنت",
         cell: (info) => {
           return (
@@ -164,11 +163,12 @@ export default function CommentsTable() {
   });
 
   const { comments, isLoading } = useGetComment(pagination, session as Session);
+  console.log("comments", comments);
   const deleteComment = useDeleteComment();
 
   const { table, exportToExcel, exportToPDF, printTable, computedPageCount } =
-    useCustomTable<CommentsData>({
-      data: comments?.data || [],
+    useCustomTable<any>({
+      data: comments?.data as any,
       columns,
       manualPagination: true,
       enablePagination: true,
@@ -199,14 +199,14 @@ export default function CommentsTable() {
               table.getColumn("title")?.setFilterValue(value);
             }}
             placeholder="کامنت مورد نظر را جستجو کنید..."
-            className="p-2 rounded-lg border-2 border-amber-500 w-full md:w-2/3"
+            className="p-2 rounded-lg  w-full md:w-2/3"
           />
         </div>
         <EditComment
           isOpen={isOpen}
           onOpenChange={onOpenChange}
           commentId={selectedCommentId || 0}
-          data={comments?.data || []}
+          data={comments?.data as any}
         />
 
         <div className="overflow-x-auto  rounded-xl">

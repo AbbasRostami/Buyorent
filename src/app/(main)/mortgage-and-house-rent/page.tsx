@@ -1,9 +1,9 @@
-import PropertyCard from "@/components/mortgage-and-house-rent/PropertyCard";
-import ClientWrapper from "@/components/mortgage-and-house-rent/ClientWrapper";
-import PaginationWrapper from "@/components/mortgage-and-house-rent/PaginationWrapper";
+import PropertyCard from "@/components/mortgage-and-house-rent/cards/PropertyCard";
+import ClientWrapper from "@/components/mortgage-and-house-rent/containers/ClientWrapper";
+import PaginationWrapper from "@/components/mortgage-and-house-rent/pagination/PaginationWrapper";
 import qs from "qs";
 import { useServerData } from "@/utils/hooks/useServerData";
-import SmartSearchContainer from "@/components/mortgage-and-house-rent/SmartSearchContainer";
+import SmartSearchContainer from "@/components/mortgage-and-house-rent/search/SmartSearchContainer";
 import { convertToHouseItems } from "@/types/property";
 import { generateMortgageAndRentMetadata } from "@/utils/metadata/mortgage-and-rent";
 import { Metadata } from "next";
@@ -23,14 +23,21 @@ export async function generateMetadata({
   return generateMortgageAndRentMetadata(resolvedSearchParams);
 }
 
-
 export default async function RentPage({
   searchParams,
 }: {
   searchParams: Promise<SearchParamsType>;
 }) {
   const resolvedSearchParams = await searchParams;
-  const queryString = qs.stringify(resolvedSearchParams, {
+
+  // Set default pagination if not provided
+  const paramsWithPagination = {
+    ...resolvedSearchParams,
+    page: resolvedSearchParams.page || 1,
+    limit: resolvedSearchParams.limit || 10,
+  };
+
+  const queryString = qs.stringify(paramsWithPagination, {
     encode: false,
   });
 
@@ -64,7 +71,7 @@ export default async function RentPage({
 
       <PropertyCard data={data?.houses} isLoading={false} />
 
-      <PaginationWrapper total={5} />
+      <PaginationWrapper totalCount={data?.totalCount || 0} pageSize={10} />
     </>
   );
 }

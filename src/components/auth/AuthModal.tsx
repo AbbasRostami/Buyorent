@@ -139,7 +139,7 @@ export default function AuthModal({
               </div>
 
               {/* Desktop Register/Login Tabs */}
-              <div className="hidden md:block h-full flex flex-col justify-between">
+              <div className="hidden md:flex h-full flex-col justify-between">
                 <div>
                   {step === 3 ? (
                     <>

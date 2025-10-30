@@ -5,7 +5,6 @@ import { FaMagnifyingGlass } from "react-icons/fa6";
 import Image from "next/image";
 import { Input, Select, SelectItem } from "@heroui/react";
 import { useRouter } from "next/navigation";
-import { toast } from "react-hot-toast";
 import { useDebounce } from "use-debounce";
 const destinations = [
   { value: "تهران", label: "تهران" },
@@ -30,22 +29,13 @@ const HeroSectionFilter = () => {
   const [debouncedFilters] = useDebounce(filters, 2000);
 
   const handleApplyFilters = () => {
-    if (
-      debouncedFilters.destination &&
-      debouncedFilters.transactionType &&
-      debouncedFilters.minRent &&
-      debouncedFilters.maxRent
-    ) {
-      const query = new URLSearchParams({
-        destination: debouncedFilters.destination,
-        transactionType: debouncedFilters.transactionType,
-        minRent: debouncedFilters.minRent,
-        maxRent: debouncedFilters.maxRent,
-      }).toString();
-      router.push(`/mortgage-and-house-rent?${query}`);
-    } else {
-      toast.error("لطفا همه فیلترها را پر کنید");
-    }
+    const query = new URLSearchParams({
+      destination: debouncedFilters.destination,
+      transactionType: debouncedFilters.transactionType,
+      minRent: debouncedFilters.minRent,
+      maxRent: debouncedFilters.maxRent,
+    }).toString();
+    router.push(`/mortgage-and-house-rent?${query}`);
   };
   return (
     <>

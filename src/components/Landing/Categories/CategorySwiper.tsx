@@ -9,23 +9,9 @@ import "swiper/css";
 import "swiper/css/navigation";
 
 import boat from "./../../../assets/Landing/boat.png";
-import condo from "./../../../assets/Landing/condo.png";
-import forest from "./../../../assets/Landing/forest.png";
-import swimmingpool from "./../../../assets/Landing/swimmingpool.png";
-import villa from "./../../../assets/Landing/villa.png";
 import { CategorytypeProps } from "@/types/Landing/LandingType";
 
-const imageMap: Record<string, any> = {
-  "کلبه ای": boat,
-  "استخر دار": swimmingpool,
-  ویلا: villa,
-  "بوم گردی": forest,
-};
-
-export default function CategorySwiper({
-  data,
-  totalCount,
-}: CategorytypeProps) {
+export default function CategorySwiper({ data }: CategorytypeProps) {
   return (
     <div className="w-full px-4 py-8 relative">
       {/* Buttons */}
@@ -55,7 +41,6 @@ export default function CategorySwiper({
         }}
       >
         {data?.map((category) => {
-          const img = imageMap[category.name] || condo;
           return (
             <SwiperSlide key={category.id} className="flex justify-center">
               <div className="aspect-square w-[160px] mx-auto drop-shadow group relative flex flex-col items-center justify-center rounded-2xl bg-white dark:bg-gray-800 cursor-pointer transition-all border-r-4 border-transparent hover:border-yellow-400">
@@ -75,10 +60,15 @@ export default function CategorySwiper({
                       />
                     </svg>
                   </div>
-                  <Image src={img} alt={category.name} width={40} height={40} />
+                  <Image
+                    src={boat}
+                    alt={category?.dataValues?.name}
+                    width={40}
+                    height={40}
+                  />
                 </div>
                 <p className="mt-2 text-sm font-bold text-gray-700 dark:text-amber-100">
-                  {category.name}
+                  {category?.dataValues?.name}
                 </p>
               </div>
             </SwiperSlide>

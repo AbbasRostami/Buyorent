@@ -2,10 +2,15 @@ import { useServerData } from "@/utils/hooks/useServerData";
 import { HouseSingleHousesProps } from "@/types/DetailsTypes";
 import ClientWrapper from "./components/ClientWrapper";
 
-export const revalidate = 300; 
+export const revalidate = 300;
 
 interface PageProps {
   searchParams: Promise<{ [key: string]: string | string[] | undefined }>;
+}
+
+interface HousesResponse {
+  houses: HouseSingleHousesProps[];
+  totalCount?: number;
 }
 
 export default async function ComparePage({ searchParams }: PageProps) {
@@ -14,15 +19,16 @@ export default async function ComparePage({ searchParams }: PageProps) {
     .split(",")
     .filter(Boolean);
 
-  const housesData = await useServerData<HouseSingleHousesProps[]>(
+  const housesData = await useServerData<HousesResponse>(
     "/houses",
     "compare-houses",
     300
   );
 
+  console.log("housesData", housesData);
   const selectedHouses = ids
     .map((id) =>
-      (housesData || []).find(
+      housesData?.houses?.find(
         (h: HouseSingleHousesProps) => String(h.id) === String(id)
       )
     )
@@ -32,7 +38,7 @@ export default async function ComparePage({ searchParams }: PageProps) {
     <ClientWrapper
       selectedHouses={selectedHouses}
       ids={ids}
-      housesData={housesData}
+      housesData={housesData?.houses || []}
     />
   );
 }

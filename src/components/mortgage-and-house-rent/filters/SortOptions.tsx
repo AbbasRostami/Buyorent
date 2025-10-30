@@ -18,8 +18,7 @@ const SortOptions = ({ searchParams, onSortChange }: SortOptionsProps) => {
     <ul className="flex gap-3 md:gap-4 overflow-x-auto md:overflow-visible whitespace-nowrap md:px-0">
       {SORT_OPTIONS.map(({ label, sort, order }, index) => {
         const isActive =
-          searchParams.get("sort") === sort &&
-          searchParams.get("order") === order;
+          searchParams.get("sort") === sort && searchParams.get("order") === order;
 
         return (
           <li

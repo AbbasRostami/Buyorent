@@ -8,7 +8,7 @@ import {
 } from "@heroui/react";
 import { FaPlusCircle, FaSignOutAlt } from "react-icons/fa";
 import { signOut } from "next-auth/react";
-import { confirm } from "@/components/common/ConfirmModal";
+import { confirm } from "@/components/shared/ConfirmModal";
 import { useProfile } from "@/services/Profile/getProfile";
 export default function UserDropdown() {
   const { user, isLoading, error } = useProfile();

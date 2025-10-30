@@ -11,17 +11,17 @@ const Statistics = () => {
 
   const { summary, isLoading, isError } = useGetSummary();
   const series = [
-    Number(summary?.bookings || 0),
-    Number(summary?.houses || 0),
-    Number(summary?.users || 0),
-    Number(summary?.averageRating || 0),
+    Number(summary?.bookings?.bookingCount || 0),
+    Number(summary?.bookings?.canceledBookings || 0),
+    Number(summary?.bookings?.conformedBookings || 0),
+    Number(summary?.bookings?.pendingBookings || 0),
   ];
   const chartOptions: ApexOptions = {
     chart: {
       width: 380,
       type: "donut" as const,
     },
-    labels: ["کل رزرو ها", "کل خانه ها", "کل کاربران", "امتیاز میانگین"],
+    labels: ["کل رزرو ها", "کل رزرو های لغو شده", "کل رزرو های تایید شده", "کل رزرو های درحال انتظار"],
     stroke: {
       show: false,
       width: 0,

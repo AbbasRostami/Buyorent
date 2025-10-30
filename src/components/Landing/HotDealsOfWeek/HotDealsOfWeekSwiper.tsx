@@ -3,18 +3,18 @@ import React from "react";
 import { FaShower } from "react-icons/fa";
 import { IoMdBed } from "react-icons/io";
 import { IoLocationOutline } from "react-icons/io5";
-import { MdFamilyRestroom } from "react-icons/md";
+import { MdFamilyRestroom, MdOutlineImageNotSupported } from "react-icons/md";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Navigation, Pagination, Autoplay, EffectFade } from "swiper/modules";
 import "swiper/css";
 import "swiper/css/effect-fade";
 import "swiper/css/navigation";
 import "swiper/css/pagination";
-import { HouseTypeProps } from "@/types/Landing/LandingType";
 import Image from "next/image";
 import { Card } from "@heroui/react";
 import { Skeleton } from "@heroui/react";
 import Link from "next/link";
+import { formatCurrency } from "@/utils/formatters";
 
 const HotDealsOfWeekSwiper = ({ houses }: any) => {
   if (!houses) {
@@ -37,7 +37,7 @@ const HotDealsOfWeekSwiper = ({ houses }: any) => {
       </Card>
     );
   }
-console.log("houses", houses);
+  console.log("houses", houses);
 
   return (
     <Swiper
@@ -57,7 +57,7 @@ console.log("houses", houses);
         1280: { slidesPerView: 4 },
       }}
     >
-      {houses?.houses?.map((items:any, index:any) => (
+      {houses?.houses?.map((items: any, index: any) => (
         <SwiperSlide
           key={index}
           className="flex justify-center p-6 animate-fade-in"
@@ -74,7 +74,8 @@ console.log("houses", houses);
                   pagination={{ clickable: true }}
                   loop={true}
                 >
-                  {items?.photos?.map((photo: string, idx: number) => (
+                  {items?.photos?.filter((p: string) => p.trim() !== "").length > 0 ? 
+                    items?.photos?.filter((p: string) => p.trim() !== "").map((photo: string, idx: number) => (
                     <SwiperSlide
                       key={idx}
                       className="!flex !justify-center !items-center bg-black/5 dark:bg-black/10"
@@ -89,13 +90,20 @@ console.log("houses", houses);
                         className="h-[220px] w-full object-cover transition-transform duration-700 ease-in-out group-hover:scale-105"
                       />
                     </SwiperSlide>
-                  ))}
+                  )) :  (
+                    <SwiperSlide className="!flex !h-full !justify-center !items-center bg-black/5 dark:bg-black/10 min-h-[220px]">
+                      <div className="flex flex-col items-center justify-center gap-2">
+                        <span className="text-lg font-bold text-gray-500 dark:text-gray-400">
+                          تصویری یافت نشد
+                        </span>
+                        <MdOutlineImageNotSupported size={45} />
+                      </div>
+                    </SwiperSlide>
+                  )}
                 </Swiper>
 
-                {/* Gradient */}
                 <div className="absolute bottom-0 left-0 w-full h-20 bg-gradient-to-t from-black/50 to-transparent z-0" />
 
-                {/* Rate badge */}
                 <div className="absolute top-3 left-3 z-10 flex items-center gap-2 rounded-full bg-orange-600 px-3 py-1.5 text-white shadow-md backdrop-blur-sm">
                   <span className="text-lg">⭐</span>
                   <span className="text-sm font-bold">
@@ -104,19 +112,16 @@ console.log("houses", houses);
                 </div>
               </div>
 
-              {/* Content */}
               <div className="space-y-4 px-5 py-4 text-right">
                 <h3 className="text-lg font-bold leading-snug text-gray-800 dark:text-white transition-colors duration-300 group-hover:text-orange-600">
                   {items.title}
                 </h3>
 
-                {/* Address */}
                 <p className="flex items-center gap-1 text-sm text-gray-600 dark:text-gray-300 truncate">
                   <IoLocationOutline size={20} />
                   {items.address}
                 </p>
 
-                {/* Features */}
                 <div className="flex justify-between text-sm text-gray-700 dark:text-amber-100 mt-2">
                   <div className="flex items-center gap-1">
                     <IoMdBed size={20} />
@@ -134,11 +139,12 @@ console.log("houses", houses);
 
                 <div className="border-t border-gray-200 dark:border-gray-600 my-2" />
 
-                {/* Price */}
                 <div className="flex items-center justify-between text-orange-600 font-bold text-base">
-                  <span>{items.price.toLocaleString()} تومان</span>
+                  <span>
+                    {formatCurrency(items?.price)} تومان
+                  </span>
                   <p className="line-through text-sm text-gray-400 dark:text-gray-500">
-                    ۳۰۰٬۰۰۰ تومان
+                    {formatCurrency(300000)} تومان
                   </p>
                 </div>
               </div>

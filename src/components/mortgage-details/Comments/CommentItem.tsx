@@ -43,7 +43,7 @@ const CommentItem: React.FC<CommentItemProps> = ({
     postReply({
       title: values?.title,
       caption: values?.caption,
-      parent_comment_id: comment.id,
+      parent_comment_id: comment?.id,
       rating: values?.rating,
     });
     resetForm();
@@ -100,7 +100,7 @@ const CommentItem: React.FC<CommentItemProps> = ({
 
       {/* متن کامنت */}
       <p className="text-medium font-medium text-gray-800 dark:text-amber-50 leading-6">
-        {comment.caption}
+        {comment?.caption}
       </p>
 
       {/* دکمه پاسخ */}
@@ -111,15 +111,17 @@ const CommentItem: React.FC<CommentItemProps> = ({
           size="md"
           className="text-sm"
           onPress={() =>
-            setActiveReply((prev) => (prev === comment.id ? null : comment.id))
+            setActiveReply((prev) =>
+              prev === comment?.id ? null : comment?.id
+            )
           }
         >
-          {activeReply === comment.id ? "لغو پاسخ" : "پاسخ دادن"}
+          {activeReply === comment?.id ? "لغو پاسخ" : "پاسخ دادن"}
         </Button>
       </div>
 
       {/* فرم پاسخ */}
-      {activeReply === comment.id && (
+      {activeReply === comment?.id && (
         <Formik
           initialValues={{ title: "", caption: "", rating: 4 }}
           validationSchema={validationComment}

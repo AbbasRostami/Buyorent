@@ -8,7 +8,7 @@ import { BsArrowUp } from "react-icons/bs";
 import { BsArrowDown } from "react-icons/bs";
 import { MdNotificationsActive } from "react-icons/md";
 import { PiSealWarningBold } from "react-icons/pi";
-import { confirm } from "@/components/common/ConfirmModal";
+import { confirm } from "@/components/shared/ConfirmModal";
 import { FaPrint } from "react-icons/fa";
 import { FaFilePdf } from "react-icons/fa";
 import { FaFileExcel } from "react-icons/fa";
@@ -153,8 +153,6 @@ const initialData: Announcement[] = [
     date: "19 مرداد / 1401 – 13:33",
     isRead: true,
   },
-  
-  
 ];
 
 export default function AnnouncementsManagementSeller() {

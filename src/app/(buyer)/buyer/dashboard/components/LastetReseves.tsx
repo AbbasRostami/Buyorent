@@ -9,21 +9,47 @@ import Image from "next/image";
 import { CgArrowTopLeftO } from "react-icons/cg";
 import { Chip } from "@heroui/react";
 import { useCustomTable } from "@/utils/hooks/useCustomTable";
-import { useBookingWithHouses } from "@/services/Bookings/getBooking";
 import moment from "moment-jalaali";
 import Link from "next/link";
-import { LastetResevesType } from "@/types/Buyer/dashboard/page";
-
+import sampleImage from "./../../../../../assets/Avatar1.png";
+import sampleImage2 from "./../../../../../assets/Avatar2.png";
+import sampleImage3 from "./../../../../../assets/Avatar3.png";
 export default function LastetReseves() {
-  const { combinedData: lastetResevesData } = useBookingWithHouses<
-    LastetResevesType & { houseId: number }
-  >({
-    endpoint: "/bookings",
-    queryKeyPrefix: "bookingBuyer",
-    pageIndex: 0,
-    pageSize: 5,
-  });
-  const columns = useMemo<ColumnDef<LastetResevesType & { houseId: number }>[]>(
+  const data = [
+    {
+      id: 1,
+      photos: [sampleImage.src],
+      title: "House 1" as string,
+      createdAt: "2021-01-01",
+      price: 1000000,
+      status: "confirmed",
+    },
+    {
+      id: 2,
+      photos: [sampleImage2.src],
+      title: "House 2",
+      createdAt: "2021-01-02",
+      price: 2000000,
+      status: "pending",
+    },
+    {
+      id: 3,
+      photos: [sampleImage3.src],
+      title: "House 3",
+      createdAt: "2021-01-03",
+      price: 3000000,
+      status: "confirmed",
+    },
+    {
+      id: 4,
+      photos: [sampleImage.src],
+      title: "House 4",
+      createdAt: "2021-01-04",
+      price: 4000000,
+      status: "canceled",
+    },
+  ];
+  const columns = useMemo<ColumnDef<any>[]>(
     () => [
       {
         accessorKey: "rowIndex",
@@ -33,7 +59,7 @@ export default function LastetReseves() {
         enableSorting: true,
       },
       {
-        accessorKey: "house.photos",
+        accessorKey: "photos",
         header: "تصویر",
         cell: (info) => {
           const value = info.getValue();
@@ -53,7 +79,7 @@ export default function LastetReseves() {
         },
       },
       {
-        accessorKey: "house.title",
+        accessorKey: "title",
         header: "نام اقامتگاه",
         cell: (info) => {
           const value = info.getValue();
@@ -82,7 +108,7 @@ export default function LastetReseves() {
         },
       },
       {
-        accessorKey: "house.price",
+        accessorKey: "price",
         header: "قیمت",
         cell: (info) => {
           const value = info.getValue();
@@ -145,7 +171,7 @@ export default function LastetReseves() {
   });
 
   const { table } = useCustomTable({
-    data: lastetResevesData || [],
+    data,
     columns,
     enableSorting: true,
     enableFiltering: true,

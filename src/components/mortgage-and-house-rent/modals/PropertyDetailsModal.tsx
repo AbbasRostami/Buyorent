@@ -14,8 +14,7 @@ import { Swiper } from "swiper/react";
 import { SwiperSlide } from "swiper/react";
 import { Autoplay, EffectFade, Pagination } from "swiper/modules";
 import Link from "next/link";
-
-// پیشنهاد: این کامپوننت را با dynamic import در parent لود کنید تا حجم باندل اولیه کاهش یابد.
+import { formatCurrency } from "@/utils/formatters";
 
 interface PropertyDetailsModalProps {
   isOpen: boolean;
@@ -78,12 +77,12 @@ export default function PropertyDetailsModal({
                 el: ".customer-pagination1",
               }}
             >
-              {property.photos.map((photo) => (
+              {property?.photos?.map((photo: string) => (
                 <SwiperSlide key={photo}>
                   <Image
                     unoptimized
                     src={photo}
-                    alt={property.title}
+                    alt={property?.title || "بدون عنوان"}
                     fill
                     className="object-cover"
                   />
@@ -96,7 +95,7 @@ export default function PropertyDetailsModal({
           <div className="space-y-4">
             <p className="flex items-center gap-2 text-gray-600 dark:text-gray-400">
               <IoLocationOutline className="text-amber-500" size={20} />
-              {property?.address}
+              {property?.address || "بدون آدرس"}
             </p>
 
             <div className="flex flex-wrap gap-4">
@@ -117,7 +116,7 @@ export default function PropertyDetailsModal({
             <div className="flex items-center justify-between pt-4 border-t">
               <div className="text-2xl font-bold text-amber-600 flex items-center gap-2">
                 <p>
-                  {Number(property?.price).toLocaleString("fa-IR") ||
+                  {formatCurrency(property?.price) ||
                     "قیمت مورد نظر ثبت نشده است"}
                 </p>
                 <p className="text-lg">تومان</p>
@@ -135,3 +134,4 @@ export default function PropertyDetailsModal({
     </>
   );
 }
+

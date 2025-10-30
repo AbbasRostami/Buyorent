@@ -8,17 +8,15 @@ import {
   MdOutlineBedroomParent,
   MdOutlineBathroom,
   MdCarRepair,
+  MdOutlineImageNotSupported,
 } from "react-icons/md";
 import { Swiper, SwiperSlide } from "swiper/react";
-import {
-  Autoplay,
-  Pagination as SwiperPagination,
-  EffectFade,
-} from "swiper/modules";
+import { Autoplay, Pagination as SwiperPagination, EffectFade } from "swiper/modules";
 import "swiper/css";
 import "swiper/css/effect-fade";
-import SkeletonCard from "../skeleton/SkeletonCard";
+import SkeletonCard from "@/components/skeleton/SkeletonCard";
 import { TfiFaceSad } from "react-icons/tfi";
+import { formatCurrency } from "@/utils/formatters";
 
 interface Property {
   id: string;
@@ -37,8 +35,6 @@ interface Props {
 }
 
 export default function PropertyCard({ data, isLoading }: Props) {
-  console.log("hasgyhds", data);
-  
   if (isLoading) {
     return (
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 px-4 sm:px-6 md:px-8 border-t border-[#ccc] mt-6 pt-6 max-w-screen-xl mx-auto">
@@ -53,9 +49,7 @@ export default function PropertyCard({ data, isLoading }: Props) {
       <div className="text-center flex flex-col gap-5 items-center text-gray-500 dark:text-amber-50 py-10">
         <TfiFaceSad size={80} />
         <p className="text-lg">موردی برای نمایش وجود ندارد.</p>
-        <p className="text-sm mt-2">
-          فیلترها را تغییر دهید یا جستجوی جدیدی انجام دهید.
-        </p>
+        <p className="text-sm mt-2">فیلترها را تغییر دهید یا جستجوی جدیدی انجام دهید.</p>
       </div>
     );
   }
@@ -64,18 +58,16 @@ export default function PropertyCard({ data, isLoading }: Props) {
     <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 px-4 sm:px-6 md:px-8 border-t border-[#ccc] mt-6 pt-6 max-w-screen-xl mx-auto">
       {data?.map((property) => (
         <div
-          key={property.id}
+          key={property?.id}
           className="group relative bg-white dark:bg-slate-900 rounded-3xl shadow-md hover:shadow-xl dark:hover:shadow-amber-200/10 transition-all duration-500 p-3 sm:p-4 cursor-pointer overflow-hidden border border-gray-100 dark:border-slate-700/40"
         >
           <div className="absolute inset-0 z-20 overflow-hidden">
             <Link
-              href={`mortgage-and-house-rent/${property.id}`}
+              href={`mortgage-and-house-rent/${property?.id}`}
               className="absolute top-0 left-0 w-full h-0 bg-gradient-to-b from-amber-500/90 to-transparent transition-all duration-500 group-hover:h-full flex items-center justify-center"
             >
               <span className="relative text-white font-bold text-2xl opacity-0 translate-y-[-20px] group-hover:opacity-100 group-hover:translate-y-0 transition-all duration-300 delay-200">
-                <span className="inline-block [text-shadow:_0_2px_8px_rgba(0,0,0,0.3)]">
-                  مشاهده جزئیات
-                </span>
+                <span className="inline-block [text-shadow:_0_2px_8px_rgba(0,0,0,0.3)]">مشاهده جزئیات</span>
                 <span className="mr-2 inline-block animate-float">
                   <FaLongArrowAltDown />
                 </span>
@@ -88,39 +80,48 @@ export default function PropertyCard({ data, isLoading }: Props) {
             <Swiper
               modules={[Autoplay, SwiperPagination, EffectFade]}
               effect="fade"
-              loop={true}
+              loop
               fadeEffect={{ crossFade: true }}
               speed={3000}
               autoplay={{ delay: 3000, disableOnInteraction: false }}
               pagination={{ clickable: false }}
             >
-              {property?.photos?.map((photo, idx) => (
-                <SwiperSlide key={idx}>
-                  <Image
-                    src={photo}
-                    unoptimized
-                    alt={`${property.title}-photo-${idx}`}
-                    width={300}
-                    height={176}
-                    className="w-full h-auto object-cover rounded-2xl group-hover:scale-105 transition-transform duration-500"
-                  />
+              {property?.photos?.filter((p: string) => p.trim() !== "").length > 0 ? (
+                property?.photos
+                  ?.filter((p: string) => p.trim() !== "")
+                  .map((photo: string, idx: number) => (
+                    <SwiperSlide key={idx} className="!h-[200px] !flex !justify-center !items-center bg-black/5 dark:bg-black/10">
+                      <Image
+                        src={photo}
+                        unoptimized
+                        alt={`${property?.title}-photo-${idx}`}
+                        width={400}
+                        height={220}
+                        loading="lazy"
+                        className="h-full rounded-lg w-full object-cover transition-transform duration-700 ease-in-out group-hover:scale-105"
+                      />
+                    </SwiperSlide>
+                  ))
+              ) : (
+                <SwiperSlide className="!h-full rounded-lg !flex !justify-center !items-center bg-black/5 dark:bg-black/10 ">
+                  <div className="h-[200px] rounded-lg flex flex-col items-center justify-center gap-2">
+                    <span className="text-lg font-bold text-gray-500 dark:text-gray-400">تصویری یافت نشد</span>
+                    <MdOutlineImageNotSupported size={45} />
+                  </div>
                 </SwiperSlide>
-              ))}
+              )}
             </Swiper>
             <div className="absolute inset-0 bg-black/0 group-hover:bg-black/10 transition-colors duration-500 rounded-2xl" />
           </div>
 
           <div className="p-2 sm:p-4 space-y-3">
             <h3 className="text-xl font-bold text-gray-800 dark:text-amber-100 transition-colors duration-300 group-hover:text-amber-600 dark:group-hover:text-yellow-300">
-              {property?.title}
+              {property?.title || "بدون عنوان"}
             </h3>
 
             <p className="text-sm flex items-center gap-1 text-gray-500 dark:text-gray-300 transition-all duration-300 group-hover:translate-x-1">
-              <IoLocationOutline
-                size={20}
-                className="text-gray-400 dark:text-white"
-              />
-              {property?.address}
+              <IoLocationOutline size={20} className="text-gray-400 dark:text-white" />
+              {property?.address || "بدون آدرس"}
             </p>
 
             <div className="flex flex-wrap gap-2 border-t border-gray-200 dark:border-slate-700 pt-3">
@@ -137,17 +138,15 @@ export default function PropertyCard({ data, isLoading }: Props) {
 
             <div className="flex flex-wrap items-center gap-2 mt-7">
               <span className="text-sm sm:text-base font-semibold text-gray-400 line-through decoration-red-400">
-                ۱٬۲۰۰٬۰۰۰
+                {formatCurrency(1200000)}
               </span>
-              <span className="text-xs text-gray-500 dark:text-gray-400">
-                تومان /
-              </span>
+              <span className="text-xs text-gray-500 dark:text-gray-400">تومان /</span>
               <span className="text-base sm:text-xl font-bold text-gray-900 dark:text-[#e2eaa0]">
-                {Number(property?.price).toLocaleString("fa-IR")}
+                {formatCurrency(property?.price)}
                 <span className="text-xs"> تومان</span>
               </span>
               <div className="ml-auto bg-gradient-to-r from-red-500 to-red-600 text-xs sm:text-sm font-bold px-3 py-1 text-white rounded-full shadow-sm animate-pulse group-hover:animate-none">
-                ۹٪
+                {9}%
               </div>
             </div>
           </div>

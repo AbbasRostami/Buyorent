@@ -16,7 +16,7 @@ import { CreateBooking } from "@/services/Bookings/postBooking";
 import { BiSolidUserDetail } from "react-icons/bi";
 import { MdNotificationAdd } from "react-icons/md";
 import { GiPriceTag } from "react-icons/gi";
-import PersianDatePicker from "../common/PersianDatePicker";
+import PersianDatePicker from "../shared/PersianDatePicker";
 import { travelerSchema } from "@/utils/validation/ReserveBooking";
 import { BookingModalProps } from "@/types/Buyer/booking-management/page";
 

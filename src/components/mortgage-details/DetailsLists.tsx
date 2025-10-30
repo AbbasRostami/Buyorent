@@ -9,11 +9,12 @@ import { HouseDetailsData } from "@/types/DetailsTypes";
 import { NearbyPOIs } from "./NearbyPOIs";
 import { MotionDiv, MotionP } from "../../utils/providers/MotionWrapper";
 import { Input } from "@heroui/react";
-import PersianDatePicker from "../common/PersianDatePicker";
+import PersianDatePicker from "../shared/PersianDatePicker";
 import { BookingModal } from "./BookingModal";
 import toast from "react-hot-toast";
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import * as Yup from "yup";
+import { formatCurrency } from "@/utils/formatters";
 
 const bookingFormSchema = Yup.object()
   .shape({
@@ -38,6 +39,7 @@ const bookingFormSchema = Yup.object()
   );
 
 const DetailsLists = ({ data }: { data: HouseDetailsData }) => {
+  console.log("data", data);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [totalPrice, setTotalPrice] = useState<number>(0);
   const [originalPrice, setOriginalPrice] = useState<number>(0);
@@ -48,8 +50,8 @@ const DetailsLists = ({ data }: { data: HouseDetailsData }) => {
   });
 
   const initialValues = {
-    checkInDate: "",
-    checkOutDate: "",
+    checkInDate: "2025/11/01",
+    checkOutDate: "2025/11/03",
     travelerCount: 1,
   };
 
@@ -100,38 +102,12 @@ const DetailsLists = ({ data }: { data: HouseDetailsData }) => {
   };
 
   const handleCheckInChange = (date: any, setFieldValue: any) => {
-    if (date) {
-      const momentDate = moment(
-        `${date.year}/${date.month}/${date.day}`,
-        "YYYY/M/D"
-      );
-      const formattedDate = momentDate.format("YYYY/MM/DD");
-      setFieldValue("checkInDate", formattedDate);
-    }
+    setFieldValue("checkInDate", "2025-11-01");
   };
 
   const handleCheckOutChange = (date: any, setFieldValue: any, values: any) => {
-    if (date) {
-      const momentDate = moment(
-        `${date.year}/${date.month}/${date.day}`,
-        "YYYY/M/D"
-      );
-      const formattedDate = momentDate.format("YYYY/MM/DD");
-
-      if (values.checkInDate) {
-        const checkInDate = moment(values.checkInDate, "YYYY/MM/DD");
-        const checkOutDate = moment(formattedDate, "YYYY/MM/DD");
-
-        if (checkOutDate.isSameOrBefore(checkInDate)) {
-          toast.error("تاریخ خروج باید بعد از تاریخ ورود باشد");
-          return;
-        }
-      }
-
-      setFieldValue("checkOutDate", formattedDate);
-    }
+    setFieldValue("checkOutDate", "2025-11-03");
   };
-
   return (
     <>
       <MotionDiv
@@ -153,8 +129,7 @@ const DetailsLists = ({ data }: { data: HouseDetailsData }) => {
         >
           <span className="text-[#d27700] dark:text-amber-400">تعداد خواب</span>
           <span className="text-gray-800 dark:text-gray-100">
-            {" "}
-            {data.rooms} خواب{" "}
+            {data.rooms} خواب
           </span>
         </MotionDiv>
         <MotionDiv
@@ -185,8 +160,7 @@ const DetailsLists = ({ data }: { data: HouseDetailsData }) => {
             سرویس ایرانی
           </span>
           <span className="text-gray-800 dark:text-gray-100">
-            {" "}
-            {data.bathrooms}{" "}
+            {data.bathrooms}
           </span>
         </MotionDiv>
         <MotionDiv
@@ -197,7 +171,6 @@ const DetailsLists = ({ data }: { data: HouseDetailsData }) => {
         >
           <span className="text-[#d27700] dark:text-amber-400">نوع نما</span>
           <span className="text-gray-800 dark:text-gray-100">
-            {" "}
             {data.categories.name}{" "}
           </span>
         </MotionDiv>
@@ -209,8 +182,7 @@ const DetailsLists = ({ data }: { data: HouseDetailsData }) => {
         >
           <span className="text-[#d27700] dark:text-amber-400">نوع حیاط</span>
           <span className="text-gray-800 dark:text-gray-100">
-            {" "}
-            {data.yard_type}{" "}
+            {data?.yard_type}
           </span>
         </MotionDiv>
         <MotionDiv
@@ -221,7 +193,7 @@ const DetailsLists = ({ data }: { data: HouseDetailsData }) => {
         >
           <span className="text-[#d27700] dark:text-amber-400"> پارکینگ</span>
           <span className="text-gray-800 dark:text-gray-100">
-            {data.parking}{" "}
+            {data?.parking}
           </span>
         </MotionDiv>
         <MotionDiv
@@ -265,10 +237,10 @@ const DetailsLists = ({ data }: { data: HouseDetailsData }) => {
             قیمت اجاره از
           </span>
           <span className="dark:text-gray-100 font-bold text-2xl text-[#1E1E1E]">
-            {data.price}{" "}
+            {formatCurrency(data?.price)}
             <span className="text-[#595959] font-bold text-sm dark:text-amber-100">
               تومان
-            </span>{" "}
+            </span>
           </span>
         </MotionDiv>
 
@@ -282,10 +254,10 @@ const DetailsLists = ({ data }: { data: HouseDetailsData }) => {
             قیمت رهن از
           </span>
           <span className="dark:text-gray-100 font-bold text-2xl text-[#1E1E1E]">
-            {data.price}{" "}
+            {formatCurrency(data?.price)}
             <span className="text-[#595959] font-bold text-sm dark:text-amber-100">
               تومان
-            </span>{" "}
+            </span>
           </span>
         </MotionDiv>
 
@@ -304,11 +276,10 @@ const DetailsLists = ({ data }: { data: HouseDetailsData }) => {
           />
           <div>
             <p className="text-lg font-medium text-gray-800 dark:text-gray-100">
-              {data.sellerName}
+              {data?.sellerName}
             </p>
             <p className="text-medium font-normal">
-              {" "}
-              {moment(data.last_updated).format("jYYYY/jMM/jDD")}{" "}
+              {moment(data?.last_updated).format("jYYYY/jMM/jDD")}
             </p>
           </div>
         </MotionDiv>
@@ -384,6 +355,7 @@ const DetailsLists = ({ data }: { data: HouseDetailsData }) => {
                   </label>
                   <PersianDatePicker
                     id="checkInDate"
+                    name="checkInDate"
                     required
                     placeholder="انتخاب کنید"
                     onChange={(date) => {
@@ -403,6 +375,7 @@ const DetailsLists = ({ data }: { data: HouseDetailsData }) => {
                   </label>
                   <PersianDatePicker
                     id="checkOutDate"
+                    name="checkOutDate"
                     required
                     placeholder="انتخاب کنید"
                     onChange={(date) => {
@@ -442,10 +415,10 @@ const DetailsLists = ({ data }: { data: HouseDetailsData }) => {
                   </p>
                   <div>
                     <span className="line-through text-gray-500">
-                      {originalPrice.toLocaleString()} تومان /
+                      {formatCurrency(originalPrice)} تومان /
                     </span>
                     <span className="text-lg font-bold mr-2">
-                      {totalPrice.toLocaleString()} تومان
+                      {formatCurrency(totalPrice)} تومان
                     </span>
                   </div>
                 </div>

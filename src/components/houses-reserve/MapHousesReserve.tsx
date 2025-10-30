@@ -14,6 +14,7 @@ import { HouseReserveProps } from "@/types/HousesReserve";
 import Link from "next/link";
 import Image from "next/image";
 import { Input } from "@heroui/react";
+import { MdOutlineImageNotSupported } from "react-icons/md";
 
 declare module "leaflet-routing-machine" {
   interface RoutingControlOptions {
@@ -25,15 +26,22 @@ declare module "leaflet-routing-machine" {
 const createCustomIcon = (imageUrl: string) => {
   const iconMarkup = renderToStaticMarkup(
     <div className="relative">
-      <Image
-        unoptimized
-        src={imageUrl || "./../../../assets/BUTORENT.png"}
-        alt="property"
-        width={60}
-        height={60}
-        className="w-24 h-24 rounded-full object-cover border-2 border-white shadow-lg"
-        style={{ objectFit: "cover", width: "100%", height: "100%" }}
-      />
+      {" "}
+      {imageUrl ? (
+        <Image
+          unoptimized
+          src={imageUrl}
+          alt="property"
+          width={60}
+          height={60}
+          className="w-24 h-24 rounded-full object-cover border-2 border-white shadow-lg"
+          style={{ objectFit: "cover", width: "100%", height: "100%" }}
+        />
+      ) : (
+        <div className="w-10 h-10 rounded-full object-cover border-2 border-white shadow-lg bg-gray-200 flex items-center justify-center">
+          <MdOutlineImageNotSupported size={20} />
+        </div>
+      )}
     </div>
   );
 

@@ -27,7 +27,7 @@ import { GiConfirmed } from "react-icons/gi";
 import BookingSellerFilter from "./components/Filter/BookingFilter";
 import ModalDetails from "./components/Details/ModalDetails";
 import { useCustomTable } from "@/utils/hooks/useCustomTable";
-import { confirm } from "@/components/common/ConfirmModal";
+import { confirm } from "@/components/shared/ConfirmModal";
 import moment from "moment-jalaali";
 import { useBookingWithHouses } from "@/services/Bookings/getBooking";
 import { useDeleteBooking } from "@/services/Bookings/deleteBooking";
@@ -274,7 +274,7 @@ export default function BookingTable() {
               table.getColumn("houseTitle")?.setFilterValue(value);
             }}
             placeholder="نام هتل مورد نظر را جستجو کنید..."
-            className=" p-2 rounded-md border-2 border-amber-500 w-full md:w-2/3"
+            className=" p-2 rounded-md w-full md:w-2/3"
           />
           <BookingSellerFilter
             isOpenFilter={isOpenFilter}

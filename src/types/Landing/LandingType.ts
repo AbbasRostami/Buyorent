@@ -1,11 +1,11 @@
-export interface Category {
-  id: string;
-  name: string;
-}
-
 export interface CategorytypeProps {
-  data: Category[];
-  totalCount: number;
+  data: {
+    id: string;
+    name: string;
+    dataValues: {
+      name: string;
+    };
+  }[];
 }
 
 export type HouseQueryParams = {
@@ -29,7 +29,7 @@ export type HouseQueryParams = {
 };
 
 export interface HouseTypeProps {
-  houses:  Array<{
+  houses: Array<{
     id: string;
     title: string;
     address: string;
@@ -71,7 +71,7 @@ export interface HouseItem {
 }
 
 export interface HouseTypeRentResponse {
-  houses: Property[]; 
+  houses: Property[];
   totalCount: number;
 }
 

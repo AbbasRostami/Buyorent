@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import SmartSearch from "./AISearch";
-import PropertyDetailsModal from "./PropertyDetailsModal";
+import PropertyDetailsModal from "../modals/PropertyDetailsModal";
 import { HouseItemsInterface } from "@/types/property";
 
 interface SmartSearchContainerProps {
@@ -18,9 +18,7 @@ export default function SmartSearchContainer({
   const [searchReason, setSearchReason] = useState("");
 
   const handlePropertySelect = (data: { houseId: number; reason: string }) => {
-    const property = properties.find(
-      (prop) => prop.id === String(data.houseId)
-    );
+    const property = properties.find((prop) => prop.id === String(data.houseId));
     if (property) {
       setSelectedProperty(property);
       setSearchReason(data.reason);
@@ -36,10 +34,7 @@ export default function SmartSearchContainer({
 
   return (
     <>
-      <SmartSearch
-        onPropertySelect={handlePropertySelect}
-        properties={properties}
-      />
+      <SmartSearch onPropertySelect={handlePropertySelect} properties={properties} />
       <PropertyDetailsModal
         isOpen={isModalOpen}
         onClose={handleModalClose}

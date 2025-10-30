@@ -36,8 +36,6 @@ const FavoritesSwiper = () => {
                 0: { slidesPerView: 1 },
                 640: { slidesPerView: 3 },
                 768: { slidesPerView: 3 },
-                // 1024: { slidesPerView: 5 },
-                // 1280: { slidesPerView: 6 },
               }}
             >
               {destinations.map((card, index) => {
@@ -50,12 +48,10 @@ const FavoritesSwiper = () => {
                         className="transition-transform duration-500 group-hover:scale-105   filter group-hover:brightness-50"
                       />
 
-                      {/* Title */}
                       <div className="absolute bottom-4 right-4 text-white font-bold text-xl transform transition-all duration-300 group-hover:-translate-y-2">
                         {card.title}
                       </div>
 
-                      {/* Date appears on hover */}
                       <div className="absolute bottom-2 right-4 text-white text-sm opacity-0 group-hover:opacity-100 transition-opacity duration-300">
                         {card.seen}
                       </div>

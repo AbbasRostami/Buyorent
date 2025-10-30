@@ -75,7 +75,7 @@ const CompareModal = ({
                 </Card>
               ) : (
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-8">
-                  {(housesData || []).map((house) => (
+                  {housesData?.map((house) => (
                     <div
                       key={house.id}
                       onClick={() => {

@@ -5,17 +5,17 @@ import {
   UseQueryOptions,
   UseMutationOptions,
 } from "@tanstack/react-query";
-import { AxiosError } from "axios";
+import { ApiError, QueryParams } from "@/types/api/ErrorTypes";
 
 // GET Hook
 export const useGet = <T>(
   endpoint: string,
-  params?: Record<string, any>,
-  options?: UseQueryOptions<T, AxiosError>
+  params?: QueryParams,
+  options?: UseQueryOptions<T, ApiError>
 ) => {
   const queryKey = options?.queryKey ?? [endpoint, params];
 
-  return useQuery<T, AxiosError>({
+  return useQuery<T, ApiError>({
     queryKey,
     queryFn: async () => {
       const { data } = await api.get<T>(endpoint, {
@@ -32,11 +32,11 @@ export const useGet = <T>(
 };
 
 // POST Hook
-export const usePost = <T, D = any>(
+export const usePost = <T, D = unknown>(
   url: string,
-  options?: UseMutationOptions<T, AxiosError, D>
+  options?: UseMutationOptions<T, ApiError, D>
 ) => {
-  return useMutation<T, AxiosError, D>({
+  return useMutation<T, ApiError, D>({
     mutationFn: async (data: D) => {
       const res = await api.post<T>(url, data);
       return res.data;
@@ -46,11 +46,11 @@ export const usePost = <T, D = any>(
 };
 
 // PUT Hook
-export const usePut = <T, D = any>(
+export const usePut = <T, D = unknown>(
   url: string,
-  options?: UseMutationOptions<T, AxiosError, D>
+  options?: UseMutationOptions<T, ApiError, D>
 ) => {
-  return useMutation<T, AxiosError, D>({
+  return useMutation<T, ApiError, D>({
     mutationFn: async (data: D) => {
       const res = await api.put<T>(url, data);
       return res.data;
@@ -60,11 +60,11 @@ export const usePut = <T, D = any>(
 };
 
 // DELETE Hook
-export const useDelete = <T, D = any>(
+export const useDelete = <T, D = unknown>(
   getUrl: (data: D) => string,
-  options?: UseMutationOptions<T, AxiosError, D>
+  options?: UseMutationOptions<T, ApiError, D>
 ) => {
-  return useMutation<T, AxiosError, D>({
+  return useMutation<T, ApiError, D>({
     mutationFn: async (data: D) => {
       const url = getUrl(data);
       const res = await api.delete<T>(url);

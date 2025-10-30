@@ -11,7 +11,7 @@ import { Toaster } from "react-hot-toast";
 
 const ConfirmModal = dynamic(
   () =>
-    import("../../../components/common/ConfirmModal").then(
+    import("../../../components/shared/ConfirmModal").then(
       (mod) => mod.ConfirmModal
     ),
   { ssr: false }

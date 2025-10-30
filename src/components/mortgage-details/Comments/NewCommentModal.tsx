@@ -8,23 +8,12 @@ import {
 } from "@heroui/react";
 import { Formik, Field, ErrorMessage, Form } from "formik";
 import { Button } from "@heroui/react";
-import { usePost } from "@/utils/hooks/useReactQueryHooks";
-import { useQueryClient } from "@tanstack/react-query";
+import { usePostComment } from "@/services/Comments/usePostComment";
 import { validationComment } from "@/utils/validation/CommentValidation";
 import { CommentFormValues, Props } from "@/types/CommetTypes";
-import toast from "react-hot-toast";
 
 const NewCommentModal = ({ houseId, isOpen, onOpenChange }: Props) => {
-  const queryClient = useQueryClient();
-  const { mutate: postComment } = usePost(`/houses/${houseId}/comments`, {
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["comments", houseId] });
-      toast.success("نظر شما با موفقیت ثبت شد");
-    },
-    onError: () => {
-      toast.error("خطا در ثبت نظر!");
-    },
-  });
+  const { postComment } = usePostComment(String(houseId));
 
   const handleSubmit = (values: CommentFormValues, { resetForm }: any) => {
     postComment({

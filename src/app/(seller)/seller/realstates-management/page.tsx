@@ -39,7 +39,7 @@ import {
   PiArrowBendDoubleUpRightBold,
   PiSealWarningBold,
 } from "react-icons/pi";
-import { confirm } from "@/components/common/ConfirmModal";
+import { confirm } from "@/components/shared/ConfirmModal";
 import { useCustomTable } from "@/utils/hooks/useCustomTable";
 import EditEstateModal from "./EditEstateModal";
 import React, { ChangeEvent } from "react";
@@ -88,17 +88,29 @@ export default function RealStatesTable() {
       {
         accessorKey: "photos",
         header: "تصویر",
-        cell: (info) => (
-          <Image
-            src={info.row.original.photos[0]}
-            alt={info.row.original.title}
-            width={42}
-            height={42}
-            unoptimized
-            loading="lazy"
-            className=" w-10 h-10 rounded-full"
-          />
-        ),
+        cell: (info) => {
+          const photos = info.row.original?.photos;
+          const firstPhoto =
+            Array.isArray(photos) && photos.length > 0 ? photos[0] : null;
+
+          return firstPhoto ? (
+            <div className="flex items-center justify-center">
+              <Image
+                src={firstPhoto}
+                alt={info.row.original.title}
+                width={42}
+                height={42}
+                unoptimized
+                loading="lazy"
+                className="w-10 h-10 rounded-full"
+              />
+            </div>
+          ) : (
+            <div className="flex items-center justify-center">
+              <p className="text-gray-500 w-6 h-6 rounded-full">+</p>
+            </div>
+          );
+        },
       },
       {
         accessorKey: "title",
@@ -230,7 +242,8 @@ export default function RealStatesTable() {
   console.log("realStateData", realStateData);
   const { table, computedPageCount, exportToExcel, exportToPDF, printTable } =
     useCustomTable<RealStateData>({
-      data: Array.isArray(realStateData) ? realStateData : [],
+      data:
+        (realStateData as any)?.houses || (realStateData as any)?.data || [],
       columns,
       enableSorting: true,
       enableFiltering: true,
@@ -309,7 +322,7 @@ export default function RealStatesTable() {
                   setRealStateSearch(value);
                   table.getColumn("title")?.setFilterValue(value);
                 }}
-                className=" p-2 rounded-md border-2 border-amber-500 w-full md:w-2/3"
+                className=" p-2 rounded-mdw-full md:w-2/3"
               />
               <EditEstateModal
                 isOpen={isEditEstateOpen}

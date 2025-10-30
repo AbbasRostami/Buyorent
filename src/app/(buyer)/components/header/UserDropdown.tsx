@@ -18,7 +18,7 @@ import { signOut } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import { GiRingingBell } from "react-icons/gi";
 import { IoMdClose } from "react-icons/io";
-import { confirm } from "../../../../components/common/ConfirmModal";
+import { confirm } from "../../../../components/shared/ConfirmModal";
 import { useProfile } from "@/services/Profile/getProfile";
 export default function UserDropdown() {
   const router = useRouter();

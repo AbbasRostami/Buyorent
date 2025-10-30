@@ -8,6 +8,5 @@ export default async function Categories() {
     "categories",
     60 * 60 * 24
   );
-  console.log("categories", categories);
-  return <CategorySwiper data={categories?.data} totalCount={categories?.totalCount} />;
+  return <CategorySwiper data={categories?.data} />;
 }

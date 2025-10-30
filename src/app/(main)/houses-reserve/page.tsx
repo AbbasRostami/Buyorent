@@ -1,9 +1,11 @@
 import { useServerData } from "@/utils/hooks/useServerData";
-import ClientWrapper from "./ClientWrapper";
+import ClientWrapper from "../../../components/houses-reserve/ClientWrapper";
 import qs from "qs";
 import { HouseReserveProps } from "@/types/HousesReserve";
 import { generateHousesReserveMetadata } from "@/utils/metadata/houses-reserve";
 import { Metadata } from "next";
+import { Suspense } from "react";
+import SkeletonCards from "@/components/skeleton/SkeletonHouses";
 
 export const revalidate = 60;
 
@@ -27,23 +29,38 @@ export async function generateMetadata({
   return generateHousesReserveMetadata(resolvedSearchParams);
 }
 
-export default async function Page(props: {
+export default async function HousesReservePage({
+  searchParams,
+}: {
   searchParams: Promise<Record<string, string | string[] | undefined>>;
 }) {
-  const resolvedSearchParams = await props.searchParams;
-
-  const queryString = qs.stringify(resolvedSearchParams, {
+  const resolved = await searchParams;
+  const queryString = qs.stringify(resolved, {
     arrayFormat: "brackets",
     encode: false,
   });
-
   const endpoint = queryString ? `/houses?${queryString}` : "/houses";
 
+  return (
+    <div className="min-h-screen pt-20">
+      <Suspense fallback={<SkeletonCards />}>
+        <ServerContent endpoint={endpoint} cacheKey={`houses-${queryString}`} />
+      </Suspense>
+    </div>
+  );
+}
+
+async function ServerContent({
+  endpoint,
+  cacheKey,
+}: {
+  endpoint: string;
+  cacheKey: string;
+}) {
   const initialData = await useServerData<HouseReserveProps[]>(
     endpoint,
-    `houses-${queryString}`,
+    cacheKey,
     60
   );
-
   return <ClientWrapper initialData={initialData} />;
 }

@@ -9,6 +9,7 @@ import Image from "next/image";
 import image from "../../assets/Avatar2.png";
 import { IoLocationOutline } from "react-icons/io5";
 import { MotionButton } from "../../utils/providers/MotionWrapper";
+import { formatCurrency } from "@/utils/formatters";
 
 const iconMarkup = renderToStaticMarkup(
   <GiPositionMarker size={40} color="blue" />
@@ -48,6 +49,7 @@ const MapSingleReserve = ({ data }: any) => {
             <div className="w-[295px] h-[106px] overflow-hidden bg-gradient-to-r from-[#cf9952] to-[#E89300] backdrop-blur-sm rounded-[16px] flex items-center p-3 text-white gap-3 shadow-xl border border-white/20">
               <div className="relative shrink-0">
                 <Image
+                  unoptimized
                   src={data?.photos?.[0] || image}
                   alt="هتل"
                   width={64}
@@ -76,12 +78,10 @@ const MapSingleReserve = ({ data }: any) => {
                   <div className="flex items-center justify-center gap-1">
                     <div className="flex items-baseline gap-1">
                       <span className="text-medium font-bold line-through opacity-75">
-                        ۲,۵۰۰,۰۰۰
+                        {formatCurrency(2500000)}
                       </span>
                       <span className="text-medium font-bold">
-                        {Number(data?.price)
-                          .toLocaleString("en-US")
-                          .replace(/\d/g, (d) => "۰۱۲۳۴۵۶۷۸۹"[+d])}
+                        {formatCurrency(data?.price)}
                       </span>
                     </div>
                     <span className="text-medium font-bold">تومان</span>
