@@ -11,6 +11,7 @@ const vazirmatn = localFont({
   variable: "--font-vazirmatn",
   display: "swap",
 });
+const imageUrl = "https://buyorent.vercel.app/BUTORENT.png";
 
 export const metadata: Metadata = {
   title: {
@@ -44,15 +45,14 @@ export const metadata: Metadata = {
   },
   openGraph: {
     title: "BUYORENT | خرید و اجاره املاک",
-    description:
-      "سامانه خرید و اجاره املاک با بهترین قیمت‌ها و امکانات. خرید خانه، آپارتمان، ویلا و زمین در سراسر ایران",
+    description: "...",
     url: "https://buyorent.vercel.app",
     siteName: "BUYORENT",
     locale: "fa_IR",
     type: "website",
     images: [
       {
-        url: "/BUTORENT.png",
+        url: imageUrl,
         width: 800,
         height: 600,
         alt: "BUYORENT",
@@ -62,11 +62,10 @@ export const metadata: Metadata = {
   twitter: {
     card: "summary_large_image",
     title: "BUYORENT | خرید و اجاره املاک",
-    description:
-      "سامانه خرید و اجاره املاک با بهترین قیمت‌ها و امکانات. خرید خانه، آپارتمان، ویلا و زمین در سراسر ایران",
+    description: "...",
     images: [
       {
-        url: "/BUTORENT.png",
+        url: imageUrl,
         width: 800,
         height: 600,
         alt: "BUYORENT",
