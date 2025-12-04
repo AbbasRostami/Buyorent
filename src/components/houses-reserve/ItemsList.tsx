@@ -28,7 +28,6 @@ const ItemsList = ({ data }: { data: any }) => {
       </div>
     );
   }
-  console.log("data:", data);
   return (
     <>
       <ScrollShadow

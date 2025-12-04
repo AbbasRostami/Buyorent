@@ -24,7 +24,7 @@ import { callAddFont } from "@/assets/fonts/Vazirmatn-normal";
 interface UseCustomTableOptions<TData, TValue = unknown> {
   data: TData[];
   columns: ColumnDef<TData, TValue>[];
-  totalCount?: number; // ✅ اضافه‌شده
+  totalCount?: number;
   enableSorting?: boolean;
   enableFiltering?: boolean;
   enablePagination?: boolean;

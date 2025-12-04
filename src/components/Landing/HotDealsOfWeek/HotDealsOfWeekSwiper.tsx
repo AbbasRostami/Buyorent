@@ -37,8 +37,6 @@ const HotDealsOfWeekSwiper = ({ houses }: any) => {
       </Card>
     );
   }
-  console.log("houses", houses);
-
   return (
     <Swiper
       modules={[Navigation, Pagination, Autoplay]}
@@ -74,23 +72,27 @@ const HotDealsOfWeekSwiper = ({ houses }: any) => {
                   pagination={{ clickable: true }}
                   loop={true}
                 >
-                  {items?.photos?.filter((p: string) => p.trim() !== "").length > 0 ? 
-                    items?.photos?.filter((p: string) => p.trim() !== "").map((photo: string, idx: number) => (
-                    <SwiperSlide
-                      key={idx}
-                      className="!flex !justify-center !items-center bg-black/5 dark:bg-black/10"
-                    >
-                      <Image
-                        src={photo}
-                        unoptimized
-                        alt={`${items.title}-photo-${idx}`}
-                        width={400}
-                        height={220}
-                        loading="lazy"
-                        className="h-[220px] w-full object-cover transition-transform duration-700 ease-in-out group-hover:scale-105"
-                      />
-                    </SwiperSlide>
-                  )) :  (
+                  {items?.photos?.filter((p: string) => p.trim() !== "")
+                    .length > 0 ? (
+                    items?.photos
+                      ?.filter((p: string) => p.trim() !== "")
+                      .map((photo: string, idx: number) => (
+                        <SwiperSlide
+                          key={idx}
+                          className="!flex !justify-center !items-center bg-black/5 dark:bg-black/10"
+                        >
+                          <Image
+                            src={photo}
+                            unoptimized
+                            alt={`${items.title}-photo-${idx}`}
+                            width={400}
+                            height={220}
+                            loading="lazy"
+                            className="h-[220px] w-full object-cover transition-transform duration-700 ease-in-out group-hover:scale-105"
+                          />
+                        </SwiperSlide>
+                      ))
+                  ) : (
                     <SwiperSlide className="!flex !h-full !justify-center !items-center bg-black/5 dark:bg-black/10 min-h-[220px]">
                       <div className="flex flex-col items-center justify-center gap-2">
                         <span className="text-lg font-bold text-gray-500 dark:text-gray-400">
@@ -140,9 +142,7 @@ const HotDealsOfWeekSwiper = ({ houses }: any) => {
                 <div className="border-t border-gray-200 dark:border-gray-600 my-2" />
 
                 <div className="flex items-center justify-between text-orange-600 font-bold text-base">
-                  <span>
-                    {formatCurrency(items?.price)} تومان
-                  </span>
+                  <span>{formatCurrency(items?.price)} تومان</span>
                   <p className="line-through text-sm text-gray-400 dark:text-gray-500">
                     {formatCurrency(300000)} تومان
                   </p>

@@ -20,8 +20,6 @@ const api = axios.create({
 
 api.interceptors.request.use((config) => {
   const accessToken = useAuthStore.getState().accessToken;
-  console.log("🔐 Using Zustand accessToken:", accessToken);
-
   if (accessToken) {
     config.headers["Authorization"] = `Bearer ${accessToken}`;
   }
@@ -43,8 +41,6 @@ api.interceptors.response.use(
       try {
         const session = await getSession();
         const refreshToken = session?.refreshToken;
-        console.log("♻️ Trying token refresh...");
-
         if (!refreshToken) {
           toast.error("ورود شما منقضی شده است.");
           await signOut();
@@ -55,8 +51,6 @@ api.interceptors.response.use(
           `${process.env.NEXT_PUBLIC_API_URL}/auth/refresh`,
           { token: refreshToken }
         );
-
-        console.log("✅ New token received:", data.accessToken);
 
         if (data?.accessToken) {
           useAuthStore.getState().setAccessToken(data.accessToken);

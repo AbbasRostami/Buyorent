@@ -39,7 +39,6 @@ const bookingFormSchema = Yup.object()
   );
 
 const DetailsLists = ({ data }: { data: HouseDetailsData }) => {
-  console.log("data", data);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [totalPrice, setTotalPrice] = useState<number>(0);
   const [originalPrice, setOriginalPrice] = useState<number>(0);
@@ -57,7 +56,7 @@ const DetailsLists = ({ data }: { data: HouseDetailsData }) => {
 
   const calculatePrices = (travelerCount: number) => {
     const basePrice = parseInt(data.price.replace(/,/g, "")) || 1500000;
-    const originalPriceValue = basePrice * 1.33; // 33% تخفیف
+    const originalPriceValue = basePrice * 1.33;
     const discountedPrice = basePrice;
 
     setOriginalPrice(originalPriceValue * travelerCount);
@@ -73,17 +72,12 @@ const DetailsLists = ({ data }: { data: HouseDetailsData }) => {
     const startDate = moment(checkInDate, "YYYY/MM/DD");
     const endDate = moment(checkOutDate, "YYYY/MM/DD");
 
-    console.log("startDate", startDate);
-    console.log("endDate", endDate);
-
     if (!startDate.isValid() || !endDate.isValid()) {
       console.error("Invalid dates:", checkInDate, checkOutDate);
       return [];
     }
 
     const dates = [checkInDate, checkOutDate];
-
-    console.log("dates", dates);
 
     return dates;
   };

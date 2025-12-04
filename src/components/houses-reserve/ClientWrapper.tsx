@@ -23,7 +23,6 @@ export default function ClientWrapper({
     staleTime: 60000,
     initialDataUpdatedAt: Date.now(),
   });
-  console.log("klfjjsdc:", data);
 
   return (
     <div className="grid grid-cols-1 md:grid-cols-2 md:h-screen min-h-screen pt-20 dark:bg-[#0a192f]">

@@ -70,7 +70,6 @@ export default function Reduction() {
       const btns = buttonsRef.current?.offsetWidth || 0;
       const newWidth = total - btns - 16;
 
-      // به‌روزرسانی فقط در صورت نیاز
       setTextWidth((prev) =>
         prev !== `${newWidth}px` ? `${newWidth}px` : prev
       );
@@ -189,7 +188,10 @@ export default function Reduction() {
                     {items.title}
                   </p>
                   <p className="flex items-center text-gray-500 text-sm">
-                  <IoLocationOutline size={26} className="  dark:text-white" />
+                    <IoLocationOutline
+                      size={26}
+                      className="  dark:text-white"
+                    />
                     {items.locate}
                   </p>
                   <div className="flex justify-start gap-4 text-sm text-gray-700 mt-3">

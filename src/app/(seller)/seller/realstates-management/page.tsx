@@ -192,7 +192,6 @@ export default function RealStatesTable() {
                   onPress={() => {
                     setEditEstateData(info.row.original);
                     onEditEstateOpen();
-                    console.log("Edit:", info.row.original.id);
                   }}
                 >
                   <div className="flex items-center gap-2">
@@ -239,7 +238,6 @@ export default function RealStatesTable() {
     pagination.pageSize
   );
 
-  console.log("realStateData", realStateData);
   const { table, computedPageCount, exportToExcel, exportToPDF, printTable } =
     useCustomTable<RealStateData>({
       data:

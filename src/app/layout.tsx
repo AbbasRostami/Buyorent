@@ -5,7 +5,6 @@ import localFont from "next/font/local";
 import { Metadata } from "next";
 import "./globals.css";
 import { auth } from "@/services/auth";
-import image from "./../assets/BUTORENT.png";
 
 const vazirmatn = localFont({
   src: "./../assets/fonts/Vazirmatn-UI-FD-Regular.ttf",
@@ -39,7 +38,7 @@ export const metadata: Metadata = {
     address: false,
     telephone: false,
   },
-  metadataBase: new URL("https://buyorent.ir"),
+  metadataBase: new URL("https://buyorent.vercel.app"),
   alternates: {
     canonical: "/",
   },
@@ -47,15 +46,15 @@ export const metadata: Metadata = {
     title: "BUYORENT | خرید و اجاره املاک",
     description:
       "سامانه خرید و اجاره املاک با بهترین قیمت‌ها و امکانات. خرید خانه، آپارتمان، ویلا و زمین در سراسر ایران",
-    url: "https://buyorent.ir",
+    url: "https://buyorent.vercel.app",
     siteName: "BUYORENT",
     locale: "fa_IR",
     type: "website",
     images: [
       {
-        url: image.src,
-        width: 1200,
-        height: 630,
+        url: "/BUTORENT.png",
+        width: 800,
+        height: 600,
         alt: "BUYORENT",
       },
     ],
@@ -67,9 +66,9 @@ export const metadata: Metadata = {
       "سامانه خرید و اجاره املاک با بهترین قیمت‌ها و امکانات. خرید خانه، آپارتمان، ویلا و زمین در سراسر ایران",
     images: [
       {
-        url: image.src,
-        width: 1200,
-        height: 630,
+        url: "/BUTORENT.png",
+        width: 800,
+        height: 600,
         alt: "BUYORENT",
       },
     ],

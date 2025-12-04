@@ -26,7 +26,7 @@ export const defaultMetadata: Metadata = {
     address: false,
     telephone: false,
   },
-  metadataBase: new URL("https://buyorent.ir"),
+  metadataBase: new URL("https://buyorent.vercel.app"),
   alternates: {
     canonical: "/",
   },
@@ -34,7 +34,7 @@ export const defaultMetadata: Metadata = {
     title: "BUYORENT | خرید و اجاره املاک",
     description:
       "سامانه خرید و اجاره املاک با بهترین قیمت‌ها و امکانات. خرید خانه، آپارتمان، ویلا و زمین در سراسر ایران",
-    url: "https://buyorent.ir",
+    url: "https://buyorent.vercel.app",
     siteName: "BUYORENT",
     locale: "fa_IR",
     type: "website",

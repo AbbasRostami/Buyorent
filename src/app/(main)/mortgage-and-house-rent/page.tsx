@@ -30,7 +30,6 @@ export default async function RentPage({
 }) {
   const resolvedSearchParams = await searchParams;
 
-  // Set default pagination if not provided
   const paramsWithPagination = {
     ...resolvedSearchParams,
     page: resolvedSearchParams.page || 1,
@@ -48,7 +47,6 @@ export default async function RentPage({
     `houses-${queryString}`,
     60
   );
-  console.log("data: ", data);
   const convertedData: any = convertToHouseItems(data?.houses);
 
   return (

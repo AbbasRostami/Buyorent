@@ -24,7 +24,7 @@ export const metadata: Metadata = {
     address: false,
     telephone: false,
   },
-  metadataBase: new URL("https://buyorent.ir"),
+  metadataBase: new URL("https://buyorent.vercel.app"),
   alternates: {
     canonical: "/",
   },

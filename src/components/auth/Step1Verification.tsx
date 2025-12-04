@@ -34,10 +34,6 @@ export const Step1Verification = ({
     setTimeout(() => setIsResend(false), 1000 * 60 * 10);
   };
 
-  useEffect(() => {
-    console.log("Email changed:", email);
-  }, [email]);
-
   return (
     <div className="flex flex-col items-center gap-6">
       <p className="font-bold text-2xl">تایید ایمیل</p>

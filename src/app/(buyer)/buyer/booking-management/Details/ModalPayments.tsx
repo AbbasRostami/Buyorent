@@ -1,4 +1,3 @@
-// پیشنهاد: این کامپوننت را با dynamic import در parent لود کنید تا حجم باندل اولیه کاهش یابد.
 import { Modal, ModalContent, ModalBody } from "@heroui/react";
 import { IoMdClose } from "react-icons/io";
 import { ColumnDef, flexRender, SortingState } from "@tanstack/react-table";

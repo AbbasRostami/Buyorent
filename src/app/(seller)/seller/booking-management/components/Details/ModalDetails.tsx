@@ -48,16 +48,9 @@ export default function ModalDetails({
     onOpenChange: onHistoryOpenChange,
   } = useDisclosure();
 
-  const {
-    isOpen: isPassengerListOpen,
-    onOpen: onPassengerListOpen,
-    onOpenChange: onPassengerListOpenChange,
-  } = useDisclosure();
-
   const house = selectedRow?.house;
   const booking = selectedRow;
 
-  // Format dates
   const formatDate = (dateString: string) => {
     return moment(dateString).format("jYYYY/jMM/jDD  HH:mm");
   };
@@ -88,7 +81,6 @@ export default function ModalDetails({
     }
   };
 
-  console.log("selectedRow:", selectedRow);
   return (
     <>
       <Modal

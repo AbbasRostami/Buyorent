@@ -122,12 +122,9 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
         return token;
       }
 
-      console.log("🔁 Token expired or about to expire, refreshing...");
-
       const newToken = await refreshAccessToken(token);
 
       if (!newToken.accessToken) {
-        console.log("🚪 Refresh failed, logging out...");
         throw new Error("Token refresh failed");
       }
 
@@ -149,13 +146,19 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
 
     async authorized({ auth, request }: any) {
       const isAuthorized = !!auth?.accessToken;
+      const pathname = request.nextUrl.pathname;
+
+      const protectedPrefixes = ["/seller", "/buyer"];
+
       const privateRoutes = ["/reserve-houses"];
 
-      const isPrivateRoute = privateRoutes.some((route) =>
-        request.nextUrl.pathname.startsWith(route)
+      const isProtectedPrefix = protectedPrefixes.some((prefix) =>
+        pathname.startsWith(prefix)
       );
 
-      if (isPrivateRoute && !isAuthorized) {
+      const isPrivateRoute = privateRoutes.some((route) => pathname === route);
+
+      if ((isProtectedPrefix || isPrivateRoute) && !isAuthorized) {
         return Response.redirect(new URL("/", request.nextUrl.origin));
       }
 
@@ -182,8 +185,6 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({ refreshToken: token.refreshToken }),
         });
-
-        console.log("✅ Logout API called from events");
       } catch (error) {
         console.error("❌ Logout failed in events:", error);
       }

@@ -18,7 +18,6 @@ export const useUpdateProfile = () => {
     usePut<UserProfileUpdateType>(`/users/${userId}`, {
       onSuccess: () => {
         toast.success("اطلاعات با موفقیت ذخیره شد");
-        console.log("اطلاعات با موفقیت ذخیره شد");
       },
       onError: (error) => {
         toast.error(`خطا در ذخیره اطلاعات: ${error.message}`);

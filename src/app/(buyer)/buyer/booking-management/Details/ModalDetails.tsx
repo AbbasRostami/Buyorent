@@ -1,4 +1,3 @@
-// پیشنهاد: این کامپوننت را با dynamic import در parent لود کنید تا حجم باندل اولیه کاهش یابد.
 import { Modal, ModalContent, Button } from "@heroui/react";
 import { IoMdClose } from "react-icons/io";
 import { FaModx, FaStar } from "react-icons/fa";
@@ -84,7 +83,6 @@ export default function ModalDetails({
     }
   };
 
-  console.log("selectedRow:", selectedRow);
   return (
     <>
       <Modal

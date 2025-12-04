@@ -25,7 +25,6 @@ export default async function ComparePage({ searchParams }: PageProps) {
     300
   );
 
-  console.log("housesData", housesData);
   const selectedHouses = ids
     .map((id) =>
       housesData?.houses?.find(

@@ -113,7 +113,7 @@ function RoutingMachine({
       try {
         map.removeControl(routingControlRef.current);
       } catch (error) {
-        console.log("Error removing routing control:", error);
+        toast.error("Error removing routing control");
       }
       routingControlRef.current = null;
     }
@@ -151,7 +151,7 @@ function RoutingMachine({
         try {
           map.removeControl(routingControlRef.current);
         } catch (error) {
-          console.log("Error cleaning up routing control:", error);
+          toast.error("Error cleaning up routing control");
         }
         routingControlRef.current = null;
       }
@@ -193,8 +193,6 @@ export default function MapHousesReserve({
       navigator.geolocation.getCurrentPosition(
         (pos) => {
           const { latitude, longitude } = pos.coords;
-          console.log("موقعیت واقعی:", latitude, longitude);
-
           if (isInIran(latitude, longitude)) {
             setUserLocation([latitude, longitude]);
           } else {
@@ -239,8 +237,6 @@ export default function MapHousesReserve({
       }
 
       const data = await response.json();
-      console.log("Search results:", data);
-
       if (Array.isArray(data) && data.length > 0) {
         setSearchResults(data);
         setShowSearchResults(true);

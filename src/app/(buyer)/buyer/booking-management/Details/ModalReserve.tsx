@@ -1,6 +1,6 @@
 import { Modal, ModalContent, ModalBody } from "@heroui/react";
 import { IoMdClose } from "react-icons/io";
-import { ColumnDef, flexRender, SortingState } from "@tanstack/react-table";
+import { ColumnDef, flexRender } from "@tanstack/react-table";
 import { useState } from "react";
 import { BsArrowDown, BsArrowUp } from "react-icons/bs";
 import { FaListCheck } from "react-icons/fa6";
@@ -8,8 +8,6 @@ import { useDisclosure } from "@heroui/react";
 import ModalPassengerList from "./PassengerList";
 import { PiSealWarningBold } from "react-icons/pi";
 import { useCustomTable } from "@/utils/hooks/useCustomTable";
-
-// پیشنهاد: این کامپوننت را با dynamic import در parent لود کنید تا حجم باندل اولیه کاهش یابد.
 
 interface ModalReserveProps {
   isOpen: boolean;
