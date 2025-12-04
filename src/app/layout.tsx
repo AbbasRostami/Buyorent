@@ -1,3 +1,4 @@
+// app/layout.tsx
 import { SessionProvider } from "next-auth/react";
 import QueryProvider from "@/utils/providers/providers";
 import { Providers } from "@/utils/providers/ProvidersHeroUi";
@@ -11,15 +12,20 @@ const vazirmatn = localFont({
   variable: "--font-vazirmatn",
   display: "swap",
 });
-const imageUrl = "https://buyorent.vercel.app/BUTORENT.png";
+
+const siteUrl =
+  process.env.NEXT_PUBLIC_SITE_URL || "https://buyorent.vercel.app";
+const siteName = "BUYORENT";
+const siteDescription =
+  "سامانه خرید و اجاره املاک با بهترین قیمت‌ها و امکانات. خرید خانه، آپارتمان، ویلا و زمین در سراسر ایران";
+const ogImage = `${siteUrl}/BUTORENT.png`;
 
 export const metadata: Metadata = {
   title: {
-    default: "BUYORENT | خرید و اجاره املاک",
+    default: `${siteName} | خرید و اجاره املاک`,
     template: "%s | BUYORENT",
   },
-  description:
-    "سامانه خرید و اجاره املاک با بهترین قیمت‌ها و امکانات. خرید خانه، آپارتمان، ویلا و زمین در سراسر ایران",
+  description: siteDescription,
   keywords: [
     "خرید خانه",
     "اجاره خانه",
@@ -31,60 +37,60 @@ export const metadata: Metadata = {
     "املاک",
     "BUYORENT",
   ],
-  authors: [{ name: "BUYORENT" }],
-  creator: "BUYORENT",
-  publisher: "BUYORENT",
-  formatDetection: {
-    email: false,
-    address: false,
-    telephone: false,
-  },
-  metadataBase: new URL("https://buyorent.vercel.app"),
-  alternates: {
-    canonical: "/",
-  },
+  authors: [{ name: siteName }],
+  creator: siteName,
+  publisher: siteName,
+  formatDetection: { email: false, address: false, telephone: false },
+  metadataBase: new URL(siteUrl),
+  alternates: { canonical: "/" },
+
   openGraph: {
-    title: "BUYORENT | خرید و اجاره املاک",
-    description: "...",
-    url: "https://buyorent.vercel.app",
-    siteName: "BUYORENT",
+    title: `${siteName} | خرید و اجاره املاک`,
+    description: siteDescription,
+    url: siteUrl,
+    siteName,
     locale: "fa_IR",
     type: "website",
     images: [
       {
-        url: imageUrl,
+        url: ogImage,
         width: 800,
         height: 600,
-        alt: "BUYORENT",
+        alt: siteName,
       },
     ],
   },
+
   twitter: {
     card: "summary_large_image",
-    title: "BUYORENT | خرید و اجاره املاک",
-    description: "...",
+    title: `${siteName} | خرید و اجاره املاک`,
+    description: siteDescription,
     images: [
       {
-        url: imageUrl,
+        url: ogImage,
         width: 800,
         height: 600,
-        alt: "BUYORENT",
+        alt: siteName,
       },
     ],
   },
+
+  icons: {
+    icon: [
+      { url: "/favicon.ico", sizes: "32x32", type: "image/x-icon" },
+      { url: "/favicon.ico", sizes: "16x16", type: "image/x-icon" },
+    ],
+    apple: [{ url: ogImage, sizes: "180x180", type: "image/png" }],
+    other: [
+      { rel: "mask-icon", url: ogImage, color: "#FFC107", type: "image/png" },
+    ],
+  },
+  appleWebApp: { title: siteName, statusBarStyle: "default", capable: true },
+
   robots: {
     index: true,
     follow: true,
-    googleBot: {
-      index: true,
-      follow: true,
-      "max-video-preview": -1,
-      "max-image-preview": "large",
-      "max-snippet": -1,
-    },
-  },
-  verification: {
-    google: "google-site-verification-code",
+    googleBot: { index: true, follow: true, "max-image-preview": "large" },
   },
 };
 
