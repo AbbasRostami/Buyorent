@@ -33,7 +33,6 @@ const EditEstateModal: React.FC<EditEstateModalProps> = ({
   onSuccess,
 }) => {
   const queryClient = useQueryClient();
-  console.log("estateData", estateData?.id);
   const { mutate: putEstate, isPending } = usePut<any, any>(
     `/houses/${estateData?.id}`,
     {

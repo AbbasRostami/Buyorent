@@ -99,7 +99,6 @@ export default function AddEstateStepper({
             if (!isLastStep) {
               handleNext();
             } else {
-              console.log(values);
               createHouse(values);
             }
           }}

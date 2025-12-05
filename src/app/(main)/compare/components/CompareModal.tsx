@@ -30,8 +30,6 @@ const CompareModal = ({
 }: CompareModalProps) => {
   const router = useRouter();
 
-  console.log("ids", ids);
-  console.log("housesData", housesData);
   return (
     <Modal
       isOpen={isOpen}

@@ -38,8 +38,6 @@ const SingleHouses = async ({ params }: Props) => {
   const { id } = resolvedParams;
   const data = await getHouseData(id);
 
-  console.log("data", data);
-
   return (
     <>
       <HeaderSectionSingle data={data} />
