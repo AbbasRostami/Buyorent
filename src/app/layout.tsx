@@ -1,4 +1,4 @@
-// app/layout.tsx
+
 import { SessionProvider } from "next-auth/react";
 import QueryProvider from "@/utils/providers/providers";
 import { Providers } from "@/utils/providers/ProvidersHeroUi";
@@ -53,7 +53,7 @@ export const metadata: Metadata = {
     type: "website",
     images: [
       {
-        url: ogImage,
+        url: "/BUTORENT.png",
         width: 800,
         height: 600,
         alt: siteName,
@@ -67,7 +67,7 @@ export const metadata: Metadata = {
     description: siteDescription,
     images: [
       {
-        url: ogImage,
+        url: "/BUTORENT.png",
         width: 800,
         height: 600,
         alt: siteName,
