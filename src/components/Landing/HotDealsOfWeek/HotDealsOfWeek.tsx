@@ -1,15 +1,15 @@
-import { IoIosArrowBack } from "react-icons/io";
-import { FaCircle } from "react-icons/fa6";
-import { useServerData } from "@/utils/hooks/useServerData";
-import HotDealsOfWeekSwiper from "./HotDealsOfWeekSwiper";
 import { HouseTypeProps } from "@/types/Landing/LandingType";
+import { useServerData } from "@/utils/hooks/useServerData";
 import Link from "next/link";
+import { FaCircle } from "react-icons/fa6";
+import { IoIosArrowBack } from "react-icons/io";
+import HotDealsOfWeekSwiper from "./HotDealsOfWeekSwiper";
 
 export default async function HotDealsOfWeek() {
   const houses = await useServerData<HouseTypeProps["houses"]>(
-    "/houses?sort=rate&order=DESC&transactionType=",
+    "/houses",
     "top-last_updated-houses",
-    60
+    60,
   );
 
   return (
@@ -19,7 +19,7 @@ export default async function HotDealsOfWeek() {
           <div className="flex items-center gap-3">
             <FaCircle
               size={17}
-              className="text-orange-500 text-xs  animate-pulse-color"
+              className="text-orange-500 text-xs animate-pulse-color"
             />
             <h2 className="text-orange-700 text-medium md:text-2xl font-bold dark:text-amber-400">
               داغ‌ترین معاملات هفته
