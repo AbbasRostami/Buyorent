@@ -34,7 +34,7 @@
     "leaflet-routing-machine": "^3.2.12",
     "leaflet-wms-header": "^1.0.13",
     "moment-jalaali": "^0.10.4",
-    "next": "15.3.1",
+    "next": "15.3.8",
     "next-auth": "^5.0.0-beta.27",
     "next-themes": "^0.4.6",
     "qs": "^6.14.0",
