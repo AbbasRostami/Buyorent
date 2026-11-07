@@ -1,6 +1,6 @@
-import { useServerData } from "@/utils/hooks/useServerData";
 import { HouseSingleHousesProps } from "@/types/DetailsTypes";
 import ClientWrapper from "./components/ClientWrapper";
+import { getServerData } from "@/utils/hooks/useServerData";
 
 export const revalidate = 300;
 
@@ -19,17 +19,16 @@ export default async function ComparePage({ searchParams }: PageProps) {
     .split(",")
     .filter(Boolean);
 
-  const housesData = await useServerData<HousesResponse>(
-    "/houses",
-    "compare-houses",
-    300
-  );
+  const housesData = await getServerData<HousesResponse>("/houses", {
+    revalidate: 300,
+    tags: ["compare-houses"],
+  });
 
   const selectedHouses = ids
     .map((id) =>
       housesData?.houses?.find(
-        (h: HouseSingleHousesProps) => String(h.id) === String(id)
-      )
+        (h: HouseSingleHousesProps) => String(h.id) === String(id),
+      ),
     )
     .filter((house): house is HouseSingleHousesProps => house !== undefined);
 
