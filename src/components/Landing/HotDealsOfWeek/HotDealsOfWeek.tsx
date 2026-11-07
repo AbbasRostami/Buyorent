@@ -1,20 +1,19 @@
 import { HouseTypeProps } from "@/types/Landing/LandingType";
-import { useServerData } from "@/utils/hooks/useServerData";
+import { getServerData } from "@/utils/hooks/useServerData";
 import Link from "next/link";
 import { FaCircle } from "react-icons/fa6";
 import { IoIosArrowBack } from "react-icons/io";
 import HotDealsOfWeekSwiper from "./HotDealsOfWeekSwiper";
 
 export default async function HotDealsOfWeek() {
-  const houses = await useServerData<HouseTypeProps["houses"]>(
-    "/houses",
-    "top-last_updated-houses",
-    60,
-  );
+  const houses = await getServerData<HouseTypeProps["houses"]>("/houses", {
+    revalidate: 60,
+    tags: ["top-last_updated-houses"],
+  });
 
   return (
     <div className="relative w-full mt-20">
-      <div className="flex  flex-col md:flex-row items-center justify-between rounded-xl px-4">
+      <div className="flex flex-col md:flex-row items-center justify-between rounded-xl px-4">
         <div className="flex flex-col md:flex-row items-start md:items-center gap-2 md:gap-6 p-6">
           <div className="flex items-center gap-3">
             <FaCircle
@@ -43,7 +42,7 @@ export default async function HotDealsOfWeek() {
       </div>
 
       <HotDealsOfWeekSwiper houses={houses} />
-      <div className="HotDeals flex justify-center mt-7  p-1 " />
+      <div className="HotDeals flex justify-center mt-7 p-1" />
     </div>
   );
 }

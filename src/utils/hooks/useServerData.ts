@@ -1,55 +1,46 @@
-import axios from "axios";
-import { unstable_cache } from "next/cache";
+const API_URL = process.env.NEXT_PUBLIC_API_URL || "";
 
-const API_URL = process.env.NEXT_PUBLIC_API_URL!;
+interface FetchOptions {
+  revalidate?: number;
+  tags?: string[];
+}
 
-export const useServerData = async <T>(
+export const getServerData = async <T>(
   endpoint: string,
-  cacheKey?: string,
-  revalidateTime?: number,
-): Promise<T> => {
-  if (cacheKey && revalidateTime !== undefined) {
-    const fetchData = unstable_cache(
-      async (): Promise<T> => {
-        try {
-          const { data } = await axios.get<T>(`${API_URL}${endpoint}`);
-          return data;
-        } catch (error: any) {
-          if (error?.response?.status === 404) {
-            console.warn(
-              `[API 404 Warning]: Endpoint not found -> ${API_URL}${endpoint}`,
-            );
-            return { data: [] } as unknown as T;
-          }
-          throw error;
-        }
-      },
-      [cacheKey],
-      { revalidate: revalidateTime },
-    );
-
-    return fetchData();
-  }
+  options?: FetchOptions,
+): Promise<T | null> => {
+  const { revalidate, tags } = options || {};
 
   try {
-    const { data } = await axios.get<T>(`${API_URL}${endpoint}`, {
+    const res = await fetch(`${API_URL}${endpoint}`, {
+      next: {
+        ...(revalidate !== undefined && { revalidate }),
+        ...(tags && { tags }),
+      },
       headers: {
-        "Cache-Control": "no-store",
+        "Content-Type": "application/json",
       },
     });
-    return data;
+
+    if (res.status === 404) {
+      console.warn(`[API 404 Warning]: Endpoint not found -> ${endpoint}`);
+      return null; // برگرداندن null برای اینکه کامپوننت بداند دیتایی پیدا نشده است
+    }
+
+    if (!res.ok) {
+      throw new Error(`HTTP error! status: ${res.status}`);
+    }
+
+    return (await res.json()) as T;
   } catch (error: any) {
     console.error(
-      "SSR fetch error:",
+      "[SSR Fetch Error]:",
       error?.message,
       "Endpoint:",
       `${API_URL}${endpoint}`,
     );
 
-    if (error?.response?.status === 404) {
-      return { data: [] } as unknown as T;
-    }
-
-    throw new Error("Data fetch failed");
+    // در صورت بروز ارور شبکه، به جای کرش صفحه، null برمی‌گردانیم
+    return null;
   }
 };

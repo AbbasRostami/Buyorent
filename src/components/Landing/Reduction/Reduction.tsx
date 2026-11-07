@@ -1,9 +1,12 @@
-import { useServerData } from "@/utils/hooks/useServerData";
-import ReductionCarousel from "./ReductionSwiper";
+import { getServerData } from "@/utils/hooks/useServerData";
 import ReductionHeader from "./ReductionHeader";
+import ReductionCarousel from "./ReductionSwiper";
 
 export default async function Reduction() {
-  const houses = await useServerData("/houses", "top-rated-houses", 60);
+  const houses = await getServerData("/houses", {
+    revalidate: 60,
+    tags: ["top-rated-houses"],
+  });
 
   return (
     <div className="relative rounded-2xl border-2 border-gray-200 mt-20">
