@@ -1,11 +1,11 @@
-import { useServerData } from "@/utils/hooks/useServerData";
-import ClientWrapper from "../../../components/houses-reserve/ClientWrapper";
-import qs from "qs";
+import SkeletonCards from "@/components/skeleton/SkeletonHouses";
 import { HouseReserveProps } from "@/types/HousesReserve";
 import { generateHousesReserveMetadata } from "@/utils/metadata/houses-reserve";
 import { Metadata } from "next";
+import qs from "qs";
 import { Suspense } from "react";
-import SkeletonCards from "@/components/skeleton/SkeletonHouses";
+import ClientWrapper from "../../../components/houses-reserve/ClientWrapper";
+import { getServerData } from "@/utils/hooks/useServerData";
 
 export const revalidate = 60;
 
@@ -57,10 +57,10 @@ async function ServerContent({
   endpoint: string;
   cacheKey: string;
 }) {
-  const initialData = await useServerData<HouseReserveProps[]>(
-    endpoint,
-    cacheKey,
-    60
-  );
-  return <ClientWrapper initialData={initialData} />;
+  const initialData = await getServerData<HouseReserveProps[]>(endpoint, {
+    revalidate: 60,
+    tags: [cacheKey],
+  });
+
+  return <ClientWrapper initialData={initialData || []} />;
 }

@@ -1,17 +1,15 @@
-import React from "react";
 import DetailsLists from "@/components/mortgage-details/DetailsLists";
-import CommentSingleHouses from "@/components/mortgage-details/Comments/Comments";
-import MapSingleReserve from "@/components/mortgage-details/Map";
 import HeaderSectionSingle from "@/components/mortgage-details/HeaderSection";
-import { useServerData } from "@/utils/hooks/useServerData";
+import MapSingleReserve from "@/components/mortgage-details/Map";
 import { HouseSingleHousesProps } from "@/types/DetailsTypes";
-import { Metadata } from "next";
+import { getServerData } from "@/utils/hooks/useServerData";
 import { generateMortgageAndRentDetailMetadata } from "@/utils/metadata/mortgage-and-rent";
 import {
   MotionButton,
   MotionH2,
   MotionP,
 } from "@/utils/providers/MotionWrapper";
+import { Metadata } from "next";
 
 export const revalidate = 60;
 
@@ -20,16 +18,22 @@ type Props = {
 };
 
 async function getHouseData(id: string) {
-  return useServerData<HouseSingleHousesProps>(
-    `/houses/${id}`,
-    `house-${id}`,
-    60
-  );
+  return getServerData<HouseSingleHousesProps>(`/houses/${id}`, {
+    revalidate: 60,
+    tags: [`house-${id}`],
+  });
 }
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const resolvedParams = await params;
   const data = await getHouseData(resolvedParams.id);
+
+  if (!data) {
+    return {
+      title: "Property not found",
+    };
+  }
+
   return generateMortgageAndRentDetailMetadata(data);
 }
 
@@ -37,6 +41,10 @@ const SingleHouses = async ({ params }: Props) => {
   const resolvedParams = await params;
   const { id } = resolvedParams;
   const data = await getHouseData(id);
+
+  if (!data) {
+    return null;
+  }
 
   return (
     <>
@@ -78,7 +86,7 @@ const SingleHouses = async ({ params }: Props) => {
           <MapSingleReserve data={data} />
 
           {/* نظرات کاربران */}
-          <CommentSingleHouses houseId={id} />
+          {/* <CommentSingleHouses houseId={id} /> */}
         </div>
       </div>
     </>

@@ -1,14 +1,14 @@
 import PropertyCard from "@/components/mortgage-and-house-rent/cards/PropertyCard";
 import ClientWrapper from "@/components/mortgage-and-house-rent/containers/ClientWrapper";
 import PaginationWrapper from "@/components/mortgage-and-house-rent/pagination/PaginationWrapper";
-import qs from "qs";
-import { useServerData } from "@/utils/hooks/useServerData";
 import SmartSearchContainer from "@/components/mortgage-and-house-rent/search/SmartSearchContainer";
+import { HouseTypeRentResponse } from "@/types/Landing/LandingType";
 import { convertToHouseItems } from "@/types/property";
+import { SearchParams, SearchParamsType } from "@/types/search";
+import { getServerData } from "@/utils/hooks/useServerData";
 import { generateMortgageAndRentMetadata } from "@/utils/metadata/mortgage-and-rent";
 import { Metadata } from "next";
-import { SearchParams, SearchParamsType } from "@/types/search";
-import { HouseTypeRentResponse } from "@/types/Landing/LandingType";
+import qs from "qs";
 
 export const revalidate = 60;
 
@@ -42,16 +42,16 @@ export default async function RentPage({
 
   const endpoint = queryString ? `/houses?${queryString}` : "/houses";
 
-  const data = await useServerData<HouseTypeRentResponse>(
-    endpoint,
-    `houses-${queryString}`,
-    60
-  );
-  const convertedData: any = convertToHouseItems(data?.houses);
+  const data = await getServerData<HouseTypeRentResponse>(endpoint, {
+    revalidate: 60,
+    tags: [`houses-${queryString}`],
+  });
+
+  const convertedData: any = convertToHouseItems(data?.houses || []);
 
   return (
     <>
-      <div className="mt-32 gap-4 flex flex-col sm:flex-row sm:justify-between   justify-center items-center max-w-screen-xl mx-auto px-4 text-center sm:text-right">
+      <div className="mt-32 gap-4 flex flex-col sm:flex-row sm:justify-between justify-center items-center max-w-screen-xl mx-auto px-4 text-center sm:text-right">
         <div className="flex justify-center items-center gap-2">
           <p className="text-2xl sm:text-4xl font-bold">رهن و اجاره </p>
           <p className="bg-[#e89300] rounded-2xl px-4 py-2 w-fit h-fit text-white font-bold text-xl sm:text-3xl mt-2 sm:mt-0">
@@ -67,7 +67,7 @@ export default async function RentPage({
         <ClientWrapper initialData={data} />
       </div>
 
-      <PropertyCard data={data?.houses} isLoading={false} />
+      <PropertyCard data={data?.houses || []} isLoading={false} />
 
       <PaginationWrapper totalCount={data?.totalCount || 0} pageSize={10} />
     </>
